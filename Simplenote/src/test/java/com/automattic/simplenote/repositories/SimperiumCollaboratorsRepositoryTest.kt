@@ -123,4 +123,35 @@ class CollaboratorsRepositoryTest {
 
         assertEquals(expected, result)
     }
+
+    @Test
+    fun removeCollaboratorShouldAddATagToNote() {
+        val collaborator = "name@example.co.jp"
+        val newCollaborators = listOf("test@emil.com")
+        val expected = CollaboratorsActionResult.CollaboratorsList(newCollaborators)
+        val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun removeCollaboratorWhenNoteInTrashShouldReturnError() {
+        note.isDeleted = true
+
+        val collaborator = "test1@email.com"
+        val expected = CollaboratorsActionResult.NoteInTrash
+        val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun removeCollaboratorWhenNoteIsDeletedShouldReturnError() {
+        whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
+        val collaborator = "test1@email.com"
+        val expected = CollaboratorsActionResult.NoteDeleted
+        val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
+
+        assertEquals(expected, result)
+    }
 }

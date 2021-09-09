@@ -13,6 +13,8 @@ interface CollaboratorsRepository {
     fun getCollaborators(noteId: String): CollaboratorsActionResult
 
     fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
+
+    fun removeCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
 }
 
 sealed class CollaboratorsActionResult {

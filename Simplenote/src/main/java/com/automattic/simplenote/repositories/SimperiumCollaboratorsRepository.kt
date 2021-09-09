@@ -44,6 +44,10 @@ class SimperiumCollaboratorsRepository @Inject constructor(
         }
     }
 
+    override fun removeCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult {
+        TODO("Not yet implemented")
+    }
+
     private fun getNote(noteId: String): Either<CollaboratorsActionResult, Note> {
         try {
             val note = notesBucket.get(noteId)
