@@ -45,7 +45,14 @@ class SimperiumCollaboratorsRepository @Inject constructor(
     }
 
     override fun removeCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult {
-        TODO("Not yet implemented")
+        return when(val result = getNote(noteId)) {
+            is Either.Left -> result.l
+            is Either.Right -> {
+                val note = result.r
+                note.removeTag(collaborator)
+                CollaboratorsActionResult.CollaboratorsList(filterCollaborators(note))
+            }
+        }
     }
 
     private fun getNote(noteId: String): Either<CollaboratorsActionResult, Note> {
