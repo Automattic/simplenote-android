@@ -11,6 +11,9 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 
 class CollaboratorsRepositoryTest {
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
+
     private val mockBucket: Bucket<*> = mock(Bucket::class.java)
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
 
