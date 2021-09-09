@@ -10,11 +10,11 @@ interface CollaboratorsRepository {
     /**
      * Get a list of collaborators for a given [noteId]
      */
-    fun getCollaborators(noteId: String): CollaboratorsActionResult
+    suspend fun getCollaborators(noteId: String): CollaboratorsActionResult
 
-    fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
+    suspend fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
 
-    fun removeCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
+    suspend fun removeCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
 }
 
 sealed class CollaboratorsActionResult {

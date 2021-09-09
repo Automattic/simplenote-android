@@ -7,6 +7,7 @@ import com.automattic.simplenote.repositories.TagsRepository
 import com.automattic.simplenote.usecases.GetTagsUseCase
 import com.automattic.simplenote.usecases.ValidateTagUseCase
 import com.simperium.client.Bucket
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -31,7 +32,7 @@ class NoteEditorViewModelTest {
         whenever(tagsRepository.isTagValid(any())).thenReturn(true)
         whenever(tagsRepository.isTagMissing(any())).thenReturn(true)
 
-        val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)
+        val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
         val getTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
         val validateTagUseCase = ValidateTagUseCase(tagsRepository, collaboratorsRepository)
         viewModel = NoteEditorViewModel(getTagsUseCase, validateTagUseCase)

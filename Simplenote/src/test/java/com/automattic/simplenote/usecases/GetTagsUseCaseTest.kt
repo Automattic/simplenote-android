@@ -9,6 +9,7 @@ import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
 import com.simperium.client.Bucket
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -43,7 +44,7 @@ class GetTagsUseCaseTest {
         // Set mock bucket to avoid NPE
         tagItems.forEach { it.tag.bucket = mockBucket }
 
-        collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)
+        collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
         getTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
     }
 

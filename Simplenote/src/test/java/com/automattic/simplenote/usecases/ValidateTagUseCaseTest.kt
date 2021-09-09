@@ -4,6 +4,7 @@ import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
 import com.simperium.client.Bucket
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -19,7 +20,7 @@ class ValidateTagUseCaseTest {
 
     @Before
     fun setup() {
-        val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)
+        val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
         validateTagUseCase = ValidateTagUseCase(tagsRepository, collaboratorsRepository)
     }
 
