@@ -1,4 +1,4 @@
-package com.automattic.simplenote.usescases
+package com.automattic.simplenote.usecases
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.automattic.simplenote.models.Note
@@ -7,7 +7,6 @@ import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.repositories.CollaboratorsRepository
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
-import com.automattic.simplenote.usecases.GetTagsUseCase
 import com.simperium.client.Bucket
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
