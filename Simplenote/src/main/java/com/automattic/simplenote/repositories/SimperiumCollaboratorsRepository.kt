@@ -2,20 +2,12 @@ package com.automattic.simplenote.repositories
 
 import android.text.TextUtils
 import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
-import com.automattic.simplenote.di.IO_THREAD
 import com.automattic.simplenote.models.Note
-import com.automattic.simplenote.utils.Either
 import com.simperium.client.Bucket
-import com.simperium.client.BucketObjectMissingException
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import javax.inject.Named
 
 class SimperiumCollaboratorsRepository @Inject constructor(
-    private val notesBucket: Bucket<Note>,
-    @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher,
+    private val notesBucket: Bucket<Note>
 ) : CollaboratorsRepository {
 
     /**
@@ -27,54 +19,7 @@ class SimperiumCollaboratorsRepository @Inject constructor(
         return !TextUtils.isEmpty(collaborator) && EMAIL_ADDRESS.matcher(collaborator).matches()
     }
 
-    /**
-     * Return a list of collaborators (email addresses as tags) if the note for the given simperiumKey ([noteId]) is
-     * not in the trash and has not been deleted
-     */
-    override suspend fun getCollaborators(noteId: String): CollaboratorsActionResult = withContext(ioDispatcher) {
-        return@withContext when(val result = getNote(noteId)) {
-            is Either.Left -> result.l
-            is Either.Right ->
-                CollaboratorsActionResult.CollaboratorsList(filterCollaborators(result.r))
-        }
+    override fun getCollaborators(noteId: String): List<String> {
+        TODO("Not yet implemented")
     }
-
-    override suspend fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult =
-        withContext(ioDispatcher) {
-            return@withContext when (val result = getNote(noteId)) {
-                is Either.Left -> result.l
-                is Either.Right -> {
-                    val note = result.r
-                    note.addTag(collaborator)
-                    CollaboratorsActionResult.CollaboratorsList(filterCollaborators(note))
-                }
-            }
-        }
-
-    override suspend fun removeCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult =
-        withContext(ioDispatcher) {
-            return@withContext when(val result = getNote(noteId)) {
-                is Either.Left -> result.l
-                is Either.Right -> {
-                    val note = result.r
-                    note.removeTag(collaborator)
-                    CollaboratorsActionResult.CollaboratorsList(filterCollaborators(note))
-                }
-            }
-        }
-
-    private fun getNote(noteId: String): Either<CollaboratorsActionResult, Note> {
-        try {
-            val note = notesBucket.get(noteId)
-            if (note.isDeleted) {
-                return Either.Left(CollaboratorsActionResult.NoteInTrash)
-            }
-
-            return Either.Right(note)
-        } catch (e: BucketObjectMissingException) {
-            return Either.Left(CollaboratorsActionResult.NoteDeleted)
-        }
-    }
-
-    private fun filterCollaborators(note: Note) = note.tags.filter { tag -> isValidCollaborator(tag) }
 }

@@ -1,33 +1,22 @@
 package com.automattic.simplenote.repositories
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.automattic.simplenote.models.Note
 import com.simperium.client.Bucket
-import com.simperium.client.BucketObjectMissingException
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.*
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 
-@ExperimentalCoroutinesApi
 class SimperiumCollaboratorsRepositoryTest {
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
-    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
 
+    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)
     private val noteId = "key1"
     private val note = Note(noteId).apply {
         content = "Hello World"
         tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
-        bucket = notesBucket
     }
 
     @Before
@@ -45,7 +34,6 @@ class SimperiumCollaboratorsRepositoryTest {
         assertTrue(collaboratorsRepository.isValidCollaborator("name12-lastname+503@192.168.43.54"))
         // Email top level domain
         assertTrue(collaboratorsRepository.isValidCollaborator("name@example.co.jp"))
-
     }
 
     @Test
@@ -64,90 +52,9 @@ class SimperiumCollaboratorsRepositoryTest {
     }
 
     @Test
-    fun getCollaboratorsShouldReturnJustEmails() = runBlockingTest {
-        val expected = CollaboratorsActionResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
+    fun getCollaboratorsShouldReturnJustEmails() {
+        val expected = listOf("test@emil.com", "name@example.co.jp")
         val result = collaboratorsRepository.getCollaborators(noteId)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun getCollaboratorsWhenNoteInTrashShouldReturnError() = runBlockingTest {
-        note.isDeleted = true
-
-        val expected = CollaboratorsActionResult.NoteInTrash
-        val result = collaboratorsRepository.getCollaborators(noteId)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun getCollaboratorsWhenNoteIsDeletedShouldReturnError() = runBlockingTest {
-        whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
-        val expected = CollaboratorsActionResult.NoteDeleted
-        val result = collaboratorsRepository.getCollaborators(noteId)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun addCollaboratorShouldAddATagToNote() = runBlockingTest {
-        val collaborator = "test1@email.com"
-        val newCollaborators = listOf("test@emil.com", "name@example.co.jp", collaborator)
-        val expected = CollaboratorsActionResult.CollaboratorsList(newCollaborators)
-        val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun addCollaboratorWhenNoteInTrashShouldReturnError() = runBlockingTest {
-        note.isDeleted = true
-
-        val collaborator = "test1@email.com"
-        val expected = CollaboratorsActionResult.NoteInTrash
-        val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun addCollaboratorWhenNoteIsDeletedShouldReturnError() = runBlockingTest {
-        whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
-        val collaborator = "test1@email.com"
-        val expected = CollaboratorsActionResult.NoteDeleted
-        val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun removeCollaboratorShouldAddATagToNote() = runBlockingTest {
-        val collaborator = "name@example.co.jp"
-        val newCollaborators = listOf("test@emil.com")
-        val expected = CollaboratorsActionResult.CollaboratorsList(newCollaborators)
-        val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun removeCollaboratorWhenNoteInTrashShouldReturnError() = runBlockingTest {
-        note.isDeleted = true
-
-        val collaborator = "test1@email.com"
-        val expected = CollaboratorsActionResult.NoteInTrash
-        val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
-    fun removeCollaboratorWhenNoteIsDeletedShouldReturnError() = runBlockingTest {
-        whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
-        val collaborator = "test1@email.com"
-        val expected = CollaboratorsActionResult.NoteDeleted
-        val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
 
         assertEquals(expected, result)
     }

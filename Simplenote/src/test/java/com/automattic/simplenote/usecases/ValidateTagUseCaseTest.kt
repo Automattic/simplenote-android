@@ -3,22 +3,18 @@ package com.automattic.simplenote.usecases
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
-import com.automattic.simplenote.usecases.ValidateTagUseCase.TagValidationResult
 import com.simperium.client.Bucket
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 
-@ExperimentalCoroutinesApi
 class ValidateTagUseCaseTest {
-    private val tagsRepository: TagsRepository = Mockito.mock(TagsRepository::class.java)
     private val notesBucket = Mockito.mock(Bucket::class.java) as Bucket<Note>
-    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
-    private val validateTagUseCase = ValidateTagUseCase(tagsRepository, collaboratorsRepository)
+    private val tagsRepository: TagsRepository = Mockito.mock(TagsRepository::class.java)
+    private val validateTagUseCase = ValidateTagUseCase(tagsRepository, SimperiumCollaboratorsRepository(notesBucket))
 
     @Test
     fun emptyTagShouldReturnTagEmpty() {
