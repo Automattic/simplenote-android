@@ -16,5 +16,5 @@ interface CollaboratorsRepository {
 sealed class GetCollaboratorsResult {
     object NoteInTrash : GetCollaboratorsResult()
     object NoteDeleted : GetCollaboratorsResult()
-    data class CollaboratorsList(val collaborators: List<String>)
+    data class CollaboratorsList(val collaborators: List<String>): GetCollaboratorsResult()
 }

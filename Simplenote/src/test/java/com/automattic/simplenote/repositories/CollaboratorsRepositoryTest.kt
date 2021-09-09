@@ -69,6 +69,8 @@ class CollaboratorsRepositoryTest {
         val note = Note(noteId)
         note.content = "Hello World"
         note.tags = listOf("tag1", "tag2", "test@emil.com")
+        note.isDeleted = true
+
 
         whenever(notesBucket.get(any())).thenReturn(note)
         val expected = GetCollaboratorsResult.NoteInTrash
