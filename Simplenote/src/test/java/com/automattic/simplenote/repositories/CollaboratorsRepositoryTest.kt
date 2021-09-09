@@ -11,6 +11,7 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 
 class CollaboratorsRepositoryTest {
+    private val mockBucket: Bucket<*> = mock(Bucket::class.java)
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
 
     private lateinit var collaboratorsRepository: CollaboratorsRepository
@@ -22,6 +23,7 @@ class CollaboratorsRepositoryTest {
     fun setup() {
         note.content = "Hello World"
         note.tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
+        note.bucket = mockBucket
 
         whenever(notesBucket.get(any())).thenReturn(note)
         collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)

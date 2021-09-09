@@ -29,12 +29,23 @@ class SimperiumCollaboratorsRepository @Inject constructor(
        return when(val result = getNote(noteId)) {
            is Either.Left -> result.l
            is Either.Right ->
-               CollaboratorsActionResult.CollaboratorsList(result.r.tags.filter { tag -> isValidCollaborator(tag) })
+               CollaboratorsActionResult.CollaboratorsList(filterCollaborators(result.r))
        }
     }
 
     override fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult {
-        TODO("Not yet implemented")
+        if (!isValidCollaborator(collaborator)) {
+            return CollaboratorsActionResult.InvalidCollaborator
+        }
+
+        return when(val result = getNote(noteId)) {
+            is Either.Left -> result.l
+            is Either.Right -> {
+                val note = result.r
+                note.addTag(collaborator)
+                CollaboratorsActionResult.CollaboratorsList(filterCollaborators(note))
+            }
+        }
     }
 
     private fun getNote(noteId: String): Either<CollaboratorsActionResult, Note> {
@@ -49,4 +60,6 @@ class SimperiumCollaboratorsRepository @Inject constructor(
             return Either.Left(CollaboratorsActionResult.NoteDeleted)
         }
     }
+
+    private fun filterCollaborators(note: Note) = note.tags.filter { tag -> isValidCollaborator(tag) }
 }
