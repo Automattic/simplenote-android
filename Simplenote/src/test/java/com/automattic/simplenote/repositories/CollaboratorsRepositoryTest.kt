@@ -1,12 +1,31 @@
 package com.automattic.simplenote.repositories
 
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertTrue
+import com.automattic.simplenote.models.Note
+import com.simperium.client.Bucket
+import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
+import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
+import org.mockito.kotlin.whenever
 
 class CollaboratorsRepositoryTest {
+    private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
 
-    private val collaboratorsRepository = SimperiumCollaboratorsRepository()
+    private lateinit var collaboratorsRepository: CollaboratorsRepository
+
+    private val noteId = "key1"
+
+    @Before
+    fun setup() {
+        val note = Note(noteId)
+        note.content = "Hello World"
+        note.tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
+
+        whenever(notesBucket.get(any())).thenReturn(note)
+
+        collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)
+    }
 
     @Test
     fun validEmailsShouldBeValidCollaborator() {
@@ -34,5 +53,13 @@ class CollaboratorsRepositoryTest {
         assertFalse(collaboratorsRepository.isValidCollaborator("test@@test.com"))
         assertFalse(collaboratorsRepository.isValidCollaborator("あいうえお@example.com"))
         assertFalse(collaboratorsRepository.isValidCollaborator("just”not”right@example.com"))
+    }
+
+    @Test
+    fun getCollaboratorsShouldReturnJustEmails() {
+        val expected = listOf("test@emil.com", "name@example.co.jp")
+        val result = collaboratorsRepository.getCollaborators(noteId)
+
+        assertEquals(expected, result)
     }
 }

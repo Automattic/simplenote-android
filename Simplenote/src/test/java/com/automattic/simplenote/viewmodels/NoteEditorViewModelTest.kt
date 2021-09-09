@@ -19,6 +19,7 @@ class NoteEditorViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
     private val tagsRepository: TagsRepository = mock(TagsRepository::class.java)
     private val mockBucket: Bucket<*> = mock(Bucket::class.java)
 
@@ -30,7 +31,7 @@ class NoteEditorViewModelTest {
         whenever(tagsRepository.isTagValid(any())).thenReturn(true)
         whenever(tagsRepository.isTagMissing(any())).thenReturn(true)
 
-        val collaboratorsRepository = SimperiumCollaboratorsRepository()
+        val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)
         val getTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
         val validateTagUseCase = ValidateTagUseCase(tagsRepository, collaboratorsRepository)
         viewModel = NoteEditorViewModel(getTagsUseCase, validateTagUseCase)
