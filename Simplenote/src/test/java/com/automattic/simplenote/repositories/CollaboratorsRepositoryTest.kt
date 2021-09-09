@@ -2,6 +2,7 @@ package com.automattic.simplenote.repositories
 
 import com.automattic.simplenote.models.Note
 import com.simperium.client.Bucket
+import com.simperium.client.BucketObjectMissingException
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -18,12 +19,6 @@ class CollaboratorsRepositoryTest {
 
     @Before
     fun setup() {
-        val note = Note(noteId)
-        note.content = "Hello World"
-        note.tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
-
-        whenever(notesBucket.get(any())).thenReturn(note)
-
         collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)
     }
 
@@ -57,7 +52,35 @@ class CollaboratorsRepositoryTest {
 
     @Test
     fun getCollaboratorsShouldReturnJustEmails() {
-        val expected = listOf("test@emil.com", "name@example.co.jp")
+        val note = Note(noteId)
+        note.content = "Hello World"
+        note.tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
+
+        whenever(notesBucket.get(any())).thenReturn(note)
+
+        val expected = GetCollaboratorsResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
+        val result = collaboratorsRepository.getCollaborators(noteId)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun getCollaboratorsWhenNoteInTrashShouldReturnError() {
+        val note = Note(noteId)
+        note.content = "Hello World"
+        note.tags = listOf("tag1", "tag2", "test@emil.com")
+
+        whenever(notesBucket.get(any())).thenReturn(note)
+        val expected = GetCollaboratorsResult.NoteInTrash
+        val result = collaboratorsRepository.getCollaborators(noteId)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun getCollaboratorsWhenNoteIsDeletedShouldReturnError() {
+        whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
+        val expected = GetCollaboratorsResult.NoteDeleted
         val result = collaboratorsRepository.getCollaborators(noteId)
 
         assertEquals(expected, result)
