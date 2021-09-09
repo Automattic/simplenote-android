@@ -16,9 +16,14 @@ class CollaboratorsRepositoryTest {
     private lateinit var collaboratorsRepository: CollaboratorsRepository
 
     private val noteId = "key1"
+    private val note = Note(noteId)
 
     @Before
     fun setup() {
+        note.content = "Hello World"
+        note.tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
+
+        whenever(notesBucket.get(any())).thenReturn(note)
         collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)
     }
 
@@ -52,12 +57,6 @@ class CollaboratorsRepositoryTest {
 
     @Test
     fun getCollaboratorsShouldReturnJustEmails() {
-        val note = Note(noteId)
-        note.content = "Hello World"
-        note.tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
-
-        whenever(notesBucket.get(any())).thenReturn(note)
-
         val expected = GetCollaboratorsResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
         val result = collaboratorsRepository.getCollaborators(noteId)
 
@@ -66,9 +65,6 @@ class CollaboratorsRepositoryTest {
 
     @Test
     fun getCollaboratorsWhenNoteInTrashShouldReturnError() {
-        val note = Note(noteId)
-        note.content = "Hello World"
-        note.tags = listOf("tag1", "tag2", "test@emil.com")
         note.isDeleted = true
 
 
