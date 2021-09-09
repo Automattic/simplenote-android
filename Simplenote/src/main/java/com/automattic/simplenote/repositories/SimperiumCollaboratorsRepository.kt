@@ -24,16 +24,20 @@ class SimperiumCollaboratorsRepository @Inject constructor(
      * Return a list of collaborators (email addresses as tags) if the note for the given simperiumKey ([noteId]) is
      * not in the trash and has not been deleted
      */
-    override fun getCollaborators(noteId: String): GetCollaboratorsResult {
-        return try {
+    override fun getCollaborators(noteId: String): CollaboratorsActionResult {
+        try {
             val note = notesBucket.get(noteId)
             if (note.isDeleted) {
-                return GetCollaboratorsResult.NoteInTrash
+                return CollaboratorsActionResult.NoteInTrash
             }
 
-            return GetCollaboratorsResult.CollaboratorsList(note.tags.filter { tag -> isValidCollaborator(tag) })
+            return CollaboratorsActionResult.CollaboratorsList(note.tags.filter { tag -> isValidCollaborator(tag) })
         } catch (e: BucketObjectMissingException) {
-            return GetCollaboratorsResult.NoteDeleted
+            return CollaboratorsActionResult.NoteDeleted
         }
+    }
+
+    override fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult {
+        TODO("Not yet implemented")
     }
 }

@@ -57,7 +57,7 @@ class CollaboratorsRepositoryTest {
 
     @Test
     fun getCollaboratorsShouldReturnJustEmails() {
-        val expected = GetCollaboratorsResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
+        val expected = CollaboratorsActionResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
         val result = collaboratorsRepository.getCollaborators(noteId)
 
         assertEquals(expected, result)
@@ -67,9 +67,7 @@ class CollaboratorsRepositoryTest {
     fun getCollaboratorsWhenNoteInTrashShouldReturnError() {
         note.isDeleted = true
 
-
-        whenever(notesBucket.get(any())).thenReturn(note)
-        val expected = GetCollaboratorsResult.NoteInTrash
+        val expected = CollaboratorsActionResult.NoteInTrash
         val result = collaboratorsRepository.getCollaborators(noteId)
 
         assertEquals(expected, result)
@@ -78,8 +76,48 @@ class CollaboratorsRepositoryTest {
     @Test
     fun getCollaboratorsWhenNoteIsDeletedShouldReturnError() {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
-        val expected = GetCollaboratorsResult.NoteDeleted
+        val expected = CollaboratorsActionResult.NoteDeleted
         val result = collaboratorsRepository.getCollaborators(noteId)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun addCollaboratorShouldAddATagToNote() {
+        val collaborator = "test1@email.com"
+        val newCollaborators = listOf("test@emil.com", "name@example.co.jp", collaborator)
+        val expected = CollaboratorsActionResult.CollaboratorsList(newCollaborators)
+        val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun addInvalidCollaboratorShouldReturnInvalidCollaborator() {
+        val collaborator = "test1@email"
+        val expected = CollaboratorsActionResult.InvalidCollaborator
+        val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun addCollaboratorWhenNoteInTrashShouldReturnError() {
+        note.isDeleted = true
+
+        val collaborator = "test1@email.com"
+        val expected = CollaboratorsActionResult.NoteInTrash
+        val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun addCollaboratorWhenNoteIsDeletedShouldReturnError() {
+        whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
+        val collaborator = "test1@email.com"
+        val expected = CollaboratorsActionResult.NoteDeleted
+        val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
 
         assertEquals(expected, result)
     }
