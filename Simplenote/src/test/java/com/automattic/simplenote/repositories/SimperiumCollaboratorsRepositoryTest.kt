@@ -2,6 +2,7 @@ package com.automattic.simplenote.repositories
 
 import com.automattic.simplenote.models.Note
 import com.simperium.client.Bucket
+import com.simperium.client.BucketObjectMissingException
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
@@ -9,19 +10,16 @@ import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 
-class SimperiumCollaboratorsRepositoryTest {
+class CollaboratorsRepositoryTest {
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
 
-    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)
+    private lateinit var collaboratorsRepository: CollaboratorsRepository
+
     private val noteId = "key1"
-    private val note = Note(noteId).apply {
-        content = "Hello World"
-        tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
-    }
 
     @Before
     fun setup() {
-        whenever(notesBucket.get(any())).thenReturn(note)
+        collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket)
     }
 
     @Test
@@ -34,6 +32,7 @@ class SimperiumCollaboratorsRepositoryTest {
         assertTrue(collaboratorsRepository.isValidCollaborator("name12-lastname+503@192.168.43.54"))
         // Email top level domain
         assertTrue(collaboratorsRepository.isValidCollaborator("name@example.co.jp"))
+
     }
 
     @Test
@@ -53,7 +52,37 @@ class SimperiumCollaboratorsRepositoryTest {
 
     @Test
     fun getCollaboratorsShouldReturnJustEmails() {
-        val expected = listOf("test@emil.com", "name@example.co.jp")
+        val note = Note(noteId)
+        note.content = "Hello World"
+        note.tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
+
+        whenever(notesBucket.get(any())).thenReturn(note)
+
+        val expected = GetCollaboratorsResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
+        val result = collaboratorsRepository.getCollaborators(noteId)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun getCollaboratorsWhenNoteInTrashShouldReturnError() {
+        val note = Note(noteId)
+        note.content = "Hello World"
+        note.tags = listOf("tag1", "tag2", "test@emil.com")
+        note.isDeleted = true
+
+
+        whenever(notesBucket.get(any())).thenReturn(note)
+        val expected = GetCollaboratorsResult.NoteInTrash
+        val result = collaboratorsRepository.getCollaborators(noteId)
+
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun getCollaboratorsWhenNoteIsDeletedShouldReturnError() {
+        whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
+        val expected = GetCollaboratorsResult.NoteDeleted
         val result = collaboratorsRepository.getCollaborators(noteId)
 
         assertEquals(expected, result)
