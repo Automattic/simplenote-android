@@ -10,11 +10,14 @@ interface CollaboratorsRepository {
     /**
      * Get a list of collaborators for a given [noteId]
      */
-    fun getCollaborators(noteId: String): GetCollaboratorsResult
+    fun getCollaborators(noteId: String): CollaboratorsActionResult
+
+    fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
 }
 
-sealed class GetCollaboratorsResult {
-    object NoteInTrash : GetCollaboratorsResult()
-    object NoteDeleted : GetCollaboratorsResult()
-    data class CollaboratorsList(val collaborators: List<String>): GetCollaboratorsResult()
+sealed class CollaboratorsActionResult {
+    object NoteInTrash : CollaboratorsActionResult()
+    object NoteDeleted : CollaboratorsActionResult()
+    object InvalidCollaborator : CollaboratorsActionResult()
+    data class CollaboratorsList(val collaborators: List<String>): CollaboratorsActionResult()
 }
