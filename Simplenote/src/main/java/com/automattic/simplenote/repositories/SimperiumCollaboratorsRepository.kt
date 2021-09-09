@@ -19,7 +19,7 @@ class SimperiumCollaboratorsRepository @Inject constructor(
         return !TextUtils.isEmpty(collaborator) && EMAIL_ADDRESS.matcher(collaborator).matches()
     }
 
-    override fun getCollaborators(noteId: String): List<String> {
+    override fun getCollaborators(noteId: String): GetCollaboratorsResult {
         TODO("Not yet implemented")
     }
 }
