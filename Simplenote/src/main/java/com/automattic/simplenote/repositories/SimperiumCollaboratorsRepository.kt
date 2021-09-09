@@ -3,6 +3,7 @@ package com.automattic.simplenote.repositories
 import android.text.TextUtils
 import androidx.core.util.PatternsCompat.EMAIL_ADDRESS
 import com.automattic.simplenote.models.Note
+import com.automattic.simplenote.utils.Either
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
 import javax.inject.Inject
@@ -25,19 +26,27 @@ class SimperiumCollaboratorsRepository @Inject constructor(
      * not in the trash and has not been deleted
      */
     override fun getCollaborators(noteId: String): CollaboratorsActionResult {
-        try {
-            val note = notesBucket.get(noteId)
-            if (note.isDeleted) {
-                return CollaboratorsActionResult.NoteInTrash
-            }
-
-            return CollaboratorsActionResult.CollaboratorsList(note.tags.filter { tag -> isValidCollaborator(tag) })
-        } catch (e: BucketObjectMissingException) {
-            return CollaboratorsActionResult.NoteDeleted
-        }
+       return when(val result = getNote(noteId)) {
+           is Either.Left -> result.l
+           is Either.Right ->
+               CollaboratorsActionResult.CollaboratorsList(result.r.tags.filter { tag -> isValidCollaborator(tag) })
+       }
     }
 
     override fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult {
         TODO("Not yet implemented")
+    }
+
+    private fun getNote(noteId: String): Either<CollaboratorsActionResult, Note> {
+        try {
+            val note = notesBucket.get(noteId)
+            if (note.isDeleted) {
+                return Either.Left(CollaboratorsActionResult.NoteInTrash)
+            }
+
+            return Either.Right(note)
+        } catch (e: BucketObjectMissingException) {
+            return Either.Left(CollaboratorsActionResult.NoteDeleted)
+        }
     }
 }
