@@ -34,10 +34,6 @@ class SimperiumCollaboratorsRepository @Inject constructor(
     }
 
     override fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult {
-        if (!isValidCollaborator(collaborator)) {
-            return CollaboratorsActionResult.InvalidCollaborator
-        }
-
         return when(val result = getNote(noteId)) {
             is Either.Left -> result.l
             is Either.Right -> {

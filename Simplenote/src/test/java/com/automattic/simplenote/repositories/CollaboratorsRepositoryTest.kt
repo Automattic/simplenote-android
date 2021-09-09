@@ -95,15 +95,6 @@ class CollaboratorsRepositoryTest {
     }
 
     @Test
-    fun addInvalidCollaboratorShouldReturnInvalidCollaborator() {
-        val collaborator = "test1@email"
-        val expected = CollaboratorsActionResult.InvalidCollaborator
-        val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
-
-        assertEquals(expected, result)
-    }
-
-    @Test
     fun addCollaboratorWhenNoteInTrashShouldReturnError() {
         note.isDeleted = true
 
