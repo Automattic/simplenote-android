@@ -67,9 +67,10 @@ class NoteEditorViewModel @Inject constructor(
     }
 
     data class UiState(val tags: List<String>)
-}
 
-sealed class NoteEditorEvent {
-    object InvalidTag : NoteEditorEvent()
-    data class TagAsCollaborator(val collaborator: String) : NoteEditorEvent()
+    sealed class NoteEditorEvent {
+        object InvalidTag : NoteEditorEvent()
+        data class TagAsCollaborator(val collaborator: String) : NoteEditorEvent()
+    }
+
 }
