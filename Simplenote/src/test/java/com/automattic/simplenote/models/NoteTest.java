@@ -1,21 +1,14 @@
 package com.automattic.simplenote.models;
 
-import androidx.test.filters.SmallTest;
-import androidx.test.runner.AndroidJUnit4;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-
-@RunWith(AndroidJUnit4.class)
-@SmallTest
 public class NoteTest {
 
     private static final String CONTENT_PREVIEW = "consectetur adipisicing elit,"
@@ -34,35 +27,35 @@ public class NoteTest {
 
     @Test
     public void testKey() {
-        assertThat(mNote.getSimperiumKey(), is(KEY));
+        assertEquals(mNote.getSimperiumKey(), KEY);
     }
 
     @Test
     public void testTagString() {
         mNote.setTagString(" one two three  four ");
-        assertThat(mNote.getTags(), is(tagList("one", "two", "three", "four")));
-        assertThat(mNote.getTagString().toString(), is("one two three four"));
+        assertEquals(mNote.getTags(), tagList("one", "two", "three", "four"));
+        assertEquals(mNote.getTagString().toString(), "one two three four");
     }
 
     @Test
     public void testTagStringNull() {
         mNote.setTags(tagList("one", "two", "three"));
         mNote.setTagString(null);
-        assertThat(mNote.getTags(), is(Collections.<String>emptyList()));
+        assertEquals(mNote.getTags(), Collections.<String>emptyList());
     }
 
     @Test
     public void testRemoveDupsFromTagString() {
         mNote.setTagString(" one two tWo three two four ");
-        assertThat(mNote.getTags(), is(tagList("one", "two", "three", "four")));
-        assertThat(mNote.getTagString().toString(), is("one two three four"));
+        assertEquals(mNote.getTags(), tagList("one", "two", "three", "four"));
+        assertEquals(mNote.getTagString().toString(), "one two three four");
     }
 
     @Test
     public void testParseTitleAndPreview() {
         mNote.setContent(CONTENT);
-        assertThat(mNote.getTitle(), is(CONTENT_TITLE));
-        assertThat(mNote.getContentPreview(), is(CONTENT_PREVIEW));
+        assertEquals(mNote.getTitle(), CONTENT_TITLE);
+        assertEquals(mNote.getContentPreview(), CONTENT_PREVIEW);
     }
 
     @Test
@@ -70,7 +63,7 @@ public class NoteTest {
         Tag tag = new Tag("tag");
         tag.setName("Tag");
         mNote.setTagString("tag tag2 tag3");
-        assertThat(mNote.hasTag(tag), is(true));
+        assertEquals(mNote.hasTag(tag), true);
     }
 
     @Test
@@ -78,15 +71,15 @@ public class NoteTest {
         Tag tag = new Tag("tag");
         tag.setName("Tag");
         mNote.setTagString("tag2 tag3");
-        assertThat(mNote.hasTag(tag), is(false));
+        assertEquals(mNote.hasTag(tag), false);
     }
 
     @Test
     public void testPinAndUnpinNote() {
         mNote.setPinned(true);
-        assertThat(mNote.isPinned(), is(true));
+        assertEquals(mNote.isPinned(), true);
         mNote.setPinned(false);
-        assertThat(mNote.isPinned(), is(false));
+        assertEquals(mNote.isPinned(), false);
     }
 
     private List<String> tagList(String... tags) {
@@ -98,31 +91,31 @@ public class NoteTest {
     @Test
     public void testGetContent() {
         mNote.setContent(CONTENT);
-        assertThat(mNote.getContent(), is(CONTENT));
+        assertEquals(mNote.getContent(), CONTENT);
     }
 
     @Test
     public void testEnabledAndDisabledPreview() {
         mNote.setPreviewEnabled(true);
-        assertThat(mNote.isPreviewEnabled(), is(true));
+        assertEquals(mNote.isPreviewEnabled(), true);
         mNote.setPreviewEnabled(false);
-        assertThat(mNote.isPreviewEnabled(), is(false));
+        assertEquals(mNote.isPreviewEnabled(), false);
     }
 
     @Test
     public void testEnabledAndDisabledMarkdown() {
         mNote.setMarkdownEnabled(true);
-        assertThat(mNote.isMarkdownEnabled(), is(true));
+        assertEquals(mNote.isMarkdownEnabled(), true);
         mNote.setMarkdownEnabled(false);
-        assertThat(mNote.isMarkdownEnabled(), is(false));
+        assertEquals(mNote.isMarkdownEnabled(), false);
     }
 
     @Test
     public void testDeletedAndUndeletedNote() {
         mNote.setDeleted(true);
-        assertThat(mNote.isDeleted(), is(true));
+        assertEquals(mNote.isDeleted(), true);
         mNote.setDeleted(false);
-        assertThat(mNote.isDeleted(), is(false));
+        assertEquals(mNote.isDeleted(), false);
     }
 
     @Test
@@ -139,9 +132,9 @@ public class NoteTest {
         note.setMarkdownEnabled(isMarkdownEnabled);
         note.setPreviewEnabled(isPreviewEnabled);
 
-        assertThat(note.hasChanges(
+        assertEquals(note.hasChanges(
                 CONTENT, isPinned, isMarkdownEnabled, isPreviewEnabled
-        ), is(false));
+        ), false);
 
         note.setContent("New content");
         note.setTagString("New tag");
@@ -149,10 +142,9 @@ public class NoteTest {
         note.setMarkdownEnabled(false);
         note.setPreviewEnabled(false);
 
-        assertThat(note.hasChanges(
+        assertEquals(note.hasChanges(
                 CONTENT, isPinned, isMarkdownEnabled, isPreviewEnabled
-        ), is(true));
+        ), true);
 
     }
-
 }
