@@ -14,6 +14,8 @@ import java.net.URLEncoder;
 
 @SuppressWarnings("unused")
 public class StrUtils {
+    public static final String SPACE_STRING = " ";
+
     // suppress default constructor for non-instantiability
     private StrUtils() {
         throw new AssertionError();
