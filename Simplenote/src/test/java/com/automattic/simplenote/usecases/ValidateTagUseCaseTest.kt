@@ -23,20 +23,22 @@ class ValidateTagUseCaseTest {
     @Test
     fun emptyTagShouldReturnTagEmpty() {
         val result = validateTagUseCase.isTagValid("")
+
         assertEquals(TagValidationResult.TagEmpty, result)
     }
 
     @Test
     fun tagWithSpaceShouldReturnTagWithSpaces() {
         val result = validateTagUseCase.isTagValid("tag space")
+
         assertEquals(TagValidationResult.TagWithSpaces, result)
     }
 
     @Test
     fun tagWithLongNameShouldReturnTagTooLong() {
         whenever(tagsRepository.isTagValid(any())).thenReturn(false)
-
         val result = validateTagUseCase.isTagValid("taglong")
+
         assertEquals(TagValidationResult.TagTooLong, result)
     }
 
@@ -44,8 +46,8 @@ class ValidateTagUseCaseTest {
     fun tagAlreadyInDatabaseShouldReturnTagExists() {
         whenever(tagsRepository.isTagValid(any())).thenReturn(true)
         whenever(tagsRepository.isTagMissing(any())).thenReturn(false)
-
         val result = validateTagUseCase.isTagValid("taglong")
+
         assertEquals(TagValidationResult.TagExists, result)
     }
 
@@ -53,8 +55,8 @@ class ValidateTagUseCaseTest {
     fun validTagShouldReturnTagValid() {
         whenever(tagsRepository.isTagValid(any())).thenReturn(true)
         whenever(tagsRepository.isTagMissing(any())).thenReturn(true)
-
         val result = validateTagUseCase.isTagValid("tag1")
+
         assertEquals(TagValidationResult.TagValid, result)
     }
 
@@ -62,8 +64,8 @@ class ValidateTagUseCaseTest {
     fun emailShouldReturnTagIsCollaborator() {
         whenever(tagsRepository.isTagValid(any())).thenReturn(true)
         whenever(tagsRepository.isTagMissing(any())).thenReturn(true)
-
         val result = validateTagUseCase.isTagValid("admin@test.com")
+
         assertEquals(TagValidationResult.TagIsCollaborator, result)
     }
 
@@ -71,8 +73,8 @@ class ValidateTagUseCaseTest {
     fun emailAlreadyExistsAsTagShouldReturnTagIsCollaborator() {
         whenever(tagsRepository.isTagValid(any())).thenReturn(true)
         whenever(tagsRepository.isTagMissing(any())).thenReturn(false)
-
         val result = validateTagUseCase.isTagValid("admin@test.com")
+
         assertEquals(TagValidationResult.TagIsCollaborator, result)
     }
 }

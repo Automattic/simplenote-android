@@ -46,7 +46,6 @@ class GetTagsUseCaseTest {
     @Test
     fun allTagsShouldFilterCollaborators() = runBlockingTest {
         tagsRepository.stub { onBlocking { allTags() }.doReturn(tagItems) }
-
         val tagItemsExpected = tagItems.toMutableList()
         tagItemsExpected.removeAt(3) // TagItem(Tag("name@example.co.jp"), 2)
         tagItemsExpected.removeAt(3) // TagItem(Tag("name1@test.com"), 0)
