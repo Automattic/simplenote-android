@@ -7,8 +7,8 @@ import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.analytics.AnalyticsTracker.Stat
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.usecases.GetTagsUseCase
-import com.automattic.simplenote.usecases.TagValidationResult
 import com.automattic.simplenote.usecases.ValidateTagUseCase
+import com.automattic.simplenote.usecases.ValidateTagUseCase.TagValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -1,10 +1,8 @@
 package com.automattic.simplenote.usecases
 
-import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
-import com.simperium.client.Bucket
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import com.automattic.simplenote.usecases.ValidateTagUseCase.*
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -13,14 +11,13 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 
 class ValidateTagUseCaseTest {
-    private val notesBucket = Mockito.mock(Bucket::class.java) as Bucket<Note>
     private val tagsRepository: TagsRepository = Mockito.mock(TagsRepository::class.java)
 
     private lateinit var validateTagUseCase: ValidateTagUseCase
 
     @Before
     fun setup() {
-        val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
+        val collaboratorsRepository = SimperiumCollaboratorsRepository()
         validateTagUseCase = ValidateTagUseCase(tagsRepository, collaboratorsRepository)
     }
 
