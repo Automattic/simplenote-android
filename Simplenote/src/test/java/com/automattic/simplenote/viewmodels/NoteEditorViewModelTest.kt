@@ -56,24 +56,41 @@ class NoteEditorViewModelTest {
     }
 
     @Test
-    fun addCollaboratorShouldNotUpdateUiStateAndNote() {
+    fun addCollaboratorShouldNotUpdateUiState() {
         viewModel.update(note)
         viewModel.addTag("name@email.com", note)
 
         assertEquals(listOf("tag1", "tag2"), viewModel.uiState.value?.tags)
+        assertEquals(NoteEditorEvent.TagAsCollaborator("name@email.com"), viewModel.event.value)
+    }
+
+    @Test
+    fun addCollaboratorShouldNotUpdateNote() {
+        viewModel.update(note)
+        viewModel.addTag("name@email.com", note)
+
         assertEquals(listOf("tag1", "tag2", "name@test.com", "name@email.com"), note.tags)
         assertEquals(NoteEditorEvent.TagAsCollaborator("name@email.com"), viewModel.event.value)
     }
 
     @Test
-    fun addInvalidTagShouldNotUpdateUiStateAndNote() {
+    fun addInvalidTagShouldNotUpdateUiState() {
         viewModel.update(note)
         viewModel.addTag("test test1", note)
 
         assertEquals(listOf("tag1", "tag2"), viewModel.uiState.value?.tags)
+        assertEquals(NoteEditorEvent.InvalidTag, viewModel.event.value)
+    }
+
+    @Test
+    fun addInvalidTagShouldNotUpdateNote() {
+        viewModel.update(note)
+        viewModel.addTag("test test1", note)
+
         assertEquals(listOf("tag1", "tag2", "name@test.com"), note.tags)
         assertEquals(NoteEditorEvent.InvalidTag, viewModel.event.value)
     }
+
 
     @Test
     fun removeTagShouldUpdateUiStateAndNote() {
