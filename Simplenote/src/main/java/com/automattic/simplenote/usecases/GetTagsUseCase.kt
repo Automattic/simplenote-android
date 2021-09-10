@@ -11,7 +11,8 @@ import javax.inject.Inject
  */
 class GetTagsUseCase @Inject constructor(
     private val tagsRepository: TagsRepository,
-    private val collaboratorsRepository: CollaboratorsRepository) {
+    private val collaboratorsRepository: CollaboratorsRepository
+) {
 
     suspend fun allTags(): List<TagItem> {
         return tagsRepository.allTags()
