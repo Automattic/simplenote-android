@@ -24,9 +24,8 @@ class GetTagsUseCaseTest {
 
     private val tagsRepository: TagsRepository = mock(TagsRepository::class.java)
     private val mockBucket: Bucket<*> = mock(Bucket::class.java)
-    private lateinit var collaboratorsRepository: CollaboratorsRepository
-
-    private lateinit var getTagsUseCase: GetTagsUseCase
+    private val collaboratorsRepository: CollaboratorsRepository = SimperiumCollaboratorsRepository()
+    private val getTagsUseCase: GetTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
     private val tagItems = listOf(
         TagItem(Tag("tag1"), 0),
         TagItem(Tag("tag2"), 2),
@@ -41,9 +40,6 @@ class GetTagsUseCaseTest {
     fun setup() {
         // Set mock bucket to avoid NPE
         tagItems.forEach { it.tag.bucket = mockBucket }
-
-        collaboratorsRepository = SimperiumCollaboratorsRepository()
-        getTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
     }
 
     @Test

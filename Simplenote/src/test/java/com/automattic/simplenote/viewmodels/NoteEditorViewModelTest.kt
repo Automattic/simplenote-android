@@ -22,24 +22,21 @@ class NoteEditorViewModelTest {
 
     private val tagsRepository: TagsRepository = mock(TagsRepository::class.java)
     private val mockBucket: Bucket<*> = mock(Bucket::class.java)
+    private val collaboratorsRepository = SimperiumCollaboratorsRepository()
+    private val getTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
+    private val validateTagUseCase = ValidateTagUseCase(tagsRepository, collaboratorsRepository)
+    private val viewModel = NoteEditorViewModel(getTagsUseCase, validateTagUseCase)
 
-    private lateinit var viewModel: NoteEditorViewModel
-    private lateinit var note: Note
+    private val note = Note("key1").also {
+        it.content = "Hello World"
+        it.tags = listOf("tag1", "tag2", "name@test.com")
+        it.bucket = mockBucket
+    }
 
     @Before
     fun setup() {
         whenever(tagsRepository.isTagValid(any())).thenReturn(true)
         whenever(tagsRepository.isTagMissing(any())).thenReturn(true)
-
-        val collaboratorsRepository = SimperiumCollaboratorsRepository()
-        val getTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
-        val validateTagUseCase = ValidateTagUseCase(tagsRepository, collaboratorsRepository)
-        viewModel = NoteEditorViewModel(getTagsUseCase, validateTagUseCase)
-
-        note = Note("key1")
-        note.content = "Hello World"
-        note.tags = listOf("tag1", "tag2", "name@test.com")
-        note.bucket = mockBucket
     }
 
     @Test

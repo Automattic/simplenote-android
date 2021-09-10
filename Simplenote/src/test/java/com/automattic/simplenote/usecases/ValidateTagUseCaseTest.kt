@@ -2,9 +2,8 @@ package com.automattic.simplenote.usecases
 
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
-import com.automattic.simplenote.usecases.ValidateTagUseCase.*
+import com.automattic.simplenote.usecases.ValidateTagUseCase.TagValidationResult
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 import org.mockito.kotlin.any
@@ -12,14 +11,7 @@ import org.mockito.kotlin.whenever
 
 class ValidateTagUseCaseTest {
     private val tagsRepository: TagsRepository = Mockito.mock(TagsRepository::class.java)
-
-    private lateinit var validateTagUseCase: ValidateTagUseCase
-
-    @Before
-    fun setup() {
-        val collaboratorsRepository = SimperiumCollaboratorsRepository()
-        validateTagUseCase = ValidateTagUseCase(tagsRepository, collaboratorsRepository)
-    }
+    private val validateTagUseCase = ValidateTagUseCase(tagsRepository, SimperiumCollaboratorsRepository())
 
     @Test
     fun emptyTagShouldReturnTagEmpty() {
