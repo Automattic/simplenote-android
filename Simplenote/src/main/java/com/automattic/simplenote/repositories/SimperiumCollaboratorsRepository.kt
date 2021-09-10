@@ -8,7 +8,6 @@ import com.automattic.simplenote.utils.Either
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
