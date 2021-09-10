@@ -18,7 +18,6 @@ class SimperiumCollaboratorsRepositoryTest {
         assertTrue(collaboratorsRepository.isValidCollaborator("name12-lastname+503@192.168.43.54"))
         // Email top level domain
         assertTrue(collaboratorsRepository.isValidCollaborator("name@example.co.jp"))
-
     }
 
     @Test
