@@ -189,4 +189,42 @@ public class NoteTest {
 
         assertEquals(note.getTags(), initialTags);
     }
+
+    @Test
+    public void testRemoveTag() {
+        List<String> initialTags = new ArrayList<>();
+        initialTags.add("tag1");
+        initialTags.add("tag2");
+
+        Note note = new Note("note-test");
+        note.setContent(CONTENT);
+        note.setTags(initialTags);
+        note.setBucket(mockBucket);
+
+        note.removeTag("tag2");
+
+        List<String> expectedTags = new ArrayList<>();
+        expectedTags.add("tag1");
+
+        assertEquals(note.getTags(), expectedTags);
+    }
+
+    @Test
+    public void testRemoveTagSameCanonicalName() {
+        List<String> initialTags = new ArrayList<>();
+        initialTags.add("tag1");
+        initialTags.add("tag2");
+
+        Note note = new Note("note-test");
+        note.setContent(CONTENT);
+        note.setTags(initialTags);
+        note.setBucket(mockBucket);
+
+        note.removeTag("TAG2");
+
+        List<String> expectedTags = new ArrayList<>();
+        expectedTags.add("tag1");
+
+        assertEquals(note.getTags(), expectedTags);
+    }
 }
