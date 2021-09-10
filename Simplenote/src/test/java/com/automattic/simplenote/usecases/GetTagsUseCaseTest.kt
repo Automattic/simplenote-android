@@ -48,9 +48,7 @@ class GetTagsUseCaseTest {
 
     @Test
     fun allTagsShouldFilterCollaborators() = runBlockingTest {
-        tagsRepository.stub {
-            onBlocking { allTags() }.doReturn(tagItems)
-        }
+        tagsRepository.stub { onBlocking { allTags() }.doReturn(tagItems) }
 
         val tagItemsExpected = listOf(
             TagItem(Tag("tag1"), 0),
