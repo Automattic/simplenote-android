@@ -7,7 +7,7 @@ import com.automattic.simplenote.repositories.TagsRepository
 import javax.inject.Inject
 
 /**
- * Since the collaborators are saved as tags, we have to filter them before returning the tags
+ * Since the collaborators are saved as tags, those need to be filtered before returning the tags.
  */
 class GetTagsUseCase @Inject constructor(
     private val tagsRepository: TagsRepository,
