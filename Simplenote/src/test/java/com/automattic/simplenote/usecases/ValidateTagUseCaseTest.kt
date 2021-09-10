@@ -2,6 +2,7 @@ package com.automattic.simplenote.usecases
 
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
+import com.automattic.simplenote.usecases.ValidateTagUseCase.*
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
