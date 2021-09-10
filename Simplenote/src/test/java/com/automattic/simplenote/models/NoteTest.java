@@ -2,8 +2,11 @@ package com.automattic.simplenote.models;
 
 import static org.junit.Assert.assertEquals;
 
+import com.simperium.client.Bucket;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +22,7 @@ public class NoteTest {
     private static final String CONTENT = CONTENT_TITLE + "\n" + CONTENT_PREVIEW;
     private static final String KEY = "test";
     private Note mNote;
+    private Bucket<Note> mockBucket = Mockito.mock(Bucket.class);
 
     @Before
     public void setUp() {
@@ -146,5 +150,43 @@ public class NoteTest {
                 CONTENT, isPinned, isMarkdownEnabled, isPreviewEnabled
         ), true);
 
+    }
+
+    @Test
+    public void testAddTag() {
+        List<String> initialTags = new ArrayList<>();
+        initialTags.add("tag1");
+        initialTags.add("tag2");
+
+        Note note = new Note("note-test");
+        note.setContent(CONTENT);
+        note.setTags(initialTags);
+        note.setBucket(mockBucket);
+
+        note.addTag("tag3");
+
+        List<String> expectedTags = new ArrayList<>();
+        expectedTags.add("tag1");
+        expectedTags.add("tag2");
+        expectedTags.add("tag3");
+
+
+        assertEquals(note.getTags(), expectedTags);
+    }
+
+    @Test
+    public void testAddSameCanonicalTagDoesNotDuplicateTag() {
+        List<String> initialTags = new ArrayList<>();
+        initialTags.add("tag1");
+        initialTags.add("tag2");
+
+        Note note = new Note("note-test");
+        note.setContent(CONTENT);
+        note.setTags(initialTags);
+        note.setBucket(mockBucket);
+
+        note.addTag("TAG2");
+
+        assertEquals(note.getTags(), initialTags);
     }
 }
