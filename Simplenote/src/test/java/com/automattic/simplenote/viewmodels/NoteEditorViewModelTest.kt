@@ -6,6 +6,7 @@ import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
 import com.automattic.simplenote.usecases.GetTagsUseCase
 import com.automattic.simplenote.usecases.ValidateTagUseCase
+import com.automattic.simplenote.viewmodels.NoteEditorViewModel.*
 import com.simperium.client.Bucket
 import org.junit.Assert.assertEquals
 import org.junit.Before
