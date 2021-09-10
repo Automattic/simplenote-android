@@ -123,12 +123,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private static final int PUBLISH_TIMEOUT = 20000;
     private static final int HISTORY_TIMEOUT = 10000;
     private Note mNote;
-    private final Runnable mAutoSaveRunnable = new Runnable() {
-        @Override
-        public void run() {
-            saveAndSyncNote();
-        }
-    };
+    private final Runnable mAutoSaveRunnable = this::saveAndSyncNote;
     private Bucket<Note> mNotesBucket;
     private View mRootView;
     private View mTagPadding;
@@ -182,13 +177,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 return;
             }
 
-            requireActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (mHistoryBottomSheet.getDialog() != null && mHistoryBottomSheet.getDialog().isShowing() && !mHistoryBottomSheet.isHistoryLoaded()) {
-                        mHistoryBottomSheet.dismiss();
-                        Toast.makeText(getActivity(), R.string.error_history, Toast.LENGTH_LONG).show();
-                    }
+            requireActivity().runOnUiThread(() -> {
+                if (mHistoryBottomSheet.getDialog() != null && mHistoryBottomSheet.getDialog().isShowing() && !mHistoryBottomSheet.isHistoryLoaded()) {
+                    mHistoryBottomSheet.dismiss();
+                    Toast.makeText(getActivity(), R.string.error_history, Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -289,12 +281,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             }
 
             new Handler().postDelayed(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        requireActivity().getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent, requireActivity().getTheme()));
-                    }
-                },
+                    () -> requireActivity().getWindow().setStatusBarColor(
+                            getResources().getColor(android.R.color.transparent, requireActivity().getTheme())),
                 requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
             );
         }
@@ -307,15 +295,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         public void run() {
             if (!isAdded()) return;
 
-            requireActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
+            requireActivity().runOnUiThread(() -> {
+                mNote.setPublished(!mNote.isPublished());
+                mNote.save();
 
-                    mNote.setPublished(!mNote.isPublished());
-                    mNote.save();
-
-                    updatePublishedState(false);
-                }
+                updatePublishedState(false);
             });
         }
     };
@@ -431,12 +415,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 final int heightDropdown = Math.min(heightDisplay / 4, heightAutocomplete);
 
                 mActivity.runOnUiThread(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            mContentEditText.setDropDownHeight(heightDropdown);
-                        }
-                    }
+                        () -> mContentEditText.setDropDownHeight(heightDropdown)
                 );
                 return cursor;
             }
@@ -481,14 +460,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             super.onPageFinished(view, url);
                             if (mMarkdown.getVisibility() == View.VISIBLE) {
                                 new Handler().postDelayed(
-                                    new Runnable() {
-                                        @Override
-                                        public void run() {
+                                        () -> {
                                             if (mNote != null && mNote.getSimperiumKey() != null) {
                                                 ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
                                             }
-                                        }
-                                    },
+                                        },
                                     requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
                                 );
                             }
@@ -518,12 +494,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 ((ViewStub) mRootView.findViewById(R.id.stub_error)).inflate();
                 mError = mRootView.findViewById(R.id.error);
                 mRootView.findViewById(R.id.button).setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            BrowserUtils.launchBrowserOrShowError(requireContext(), BrowserUtils.URL_WEB_VIEW);
-                        }
-                    }
+                        view -> BrowserUtils.launchBrowserOrShowError(requireContext(), BrowserUtils.URL_WEB_VIEW)
                 );
             }
         }
@@ -561,27 +532,19 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void setObservers() {
-        viewModel.getUiState().observe(this, new Observer<NoteEditorViewModel.UiState>() {
-            @Override
-            public void onChanged(NoteEditorViewModel.UiState uiState) {
-                updateTagList(uiState.getTags());
+        viewModel.getUiState().observe(this, uiState -> updateTagList(uiState.getTags()));
+
+        viewModel.getEvent().observe(this, noteEditorEvent -> {
+            if (getContext() == null) {
+                return;
             }
-        });
 
-        viewModel.getEvent().observe(this, new Observer<NoteEditorEvent>() {
-            @Override
-            public void onChanged(NoteEditorEvent noteEditorEvent) {
-                if (getContext() == null) {
-                    return;
-                }
-
-                if (noteEditorEvent instanceof NoteEditorEvent.TagAsCollaborator) {
-                    String collaborator = ((NoteEditorEvent.TagAsCollaborator) noteEditorEvent).getCollaborator();
-                    String toastMessage = getString(R.string.tag_added_as_collaborator, collaborator);
-                    Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_LONG).show();
-                } else if (noteEditorEvent instanceof NoteEditorEvent.InvalidTag) {
-                    Toast.makeText(requireContext(), R.string.invalid_tag, Toast.LENGTH_LONG).show();
-                }
+            if (noteEditorEvent instanceof NoteEditorEvent.TagAsCollaborator) {
+                String collaborator = ((NoteEditorEvent.TagAsCollaborator) noteEditorEvent).getCollaborator();
+                String toastMessage = getString(R.string.tag_added_as_collaborator, collaborator);
+                Toast.makeText(requireContext(), toastMessage, Toast.LENGTH_LONG).show();
+            } else if (noteEditorEvent instanceof NoteEditorEvent.InvalidTag) {
+                Toast.makeText(requireContext(), R.string.invalid_tag, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -645,15 +608,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         } else if (mNote != null && mNote.getSimperiumKey() != null) {
             ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
             mRootView.setOnScrollChangeListener(
-                new View.OnScrollChangeListener() {
-                    @Override
-                    public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
                         if (mNote == null) {
                             return;
                         }
                         mPreferences.edit().putInt(mNote.getSimperiumKey(), scrollY).apply();
                     }
-                }
             );
         }
     }
@@ -700,17 +660,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     private void showSoftKeyboard() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (getActivity() == null) {
-                    return;
-                }
+        new Handler().postDelayed(() -> {
+            if (getActivity() == null) {
+                return;
+            }
 
-                InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (inputMethodManager != null) {
-                    inputMethodManager.showSoftInput(mContentEditText, 0);
-                }
+            InputMethodManager inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputMethodManager != null) {
+                inputMethodManager.showSoftInput(mContentEditText, 0);
             }
         }, 100);
     }
@@ -955,14 +912,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         new Handler().postDelayed(
-            new Runnable() {
-                @Override
-                public void run() {
+                () -> {
                     if (!isDetached()) {
                         requireActivity().invalidateOptionsMenu();
                     }
-                }
-            },
+                },
             getResources().getInteger(R.integer.time_animation)
         );
     }
@@ -1076,12 +1030,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             int cursorPosition = newCursorLocation(mNote.getContent(), getNoteContentString(), mContentEditText.getSelectionEnd());
             mContentEditText.setText(mNote.getContent());
             // Set the scroll position after the note's content has been rendered
-            mRootView.post(new Runnable() {
-                @Override
-                public void run() {
-                    setScroll();
-                }
-            });
+            mRootView.post(this::setScroll);
 
             if (isNoteUpdate) {
                 // Update markdown and preview flags from updated note.
@@ -1552,13 +1501,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     Snackbar.make(mRootView, R.string.publish_successful, Snackbar.LENGTH_LONG)
                         .setAction(
                             R.string.undo,
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
+                                v -> {
                                     mHideActionOnSuccess = true;
                                     unpublishNote();
                                 }
-                            }
                         )
                         .show();
                 }
@@ -1569,13 +1515,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     Snackbar.make(mRootView, R.string.unpublish_successful, Snackbar.LENGTH_LONG)
                         .setAction(
                             R.string.undo,
-                            new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
+                                v -> {
                                     mHideActionOnSuccess = true;
                                     publishNote();
                                 }
-                            }
                         )
                         .show();
                 }
@@ -1585,26 +1528,20 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 Snackbar.make(mRootView, R.string.unpublish_error, Snackbar.LENGTH_LONG)
                     .setAction(
                         R.string.retry,
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+                            v -> {
                                 mHideActionOnSuccess = true;
                                 unpublishNote();
                             }
-                        }
                     )
                     .show();
             } else {
                 Snackbar.make(mRootView, R.string.publish_error, Snackbar.LENGTH_LONG)
                     .setAction(
                         R.string.retry,
-                        new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
+                            v -> {
                                 mHideActionOnSuccess = true;
                                 publishNote();
                             }
-                        }
                     )
                     .show();
             }
@@ -1684,16 +1621,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                     final Note updatedNote = noteBucket.get(key);
 
                     if (getActivity() != null) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (mPublishTimeoutHandler != null) {
-                                    mPublishTimeoutHandler.removeCallbacks(mPublishTimeoutRunnable);
-                                }
-
-                                updateNote(updatedNote);
-                                updatePublishedState(true);
+                        getActivity().runOnUiThread(() -> {
+                            if (mPublishTimeoutHandler != null) {
+                                mPublishTimeoutHandler.removeCallbacks(mPublishTimeoutRunnable);
                             }
+
+                            updateNote(updatedNote);
+                            updatePublishedState(true);
                         });
                     }
                 } catch (BucketObjectMissingException e) {
@@ -1828,18 +1762,15 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 // Show soft keyboard
                 fragment.mContentEditText.requestFocus();
 
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (fragment.getActivity() == null) {
-                            return;
-                        }
+                new Handler().postDelayed(() -> {
+                    if (fragment.getActivity() == null) {
+                        return;
+                    }
 
-                        InputMethodManager inputMethodManager = (InputMethodManager) fragment.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    InputMethodManager inputMethodManager = (InputMethodManager) fragment.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                        if (inputMethodManager != null) {
-                            inputMethodManager.showSoftInput(fragment.mContentEditText, 0);
-                        }
+                    if (inputMethodManager != null) {
+                        inputMethodManager.showSoftInput(fragment.mContentEditText, 0);
                     }
                 }, 100);
             } else if (fragment.mNote != null) {
@@ -1944,22 +1875,14 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             chip.setChipBackgroundColor(getChipBackgroundColor());
             chip.setTextColor(ThemeUtils.getColorFromAttribute(requireContext(), R.attr.chipTextColor));
             chip.setStateListAnimator(null);
-            chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    chip.setCloseIconVisible(isChecked);
+            chip.setOnCheckedChangeListener((buttonView, isChecked) -> chip.setCloseIconVisible(isChecked));
+            chip.setOnCloseIconClickListener(view -> {
+                if (mNote == null) {
+                    return;
                 }
-            });
-            chip.setOnCloseIconClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mNote == null) {
-                        return;
-                    }
 
-                    String tagName = ((Chip) view).getText().toString();
-                    viewModel.removeTag(tagName, mNote);
-                }
+                String tagName = ((Chip) view).getText().toString();
+                viewModel.removeTag(tagName, mNote);
             });
             mTagChips.addView(chip);
         }
