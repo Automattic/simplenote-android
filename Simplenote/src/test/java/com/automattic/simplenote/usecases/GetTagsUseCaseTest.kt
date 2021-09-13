@@ -23,8 +23,8 @@ import org.mockito.kotlin.stub
 class GetTagsUseCaseTest {
     @get:Rule val rule = InstantTaskExecutorRule()
 
-    private val tagsRepository: TagsRepository = mock(TagsRepository::class.java)
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
+    private val tagsRepository: TagsRepository = mock(TagsRepository::class.java)
     private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
     private val getTagsUseCase: GetTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
     private val tagItems = listOf(
