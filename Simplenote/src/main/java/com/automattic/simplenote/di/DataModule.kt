@@ -19,10 +19,10 @@ import dagger.hilt.components.SingletonComponent
 abstract class DataModule {
     companion object {
         @Provides
-        fun providesTagsBucket(@ApplicationContext appContext: Context): Bucket<Tag> = (appContext as Simplenote).tagsBucket
+        fun providesTagsBucket(simplenote: Simplenote): Bucket<Tag> = simplenote.tagsBucket
 
         @Provides
-        fun providesNotesBucket(@ApplicationContext appContext: Context): Bucket<Note> = (appContext as Simplenote).notesBucket
+        fun providesNotesBucket(simplenote: Simplenote): Bucket<Note> = simplenote.notesBucket
     }
 
     @Binds
