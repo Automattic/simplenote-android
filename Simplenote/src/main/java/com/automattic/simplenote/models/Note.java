@@ -342,6 +342,21 @@ public class Note extends BucketObject {
         return tagList;
     }
 
+    public void addTag(String tagName) {
+        List<String> tags = getTags();
+
+        // Avoid adding tags with the same canonical name
+        List<String> tagsMatched = TagUtils.findTagsMatch(tags, tagName);
+        if (tagsMatched.isEmpty()) {
+            tags.add(tagName);
+        }
+
+        setTags(tags);
+        setModificationDate(Calendar.getInstance());
+
+        save();
+    }
+
     public void removeTag(String tagName) {
         List<String> tags = getTags();
 
@@ -349,6 +364,8 @@ public class Note extends BucketObject {
         tags.removeAll(tagsMatched);
 
         setTags(tags);
+        setModificationDate(Calendar.getInstance());
+
         save();
     }
 
@@ -546,15 +563,13 @@ public class Note extends BucketObject {
      * Check if the note has any changes
      *
      * @param content           the new note content
-     * @param tagString         space separated tags
      * @param isPinned          note is pinned
      * @param isMarkdownEnabled note has markdown enabled
      * @param isPreviewEnabled  note has preview enabled
      * @return true if note has changes, false if it is unchanged.
      */
-    public boolean hasChanges(String content, String tagString, boolean isPinned, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
+    public boolean hasChanges(String content, boolean isPinned, boolean isMarkdownEnabled, boolean isPreviewEnabled) {
         return !content.equals(this.getContent())
-                || !tagString.equals(this.getTagString().toString())
                 || this.isPinned() != isPinned
                 || this.isMarkdownEnabled() != isMarkdownEnabled
                 || this.isPreviewEnabled() != isPreviewEnabled;
