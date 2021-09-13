@@ -2,17 +2,14 @@ package com.automattic.simplenote.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.automattic.simplenote.models.Note
-import com.automattic.simplenote.repositories.CollaboratorsActionResult
-import com.automattic.simplenote.repositories.CollaboratorsRepository
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
-import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.*
+import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.UiState
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
