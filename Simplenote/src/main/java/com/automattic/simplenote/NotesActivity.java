@@ -47,7 +47,6 @@ import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AuthUtils;
-import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -1377,7 +1376,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
                 Simplenote app = (Simplenote) getApplication();
                 AnalyticsTracker.refreshMetadata(app.getSimperium().getUser().getEmail());
-                CrashUtils.setCurrentUser(app.getSimperium().getUser());
 
                 AnalyticsTracker.track(
                     USER_SIGNED_IN,

@@ -45,7 +45,6 @@ import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AuthUtils;
 import com.automattic.simplenote.utils.BrowserUtils;
-import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DeleteAccountRequestHandler;
 import com.automattic.simplenote.utils.DialogUtils;
 import com.automattic.simplenote.utils.HtmlCompat;
@@ -560,7 +559,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
             Simplenote app = (Simplenote) getActivity().getApplication();
             AnalyticsTracker.refreshMetadata(app.getSimperium().getUser().getEmail());
-            CrashUtils.setCurrentUser(app.getSimperium().getUser());
 
             AnalyticsTracker.track(
                     AnalyticsTracker.Stat.USER_SIGNED_IN,
@@ -764,7 +762,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         }
     }
-  
+
     private void toast(int stringId) {
         toast(stringId, Toast.LENGTH_SHORT);
     }

@@ -39,7 +39,6 @@ import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.utils.AccountVerificationWatcher;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
-import com.automattic.simplenote.utils.CrashUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SyncWorker;
@@ -94,8 +93,6 @@ public class Simplenote extends Application implements HeartbeatListener {
     public void onCreate() {
         super.onCreate();
 
-        CrashUtils.initWithContext(this);
-
         SimplenoteAppLock appLock = new SimplenoteAppLock(this);
         AppLockManager.getInstance().setCurrentAppLock(appLock);
         appLock.enable();
@@ -148,7 +145,6 @@ public class Simplenote extends Application implements HeartbeatListener {
 
         AnalyticsTracker.registerTracker(new AnalyticsTrackerNosara(this));
         AnalyticsTracker.refreshMetadata(mSimperium.getUser().getEmail());
-        CrashUtils.setCurrentUser(mSimperium.getUser());
 
         AppLog.add(Type.DEVICE, getDeviceInfo());
         AppLog.add(Type.ACCOUNT, getAccountInfo());

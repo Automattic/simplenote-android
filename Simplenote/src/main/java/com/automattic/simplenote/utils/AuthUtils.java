@@ -38,7 +38,6 @@ public class AuthUtils {
 
         // Resets analytics user back to 'anon' type
         AnalyticsTracker.refreshMetadata(null);
-        CrashUtils.clearCurrentUser();
 
         // Remove wp.com token
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(application).edit();
