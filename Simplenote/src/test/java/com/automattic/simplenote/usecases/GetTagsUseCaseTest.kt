@@ -23,12 +23,10 @@ import org.mockito.kotlin.stub
 class GetTagsUseCaseTest {
     @get:Rule val rule = InstantTaskExecutorRule()
 
-    private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
     private val tagsRepository: TagsRepository = mock(TagsRepository::class.java)
-    private val mockBucket: Bucket<*> = mock(Bucket::class.java)
-    private lateinit var collaboratorsRepository: CollaboratorsRepository
-
-    private lateinit var getTagsUseCase: GetTagsUseCase
+    private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
+    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
+    private val getTagsUseCase: GetTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
     private val tagItems = listOf(
         TagItem(Tag("tag1"), 0),
         TagItem(Tag("tag2"), 2),
@@ -42,10 +40,7 @@ class GetTagsUseCaseTest {
     @Before
     fun setup() {
         // Set mock bucket to avoid NPE
-        tagItems.forEach { it.tag.bucket = mockBucket }
-
-        collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
-        getTagsUseCase = GetTagsUseCase(tagsRepository, collaboratorsRepository)
+        tagItems.forEach { it.tag.bucket = notesBucket }
     }
 
     @Test

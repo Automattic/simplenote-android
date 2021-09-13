@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.automattic.simplenote.models.Note
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.*
@@ -14,26 +15,24 @@ import org.mockito.Mockito.mock
 import org.mockito.kotlin.any
 import org.mockito.kotlin.whenever
 
-class CollaboratorsRepositoryTest {
+@ExperimentalCoroutinesApi
+class SimperiumCollaboratorsRepositoryTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private val mockBucket: Bucket<*> = mock(Bucket::class.java)
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
-
-    private lateinit var collaboratorsRepository: CollaboratorsRepository
+    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
 
     private val noteId = "key1"
-    private val note = Note(noteId)
+    private val note = Note(noteId).apply {
+        content = "Hello World"
+        tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
+        bucket = notesBucket
+    }
 
     @Before
     fun setup() {
-        note.content = "Hello World"
-        note.tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
-        note.bucket = mockBucket
-
         whenever(notesBucket.get(any())).thenReturn(note)
-        collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
     }
 
     @Test
@@ -46,6 +45,7 @@ class CollaboratorsRepositoryTest {
         assertTrue(collaboratorsRepository.isValidCollaborator("name12-lastname+503@192.168.43.54"))
         // Email top level domain
         assertTrue(collaboratorsRepository.isValidCollaborator("name@example.co.jp"))
+
     }
 
     @Test
