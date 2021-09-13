@@ -2,8 +2,10 @@ package com.automattic.simplenote.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.automattic.simplenote.models.Note
+import com.automattic.simplenote.repositories.CollaboratorsActionResult
 import com.automattic.simplenote.repositories.CollaboratorsRepository
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
+import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.*
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -41,36 +43,36 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun loadCollaboratorsShouldReturnListEmails() = runBlockingTest {
+    fun loadCollaboratorsShouldUpdateUiStateWithList() = runBlockingTest {
         viewModel.loadCollaborators(noteId)
-        val expectedCollaborators = listOf("test@emil.com", "name@example.co.jp")
+        val expectedCollaborators = UiState.CollaboratorsList(noteId, listOf("test@emil.com", "name@example.co.jp"))
 
-        assertEquals(expectedCollaborators, viewModel.uiState.value?.collaborators)
+        assertEquals(expectedCollaborators, viewModel.uiState.value)
     }
 
     @Test
-    fun loadCollaboratorsForNoteInTrashShouldTriggerEvent() = runBlockingTest {
+    fun loadCollaboratorsForNoteInTrashShouldUpdateUiStateNoteInTrash() = runBlockingTest {
         note.isDeleted = true
+        viewModel.loadCollaborators(noteId)
 
-        assertNull(viewModel.uiState.value)
-        assertEquals(CollaboratorsViewModel.CollaboratorsEvent.NoteInTrash, viewModel.event.value)
+        assertEquals(UiState.NoteInTrash, viewModel.uiState.value)
     }
 
     @Test
-    fun loadCollaboratorsForNoteDeletedShouldTriggerEvent() = runBlockingTest {
+    fun loadCollaboratorsForNoteInTrashShouldUpdateUiStateNoteDeleted() = runBlockingTest {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
+        viewModel.loadCollaborators(noteId)
 
-        assertNull(viewModel.uiState.value)
-        assertEquals(CollaboratorsViewModel.CollaboratorsEvent.NoteDeleted, viewModel.event.value)
+        assertEquals(UiState.NoteDeleted, viewModel.uiState.value)
     }
 
     @Test
     fun removeCollaboratorsShouldReturnListEmails() = runBlockingTest {
         viewModel.loadCollaborators(noteId)
         viewModel.removeCollaborator("test@emil.com")
-        val expectedCollaborators = listOf("name@example.co.jp")
+        val expectedCollaborators = UiState.CollaboratorsList(noteId, listOf("name@example.co.jp"))
 
-        assertEquals(expectedCollaborators, viewModel.uiState.value?.collaborators)
+        assertEquals(expectedCollaborators, viewModel.uiState.value)
     }
 
     @Test
@@ -79,8 +81,7 @@ class CollaboratorsViewModelTest {
         note.isDeleted = true
         viewModel.removeCollaborator("test@emil.com")
 
-        assertNull(viewModel.uiState.value)
-        assertEquals(CollaboratorsViewModel.CollaboratorsEvent.NoteInTrash, viewModel.event.value)
+        assertEquals(UiState.NoteInTrash, viewModel.uiState.value)
     }
 
     @Test
@@ -89,7 +90,6 @@ class CollaboratorsViewModelTest {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
         viewModel.removeCollaborator("test@emil.com")
 
-        assertNull(viewModel.uiState.value)
-        assertEquals(CollaboratorsViewModel.CollaboratorsEvent.NoteDeleted, viewModel.event.value)
+        assertEquals(UiState.NoteDeleted, viewModel.uiState.value)
     }
 }

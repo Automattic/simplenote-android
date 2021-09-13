@@ -3,8 +3,10 @@ package com.automattic.simplenote.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.automattic.simplenote.models.Note
+import androidx.lifecycle.viewModelScope
+import com.automattic.simplenote.repositories.CollaboratorsActionResult
 import com.automattic.simplenote.repositories.CollaboratorsRepository
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CollaboratorsViewModel @Inject constructor(
@@ -17,18 +19,42 @@ class CollaboratorsViewModel @Inject constructor(
     val event: LiveData<CollaboratorsEvent> = _event
 
     fun loadCollaborators(noteId: String) {
-
+        viewModelScope.launch {
+            _uiState.value = UiState.Loading
+            when (val result = collaboratorsRepository.getCollaborators(noteId)) {
+                is CollaboratorsActionResult.CollaboratorsList ->
+                    _uiState.value = UiState.CollaboratorsList(noteId, result.collaborators)
+                CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
+                CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
+            }
+        }
     }
 
     fun removeCollaborator(collaborator: String) {
+        // Validate constraint that the UiState should have a list of collaborators
+        if (uiState.value !is UiState.CollaboratorsList) {
+            return
+        }
 
+        val noteId = (uiState.value as UiState.CollaboratorsList).noteId
+        viewModelScope.launch {
+            when (val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)) {
+                is CollaboratorsActionResult.CollaboratorsList ->
+                    _uiState.value = UiState.CollaboratorsList(noteId, result.collaborators)
+                CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
+                CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
+            }
+        }
     }
 
-    data class UiState(val noteId: String, val collaborators: List<String>)
+    sealed class UiState {
+        object Loading : UiState()
+        object NoteInTrash : UiState()
+        object NoteDeleted : UiState()
+        data class CollaboratorsList(val noteId: String, val collaborators: List<String>) : UiState()
+    }
 
     sealed class CollaboratorsEvent {
-        object NoteInTrash : CollaboratorsEvent()
-        object NoteDeleted : CollaboratorsEvent()
         data class RemoveCollaborator(val collaborator: String) : CollaboratorsEvent()
     }
 }
