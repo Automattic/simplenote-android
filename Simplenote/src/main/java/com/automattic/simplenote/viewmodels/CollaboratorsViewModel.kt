@@ -15,9 +15,6 @@ class CollaboratorsViewModel @Inject constructor(
     private val _uiState = MutableLiveData<UiState>()
     val uiState: LiveData<UiState> = _uiState
 
-    private val _event = SingleLiveEvent<CollaboratorsEvent>()
-    val event: LiveData<CollaboratorsEvent> = _event
-
     fun loadCollaborators(noteId: String) {
         viewModelScope.launch {
             _uiState.value = UiState.Loading
@@ -52,9 +49,5 @@ class CollaboratorsViewModel @Inject constructor(
         object NoteInTrash : UiState()
         object NoteDeleted : UiState()
         data class CollaboratorsList(val noteId: String, val collaborators: List<String>) : UiState()
-    }
-
-    sealed class CollaboratorsEvent {
-        data class RemoveCollaborator(val collaborator: String) : CollaboratorsEvent()
     }
 }
