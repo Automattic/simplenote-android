@@ -122,4 +122,11 @@ class CollaboratorsViewModelTest {
 
         assertEquals(Event.RemoveCollaboratorEvent("test@emil.com"), viewModel.event.value)
     }
+
+    @Test
+    fun closeShouldTriggerCloseCollaborators() {
+        viewModel.close()
+
+        assertEquals(Event.CloseCollaboratorsEvent, viewModel.event.value)
+    }
 }

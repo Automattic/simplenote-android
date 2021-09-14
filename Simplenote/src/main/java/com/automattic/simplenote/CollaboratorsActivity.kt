@@ -1,9 +1,11 @@
 package com.automattic.simplenote
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.databinding.ActivityCollaboratorsBinding
 import com.automattic.simplenote.utils.CollaboratorsAdapter
@@ -41,10 +43,25 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         binding.setObservers()
 
         viewModel.loadCollaborators(noteId)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            viewModel.close()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun ActivityCollaboratorsBinding.setupViews() {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = SpannableString(getString(R.string.collaborators))
+            setDisplayHomeAsUpEnabled(true)
+        }
+
         // Hide all views while loading
         sharedMessage.visibility = View.GONE
         collaboratorsList.visibility = View.GONE
@@ -73,6 +90,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
             when (event) {
                 CollaboratorsViewModel.Event.AddCollaboratorEvent -> TODO()
                 is CollaboratorsViewModel.Event.RemoveCollaboratorEvent -> TODO()
+                CollaboratorsViewModel.Event.CloseCollaboratorsEvent -> finish()
             }
         })
     }
