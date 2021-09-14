@@ -3,7 +3,7 @@ package com.automattic.simplenote.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
-import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.UiState
+import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.*
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -111,7 +111,7 @@ class CollaboratorsViewModelTest {
     fun clickAddCollaboratorShouldTriggerEventAddCollaborator() {
         viewModel.clickAddCollaborator()
 
-        assertEquals(CollaboratorsViewModel.Event.AddCollaboratorEvent, viewModel.event)
+        assertEquals(Event.AddCollaboratorEvent, viewModel.event.value)
     }
 
     @Test
@@ -119,6 +119,6 @@ class CollaboratorsViewModelTest {
         val collaborator = "test@emil.com"
         viewModel.clickRemoveCollaborator(collaborator)
 
-        assertEquals(CollaboratorsViewModel.Event.RemoveCollaboratorEvent("test@emil.com"), viewModel.event)
+        assertEquals(Event.RemoveCollaboratorEvent("test@emil.com"), viewModel.event.value)
     }
 }
