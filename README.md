@@ -17,7 +17,7 @@ sdk.dir=/Applications/Android Studio.app/sdk
 
 * Install debug build with Android Studio or command line with:
 ```shell
-./gradlew installDebug
+./gradlew Simplenote:installDebug
 ```
 
 * Create a new account in order to use a development build. Logging in with an existing Simplenote account won't work. Use the account for **testing purposes only** as all note data will be periodically cleared out on the server.
