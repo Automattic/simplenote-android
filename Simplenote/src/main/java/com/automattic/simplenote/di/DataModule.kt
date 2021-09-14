@@ -4,6 +4,8 @@ import android.content.Context
 import com.automattic.simplenote.Simplenote
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
+import com.automattic.simplenote.repositories.CollaboratorsRepository
+import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.SimperiumTagsRepository
 import com.automattic.simplenote.repositories.TagsRepository
 import com.simperium.client.Bucket
@@ -27,4 +29,7 @@ abstract class DataModule {
 
     @Binds
     abstract fun bindsTagsRepository(repository: SimperiumTagsRepository): TagsRepository
+
+    @Binds
+    abstract fun bindsCollaboratorsRepository(repository: SimperiumCollaboratorsRepository): CollaboratorsRepository
 }

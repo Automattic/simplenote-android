@@ -48,6 +48,9 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class NoteEditorActivity extends ThemedAppCompatActivity {
     private static final String STATE_TAB_EDIT = "TAB_EDIT";
     private static final String STATE_TAB_PREVIEW = "TAB_PREVIEW";
