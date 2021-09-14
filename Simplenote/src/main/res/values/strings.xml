@@ -410,4 +410,6 @@
     <string name="loading_collaborators">Loading…</string>
     <string name="remove_collaborator">Remove Collaborator</string>
     <string name="collaborators">Collaborators</string>
+    <string name="remove">Remove</string>
+    <string name="remove_collaborator_message">Are you sure you want to remove this collaborator?</string>
 </resources>

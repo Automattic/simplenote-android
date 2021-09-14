@@ -1,16 +1,20 @@
 package com.automattic.simplenote
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.SpannableString
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.databinding.ActivityCollaboratorsBinding
 import com.automattic.simplenote.utils.CollaboratorsAdapter
 import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel
+import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.Event
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.UiState.*
 import com.simperium.android.ProgressDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -88,9 +92,9 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
 
         viewModel.event.observe(this@CollaboratorsActivity, { event ->
             when (event) {
-                CollaboratorsViewModel.Event.AddCollaboratorEvent -> TODO()
-                is CollaboratorsViewModel.Event.RemoveCollaboratorEvent -> TODO()
-                CollaboratorsViewModel.Event.CloseCollaboratorsEvent -> finish()
+                Event.AddCollaboratorEvent -> TODO()
+                is Event.RemoveCollaboratorEvent -> showRemoveCollaboratorDialog(event)
+                Event.CloseCollaboratorsEvent -> finish()
             }
         })
     }
@@ -128,5 +132,16 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
             progressDialog.dismiss()
             _progressDialog = null
         }
+    }
+
+    private fun showRemoveCollaboratorDialog(event: Event.RemoveCollaboratorEvent) {
+        val alert = AlertDialog.Builder(ContextThemeWrapper(this, R.style.Dialog))
+        alert.setTitle(R.string.remove_collaborator)
+        alert.setMessage(R.string.remove_collaborator_message)
+        alert.setNegativeButton(R.string.cancel, null)
+        alert.setPositiveButton(R.string.remove) { _: DialogInterface?, _: Int ->
+            viewModel.removeCollaborator(event.collaborator)
+        }
+        alert.show()
     }
 }
