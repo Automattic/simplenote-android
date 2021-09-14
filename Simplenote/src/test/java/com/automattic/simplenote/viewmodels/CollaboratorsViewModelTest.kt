@@ -48,6 +48,14 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
+    fun loadEmptyCollaboratorsShouldUpdateUiStateWithEmpty() = runBlockingTest {
+        note.tags = emptyList()
+        viewModel.loadCollaborators(noteId)
+
+        assertEquals(UiState.EmptyCollaborators, viewModel.uiState.value)
+    }
+
+    @Test
     fun loadCollaboratorsForNoteInTrashShouldUpdateUiStateNoteInTrash() = runBlockingTest {
         note.isDeleted = true
         viewModel.loadCollaborators(noteId)
@@ -64,7 +72,7 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun removeCollaboratorsShouldReturnListEmails() = runBlockingTest {
+    fun removeCollaboratorShouldReturnListEmails() = runBlockingTest {
         viewModel.loadCollaborators(noteId)
         viewModel.removeCollaborator("test@emil.com")
         val expectedCollaborators = UiState.CollaboratorsList(noteId, listOf("name@example.co.jp"))
@@ -73,7 +81,16 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun removeCollaboratorsForNoteInTrashShouldTriggerEvent() = runBlockingTest {
+    fun removeLastCollaboratorShouldReturnEmpty() = runBlockingTest {
+        note.tags = listOf("test@emil.com")
+        viewModel.loadCollaborators(noteId)
+        viewModel.removeCollaborator("test@emil.com")
+
+        assertEquals(UiState.EmptyCollaborators, viewModel.uiState.value)
+    }
+
+    @Test
+    fun removeCollaboratorForNoteInTrashShouldTriggerEvent() = runBlockingTest {
         viewModel.loadCollaborators(noteId)
         note.isDeleted = true
         viewModel.removeCollaborator("test@emil.com")
@@ -82,7 +99,7 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun removeCollaboratorsForNoteDeletedShouldTriggerEvent() = runBlockingTest {
+    fun removeCollaboratorForNoteDeletedShouldTriggerEvent() = runBlockingTest {
         viewModel.loadCollaborators(noteId)
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
         viewModel.removeCollaborator("test@emil.com")

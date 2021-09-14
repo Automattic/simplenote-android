@@ -20,7 +20,8 @@ class CollaboratorsViewModel @Inject constructor(
             _uiState.value = UiState.Loading
             when (val result = collaboratorsRepository.getCollaborators(noteId)) {
                 is CollaboratorsActionResult.CollaboratorsList ->
-                    _uiState.value = UiState.CollaboratorsList(noteId, result.collaborators)
+                    _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
+                        UiState.CollaboratorsList(noteId, result.collaborators)
                 CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
                 CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
             }
@@ -37,7 +38,8 @@ class CollaboratorsViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)) {
                 is CollaboratorsActionResult.CollaboratorsList ->
-                    _uiState.value = UiState.CollaboratorsList(noteId, result.collaborators)
+                    _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
+                        UiState.CollaboratorsList(noteId, result.collaborators)
                 CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
                 CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
             }
@@ -48,6 +50,7 @@ class CollaboratorsViewModel @Inject constructor(
         object Loading : UiState()
         object NoteInTrash : UiState()
         object NoteDeleted : UiState()
+        object EmptyCollaborators: UiState()
         data class CollaboratorsList(val noteId: String, val collaborators: List<String>) : UiState()
     }
 }
