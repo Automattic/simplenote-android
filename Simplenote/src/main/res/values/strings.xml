@@ -409,4 +409,5 @@
     <string name="add_email_collaborator_message">Add an email address to share this note with someone then you can both make changes to it. When you add a collaborator, they will be notified by email.</string>
     <string name="loading_collaborators">Loading…</string>
     <string name="remove_collaborator">Remove Collaborator</string>
+    <string name="collaborators">Collaborators</string>
 </resources>
