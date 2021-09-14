@@ -41,3 +41,7 @@ After you've created your own Simperium application, you can edit the fields `si
 This will allow you to compile and run the app on a device or a simulator. Please note that this will only work the Simperium account credentials, no other Simplenote account will work.
 
 _Note: Simplenote API features such as sharing and publishing will not work with development builds._
+
+## Contributing
+
+Read our [Contributing Guide](CONTRIBUTING.md) to learn about reporting issues, contributing code, and more ways to contribute.
