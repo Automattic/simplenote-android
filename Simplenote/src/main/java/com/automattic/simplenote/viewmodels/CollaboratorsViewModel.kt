@@ -32,11 +32,11 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     fun clickAddCollaborator() {
-
+        _event.value = Event.AddCollaboratorEvent
     }
 
     fun clickRemoveCollaborator(collaborator: String) {
-
+        _event.value = Event.RemoveCollaboratorEvent(collaborator)
     }
 
     fun removeCollaborator(collaborator: String) {
