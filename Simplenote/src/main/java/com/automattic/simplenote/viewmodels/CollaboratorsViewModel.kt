@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.automattic.simplenote.repositories.CollaboratorsActionResult
 import com.automattic.simplenote.repositories.CollaboratorsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class CollaboratorsViewModel @Inject constructor(
     private val collaboratorsRepository: CollaboratorsRepository
 ) : ViewModel() {
