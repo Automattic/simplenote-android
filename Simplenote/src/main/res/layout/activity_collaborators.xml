@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_parent_view"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/shared_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:textSize="14sp"
+        android:textColor="#3361cc"
+        android:lineSpacingExtra="6sp"
+        android:text="@string/share_with" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/collaborators_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/divider_line"
+        android:background="?attr/dividerColor"
+        android:layout_gravity="end"
+        android:layout_height="fill_parent"
+        android:layout_width="@dimen/divider_height"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/button_add_collaborator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_collaborator"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        />
+
+    <TextView
+        android:id="@+id/empty_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="normal"
+        android:textSize="14sp"
+        android:lineSpacingExtra="6sp"
+        android:text="@string/add_email_collaborator_message" />
+</LinearLayout>

@@ -404,4 +404,8 @@
     <string name="simperium_account_verification_message">You must verify your email before logging in to your account.</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
     <string name="simperium_okay">Okay</string>
+    <string name="share_with">Share With</string>
+    <string name="add_collaborator">Add Collaborator</string>
+    <string name="add_email_collaborator_message">Add an email address to share this note with someone then you can both make changes to it. When you add a collaborator, they will be notified by email.</string>
+    <string name="loading_collaborators">Loading…</string>
 </resources>
