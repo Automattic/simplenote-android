@@ -30,6 +30,14 @@ To properly install the wear app, run `./gradlew assembleRelease` to package up 
 
 If you want to debug the Wear app, simply connect the device to adb and then run the `Wear` project from Android Studio.
 
+## Tests
+
+To run the test suite, execute the following `gradle` command:
+
+```bash
+./gradlew testRelease
+```
+
 ## Setup Credentials
 
 Simplenote is powered by the [Simperium Sync'ing protocol](https://www.simperium.com). We distribute **testing credentials** that help us authenticate your application, and verify that the API calls being made are valid. Once the Simperium account is created, you can register an app and access the APP ID and necessary API keys.
