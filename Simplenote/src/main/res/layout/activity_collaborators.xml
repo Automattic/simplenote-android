@@ -15,7 +15,9 @@
         android:layout_height="wrap_content"
         android:textStyle="normal"
         android:textSize="14sp"
-        android:textColor="#3361cc"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="?attr/colorPrimary"
         android:lineSpacingExtra="6sp"
         android:text="@string/share_with" />
 
@@ -23,7 +25,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/collaborators_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="16dp"
+        android:dividerHeight="@dimen/divider_height"
+        android:paddingBottom="@dimen/padding_list_bottom" />
 
     <View
         android:id="@+id/divider_line"
@@ -37,9 +43,10 @@
         android:id="@+id/button_add_collaborator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:layout_marginStart="64dp"
         android:text="@string/add_collaborator"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        />
+        style="@style/Widget.MaterialComponents.Button.TextButton" />
 
     <TextView
         android:id="@+id/empty_message"
@@ -47,6 +54,8 @@
         android:layout_height="wrap_content"
         android:textStyle="normal"
         android:textSize="14sp"
+        android:layout_marginStart="72dp"
+        android:layout_marginEnd="16dp"
         android:lineSpacingExtra="6sp"
         android:text="@string/add_email_collaborator_message" />
 </LinearLayout>
