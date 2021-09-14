@@ -106,4 +106,19 @@ class CollaboratorsViewModelTest {
 
         assertEquals(UiState.NoteDeleted, viewModel.uiState.value)
     }
+
+    @Test
+    fun clickAddCollaboratorShouldTriggerEventAddCollaborator() {
+        viewModel.clickAddCollaborator()
+
+        assertEquals(CollaboratorsViewModel.Event.AddCollaboratorEvent, viewModel.event)
+    }
+
+    @Test
+    fun clickRemoveCollaboratorShouldTriggerEventAddCollaborator() {
+        val collaborator = "test@emil.com"
+        viewModel.clickRemoveCollaborator(collaborator)
+
+        assertEquals(CollaboratorsViewModel.Event.RemoveCollaboratorEvent("test@emil.com"), viewModel.event)
+    }
 }
