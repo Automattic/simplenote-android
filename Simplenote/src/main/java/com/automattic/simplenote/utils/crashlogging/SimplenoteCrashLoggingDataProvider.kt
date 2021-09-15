@@ -33,7 +33,7 @@ class SimplenoteCrashLoggingDataProvider @Inject constructor(
     }
 
     override fun crashLoggingEnabled(): Boolean {
-        return !Simplenote.analyticsIsEnabled()
+        return Simplenote.analyticsIsEnabled()
     }
 
     override fun extraKnownKeys(): List<ExtraKnownKey> {
