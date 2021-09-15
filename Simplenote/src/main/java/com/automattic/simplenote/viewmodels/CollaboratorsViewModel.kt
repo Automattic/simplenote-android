@@ -34,7 +34,13 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     fun clickAddCollaborator() {
-        _event.value = Event.AddCollaboratorEvent
+        // Validate constraint that the UiState should have a list of collaborators
+        if (uiState.value !is UiState.CollaboratorsList) {
+            return
+        }
+
+        val noteId = (uiState.value as UiState.CollaboratorsList).noteId
+        _event.value = Event.AddCollaboratorEvent(noteId)
     }
 
     fun clickRemoveCollaborator(collaborator: String) {
@@ -72,7 +78,7 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     sealed class Event {
-        object AddCollaboratorEvent : Event()
+        data class AddCollaboratorEvent(val noteId: String) : Event()
         object CloseCollaboratorsEvent : Event()
         data class RemoveCollaboratorEvent(val collaborator: String) : Event()
     }

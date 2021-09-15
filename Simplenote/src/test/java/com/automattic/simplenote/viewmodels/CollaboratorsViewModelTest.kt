@@ -109,9 +109,10 @@ class CollaboratorsViewModelTest {
 
     @Test
     fun clickAddCollaboratorShouldTriggerEventAddCollaborator() {
+        viewModel.loadCollaborators(noteId)
         viewModel.clickAddCollaborator()
 
-        assertEquals(Event.AddCollaboratorEvent, viewModel.event.value)
+        assertEquals(Event.AddCollaboratorEvent(noteId), viewModel.event.value)
     }
 
     @Test
