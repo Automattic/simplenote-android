@@ -20,13 +20,16 @@ class CollaboratorsViewModel @Inject constructor(
     private val _event = SingleLiveEvent<Event>()
     val event: LiveData<Event> = _event
 
+    private lateinit var _noteId: String
+
     fun loadCollaborators(noteId: String) {
+        _noteId = noteId
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             when (val result = collaboratorsRepository.getCollaborators(noteId)) {
                 is CollaboratorsActionResult.CollaboratorsList ->
                     _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
-                        UiState.CollaboratorsList(noteId, result.collaborators)
+                        UiState.CollaboratorsList(result.collaborators)
                 CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
                 CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
             }
@@ -34,13 +37,7 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     fun clickAddCollaborator() {
-        // Validate constraint that the UiState should have a list of collaborators
-        if (uiState.value !is UiState.CollaboratorsList) {
-            return
-        }
-
-        val noteId = (uiState.value as UiState.CollaboratorsList).noteId
-        _event.value = Event.AddCollaboratorEvent(noteId)
+        _event.value = Event.AddCollaboratorEvent(_noteId)
     }
 
     fun clickRemoveCollaborator(collaborator: String) {
@@ -52,17 +49,11 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     fun removeCollaborator(collaborator: String) {
-        // Validate constraint that the UiState should have a list of collaborators
-        if (uiState.value !is UiState.CollaboratorsList) {
-            return
-        }
-
-        val noteId = (uiState.value as UiState.CollaboratorsList).noteId
         viewModelScope.launch {
-            when (val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)) {
+            when (val result = collaboratorsRepository.removeCollaborator(_noteId, collaborator)) {
                 is CollaboratorsActionResult.CollaboratorsList ->
                     _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
-                        UiState.CollaboratorsList(noteId, result.collaborators)
+                        UiState.CollaboratorsList(result.collaborators)
                 CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
                 CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
             }
@@ -74,7 +65,7 @@ class CollaboratorsViewModel @Inject constructor(
         object NoteInTrash : UiState()
         object NoteDeleted : UiState()
         object EmptyCollaborators: UiState()
-        data class CollaboratorsList(val noteId: String, val collaborators: List<String>) : UiState()
+        data class CollaboratorsList(val collaborators: List<String>) : UiState()
     }
 
     sealed class Event {
