@@ -42,7 +42,7 @@ class CollaboratorsViewModelTest {
     @Test
     fun loadCollaboratorsShouldUpdateUiStateWithList() = runBlockingTest {
         viewModel.loadCollaborators(noteId)
-        val expectedCollaborators = UiState.CollaboratorsList(noteId, listOf("test@emil.com", "name@example.co.jp"))
+        val expectedCollaborators = UiState.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
 
         assertEquals(expectedCollaborators, viewModel.uiState.value)
     }
@@ -75,7 +75,7 @@ class CollaboratorsViewModelTest {
     fun removeCollaboratorShouldReturnListEmails() = runBlockingTest {
         viewModel.loadCollaborators(noteId)
         viewModel.removeCollaborator("test@emil.com")
-        val expectedCollaborators = UiState.CollaboratorsList(noteId, listOf("name@example.co.jp"))
+        val expectedCollaborators = UiState.CollaboratorsList(listOf("name@example.co.jp"))
 
         assertEquals(expectedCollaborators, viewModel.uiState.value)
     }
