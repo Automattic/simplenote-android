@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class SimperiumTagsRepository @Inject constructor(
         private val tagsBucket: Bucket<Tag>,
         private val notesBucket: Bucket<Note>
@@ -76,7 +77,6 @@ class SimperiumTagsRepository @Inject constructor(
         cursor.close()
     }
 
-    @ExperimentalCoroutinesApi
     override suspend fun tagsChanged(): Flow<Boolean> = callbackFlow {
         val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> offer(true) }
         val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> offer(true) }
