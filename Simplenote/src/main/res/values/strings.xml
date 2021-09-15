@@ -328,7 +328,7 @@
 
     <string name="share_with">Share With</string>
 
-    <!-- COLLABORATION -->
+    <!-- Collaboration -->
     <string name="add_collaborator">Add Collaborator</string>
     <string name="add_email_collaborator_message">Add an email address to share this note with someone then you can both make changes to it. When you add a collaborator, they will be notified by email.</string>
     <string name="loading_collaborators">Loading…</string>
@@ -338,6 +338,7 @@
     <string name="remove_collaborator_message">Are you sure you want to remove this collaborator?</string>
     <string name="email_address">Email Address</string>
     <string name="accept">Accept</string>
+    <string name="invalid_collaborator">Invalid collaborator. Please enter a valid email address</string>
 
     <!-- PASSCODE -->
     <string name="passcode_change_passcode">Change passcode</string>
