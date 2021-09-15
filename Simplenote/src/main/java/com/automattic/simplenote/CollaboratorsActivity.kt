@@ -29,6 +29,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
 
     companion object {
         const val NOTE_ID_ARG = "note_id"
+        const val DIALOG_TAG = "dialog_tag"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +93,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
 
         viewModel.event.observe(this@CollaboratorsActivity, { event ->
             when (event) {
-                Event.AddCollaboratorEvent -> TODO()
+                is Event.AddCollaboratorEvent -> showAddCollaboratorFragment(event)
                 is Event.RemoveCollaboratorEvent -> showRemoveCollaboratorDialog(event)
                 Event.CloseCollaboratorsEvent -> finish()
             }
@@ -120,6 +121,11 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         dividerLine.visibility = View.GONE
         buttonAddCollaborator.visibility = View.VISIBLE
         emptyMessage.visibility = View.VISIBLE
+    }
+
+    private fun showAddCollaboratorFragment(event: Event.AddCollaboratorEvent) {
+        val dialog = AddCollaboratorFragment(event.noteId)
+        dialog.show(supportFragmentManager.beginTransaction(), DIALOG_TAG)
     }
 
     private fun showProgressDialog() {
