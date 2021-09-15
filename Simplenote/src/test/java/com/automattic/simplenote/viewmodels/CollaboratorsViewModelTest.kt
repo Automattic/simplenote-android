@@ -23,7 +23,6 @@ class CollaboratorsViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private val mockBucket: Bucket<*> = Mockito.mock(Bucket::class.java)
     private val notesBucket = Mockito.mock(Bucket::class.java) as Bucket<Note>
     private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
     private val viewModel = CollaboratorsViewModel(collaboratorsRepository)
@@ -32,7 +31,7 @@ class CollaboratorsViewModelTest {
     private val note = Note(noteId).apply {
         content = "Hello World"
         tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
-        bucket = mockBucket
+        bucket = notesBucket
     }
 
     @Before
