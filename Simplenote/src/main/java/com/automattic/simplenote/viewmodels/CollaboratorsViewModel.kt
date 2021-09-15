@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.automattic.simplenote.repositories.CollaboratorsActionResult
 import com.automattic.simplenote.repositories.CollaboratorsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,18 +24,36 @@ class CollaboratorsViewModel @Inject constructor(
 
     private lateinit var _noteId: String
 
+    private var jobTagsFlow: Job? = null
+
     fun loadCollaborators(noteId: String) {
         _noteId = noteId
         viewModelScope.launch {
-            _uiState.value = UiState.Loading
-            when (val result = collaboratorsRepository.getCollaborators(noteId)) {
-                is CollaboratorsActionResult.CollaboratorsList ->
-                    _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
-                        UiState.CollaboratorsList(result.collaborators)
-                CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
-                CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
+            updateUiState(noteId)
+        }
+    }
+
+    private suspend fun updateUiState(noteId: String) {
+        _uiState.value = UiState.Loading
+        when (val result = collaboratorsRepository.getCollaborators(noteId)) {
+            is CollaboratorsActionResult.CollaboratorsList ->
+                _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
+                    UiState.CollaboratorsList(result.collaborators)
+            CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
+            CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
+        }
+    }
+
+    fun startListeningChanges() {
+        jobTagsFlow = viewModelScope.launch {
+            collaboratorsRepository.collaboratorsChanged(_noteId).collect {
+                updateUiState(_noteId)
             }
         }
+    }
+
+    fun stopListeningChanges() {
+        jobTagsFlow?.cancel()
     }
 
     fun clickAddCollaborator() {

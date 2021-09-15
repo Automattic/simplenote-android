@@ -1,5 +1,7 @@
 package com.automattic.simplenote.repositories
 
+import kotlinx.coroutines.flow.Flow
+
 interface CollaboratorsRepository {
 
     /**
@@ -15,6 +17,11 @@ interface CollaboratorsRepository {
     suspend fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
 
     suspend fun removeCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
+
+    /**
+     * Return true in case the note has been updated locally or on the network
+     */
+    suspend fun collaboratorsChanged(noteId: String): Flow<Boolean>
 }
 
 sealed class CollaboratorsActionResult {

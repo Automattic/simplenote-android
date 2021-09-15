@@ -8,10 +8,16 @@ import com.automattic.simplenote.utils.Either
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
 
+@ExperimentalCoroutinesApi
 class SimperiumCollaboratorsRepository @Inject constructor(
     private val notesBucket: Bucket<Note>,
     @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher,
@@ -61,6 +67,34 @@ class SimperiumCollaboratorsRepository @Inject constructor(
                 }
             }
         }
+
+    override suspend fun collaboratorsChanged(noteId: String): Flow<Boolean> = callbackFlow {
+        val callbackOnSaveObject = Bucket.OnSaveObjectListener<Note> { _, note ->
+            if (note.simperiumKey == noteId) {
+                offer(true)
+            }
+        }
+        val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Note> { _, note ->
+            if (note.simperiumKey == noteId) {
+                offer(true)
+            }
+        }
+        val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Note> { _, _, updatedNoteId ->
+            if (updatedNoteId != null && noteId == updatedNoteId) {
+                offer(true)
+            }
+        }
+
+        notesBucket.addOnSaveObjectListener(callbackOnSaveObject)
+        notesBucket.addOnDeleteObjectListener(callbackOnDeleteObject)
+        notesBucket.addOnNetworkChangeListener(callbackOnNetworkChange)
+
+        awaitClose {
+            notesBucket.removeOnSaveObjectListener(callbackOnSaveObject)
+            notesBucket.removeOnDeleteObjectListener(callbackOnDeleteObject)
+            notesBucket.removeOnNetworkChangeListener(callbackOnNetworkChange)
+        }
+    }.flowOn(ioDispatcher)
 
     private fun getNote(noteId: String): Either<CollaboratorsActionResult, Note> {
         try {

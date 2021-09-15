@@ -58,6 +58,18 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.startListeningChanges()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        viewModel.stopListeningChanges()
+    }
+
     private fun ActivityCollaboratorsBinding.setupViews() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
