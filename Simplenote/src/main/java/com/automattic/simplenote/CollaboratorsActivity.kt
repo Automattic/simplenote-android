@@ -12,20 +12,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.databinding.ActivityCollaboratorsBinding
 import com.automattic.simplenote.utils.CollaboratorsAdapter
-import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.Event
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.UiState.*
-import com.simperium.android.ProgressDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CollaboratorsActivity : ThemedAppCompatActivity() {
     private val viewModel: CollaboratorsViewModel by viewModels()
-
-    private var _progressDialog: SimplenoteProgressDialogFragment? = null
-    private val progressDialog: SimplenoteProgressDialogFragment
-        get() = _progressDialog!!
 
     companion object {
         const val NOTE_ID_ARG = "note_id"
@@ -95,7 +89,6 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     private fun ActivityCollaboratorsBinding.setObservers() {
         viewModel.uiState.observe(this@CollaboratorsActivity, { uiState ->
             when (uiState) {
-                Loading -> showProgressDialog()
                 EmptyCollaborators -> handleEmptyCollaborators()
                 is CollaboratorsList -> handleCollaboratorsList(uiState)
                 NoteDeleted -> TODO()
@@ -119,14 +112,11 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         buttonAddCollaborator.visibility = View.VISIBLE
         emptyMessage.visibility = View.VISIBLE
 
-        hideProgressDialog()
-
         val adapter = collaboratorsList.adapter as CollaboratorsAdapter
         adapter.submitList(uiState.collaborators)
     }
 
     private fun ActivityCollaboratorsBinding.handleEmptyCollaborators() {
-        hideProgressDialog()
         // Hide all views while loading
         sharedMessage.visibility = View.GONE
         collaboratorsList.visibility = View.GONE
@@ -138,18 +128,6 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     private fun showAddCollaboratorFragment(event: Event.AddCollaboratorEvent) {
         val dialog = AddCollaboratorFragment(event.noteId)
         dialog.show(supportFragmentManager.beginTransaction(), DIALOG_TAG)
-    }
-
-    private fun showProgressDialog() {
-        _progressDialog = SimplenoteProgressDialogFragment.newInstance(getString(R.string.loading_collaborators))
-        progressDialog.show(supportFragmentManager, ProgressDialogFragment.TAG)
-    }
-
-    private fun hideProgressDialog() {
-        if (_progressDialog != null && !progressDialog.isHidden) {
-            progressDialog.dismiss()
-            _progressDialog = null
-        }
     }
 
     private fun showRemoveCollaboratorDialog(event: Event.RemoveCollaboratorEvent) {

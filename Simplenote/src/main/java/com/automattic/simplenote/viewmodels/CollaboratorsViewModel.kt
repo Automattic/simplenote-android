@@ -34,7 +34,6 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     private suspend fun updateUiState(noteId: String) {
-        _uiState.value = UiState.Loading
         when (val result = collaboratorsRepository.getCollaborators(noteId)) {
             is CollaboratorsActionResult.CollaboratorsList ->
                 _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
@@ -81,7 +80,6 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     sealed class UiState {
-        object Loading : UiState()
         object NoteInTrash : UiState()
         object NoteDeleted : UiState()
         object EmptyCollaborators: UiState()
