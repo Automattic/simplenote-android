@@ -326,6 +326,19 @@
 
     <string name="toast_email_sent">Email sent</string>
 
+    <string name="share_with">Share With</string>
+
+    <!-- COLLABORATION -->
+    <string name="add_collaborator">Add Collaborator</string>
+    <string name="add_email_collaborator_message">Add an email address to share this note with someone then you can both make changes to it. When you add a collaborator, they will be notified by email.</string>
+    <string name="loading_collaborators">Loading…</string>
+    <string name="remove_collaborator">Remove Collaborator</string>
+    <string name="collaborators">Collaborators</string>
+    <string name="remove">Remove</string>
+    <string name="remove_collaborator_message">Are you sure you want to remove this collaborator?</string>
+    <string name="email_address">Email Address</string>
+    <string name="accept">Accept</string>
+
     <!-- PASSCODE -->
     <string name="passcode_change_passcode">Change passcode</string>
     <string name="passcode_enter_old_passcode">Enter your old passcode</string>
@@ -404,12 +417,4 @@
     <string name="simperium_account_verification_message">You must verify your email before logging in to your account.</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
     <string name="simperium_okay">Okay</string>
-    <string name="share_with">Share With</string>
-    <string name="add_collaborator">Add Collaborator</string>
-    <string name="add_email_collaborator_message">Add an email address to share this note with someone then you can both make changes to it. When you add a collaborator, they will be notified by email.</string>
-    <string name="loading_collaborators">Loading…</string>
-    <string name="remove_collaborator">Remove Collaborator</string>
-    <string name="collaborators">Collaborators</string>
-    <string name="remove">Remove</string>
-    <string name="remove_collaborator_message">Are you sure you want to remove this collaborator?</string>
 </resources>
