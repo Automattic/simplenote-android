@@ -69,7 +69,7 @@ android {
 
 buildscript {
     dependencies {
-        classpath 'io.sentry:sentry-android-gradle-plugin:2.0.0'
+        classpath 'io.sentry:sentry-android-gradle-plugin:2.1.4'
     }
 
     repositories {
