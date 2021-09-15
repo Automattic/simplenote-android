@@ -12,8 +12,9 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.automattic.simplenote.databinding.AddCollaboratorBinding
 import com.automattic.simplenote.viewmodels.AddCollaboratorViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragment(), DialogInterface.OnShowListener {
     private val viewModel: AddCollaboratorViewModel by viewModels()
 
@@ -39,15 +40,13 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
         _dialogEditTag = AlertDialog.Builder(context)
             .setView(binding.root)
             .setTitle(R.string.add_collaborator)
-            .setNegativeButton(R.string.cancel) { _, _ -> viewModel.close() }
-            .setPositiveButton(R.string.accept) { _, _ ->
-                val collaborator = binding.collaboratorText.text.toString()
-                viewModel.addCollaborator(noteId, collaborator)
-            }
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.accept, null)
             .create()
 
         dialogEditTag.setOnShowListener(this)
         binding.collaboratorInput.editText?.doAfterTextChanged {
+            // Clean error message when the user types something new in the field
             if (binding.collaboratorInput.error != null) {
                 binding.collaboratorInput.error = null
             }
@@ -58,6 +57,15 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
 
     override fun onShow(dialog: DialogInterface?) {
         setObservers()
+        setupViews()
+    }
+
+    private fun setupViews() {
+        val positiveButton = dialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE)
+        positiveButton.setOnClickListener {
+            val collaborator = binding.collaboratorText.text.toString()
+            viewModel.addCollaborator(noteId, collaborator)
+        }
     }
 
     private fun setObservers() {
