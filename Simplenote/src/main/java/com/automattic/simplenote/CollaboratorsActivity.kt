@@ -1,10 +1,12 @@
 package com.automattic.simplenote
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
@@ -12,6 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.databinding.ActivityCollaboratorsBinding
 import com.automattic.simplenote.utils.CollaboratorsAdapter
+import com.automattic.simplenote.utils.toast
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.Event
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.UiState.*
@@ -91,8 +94,14 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
             when (uiState) {
                 EmptyCollaborators -> handleEmptyCollaborators()
                 is CollaboratorsList -> handleCollaboratorsList(uiState)
-                NoteDeleted -> TODO()
-                NoteInTrash -> TODO()
+                NoteDeleted -> {
+                    toast(R.string.collaborators_note_deleted, Toast.LENGTH_LONG)
+                    navigateToNotesList()
+                }
+                NoteInTrash -> {
+                    toast(R.string.collaborators_note_trashed, Toast.LENGTH_LONG)
+                    navigateToNotesList()
+                }
             }
         })
 
@@ -139,5 +148,11 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
             viewModel.removeCollaborator(event.collaborator)
         }
         alert.show()
+    }
+
+    private fun navigateToNotesList() {
+        val intent = Intent(applicationContext, NotesActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
     }
 }

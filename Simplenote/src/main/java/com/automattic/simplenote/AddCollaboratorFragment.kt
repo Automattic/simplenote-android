@@ -72,10 +72,11 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
         viewModel.event.observe(this, { event ->
             when (event) {
                 AddCollaboratorViewModel.Event.Close,
+                // In case the note is deleted or trashed, we let the CollaboratorsActivity to handle it
+                AddCollaboratorViewModel.Event.NoteDeleted,
+                AddCollaboratorViewModel.Event.NoteInTrash,
                 AddCollaboratorViewModel.Event.CollaboratorAdded -> dismiss()
                 AddCollaboratorViewModel.Event.InvalidCollaborator -> setErrorInputField()
-                AddCollaboratorViewModel.Event.NoteDeleted -> TODO()
-                AddCollaboratorViewModel.Event.NoteInTrash -> TODO()
             }
         })
     }
