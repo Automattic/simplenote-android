@@ -29,9 +29,14 @@ class AddCollaboratorViewModel @Inject constructor(
         }
     }
 
+    fun close() {
+        _event.value = Event.Close
+    }
+
     sealed class Event {
         object InvalidCollaborator : Event()
         object CollaboratorAdded : Event()
+        object Close : Event()
         object NoteInTrash : Event()
         object NoteDeleted : Event()
     }

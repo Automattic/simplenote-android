@@ -68,4 +68,11 @@ class AddCollaboratorViewModelTest {
 
         assertEquals(AddCollaboratorViewModel.Event.NoteDeleted, viewModel.event.value)
     }
+
+    @Test
+    fun closeShouldTriggerEventClose() {
+        viewModel.close()
+
+        assertEquals(AddCollaboratorViewModel.Event.Close, viewModel.event.value)
+    }
 }
