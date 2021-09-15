@@ -39,32 +39,36 @@ class AddCollaboratorViewModelTest {
 
     @Test
     fun addValidCollaboratorShouldTriggerAddedEvent() = runBlockingTest {
-        viewModel.addCollaborator(noteId, "test@emil.com")
+        viewModel.start(noteId)
+        viewModel.addCollaborator("test@emil.com")
 
         assertEquals(AddCollaboratorViewModel.Event.CollaboratorAdded, viewModel.event.value)
     }
 
     @Test
     fun addInvalidCollaboratorShouldTriggerInvalidEvent() = runBlockingTest {
-        viewModel.addCollaborator(noteId, "test@emil")
+        viewModel.start(noteId)
+        viewModel.addCollaborator("test@emil")
 
         assertEquals(AddCollaboratorViewModel.Event.InvalidCollaborator, viewModel.event.value)
     }
 
     @Test
     fun addValidCollaboratorToNoteInTrashShouldTriggerNoteInTrash() = runBlockingTest {
+        viewModel.start(noteId)
         note.isDeleted = true
 
-        viewModel.addCollaborator(noteId, "test@emil.com")
+        viewModel.addCollaborator("test@emil.com")
 
         assertEquals(AddCollaboratorViewModel.Event.NoteInTrash, viewModel.event.value)
     }
 
     @Test
     fun addValidCollaboratorToNoteDeletedShouldTriggerNoteDeleted() = runBlockingTest {
+        viewModel.start(noteId)
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
 
-        viewModel.addCollaborator(noteId, "test@emil.com")
+        viewModel.addCollaborator("test@emil.com")
 
         assertEquals(AddCollaboratorViewModel.Event.NoteDeleted, viewModel.event.value)
     }

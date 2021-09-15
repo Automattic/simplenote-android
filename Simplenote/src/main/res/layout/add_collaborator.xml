@@ -29,6 +29,7 @@
             android:id="@+id/collaborator_text"
             android:inputType="textEmailAddress"
             android:layout_height="match_parent"
+            android:imeOptions="flagNoExtractUi"
             android:layout_width="match_parent">
         </com.google.android.material.textfield.TextInputEditText>
 

@@ -15,7 +15,7 @@ import com.automattic.simplenote.viewmodels.AddCollaboratorViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragment(), DialogInterface.OnShowListener {
+class AddCollaboratorFragment : AppCompatDialogFragment(), DialogInterface.OnShowListener {
     private val viewModel: AddCollaboratorViewModel by viewModels()
 
     private var _dialogEditTag: AlertDialog? = null
@@ -23,6 +23,26 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
 
     private var _binding: AddCollaboratorBinding? = null
     private val binding  get() = _binding!!
+
+    companion object {
+        const val NOTE_ID_ARG = "note_id"
+
+        fun newInstance(noteId: String): AddCollaboratorFragment {
+            val instance = AddCollaboratorFragment()
+            val args = Bundle()
+            args.putString(NOTE_ID_ARG, noteId)
+            instance.arguments = args
+
+            return instance
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val noteId = arguments?.getString(NOTE_ID_ARG) ?: ""
+        viewModel.start(noteId)
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = AddCollaboratorBinding.inflate(LayoutInflater.from(context))
@@ -64,7 +84,7 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
         val positiveButton = dialogEditTag.getButton(DialogInterface.BUTTON_POSITIVE)
         positiveButton.setOnClickListener {
             val collaborator = binding.collaboratorText.text.toString()
-            viewModel.addCollaborator(noteId, collaborator)
+            viewModel.addCollaborator(collaborator)
         }
     }
 
