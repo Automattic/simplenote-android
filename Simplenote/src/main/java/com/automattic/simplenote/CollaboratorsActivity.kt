@@ -84,6 +84,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         emptyMessage.visibility = View.GONE
 
         collaboratorsList.adapter = CollaboratorsAdapter(viewModel::clickRemoveCollaborator)
+        collaboratorsList.isNestedScrollingEnabled = false
         collaboratorsList.layoutManager = LinearLayoutManager(this@CollaboratorsActivity)
 
         buttonAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
@@ -119,7 +120,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         collaboratorsList.visibility = View.VISIBLE
         dividerLine.visibility = View.VISIBLE
         buttonAddCollaborator.visibility = View.VISIBLE
-        emptyMessage.visibility = View.VISIBLE
+        emptyMessage.visibility = View.GONE
 
         val adapter = collaboratorsList.adapter as CollaboratorsAdapter
         adapter.submitList(uiState.collaborators)

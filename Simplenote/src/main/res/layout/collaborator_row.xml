@@ -8,13 +8,11 @@
     android:gravity="center_vertical"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:minHeight="@dimen/minimum_target"
     android:orientation="horizontal">
 
     <com.automattic.simplenote.widgets.RobotoRegularTextView
         android:id="@+id/collaborator_text"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_large"
         android:layout_weight="1"
         android:layout_width="0dp"
         android:textColor="?attr/noteTitleColor"

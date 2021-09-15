@@ -326,7 +326,7 @@
 
     <string name="toast_email_sent">Email sent</string>
 
-    <string name="share_with">Share With</string>
+    <string name="shared_with">Shared With</string>
 
     <!-- Collaboration -->
     <string name="add_collaborator">Add Collaborator</string>
