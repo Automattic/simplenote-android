@@ -29,29 +29,39 @@ class NoteEditorViewModel @Inject constructor(
     }
 
     fun addTag(tagName: String, note: Note) {
-        when (validateTagUseCase.isTagValid(tagName)) {
+        when (val result = validateTagUseCase.isTagValid(tagName)) {
             TagValidationResult.TagEmpty,
             TagValidationResult.TagTooLong,
             TagValidationResult.TagWithSpaces -> _event.value = NoteEditorEvent.InvalidTag
             TagValidationResult.TagIsCollaborator -> {
-                addTagName(tagName, note)
+                addTagName(tagName, note, result)
                 _event.value = NoteEditorEvent.TagAsCollaborator(tagName)
             }
             TagValidationResult.TagExists,
-            TagValidationResult.TagValid -> addTagName(tagName, note)
+            TagValidationResult.TagValid -> addTagName(tagName, note, result)
         }
     }
 
-    private fun addTagName(tagName: String, note: Note) {
+    private fun addTagName(tagName: String, note: Note, validationResult: TagValidationResult) {
         note.addTag(tagName)
 
         update(note)
 
-        AnalyticsTracker.track(
-            Stat.EDITOR_TAG_ADDED,
-            AnalyticsTracker.CATEGORY_NOTE,
-            "tag_added_to_note"
-        )
+
+        if (validationResult == TagValidationResult.TagIsCollaborator) {
+            AnalyticsTracker.track(
+                Stat.COLLABORATOR_ADDED,
+                AnalyticsTracker.CATEGORY_NOTE,
+                "collaborator_added_to_note",
+                mapOf("source" to "editor")
+            )
+        } else {
+            AnalyticsTracker.track(
+                Stat.EDITOR_TAG_ADDED,
+                AnalyticsTracker.CATEGORY_NOTE,
+                "tag_added_to_note"
+            )
+        }
     }
 
     fun removeTag(tagName: String, note: Note) {

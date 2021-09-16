@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.repositories.CollaboratorsActionResult
 import com.automattic.simplenote.repositories.CollaboratorsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -70,9 +71,17 @@ class CollaboratorsViewModel @Inject constructor(
     fun removeCollaborator(collaborator: String) {
         viewModelScope.launch {
             when (val result = collaboratorsRepository.removeCollaborator(_noteId, collaborator)) {
-                is CollaboratorsActionResult.CollaboratorsList ->
+                is CollaboratorsActionResult.CollaboratorsList -> {
                     _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
                         UiState.CollaboratorsList(result.collaborators)
+
+                    AnalyticsTracker.track(
+                        AnalyticsTracker.Stat.COLLABORATOR_REMOVED,
+                        AnalyticsTracker.CATEGORY_NOTE,
+                        "collaborator_added_to_note",
+                        mapOf("source" to "collaborators")
+                    )
+                }
                 CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
                 CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
             }
