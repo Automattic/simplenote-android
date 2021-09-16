@@ -43,6 +43,7 @@
                 android:id="@+id/tag_input"
                 android:hint="@string/dialog_tag_add_hint"
                 android:inputType="textEmailAddress"
+                android:imeOptions="flagNoExtractUi"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent">
             </com.google.android.material.textfield.TextInputEditText>

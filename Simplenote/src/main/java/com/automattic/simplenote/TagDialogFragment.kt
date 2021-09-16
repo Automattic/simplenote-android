@@ -31,11 +31,6 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     private var _binding: EditTagBinding? = null
     private val binding  get() = _binding!!
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        viewModel.close()
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = EditTagBinding.inflate(LayoutInflater.from(context))
         return buildDialog()
