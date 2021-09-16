@@ -17,8 +17,6 @@ class AddCollaboratorViewModel @Inject constructor(
     private val _event = SingleLiveEvent<Event>()
     val event: LiveData<Event> = _event
 
-
-
     fun addCollaborator(noteId: String, collaborator: String) {
         viewModelScope.launch {
             when (collaboratorsRepository.isValidCollaborator(collaborator)) {
