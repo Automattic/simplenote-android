@@ -812,6 +812,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         Intent intent = new Intent(requireActivity(), CollaboratorsActivity.class);
         intent.putExtra(CollaboratorsActivity.NOTE_ID_ARG, mNote.getSimperiumKey());
         startActivity(intent);
+
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.EDITOR_COLLABORATORS_ACCESSED,
+                CATEGORY_NOTE,
+                "collaborators_ui_accessed"
+        );
     }
 
     @Override
