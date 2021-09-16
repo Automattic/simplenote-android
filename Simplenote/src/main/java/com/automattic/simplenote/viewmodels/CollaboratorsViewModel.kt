@@ -69,10 +69,12 @@ class CollaboratorsViewModel @Inject constructor(
 
     fun removeCollaborator(collaborator: String) {
         viewModelScope.launch {
-            when (collaboratorsRepository.removeCollaborator(_noteId, collaborator)) {
+            when (val result = collaboratorsRepository.removeCollaborator(_noteId, collaborator)) {
+                is CollaboratorsActionResult.CollaboratorsList ->
+                    _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
+                        UiState.CollaboratorsList(result.collaborators)
                 CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
                 CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
-                is CollaboratorsActionResult.CollaboratorsList -> Unit // do not do anything
             }
         }
     }
