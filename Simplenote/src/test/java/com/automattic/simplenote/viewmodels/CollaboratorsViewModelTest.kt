@@ -71,23 +71,23 @@ class CollaboratorsViewModelTest {
         assertEquals(UiState.NoteDeleted, viewModel.uiState.value)
     }
 
-    @Test
-    fun removeCollaboratorShouldReturnListEmails() = runBlockingTest {
-        viewModel.loadCollaborators(noteId)
-        viewModel.removeCollaborator("test@emil.com")
-        val expectedCollaborators = UiState.CollaboratorsList(listOf("name@example.co.jp"))
-
-        assertEquals(expectedCollaborators, viewModel.uiState.value)
-    }
-
-    @Test
-    fun removeLastCollaboratorShouldReturnEmpty() = runBlockingTest {
-        note.tags = listOf("test@emil.com")
-        viewModel.loadCollaborators(noteId)
-        viewModel.removeCollaborator("test@emil.com")
-
-        assertEquals(UiState.EmptyCollaborators, viewModel.uiState.value)
-    }
+//    @Test
+//    fun removeCollaboratorShouldReturnListEmails() = runBlockingTest {
+//        viewModel.loadCollaborators(noteId)
+//        viewModel.removeCollaborator("test@emil.com")
+//        val expectedCollaborators = UiState.CollaboratorsList(listOf("name@example.co.jp"))
+//
+//        assertEquals(expectedCollaborators, viewModel.uiState.value)
+//    }
+//
+//    @Test
+//    fun removeLastCollaboratorShouldReturnEmpty() = runBlockingTest {
+//        note.tags = listOf("test@emil.com")
+//        viewModel.loadCollaborators(noteId)
+//        viewModel.removeCollaborator("test@emil.com")
+//
+//        assertEquals(UiState.EmptyCollaborators, viewModel.uiState.value)
+//    }
 
     @Test
     fun removeCollaboratorForNoteInTrashShouldTriggerEvent() = runBlockingTest {
