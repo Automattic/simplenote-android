@@ -16,16 +16,12 @@ class AddCollaboratorViewModel @Inject constructor(
     private val _event = SingleLiveEvent<Event>()
     val event: LiveData<Event> = _event
 
-    private lateinit var _noteId: String
 
-    fun start(noteId: String) {
-        _noteId = noteId
-    }
 
-    fun addCollaborator(collaborator: String) {
+    fun addCollaborator(noteId: String, collaborator: String) {
         viewModelScope.launch {
             when (collaboratorsRepository.isValidCollaborator(collaborator)) {
-                true -> when (collaboratorsRepository.addCollaborator(_noteId, collaborator)) {
+                true -> when (collaboratorsRepository.addCollaborator(noteId, collaborator)) {
                     is CollaboratorsActionResult.CollaboratorsList -> _event.value = Event.CollaboratorAdded
                     CollaboratorsActionResult.NoteDeleted -> _event.value = Event.NoteDeleted
                     CollaboratorsActionResult.NoteInTrash -> _event.value = Event.NoteInTrash
