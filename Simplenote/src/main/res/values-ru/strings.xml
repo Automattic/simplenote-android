@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-08-19 20:49:09+0000
+Translation-Revision-Date: 2021-09-17 12:29:23+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="simperium_okay">ОК</string>
+    <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_account_verification_message">Подтвердите свой адрес электронной почты перед входом в учётную запись.</string>
+    <string name="simperium_account_verification">Требуется подтверждение учётной записи</string>
     <string name="import_setting">Импорт данных</string>
     <string name="import_unknown">Неизвестный формат</string>
     <string name="import_message_success">Данные загружены</string>
@@ -15,7 +19,7 @@ Language: ru
     <string name="error_ocurred_message">Произошла ошибка. Повторите попытку. Если это не поможет решить проблему, свяжитесь с нами: %1$s%2$s%3$s%4$s%5$s.</string>
     <string name="account_deletion_message">Мы выслали письмо на адрес %1$s. Проверьте почту и следуйте инструкциям, чтобы подтвердить удаление учётной записи.\n\nВаша учётная запись будет удалена только после получения вашего подтверждения.</string>
     <string name="request_received">Запрос получен</string>
-    <string name="delete_account_message">При удалении учётной записи все созданные в ней заметки будут безвозвратно удалены. Это действие нельзя отменить.</string>
+    <string name="delete_account_email_message">При удалении учётной записи для электронной почты %1$s все созданные в ней заметки будут безвозвратно удалены. Это действие нельзя отменить.</string>
     <string name="delete_account">Удалить учётную запись</string>
     <string name="dialog_already_logged_in_message">Вы уже вошли как %1$s. Выйдите из системы и повторите попытку.</string>
     <string name="dialog_already_logged_in_title">Вход уже выполнен</string>
@@ -94,7 +98,7 @@ Language: ru
     <string name="references_other">%1$d Упомянутые, последнее изменение %2$s</string>
     <string name="references_one">%1$d Упоминание, последнее изменение %2$s</string>
     <string name="references">Упоминание в</string>
-    <string name="open_note_error">Не удалось зайти заметку</string>
+    <string name="open_note_error">Не удалось найти заметку</string>
     <string name="open_note">Открыть заметку</string>
     <string name="copy_link_internal">Скопировать внутреннюю ссылку</string>
     <string name="publish_successful">Заметка опубликована.</string>
@@ -103,7 +107,7 @@ Language: ru
     <string name="send_logs">Отправить журналы</string>
     <string name="more">Больше</string>
     <string name="website">Перейти на сайт</string>
-    <string name="log_out_anyway">Все равно выйти</string>
+    <string name="log_out_anyway">Всё равно выйти</string>
     <string name="export_unsynced_notes">Экспортировать несинхронизированные заметки</string>
     <string name="unsynced_notes_message">При выходе из учётной записи все несинхронизированные заметки будут удалены.</string>
     <string name="unsynced_notes">Несинхронизированные заметки</string>
@@ -128,11 +132,11 @@ Language: ru
     <string name="item_action_toggle_list_error">Выберите заметку, чтобы включить список</string>
     <string name="item_action_toggle_list">Включить список</string>
     <string name="item_action_toggle_checklist_error">Выберите заметку, чтобы включить контрольный список</string>
-    <string name="item_action_toggle_checklist_edit_error">Выберите вкладку \"Правка\", чтобы включить контрольный список</string>
+    <string name="item_action_toggle_checklist_edit_error">Выберите вкладку «Правка», чтобы включить контрольный список</string>
     <string name="item_action_show_share_error">Выберите заметку, чтобы показать список отправки</string>
-    <string name="item_action_show_share_edit_error">Выберите вкладку \"Правка\", чтобы показать список отправки</string>
+    <string name="item_action_show_share_edit_error">Выберите вкладку «Правка», чтобы показать список отправки</string>
     <string name="item_action_show_share">Показать список отправки</string>
-    <string name="item_action_show_information_error">Выберите примечание, чтобы показать сведения</string>
+    <string name="item_action_show_information_error">Выберите заметку, чтобы показать сведения</string>
     <string name="item_action_show_information_edit_error">Выберите вкладку «Правка» , чтобы показать сведения</string>
     <string name="item_action_show_information">Показать сведения</string>
     <string name="item_action_show_history_error">Выберите заметку, чтобы показать историю</string>
@@ -144,7 +148,7 @@ Language: ru
     <string name="simperium_dialog_button_reset_url">https://app.simplenote.com/reset/?redirect=simplenote://launch&amp;email=%1$s</string>
     <string name="error_network_required">Требуется подключение к сети. Проверьте подключение и повторите попытку.</string>
     <string name="simperium_dialog_message_password">Требования к паролю:\n\n— Пароль не должен совпадать с адресом эл. почты.\n— Минимальное количество символов — %1$d.\n— Нельзя использовать переходы на новую строку.\n— Нельзя использовать символ возврата.\n— Нельзя использовать символ табуляции.</string>
-    <string name="simperium_dialog_message_login_reset">Ваш пароль ненадежен, его необходимо сменить. Требования к паролю:\n\n— Пароль не должен совпадать с адресом эл. почты\n— Минимальное количество символов — %1$d\n— Нельзя использовать переходы на новую строку\n— Символы табуляции запрещены</string>
+    <string name="simperium_dialog_message_login_reset">Ваш пароль ненадёжен, его необходимо сменить. Требования к паролю:\n\n— Пароль не должен совпадать с адресом эл. почты\n— Минимальное количество символов — %1$d\n— Нельзя использовать переходы на новую строку\n— Символы табуляции запрещены</string>
     <string name="simperium_button_login_reset">Сброс</string>
     <string name="link_terms">%1$s%2$s%3$sУсловия предоставления услуг%4$s</string>
     <string name="link_privacy">%1$s%2$s%3$sПолитика конфиденциальности%4$s</string>
@@ -159,18 +163,18 @@ Language: ru
     <string name="empty_notes_widget">Нет заметок</string>
     <string name="loading_notes">Загрузка заметок…</string>
     <string name="note_widget_light">Заметка (светлая версия)</string>
-    <string name="note_widget_dark">Заметка (темная версия)</string>
+    <string name="note_widget_dark">Заметка (тёмная версия)</string>
     <string name="note_list_widget_light">Список заметок (светлая версия)</string>
-    <string name="note_list_widget_dark">Список заметок (темная версия)</string>
+    <string name="note_list_widget_dark">Список заметок (тёмная версия)</string>
     <string name="retry">Повторить попытку</string>
-    <string name="link_copied">Ссылка скопирована!</string>
+    <string name="link_copied">Ссылка скопирована.</string>
     <string name="of">из</string>
-    <string name="next">Вперед</string>
+    <string name="next">Вперёд</string>
     <string name="previous">Назад</string>
     <string name="more_options">Дополнительные параметры</string>
     <string name="list_show">Развернуть список</string>
     <string name="list_hide">Свернуть список</string>
-    <string name="toggle_pin">Переключатель \"Закрепить вверху\"</string>
+    <string name="toggle_pin">Переключатель «Закрепить вверху»</string>
     <string name="search_tags_hint">Поиск меток</string>
     <string name="search_tags">Поиск меток</string>
     <string name="copy_link">Копировать ссылку</string>
@@ -193,7 +197,7 @@ Language: ru
     <string name="description_sort">Сортировать</string>
     <string name="description_down">Вниз</string>
     <string name="description_delete_item">Удалить элемент</string>
-    <string name="welcome_note">Представляем приложение Simplenote для Android!\nОткройте инструкции в этой заметке.\n\nЧтобы создать новую заметку, нажмите кнопку \"Новая заметка\" со значком \"плюс\".\n\nЧтобы выполнить поиск в заметках, нажмите кнопку \"Поиск\" со значком лупы и введите текст. Приложение Simplenote изначально показывает недавние запросы и предлагает варианты поисковых выражений по мере ввода текста. Заметки, совпадающие с введенным текстом, будут показаны после отправки поискового запроса.\n\nПоявилась заметка особой важности? Закрепите ее вверху списка заметок. Заметку можно закрепить двумя способами. Нажмите и удерживайте заметку в списке, затем нажмите кнопку \"Закрепить вверху\" со значком булавки. Нажмите кнопку \"Дополнительно\" с тремя вертикальными точками во время просмотра заметки и поставьте флажок \"Закрепить\".\n\nУпорядочьте заметки с помощью меток. Создайте метку на экране \"Изменить метки\", нажав кнопку \"Добавить метку\" или с помощью поля \"Добавить метку…\" в нижней части заметки. Чтобы поделиться заметкой, можно добавить в качестве метки адрес электронной почты.\n\nЧтобы отправить заметку в другое приложение Android, достаточно нажать «Поделиться» в меню «Дополнительно» при просмотре заметки.\n\nУдалённые заметки отправляются в корзину. Их можно восстановить оттуда или удалить окончательно, очистив корзину.\n\nЗаметки можно открывать в веб-браузере и на других устройствах. Чтобы начать работу, перейдите по адресу http://simplenote.com.\n\nНадеемся, что приложение Simplenote вам понравится.</string>
+    <string name="welcome_note">Представляем приложение Simplenote для Android!\nОткройте инструкции в этой заметке.\n\nЧтобы создать новую заметку, нажмите кнопку \"Новая заметка\" со значком плюса.\n\nЧтобы выполнить поиск в заметках, нажмите кнопку \"Поиск\" со значком лупы и введите текст. Приложение Simplenote изначально показывает недавние запросы и предлагает варианты поисковых выражений по мере ввода текста. Заметки, совпадающие с введённым текстом, будут показаны после отправки поискового запроса.\n\nПоявилась заметка особой важности? Закрепите ее вверху списка заметок. Заметку можно закрепить двумя способами. Нажмите и удерживайте заметку в списке, затем нажмите кнопку \"Закрепить вверху\" со значком булавки. Нажмите кнопку \"Дополнительно\" с тремя вертикальными точками во время просмотра заметки и поставьте флажок \"Закрепить\".\n\nУпорядочьте заметки с помощью меток. Создайте метку на экране \"Изменить метки\", нажав кнопку \"Добавить метку\" или с помощью поля \"Добавить метку…\" в нижней части заметки. Чтобы поделиться заметкой, можно добавить в качестве метки адрес электронной почты.\n\nЧтобы отправить заметку в другое приложение Android, достаточно нажать \"Поделиться\" в меню \"Дополнительно\" при просмотре заметки.\n\nУдалённые заметки отправляются в корзину. Их можно восстановить оттуда или удалить окончательно, очистив корзину.\n\nЗаметки можно открывать в веб-браузере и на других устройствах. Чтобы начать работу, перейдите по адресу http://simplenote.com.\n\nНадеемся, что приложение Simplenote вам понравится!</string>
     <string name="search_hint">Поиск заметок или меток</string>
     <string name="log_out">Выйти</string>
     <string name="log_in">Войти</string>
@@ -205,13 +209,13 @@ Language: ru
     <string name="simperium_footer_login_url">https://app.simplenote.com/forgot?email=%1$s</string>
     <string name="simperium_footer_login">%1$s%2$s%3$sЗабыли пароль?%4$s</string>
     <string name="simperium_error_password">Неверный пароль</string>
-    <string name="simperium_error_email">неверный адрес электронной почты</string>
+    <string name="simperium_error_email">Неверный адрес электронной почты</string>
     <string name="simperium_dialog_title_error">Ошибка</string>
     <string name="simperium_dialog_progress_signing_up">Регистрация…</string>
     <string name="simperium_dialog_progress_logging_in">Вход…</string>
-    <string name="simperium_dialog_message_signup_existing">Введенный адрес эл. почты уже связан с учетной записью Simplenote.</string>
+    <string name="simperium_dialog_message_signup_existing">Введённый адрес эл. почты уже связан с учетной записью Simplenote.</string>
     <string name="simperium_dialog_message_signup">Не удалось зарегистрировать с указанным адресом эл. почты и паролем.</string>
-    <string name="simperium_dialog_message_network">Сети недоступны. Подключитесь к сети и повторите попытку.</string>
+    <string name="simperium_dialog_message_network">Сеть недоступна. Подключитесь к сети и повторите попытку.</string>
     <string name="simperium_dialog_message_login">Не удалось войти с указанным адресом эл. почты и паролем.</string>
     <string name="simperium_button_signup">Регистрация</string>
     <string name="simperium_button_login_other">Войти через WordPress.com</string>
@@ -221,11 +225,11 @@ Language: ru
     <string name="toggle_checklist">Сменить список проверки</string>
     <string name="log_in_use_widget">Войдите, чтобы использовать виджет</string>
     <string name="log_in_add_widget">Войдите, чтобы добавить виджет</string>
-    <string name="select_note">Выбрать уведомление</string>
-    <string name="note_not_found">Уведомление не найдено</string>
-    <string name="loading_note">Загрузка уведомления…</string>
+    <string name="select_note">Выбрать заметку</string>
+    <string name="note_not_found">Заметка не найдена</string>
+    <string name="loading_note">Загрузка заметки…</string>
     <string name="passcode_summary">Нельзя делать снимки экрана, если включена блокировка с помощью пароля</string>
-    <string name="all_notes">Все примечания</string>
+    <string name="all_notes">Все заметки</string>
     <string name="appearance">Внешний вид</string>
     <string name="sort_tags_alphabetically">Сортировать по алфавиту</string>
     <string name="empty_note_post">Невозможно опубликовать пустую заметку.</string>
@@ -240,11 +244,11 @@ Language: ru
     <string name="wordpress_connect_summary">Чтобы опубликовать заметку напрямую на сайте WordPress, подключите учетную запись WordPress.com.</string>
     <string name="done">Готово</string>
     <string name="success">Заметка опубликована на %1$s</string>
-    <string name="uploading_post">Идет загрузка записи</string>
+    <string name="uploading_post">Идёт загрузка записи</string>
     <string name="wordpress_post_draft">Изменить статус на «Черновик»</string>
     <string name="send_post">Опубликовать</string>
     <string name="wordpress_post">Запись WordPress</string>
-    <string name="theme_auto">Темная только ночью</string>
+    <string name="theme_auto">Тёмная только ночью</string>
     <string name="notes">Заметки</string>
     <string name="share_analytics_summary">Помогите нам улучшить приложение Simplenote — предоставьте данные о его использовании в нашем средстве аналитики. %1$sПодробнее%2$s</string>
     <string name="share_analytics">Поделиться аналитическими данными</string>
@@ -254,7 +258,7 @@ Language: ru
     <string name="untagged_notes">Заметки без меток</string>
     <string name="wpcom_log_in_error_unverified">Активируйте учётную запись WordPress.com по электронной почте и повторите попытку.</string>
     <string name="wpcom_log_in_error_generic">Не удалось войти в систему WordPress.com. Повторите попытку.</string>
-    <string name="collaborate_message">Для совместной работы с другими пользователями укажите адрес электронной почты в поле тегов.</string>
+    <string name="collaborate_message">Для совместной работы с другими пользователями укажите адрес электронной почты в поле меток.</string>
     <string name="collaborate">Совместная работа</string>
     <string name="publishing">Публикация заметки…</string>
     <string name="unpublish">Удалить общедоступную ссылку</string>
@@ -268,7 +272,7 @@ Language: ru
     <string name="markdown">Markdown</string>
     <string name="tab_preview">Предварительный просмотр</string>
     <string name="tab_edit">Правка</string>
-    <string name="pin_to_top">Закрепить наверху</string>
+    <string name="pin_to_top">Закрепить вверху</string>
     <string name="error_history">Не удалось загрузить историю.</string>
     <string name="history">История</string>
     <string name="restore">Восстановить</string>
@@ -286,13 +290,13 @@ Language: ru
     <string name="published">Опубликовано</string>
     <string name="publish">Опубликовать</string>
     <string name="theme">Тема оформления</string>
-    <string name="theme_dark">Темная</string>
+    <string name="theme_dark">Тёмная</string>
     <string name="theme_light">Светлая</string>
     <string name="notes_trashed">Заметки перемещены в корзину.</string>
     <string name="notes_selected">Выбрано: %d</string>
     <string name="note_selected">Выбрано: %d</string>
     <string name="passcode_preference_title">Блокировка паролем</string>
-    <string name="passcode_wrong_passcode">Неправильный пароль, попробуйте еще раз</string>
+    <string name="passcode_wrong_passcode">Неправильный пароль, попробуйте ещё раз</string>
     <string name="passcode_enter_old_passcode">Введите старый пароль</string>
     <string name="error">Ошибка</string>
     <string name="copy">Копировать</string>
@@ -326,9 +330,9 @@ Language: ru
     <string name="characters">Символы</string>
     <string name="words">Слова</string>
     <string name="font_size">Размер шрифта</string>
-    <string name="detect_links">Найти ссылки</string>
-    <string name="account">Учетная запись</string>
-    <string name="new_note">Новая заметка…</string>
+    <string name="detect_links">Обнаруживать ссылки</string>
+    <string name="account">Учётная запись</string>
+    <string name="new_note">Новая заметка</string>
     <string name="share">Поделиться</string>
     <string name="settings">Настройки</string>
     <string name="tag_hint">Добавить метку…</string>
