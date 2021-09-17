@@ -326,6 +326,8 @@
 
     <string name="toast_email_sent">Email sent</string>
 
+    <string name="note_shared">Note Shared</string>
+
     <!-- PASSCODE -->
     <string name="passcode_change_passcode">Change passcode</string>
     <string name="passcode_enter_old_passcode">Enter your old passcode</string>

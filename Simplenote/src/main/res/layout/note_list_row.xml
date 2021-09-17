@@ -58,8 +58,24 @@
             android:focusable="false"
             android:layout_height="@dimen/icon_status"
             android:layout_marginStart="@dimen/padding_small"
+            android:layout_toEndOf="@id/note_shared"
             android:layout_width="@dimen/icon_status"
             android:src="@drawable/ic_publish_16dp"
+            android:tint="?attr/notePreviewColor"
+            android:visibility="gone"
+            tools:tint="@color/text_content_light"
+            tools:visibility="visible">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/note_shared"
+            android:contentDescription="@string/note_shared"
+            android:clickable="false"
+            android:focusable="false"
+            android:layout_height="@dimen/icon_status"
+            android:layout_marginStart="@dimen/padding_small"
+            android:layout_width="@dimen/icon_status"
+            android:src="@drawable/ic_collaborate_16dp"
             android:tint="?attr/notePreviewColor"
             android:visibility="gone"
             tools:tint="@color/text_content_light"
