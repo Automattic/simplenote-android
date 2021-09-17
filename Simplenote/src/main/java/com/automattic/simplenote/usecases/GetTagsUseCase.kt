@@ -20,6 +20,8 @@ class GetTagsUseCase @Inject constructor(
     }
 
     fun getTags(note: Note): List<String> {
-        return note.tags.filter { tag -> !collaboratorsRepository.isValidCollaborator(tag) }
+        //return note.tags.filter { tag -> !collaboratorsRepository.isValidCollaborator(tag) }
+        // Small patch until we launch collaborator UI
+        return note.tags
     }
 }
