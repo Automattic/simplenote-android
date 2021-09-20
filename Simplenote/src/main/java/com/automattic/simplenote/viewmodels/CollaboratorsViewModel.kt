@@ -95,7 +95,7 @@ class CollaboratorsViewModel @Inject constructor(
     sealed class UiState {
         object NoteInTrash : UiState()
         object NoteDeleted : UiState()
-        object EmptyCollaborators: UiState()
+        object EmptyCollaborators : UiState()
         data class CollaboratorsList(val collaborators: List<String>) : UiState()
     }
 

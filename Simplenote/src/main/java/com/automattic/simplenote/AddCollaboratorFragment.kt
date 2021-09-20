@@ -22,7 +22,7 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
     private val dialogEditTag get() = _dialogEditTag!!
 
     private var _binding: AddCollaboratorBinding? = null
-    private val binding  get() = _binding!!
+    private val binding get() = _binding!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = AddCollaboratorBinding.inflate(LayoutInflater.from(context))
@@ -72,7 +72,7 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
         viewModel.event.observe(this, { event ->
             when (event) {
                 AddCollaboratorViewModel.Event.Close,
-                // In case the note is deleted or trashed, we let the CollaboratorsActivity to handle it
+                    // In case the note is deleted or trashed, we let the CollaboratorsActivity to handle it
                 AddCollaboratorViewModel.Event.NoteDeleted,
                 AddCollaboratorViewModel.Event.NoteInTrash,
                 AddCollaboratorViewModel.Event.CollaboratorAdded -> dismiss()
