@@ -1,6 +1,5 @@
 package com.automattic.simplenote
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
@@ -148,9 +147,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         alert.setTitle(R.string.remove_collaborator)
         alert.setMessage(R.string.remove_collaborator_message)
         alert.setNegativeButton(R.string.cancel, null)
-        alert.setPositiveButton(R.string.remove) { _: DialogInterface?, _: Int ->
-            viewModel.removeCollaborator(event.collaborator)
-        }
+        alert.setPositiveButton(R.string.remove) {  _, _ -> viewModel.removeCollaborator(event.collaborator) }
         alert.show()
     }
 
