@@ -18,6 +18,8 @@
     <string name="log_in">Log in</string>
     <string name="log_out">Log out</string>
     <string name="words">Words</string>
+    <string name="invalid_tag">Invalid Tag</string>
+    <string name="tag_added_as_collaborator">%1$s added as a collaborator.</string>
     <string name="edit_tags">Edit Tags</string>
     <string name="rename_tag">Rename Tag</string>
     <string name="rename_tag_error_empty">Tags cannot be empty</string>
