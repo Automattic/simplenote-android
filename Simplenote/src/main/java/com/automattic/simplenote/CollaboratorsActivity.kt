@@ -32,7 +32,6 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
         val noteId = intent.getStringExtra(NOTE_ID_ARG)
         if (noteId == null) {
             finish()
