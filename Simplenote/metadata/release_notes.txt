@@ -1,3 +1,5 @@
-* Updated icons
-* Fixed scroll position of a note with matching keyword in not persistent
-* Fixed editor's background color in landscape mode for dark theme
+* Fixed screen going into full-editing mode in tag editor [#1482](https://github.com/Automattic/simplenote-android/issues/1482)
+* Fixed save button is disabled for a new tag after device rotation [#1483](https://github.com/Automattic/simplenote-android/issues/1483)
+* Fixed tag rename dialog is closed on device rotation [#1484](https://github.com/Automattic/simplenote-android/issues/1484)
+
+
