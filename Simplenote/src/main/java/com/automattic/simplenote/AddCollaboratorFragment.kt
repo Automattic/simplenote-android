@@ -56,8 +56,8 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
     }
 
     override fun onShow(dialog: DialogInterface?) {
-        setObservers()
         setupViews()
+        setObservers()
     }
 
     private fun setupViews() {
