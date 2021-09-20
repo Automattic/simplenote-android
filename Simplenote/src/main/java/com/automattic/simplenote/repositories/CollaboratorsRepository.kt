@@ -10,7 +10,7 @@ interface CollaboratorsRepository {
     fun isValidCollaborator(collaborator: String): Boolean
 
     /**
-     * Get a list of collaborators for a given [noteId]
+     * Get a list of collaborators for a given [noteId].
      */
     suspend fun getCollaborators(noteId: String): CollaboratorsActionResult
 
@@ -19,7 +19,7 @@ interface CollaboratorsRepository {
     suspend fun removeCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
 
     /**
-     * Return true in case the note has been updated locally or on the network
+     * Return true in case the note has been updated locally or on the network.
      */
     suspend fun collaboratorsChanged(noteId: String): Flow<Boolean>
 }
