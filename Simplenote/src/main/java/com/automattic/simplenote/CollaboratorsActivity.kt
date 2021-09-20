@@ -98,13 +98,13 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     private fun ActivityCollaboratorsBinding.setObservers() {
         viewModel.uiState.observe(this@CollaboratorsActivity, { uiState ->
             when (uiState) {
-                EmptyCollaborators -> handleEmptyCollaborators()
-                is CollaboratorsList -> handleCollaboratorsList(uiState)
-                NoteDeleted -> {
+                is EmptyCollaborators -> handleEmptyCollaborators()
+                is CollaboratorsList -> handleCollaboratorsList(uiState.collaborators)
+                is NoteDeleted -> {
                     toast(R.string.collaborators_note_deleted, Toast.LENGTH_LONG)
                     navigateToNotesList()
                 }
-                NoteInTrash -> {
+                is NoteInTrash -> {
                     toast(R.string.collaborators_note_trashed, Toast.LENGTH_LONG)
                     navigateToNotesList()
                 }
@@ -120,7 +120,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         })
     }
 
-    private fun ActivityCollaboratorsBinding.handleCollaboratorsList(uiState: CollaboratorsList) {
+    private fun ActivityCollaboratorsBinding.handleCollaboratorsList(collaborators: List<String>) {
         sharedMessage.visibility = View.VISIBLE
         collaboratorsList.visibility = View.VISIBLE
         dividerLine.visibility = View.VISIBLE
@@ -128,7 +128,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         emptyMessage.visibility = View.GONE
 
         val adapter = collaboratorsList.adapter as CollaboratorsAdapter
-        adapter.submitList(uiState.collaborators)
+        adapter.submitList(collaborators)
     }
 
     private fun ActivityCollaboratorsBinding.handleEmptyCollaborators() {
