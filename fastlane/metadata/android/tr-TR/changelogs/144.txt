@@ -1,0 +1,4 @@
+2.21:
+* Simgeler güncellendi
+* Kalıcı olmayan anahtar sözcükle eşleşen bir notun kaydırma konumu düzeltildi
+* Koyu tema için yatay modda düzenleyicinin arka plan rengi düzeltildi
