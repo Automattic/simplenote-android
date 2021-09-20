@@ -27,9 +27,7 @@ class CollaboratorsAdapter(
 
         fun bind(collaborator: String) {
             binding.collaboratorText.text = collaborator
-            binding.collaboratorRemoveButton.setOnClickListener {
-                onDeleteClick(collaborator)
-            }
+            binding.collaboratorRemoveButton.setOnClickListener { onDeleteClick(collaborator) }
         }
     }
 
