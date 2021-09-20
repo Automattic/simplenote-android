@@ -1,3 +1,7 @@
+2.23
+-----
+
+
 2.22
 -----
 * Fixed screen going into full-editing mode in tag editor [#1482](https://github.com/Automattic/simplenote-android/issues/1482)
