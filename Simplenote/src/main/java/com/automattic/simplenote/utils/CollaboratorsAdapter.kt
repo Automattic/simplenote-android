@@ -17,8 +17,7 @@ class CollaboratorsAdapter(
     }
 
     override fun onBindViewHolder(holder: CollaboratorViewHolder, position: Int) {
-        val currentCollaborator = getItem(position)
-        holder.bind(currentCollaborator)
+        holder.bind(getItem(position))
     }
 
     class CollaboratorViewHolder(
