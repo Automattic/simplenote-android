@@ -1,17 +1,17 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_parent_view"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/toolbar">
-    </include>
+    <include layout="@layout/toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,15 +21,15 @@
                 android:id="@+id/shared_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textStyle="normal"
                 android:layout_marginStart="72dp"
-                android:layout_marginEnd="16dp"
                 android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="14dp"
-                android:textSize="14sp"
-                android:textColor="?attr/colorAccent"
                 android:lineSpacingExtra="6sp"
-                android:text="@string/shared_with" />
+                android:text="@string/shared_with"
+                android:textColor="?attr/colorAccent"
+                android:textSize="14sp"
+                android:textStyle="normal" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/collaborators_list"
@@ -47,14 +47,14 @@
 
             <Button
                 android:id="@+id/button_add_collaborator"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAllCaps="false"
                 android:layout_marginStart="64dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:text="@string/add_collaborator"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textAllCaps="false"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="?attr/colorAccent" />
 
@@ -62,16 +62,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/empty_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="normal"
-                    android:textSize="14sp"
                     android:layout_marginStart="70dp"
                     android:layout_marginEnd="16dp"
                     android:lineSpacingExtra="6sp"
-                    android:text="@string/add_email_collaborator_message" />
+                    android:text="@string/add_email_collaborator_message"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
