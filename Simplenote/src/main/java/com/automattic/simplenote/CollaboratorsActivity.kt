@@ -131,7 +131,6 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     }
 
     private fun ActivityCollaboratorsBinding.handleEmptyCollaborators() {
-        // Hide all views while loading
         sharedMessage.visibility = View.GONE
         collaboratorsList.visibility = View.GONE
         dividerLine.visibility = View.GONE
