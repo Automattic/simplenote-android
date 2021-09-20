@@ -36,37 +36,36 @@ class SimperiumCollaboratorsRepository @Inject constructor(
      * Return a list of collaborators (email addresses as tags) if the note for the given simperiumKey ([noteId]) is
      * not in the trash and has not been deleted
      */
-    override suspend fun getCollaborators(noteId: String): CollaboratorsActionResult = withContext(ioDispatcher) {
-        return@withContext when(val result = getNote(noteId)) {
-            is Either.Left -> result.l
-            is Either.Right ->
-                CollaboratorsActionResult.CollaboratorsList(filterCollaborators(result.r))
+    override suspend fun getCollaborators(
+        noteId: String
+    ) = when (val result = getNote(noteId)) {
+        is Either.Left -> result.l
+        is Either.Right -> CollaboratorsActionResult.CollaboratorsList(filterCollaborators(result.r))
+    }
+
+    override suspend fun addCollaborator(
+        noteId: String,
+        collaborator: String
+    ) = when (val result = getNote(noteId)) {
+        is Either.Left -> result.l
+        is Either.Right -> {
+            val note = result.r
+            note.addTag(collaborator)
+            CollaboratorsActionResult.CollaboratorsList(filterCollaborators(note))
         }
     }
 
-    override suspend fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult =
-        withContext(ioDispatcher) {
-            return@withContext when (val result = getNote(noteId)) {
-                is Either.Left -> result.l
-                is Either.Right -> {
-                    val note = result.r
-                    note.addTag(collaborator)
-                    CollaboratorsActionResult.CollaboratorsList(filterCollaborators(note))
-                }
-            }
+    override suspend fun removeCollaborator(
+        noteId: String,
+        collaborator: String
+    ) = when (val result = getNote(noteId)) {
+        is Either.Left -> result.l
+        is Either.Right -> {
+            val note = result.r
+            note.removeTag(collaborator)
+            CollaboratorsActionResult.CollaboratorsList(filterCollaborators(note))
         }
-
-    override suspend fun removeCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult =
-        withContext(ioDispatcher) {
-            return@withContext when(val result = getNote(noteId)) {
-                is Either.Left -> result.l
-                is Either.Right -> {
-                    val note = result.r
-                    note.removeTag(collaborator)
-                    CollaboratorsActionResult.CollaboratorsList(filterCollaborators(note))
-                }
-            }
-        }
+    }
 
     override suspend fun collaboratorsChanged(noteId: String): Flow<Boolean> = callbackFlow {
         val callbackOnSaveObject = Bucket.OnSaveObjectListener<Note> { _, note ->
@@ -96,18 +95,18 @@ class SimperiumCollaboratorsRepository @Inject constructor(
         }
     }.flowOn(ioDispatcher)
 
-    private fun getNote(noteId: String): Either<CollaboratorsActionResult, Note> {
-        try {
+    private suspend fun getNote(noteId: String) = withContext(ioDispatcher) {
+        return@withContext try {
             val note = notesBucket.get(noteId)
-            if (note.isDeleted) {
-                return Either.Left(CollaboratorsActionResult.NoteInTrash)
+            when (note.isDeleted) {
+                true -> Either.Left(CollaboratorsActionResult.NoteInTrash)
+                false -> Either.Right(note)
             }
-
-            return Either.Right(note)
         } catch (e: BucketObjectMissingException) {
-            return Either.Left(CollaboratorsActionResult.NoteDeleted)
+            Either.Left(CollaboratorsActionResult.NoteDeleted)
         }
     }
+
 
     private fun filterCollaborators(note: Note) = note.tags.filter { tag -> isValidCollaborator(tag) }
 }
