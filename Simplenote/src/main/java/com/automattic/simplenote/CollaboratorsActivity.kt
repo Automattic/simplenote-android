@@ -69,13 +69,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     }
 
     private fun ActivityCollaboratorsBinding.setupViews() {
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-        supportActionBar?.apply {
-            title = SpannableString(getString(R.string.collaborators))
-            setDisplayHomeAsUpEnabled(true)
-        }
+        setupToolbar()
 
         // Hide all views while loading
         sharedMessage.visibility = View.GONE
@@ -89,6 +83,16 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         collaboratorsList.layoutManager = LinearLayoutManager(this@CollaboratorsActivity)
 
         buttonAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
+    }
+
+    private fun setupToolbar() {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            title = SpannableString(getString(R.string.collaborators))
+            setDisplayHomeAsUpEnabled(true)
+        }
     }
 
     private fun ActivityCollaboratorsBinding.setObservers() {
