@@ -77,39 +77,41 @@ class SimperiumCollaboratorsRepositoryTest {
     fun getCollaboratorsWhenNoteInTrashShouldReturnError() = runBlockingTest {
         note.isDeleted = true
 
-        val expected = CollaboratorsActionResult.NoteInTrash
         val result = collaboratorsRepository.getCollaborators(noteId)
 
+        val expected = CollaboratorsActionResult.NoteInTrash
         assertEquals(expected, result)
     }
 
     @Test
     fun getCollaboratorsWhenNoteIsDeletedShouldReturnError() = runBlockingTest {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
-        val expected = CollaboratorsActionResult.NoteDeleted
+
         val result = collaboratorsRepository.getCollaborators(noteId)
 
+        val expected = CollaboratorsActionResult.NoteDeleted
         assertEquals(expected, result)
     }
 
     @Test
     fun addCollaboratorShouldAddATagToNote() = runBlockingTest {
         val collaborator = "test1@email.com"
-        val newCollaborators = listOf("test@emil.com", "name@example.co.jp", collaborator)
-        val expected = CollaboratorsActionResult.CollaboratorsList(newCollaborators)
+
         val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
 
+        val newCollaborators = listOf("test@emil.com", "name@example.co.jp", collaborator)
+        val expected = CollaboratorsActionResult.CollaboratorsList(newCollaborators)
         assertEquals(expected, result)
     }
 
     @Test
     fun addCollaboratorWhenNoteInTrashShouldReturnError() = runBlockingTest {
         note.isDeleted = true
-
         val collaborator = "test1@email.com"
-        val expected = CollaboratorsActionResult.NoteInTrash
+
         val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
 
+        val expected = CollaboratorsActionResult.NoteInTrash
         assertEquals(expected, result)
     }
 
@@ -117,30 +119,32 @@ class SimperiumCollaboratorsRepositoryTest {
     fun addCollaboratorWhenNoteIsDeletedShouldReturnError() = runBlockingTest {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
         val collaborator = "test1@email.com"
-        val expected = CollaboratorsActionResult.NoteDeleted
+
         val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
 
+        val expected = CollaboratorsActionResult.NoteDeleted
         assertEquals(expected, result)
     }
 
     @Test
     fun removeCollaboratorShouldAddATagToNote() = runBlockingTest {
         val collaborator = "name@example.co.jp"
-        val newCollaborators = listOf("test@emil.com")
-        val expected = CollaboratorsActionResult.CollaboratorsList(newCollaborators)
+
         val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
 
+        val newCollaborators = listOf("test@emil.com")
+        val expected = CollaboratorsActionResult.CollaboratorsList(newCollaborators)
         assertEquals(expected, result)
     }
 
     @Test
     fun removeCollaboratorWhenNoteInTrashShouldReturnError() = runBlockingTest {
         note.isDeleted = true
-
         val collaborator = "test1@email.com"
-        val expected = CollaboratorsActionResult.NoteInTrash
+
         val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
 
+        val expected = CollaboratorsActionResult.NoteInTrash
         assertEquals(expected, result)
     }
 
@@ -148,9 +152,10 @@ class SimperiumCollaboratorsRepositoryTest {
     fun removeCollaboratorWhenNoteIsDeletedShouldReturnError() = runBlockingTest {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
         val collaborator = "test1@email.com"
-        val expected = CollaboratorsActionResult.NoteDeleted
+
         val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
 
+        val expected = CollaboratorsActionResult.NoteDeleted
         assertEquals(expected, result)
     }
 }
