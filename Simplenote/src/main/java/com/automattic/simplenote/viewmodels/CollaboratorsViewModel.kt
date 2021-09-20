@@ -23,12 +23,12 @@ class CollaboratorsViewModel @Inject constructor(
     private val _event = SingleLiveEvent<Event>()
     val event: LiveData<Event> = _event
 
-    private lateinit var _noteId: String
+    private lateinit var noteId: String
 
     private var jobTagsFlow: Job? = null
 
     fun loadCollaborators(noteId: String) {
-        _noteId = noteId
+        this.noteId = noteId
         viewModelScope.launch {
             updateUiState(noteId)
         }
@@ -46,8 +46,8 @@ class CollaboratorsViewModel @Inject constructor(
 
     fun startListeningChanges() {
         jobTagsFlow = viewModelScope.launch {
-            collaboratorsRepository.collaboratorsChanged(_noteId).collect {
-                updateUiState(_noteId)
+            collaboratorsRepository.collaboratorsChanged(noteId).collect {
+                updateUiState(noteId)
             }
         }
     }
@@ -57,7 +57,7 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     fun clickAddCollaborator() {
-        _event.value = Event.AddCollaboratorEvent(_noteId)
+        _event.value = Event.AddCollaboratorEvent(noteId)
     }
 
     fun clickRemoveCollaborator(collaborator: String) {
@@ -70,7 +70,7 @@ class CollaboratorsViewModel @Inject constructor(
 
     fun removeCollaborator(collaborator: String) {
         viewModelScope.launch {
-            when (val result = collaboratorsRepository.removeCollaborator(_noteId, collaborator)) {
+            when (val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)) {
                 is CollaboratorsActionResult.CollaboratorsList -> {
                     _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
                         UiState.CollaboratorsList(result.collaborators)
