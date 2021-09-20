@@ -32,8 +32,6 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityCollaboratorsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         val noteId = intent.getStringExtra(NOTE_ID_ARG)
         if (noteId == null) {
@@ -41,10 +39,14 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
             return
         }
 
-        binding.setupViews()
-        binding.setObservers()
+        with(ActivityCollaboratorsBinding.inflate(layoutInflater)) {
+            setContentView(root)
 
-        viewModel.loadCollaborators(noteId)
+            setupViews()
+            setObservers()
+
+            viewModel.loadCollaborators(noteId)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
