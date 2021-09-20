@@ -37,10 +37,12 @@ class CollaboratorsViewModel @Inject constructor(
     private suspend fun updateUiState(noteId: String) {
         when (val result = collaboratorsRepository.getCollaborators(noteId)) {
             is CollaboratorsActionResult.CollaboratorsList ->
-                _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
-                    UiState.CollaboratorsList(result.collaborators)
-            CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
-            CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
+                _uiState.value = when (result.collaborators.isEmpty()) {
+                    true -> UiState.EmptyCollaborators
+                    false -> UiState.CollaboratorsList(result.collaborators)
+                }
+            is CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
+            is CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
         }
     }
 
@@ -72,8 +74,10 @@ class CollaboratorsViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)) {
                 is CollaboratorsActionResult.CollaboratorsList -> {
-                    _uiState.value = if (result.collaborators.isEmpty()) UiState.EmptyCollaborators else
-                        UiState.CollaboratorsList(result.collaborators)
+                    _uiState.value = when (result.collaborators.isEmpty()) {
+                        true -> UiState.EmptyCollaborators
+                        false -> UiState.CollaboratorsList(result.collaborators)
+                    }
 
                     AnalyticsTracker.track(
                         AnalyticsTracker.Stat.COLLABORATOR_REMOVED,
@@ -82,8 +86,8 @@ class CollaboratorsViewModel @Inject constructor(
                         mapOf("source" to "collaborators")
                     )
                 }
-                CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
-                CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
+                is CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
+                is CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
             }
         }
     }
