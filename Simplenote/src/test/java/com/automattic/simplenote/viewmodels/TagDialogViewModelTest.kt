@@ -65,6 +65,7 @@ class TagDialogViewModelTest {
     @Test
     fun validateTooLongTag() {
         val randomLongTag = getLocalRandomStringOfLen(279)
+
         viewModel.updateUiState(randomLongTag)
 
         assertEquals(viewModel.uiState.value?.errorMsg, R.string.tag_error_length)
@@ -73,7 +74,6 @@ class TagDialogViewModelTest {
     @Test
     fun validateValidTag() {
         val hewTagName = "tag2"
-
         `when`(fakeTagsRepository.isTagValid(hewTagName)).thenReturn(true)
         `when`(fakeTagsRepository.isTagConflict(hewTagName, tagName)).thenReturn(false)
 
@@ -85,6 +85,7 @@ class TagDialogViewModelTest {
     @Test
     fun editTagWithSameName() {
         viewModel.updateUiState(tagName)
+
         viewModel.renameTagIfValid()
 
         assertTrue(viewModel.event.value is TagDialogEvent.FinishEvent)
@@ -93,10 +94,10 @@ class TagDialogViewModelTest {
     @Test
     fun editTagWithNewName() {
         val newTagName = "tag2"
-
         viewModel.updateUiState(newTagName)
         `when`(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(false)
         `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(true)
+
         viewModel.renameTagIfValid()
 
         assertEquals(viewModel.uiState.value?.tagName, newTagName)
@@ -106,10 +107,10 @@ class TagDialogViewModelTest {
     @Test
     fun editTagWithConflict() {
         val newTagName = "tag2"
-
         viewModel.updateUiState(newTagName)
         `when`(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(true)
         `when`(fakeTagsRepository.getCanonicalTagName(newTagName)).thenReturn(newTagName)
+
         viewModel.renameTagIfValid()
 
         assertEquals(viewModel.uiState.value?.tagName, newTagName)
@@ -121,10 +122,10 @@ class TagDialogViewModelTest {
     @Test
     fun editTagWithError() {
         val newTagName = "tag2"
-
         viewModel.updateUiState(newTagName)
         `when`(fakeTagsRepository.isTagConflict(newTagName, tagName)).thenReturn(false)
         `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(false)
+
         viewModel.renameTagIfValid()
 
         assertEquals(viewModel.uiState.value?.tagName, newTagName)
@@ -134,9 +135,9 @@ class TagDialogViewModelTest {
     @Test
     fun renameTagValid() {
         val newTagName = "tag2"
-
         viewModel.updateUiState(newTagName)
         `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(true)
+
         viewModel.renameTag()
 
         assertEquals(viewModel.uiState.value?.tagName, newTagName)
@@ -146,9 +147,9 @@ class TagDialogViewModelTest {
     @Test
     fun renameTagError() {
         val newTagName = "tag2"
-
         viewModel.updateUiState(newTagName)
         `when`(fakeTagsRepository.renameTag(newTagName, tag)).thenReturn(false)
+
         viewModel.renameTag()
 
         assertEquals(viewModel.uiState.value?.tagName, newTagName)

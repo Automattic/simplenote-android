@@ -46,12 +46,13 @@ class GetTagsUseCaseTest {
     @Test
     fun allTagsShouldFilterCollaborators() = runBlockingTest {
         tagsRepository.stub { onBlocking { allTags() }.doReturn(tagItems) }
-        val tagItemsExpected = tagItems.toMutableList()
-        tagItemsExpected.removeAt(3) // TagItem(Tag("name@example.co.jp"), 2)
-        tagItemsExpected.removeAt(3) // TagItem(Tag("name1@test.com"), 0)
+
 
         val tagItemsResult = getTagsUseCase.allTags()
 
+        val tagItemsExpected = tagItems.toMutableList()
+        tagItemsExpected.removeAt(3) // TagItem(Tag("name@example.co.jp"), 2)
+        tagItemsExpected.removeAt(3) // TagItem(Tag("name1@test.com"), 0)
         assertEquals(tagItemsExpected, tagItemsResult)
     }
 
@@ -61,9 +62,9 @@ class GetTagsUseCaseTest {
         note.content = "Hello World"
         note.tags = listOf("tag1", "tag2", "name@example.co.jp", "name@test")
 
-        val expected = listOf("tag1", "tag2", "name@test")
         val result = getTagsUseCase.getTags(note)
 
+        val expected = listOf("tag1", "tag2", "name@test")
         assertEquals(expected, result)
     }
 }

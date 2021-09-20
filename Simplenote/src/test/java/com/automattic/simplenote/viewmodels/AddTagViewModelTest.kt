@@ -50,6 +50,7 @@ class AddTagViewModelTest {
     @Test
     fun validateTooLongTag() {
         val randomLongTag = getLocalRandomStringOfLen(279)
+
         viewModel.updateUiState(randomLongTag)
 
         assertEquals(viewModel.uiState.value?.errorMsg, R.string.tag_error_length)
@@ -58,7 +59,6 @@ class AddTagViewModelTest {
     @Test
     fun validateTagExists() {
         val tagName = "tag1"
-
         `when`(fakeTagsRepository.isTagValid(tagName)).thenReturn(true)
         `when`(fakeTagsRepository.isTagMissing(tagName)).thenReturn(false)
 
@@ -70,7 +70,6 @@ class AddTagViewModelTest {
     @Test
     fun validateValidTag() {
         val tagName = "tag1"
-
         `when`(fakeTagsRepository.isTagValid(tagName)).thenReturn(true)
         `when`(fakeTagsRepository.isTagMissing(tagName)).thenReturn(true)
 
@@ -83,7 +82,6 @@ class AddTagViewModelTest {
     fun saveTagCorrectly() {
         val tagName = "tag1"
         viewModel.updateUiState(tagName)
-
         `when`(fakeTagsRepository.saveTag(tagName)).thenReturn(true)
 
         viewModel.saveTag()
@@ -94,6 +92,7 @@ class AddTagViewModelTest {
     @Test
     fun saveTagWithError() {
         viewModel.updateUiState("tag1")
+
         viewModel.saveTag()
 
         assertEquals(viewModel.event.value, AddTagViewModel.Event.SHOW_ERROR)
