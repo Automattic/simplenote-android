@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_parent_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -29,7 +30,9 @@
                 android:text="@string/shared_with"
                 android:textColor="?attr/colorAccent"
                 android:textSize="14sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/collaborators_list"
@@ -37,13 +40,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="72dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
             <View
                 android:id="@+id/divider_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?attr/dividerColor" />
+                android:background="?attr/dividerColor"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
             <Button
                 android:id="@+id/button_add_collaborator"
@@ -56,7 +63,9 @@
                 android:text="@string/add_collaborator"
                 android:textAllCaps="false"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="?attr/colorAccent" />
+                android:textColor="?attr/colorAccent"
+                android:visibility="gone"
+                tools:visibility="visible"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,7 +81,9 @@
                     android:lineSpacingExtra="6sp"
                     android:text="@string/add_email_collaborator_message"
                     android:textSize="14sp"
-                    android:textStyle="normal" />
+                    android:textStyle="normal"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

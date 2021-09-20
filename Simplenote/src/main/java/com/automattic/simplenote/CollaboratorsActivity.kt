@@ -70,13 +70,6 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     private fun ActivityCollaboratorsBinding.setupViews() {
         setupToolbar()
 
-        // Hide all views while loading
-        sharedMessage.visibility = View.GONE
-        collaboratorsList.visibility = View.GONE
-        dividerLine.visibility = View.GONE
-        buttonAddCollaborator.visibility = View.GONE
-        emptyMessage.visibility = View.GONE
-
         collaboratorsList.adapter = CollaboratorsAdapter(viewModel::clickRemoveCollaborator)
         collaboratorsList.isNestedScrollingEnabled = false
         collaboratorsList.layoutManager = LinearLayoutManager(this@CollaboratorsActivity)
