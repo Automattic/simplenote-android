@@ -127,8 +127,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         buttonAddCollaborator.visibility = View.VISIBLE
         emptyMessage.visibility = View.GONE
 
-        val adapter = collaboratorsList.adapter as CollaboratorsAdapter
-        adapter.submitList(collaborators)
+        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(collaborators)
     }
 
     private fun ActivityCollaboratorsBinding.handleEmptyCollaborators() {
