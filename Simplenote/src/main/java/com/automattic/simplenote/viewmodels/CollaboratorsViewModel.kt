@@ -78,7 +78,7 @@ class CollaboratorsViewModel @Inject constructor(
                     AnalyticsTracker.track(
                         AnalyticsTracker.Stat.COLLABORATOR_REMOVED,
                         AnalyticsTracker.CATEGORY_NOTE,
-                        "collaborator_added_to_note",
+                        "collaborator_removed_from_note",
                         mapOf("source" to "collaborators")
                     )
                 }
