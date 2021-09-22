@@ -74,6 +74,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         collaboratorsList.isNestedScrollingEnabled = false
         collaboratorsList.layoutManager = LinearLayoutManager(this@CollaboratorsActivity)
 
+        rowAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
         buttonAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
     }
 
