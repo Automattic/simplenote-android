@@ -1,7 +1,6 @@
 package com.automattic.simplenote
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.ContextThemeWrapper
@@ -25,7 +24,6 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
     private val binding get() = _binding!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = AddCollaboratorBinding.inflate(LayoutInflater.from(context))
         return buildDialog()
     }
 
@@ -36,7 +34,8 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
     }
 
     private fun buildDialog(): Dialog {
-        val context: Context = ContextThemeWrapper(requireContext(), R.style.Dialog)
+        val context = ContextThemeWrapper(requireContext(), R.style.Dialog)
+        _binding = AddCollaboratorBinding.inflate(LayoutInflater.from(context))
         _dialogEditTag = AlertDialog.Builder(context)
             .setView(binding.root)
             .setTitle(R.string.add_collaborator)
