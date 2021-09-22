@@ -1,8 +1,10 @@
 package com.automattic.simplenote
 
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.os.Handler
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
@@ -10,7 +12,9 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import com.automattic.simplenote.databinding.AddCollaboratorBinding
+import com.automattic.simplenote.utils.DisplayUtils
 import com.automattic.simplenote.viewmodels.AddCollaboratorViewModel
+import com.automattic.simplenote.widgets.MorphCircleToRectangle
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -65,6 +69,15 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
             val collaborator = binding.collaboratorText.text.toString()
             viewModel.addCollaborator(noteId, collaborator)
         }
+
+        // Request focus for the text input after screen renders
+        Handler().postDelayed(
+            {
+                binding.collaboratorText.requestFocus()
+                DisplayUtils.showKeyboard(binding.collaboratorText)
+            },
+            MorphCircleToRectangle.DURATION.toLong()
+        )
     }
 
     private fun setObservers() {
