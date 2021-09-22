@@ -1232,11 +1232,11 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     void hideToolbarForLandscapeEditing() {
-        if (getActivity() == null || !(getActivity() instanceof NoteEditorActivity)) {
+        if (getActivity() == null || !(getActivity() instanceof NoteEditorActivity) || mNote == null) {
             return;
         }
 
-        NoteEditorActivity activity = (NoteEditorActivity)  getActivity();
+        NoteEditorActivity activity = (NoteEditorActivity)  requireActivity();
         int displayMode = getResources().getConfiguration().orientation;
 
         if (mContentEditText.hasFocus() &&
@@ -1245,12 +1245,18 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             if (mNote.isMarkdownEnabled()) {
                 activity.hideTabs();
             }
-            activity.getSupportActionBar().hide();
+
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().hide();
+            }
         } else {
             if (mNote.isMarkdownEnabled()) {
                 activity.showTabs();
             }
-            activity.getSupportActionBar().show();
+
+            if (activity.getSupportActionBar() != null) {
+                activity.getSupportActionBar().show();
+            }
         }
     }
 
