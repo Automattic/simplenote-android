@@ -2,15 +2,17 @@ package com.automattic.simplenote
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.rule.ActivityTestRule
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
-import com.automattic.simplenote.utils.TagUtils
-import com.automattic.simplenote.utils.TestBucket
-import com.automattic.simplenote.utils.getRandomStringOfLen
+import com.automattic.simplenote.utils.*
 import com.simperium.client.BucketObjectMissingException
 import org.junit.After
+import org.junit.Assert
 import org.junit.Before
+import org.junit.Rule
 import java.security.SecureRandom
 
 open class BaseUITest {
@@ -18,8 +20,12 @@ open class BaseUITest {
     protected lateinit var tagsBucket: TestBucket<Tag>
     protected lateinit var notesBucket: TestBucket<Note>
 
+    @get:Rule
+    var activityRule: ActivityScenarioRule<NotesActivity> = ActivityScenarioRule(NotesActivity::class.java)
+
     @Before
     fun setup() {
+
         application = ApplicationProvider.getApplicationContext() as SimplenoteTest
         // Make sure to use TestBucket buckets in UI tests
         application.useTestBucket = true
