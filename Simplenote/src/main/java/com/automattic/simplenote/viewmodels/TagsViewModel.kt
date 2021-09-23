@@ -45,8 +45,8 @@ class TagsViewModel @Inject constructor(
     }
 
     private suspend fun updateUiState(searchQuery: String?, searchUpdate: Boolean = false) {
-        val tagItems = if (searchQuery == null) tagsRepository.allTags()
-            else tagsRepository.searchTags(searchQuery)
+        val tagItems = if (searchQuery == null) getTagsUseCase.allTags()
+            else getTagsUseCase.searchTags(searchQuery)
 
         _uiState.value = UiState(tagItems, searchUpdate, searchQuery)
     }
