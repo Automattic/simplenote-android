@@ -81,7 +81,7 @@
                     android:id="@+id/empty_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="70dp"
+                    android:layout_marginStart="72dp"
                     android:layout_marginEnd="16dp"
                     android:lineSpacingExtra="6sp"
                     android:text="@string/add_email_collaborator_message"
