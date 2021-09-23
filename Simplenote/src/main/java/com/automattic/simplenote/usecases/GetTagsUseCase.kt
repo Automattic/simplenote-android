@@ -19,6 +19,11 @@ class GetTagsUseCase @Inject constructor(
             .filter { tagItem -> !collaboratorsRepository.isValidCollaborator(tagItem.tag.name) }
     }
 
+    suspend fun searchTags(query: String): List<TagItem> {
+        return tagsRepository.searchTags(query)
+            .filter { tagItem -> !collaboratorsRepository.isValidCollaborator(tagItem.tag.name) }
+    }
+
     fun getTags(note: Note): List<String> {
         return note.tags.filter { tag -> !collaboratorsRepository.isValidCollaborator(tag) }
     }

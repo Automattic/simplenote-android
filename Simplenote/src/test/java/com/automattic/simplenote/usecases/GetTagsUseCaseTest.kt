@@ -17,6 +17,7 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.mock
+import org.mockito.kotlin.any
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.stub
 
@@ -33,7 +34,7 @@ class GetTagsUseCaseTest {
         TagItem(Tag("tag2"), 2),
         TagItem(Tag("tag3"), 5),
         TagItem(Tag("name@example.co.jp"), 2),
-        TagItem(Tag("name1@test.com"), 0),
+        TagItem(Tag("tag@test.com"), 0),
         TagItem(Tag("name@test"), 1),
         TagItem(Tag("あいうえお@example.com"), 1),
     )
@@ -53,7 +54,24 @@ class GetTagsUseCaseTest {
 
         val tagItemsExpected = tagItems.toMutableList()
         tagItemsExpected.removeAt(3) // TagItem(Tag("name@example.co.jp"), 2)
-        tagItemsExpected.removeAt(3) // TagItem(Tag("name1@test.com"), 0)
+        tagItemsExpected.removeAt(3) // TagItem(Tag("tag@test.com"), 0)
+        assertEquals(tagItemsExpected, tagItemsResult)
+    }
+
+    @Test
+    fun searchTagsShouldFilterCollaborators() = runBlockingTest {
+        val searchTagItems = listOf(
+            TagItem(Tag("tag1"), 0),
+            TagItem(Tag("tag2"), 2),
+            TagItem(Tag("tag3"), 5),
+            TagItem(Tag("tag@test.com"), 0),
+        )
+        tagsRepository.stub { onBlocking { searchTags(any()) }.doReturn(searchTagItems) }
+
+        val tagItemsResult = getTagsUseCase.searchTags("tag")
+
+        val tagItemsExpected = searchTagItems.toMutableList()
+        tagItemsExpected.removeAt(3) // TagItem(Tag("tag@test.com"), 0)
         assertEquals(tagItemsExpected, tagItemsResult)
     }
 
