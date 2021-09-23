@@ -75,7 +75,6 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         collaboratorsList.layoutManager = LinearLayoutManager(this@CollaboratorsActivity)
 
         rowAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
-        buttonAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
     }
 
     private fun setupToolbar() {
