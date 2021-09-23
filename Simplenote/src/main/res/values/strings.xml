@@ -404,8 +404,8 @@
     <string name="simperium_account_verification_message">You must verify your email before logging in to your account.</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
     <string name="simperium_compromised_password">Compromised Password</string>
-    <string name="simperium_compromised_password_message">This password has appeared in a data breach, which puts your account at high risk of compromise. It is recommended that you change your password immediately.</string>
-    <string name="simperium_not_now">Not Now</string>
+    <string name="simperium_compromised_password_message">This password has appeared in a data breach, which puts your account at high risk of compromise. To protect your data, you\'ll need to update your password before being able to log in again.</string>
+    <string name="simperium_not_now">Cancel</string>
     <string name="simperium_change_password">Change Password</string>
     <string name="simperium_okay">Okay</string>
 </resources>
