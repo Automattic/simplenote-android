@@ -2,9 +2,11 @@ package com.automattic.simplenote.viewmodels
 
 import android.view.View
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.repositories.TagsRepository
+import com.simperium.client.Bucket
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.emptyFlow
@@ -26,14 +28,28 @@ import org.mockito.kotlin.stub
 class TagsViewModelTest {
     @get:Rule val rule = InstantTaskExecutorRule()
 
+    private val tagsBucket = mock(Bucket::class.java) as Bucket<Tag>
     private lateinit var viewModel: TagsViewModel
     private val fakeTagsRepository = mock(TagsRepository::class.java)
     private val tagItems = listOf(
-        TagItem(Tag("tag1"), 0),
-        TagItem(Tag("tag2"), 2),
-        TagItem(Tag("tag3"), 5),
-        TagItem(Tag("tag4"), 10),
-        TagItem(Tag("tag5"), 0),
+        TagItem(Tag("tag1").apply { bucket = tagsBucket }, 0),
+        TagItem(Tag("tag2").apply { bucket = tagsBucket }, 2),
+        TagItem(Tag("tag3").apply { bucket = tagsBucket }, 5),
+        TagItem(Tag("tag4").apply { bucket = tagsBucket }, 10),
+        TagItem(Tag("tag5").apply { bucket = tagsBucket }, 0),
+        TagItem(Tag("test1@email.com").apply { bucket = tagsBucket }, 2),
+        TagItem(Tag("test2@email.com").apply { bucket = tagsBucket }, 1),
+        TagItem(Tag("あいうえお@example.com").apply { bucket = tagsBucket }, 1),
+
+    )
+
+    private val expectedTagItems = listOf(
+        TagItem(Tag("tag1").apply { bucket = tagsBucket }, 0),
+        TagItem(Tag("tag2").apply { bucket = tagsBucket }, 2),
+        TagItem(Tag("tag3").apply { bucket = tagsBucket }, 5),
+        TagItem(Tag("tag4").apply { bucket = tagsBucket }, 10),
+        TagItem(Tag("tag5").apply { bucket = tagsBucket }, 0),
+        TagItem(Tag("あいうえお@example.com").apply { bucket = tagsBucket }, 1),
     )
 
     @Before
@@ -52,7 +68,7 @@ class TagsViewModelTest {
 
         viewModel.start()
 
-        assertEquals(viewModel.uiState.value?.tagItems, tagItems)
+        assertEquals(viewModel.uiState.value?.tagItems, expectedTagItems)
         assertEquals(viewModel.uiState.value?.searchUpdate, false)
         assertNull(viewModel.uiState.value?.searchQuery)
     }
@@ -72,7 +88,7 @@ class TagsViewModelTest {
 
         viewModel.startListeningTagChanges()
 
-        assertEquals(viewModel.uiState.value?.tagItems, tagItems)
+        assertEquals(viewModel.uiState.value?.tagItems, expectedTagItems)
         assertEquals(viewModel.uiState.value?.searchUpdate, false)
         assertNull(viewModel.uiState.value?.searchQuery)
 
@@ -101,7 +117,7 @@ class TagsViewModelTest {
         viewModel.start()
         viewModel.startListeningTagChanges()
 
-        assertEquals(viewModel.uiState.value?.tagItems, tagItems)
+        assertEquals(viewModel.uiState.value?.tagItems, expectedTagItems)
         assertEquals(viewModel.uiState.value?.searchUpdate, false)
         assertNull(viewModel.uiState.value?.searchQuery)
 
@@ -113,7 +129,7 @@ class TagsViewModelTest {
         }
         tagsFlow.emit(true)
 
-        assertEquals(viewModel.uiState.value?.tagItems, tagItems)
+        assertEquals(viewModel.uiState.value?.tagItems, expectedTagItems)
         assertEquals(viewModel.uiState.value?.searchUpdate, false)
         assertNull(viewModel.uiState.value?.searchQuery)
     }
@@ -150,7 +166,7 @@ class TagsViewModelTest {
         viewModel.start()
         viewModel.closeSearch()
 
-        assertEquals(viewModel.uiState.value?.tagItems, tagItems)
+        assertEquals(viewModel.uiState.value?.tagItems, expectedTagItems)
         assertEquals(viewModel.uiState.value?.searchUpdate, true)
         assertNull(viewModel.uiState.value?.searchQuery)
     }
@@ -180,7 +196,7 @@ class TagsViewModelTest {
 
     @Test
     fun afterAddingATagUpdateOnResultShouldUpdateUiState() = runBlockingTest {
-        val mutableTagItems = tagItems.toMutableList()
+        val mutableTagItems = expectedTagItems.toMutableList()
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(mutableTagItems)
         }
@@ -224,7 +240,7 @@ class TagsViewModelTest {
         fakeTagsRepository.stub {
             onBlocking { tagsChanged() }.doReturn(flow{ emit(true) })
         }
-        val updatedTags = tagItems.filter { tagItem -> tagItem.tag.name != "tag1" }
+        val updatedTags = expectedTagItems.filter { tagItem -> tagItem.tag.name != "tag1" }
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(updatedTags)
         }
@@ -256,7 +272,7 @@ class TagsViewModelTest {
         fakeTagsRepository.stub {
             onBlocking { tagsChanged() }.doReturn(flow{ emit(true) })
         }
-        val updatedTags = tagItems.filter { tagItem -> tagItem.tag.name != "tag3" }
+        val updatedTags = expectedTagItems.filter { tagItem -> tagItem.tag.name != "tag3" }
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(updatedTags)
         }
