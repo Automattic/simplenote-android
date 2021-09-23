@@ -93,20 +93,22 @@ class TagsViewModelTest {
         assertEquals(viewModel.uiState.value?.searchUpdate, false)
         assertNull(viewModel.uiState.value?.searchQuery)
 
-        variableTagItems.add(TagItem(Tag("tag6"), 3))
+        val newTag = TagItem(Tag("tag6"), 3)
+        variableTagItems.add(newTag)
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(variableTagItems)
         }
         tagsFlow.emit(true)
 
-        assertEquals(viewModel.uiState.value?.tagItems, variableTagItems)
+        val expectedVariableTags = expectedTagItems + listOf(newTag)
+        assertEquals(viewModel.uiState.value?.tagItems, expectedVariableTags)
         assertEquals(viewModel.uiState.value?.searchUpdate, false)
         assertNull(viewModel.uiState.value?.searchQuery)
     }
 
     @Test
     fun whenPauseIsCalledAllChangedToTagsAreNotListened() = runBlockingTest {
-        val variableTagItems = tagItems.toMutableList()
+        val variableTagItems = expectedTagItems.toMutableList()
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
         }
