@@ -119,4 +119,15 @@
 
     </group>
 
+    <group
+        android:id="@+id/group_3">
+
+        <item
+            android:id="@+id/menu_collaborators"
+            android:enabled="true"
+            android:title="@string/collaborators"
+            app:showAsAction="never">
+        </item>
+    </group>
+
 </menu>

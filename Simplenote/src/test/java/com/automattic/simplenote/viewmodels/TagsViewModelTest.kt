@@ -49,6 +49,7 @@ class TagsViewModelTest {
         fakeTagsRepository.stub {
             onBlocking { tagsChanged() }.doReturn(emptyFlow())
         }
+
         viewModel.start()
 
         assertEquals(viewModel.uiState.value?.tagItems, tagItems)
@@ -59,7 +60,6 @@ class TagsViewModelTest {
     @Test
     fun whenTagsChangedWithANewTagUiStateShouldUpdate() = runBlockingTest {
         val variableTagItems = tagItems.toMutableList()
-
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
         }
@@ -68,8 +68,8 @@ class TagsViewModelTest {
         fakeTagsRepository.stub {
             onBlocking { tagsChanged() }.doReturn(tagsFlow)
         }
-
         viewModel.start()
+
         viewModel.startListeningTagChanges()
 
         assertEquals(viewModel.uiState.value?.tagItems, tagItems)
@@ -90,11 +90,9 @@ class TagsViewModelTest {
     @Test
     fun whenPauseIsCalledAllChangedToTagsAreNotListened() = runBlockingTest {
         val variableTagItems = tagItems.toMutableList()
-
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
         }
-
         val tagsFlow = MutableSharedFlow<Boolean>()
         fakeTagsRepository.stub {
             onBlocking { tagsChanged() }.doReturn(tagsFlow)
@@ -172,6 +170,7 @@ class TagsViewModelTest {
         fakeTagsRepository.stub {
             onBlocking { searchTags(any()) }.doReturn(filteredList)
         }
+
         viewModel.search(searchQuery)
 
         assertEquals(viewModel.uiState.value?.tagItems, filteredList)
@@ -182,7 +181,6 @@ class TagsViewModelTest {
     @Test
     fun afterAddingATagUpdateOnResultShouldUpdateUiState() = runBlockingTest {
         val mutableTagItems = tagItems.toMutableList()
-
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(mutableTagItems)
         }
@@ -193,7 +191,6 @@ class TagsViewModelTest {
 
         // Add a new tag
         mutableTagItems.add(TagItem(Tag("tag10"), 2))
-
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(mutableTagItems)
         }
@@ -224,21 +221,18 @@ class TagsViewModelTest {
         fakeTagsRepository.stub {
             onBlocking { deleteTag(any()) }.doReturn(Unit)
         }
-
         fakeTagsRepository.stub {
             onBlocking { tagsChanged() }.doReturn(flow{ emit(true) })
         }
-
         val updatedTags = tagItems.filter { tagItem -> tagItem.tag.name != "tag1" }
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(updatedTags)
         }
-
         viewModel.clickDeleteTag(tagItems[0])
-
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(updatedTags)
         }
+
         viewModel.updateOnResult()
 
         assertEquals(viewModel.uiState.value?.tagItems, updatedTags)
@@ -259,11 +253,9 @@ class TagsViewModelTest {
         fakeTagsRepository.stub {
             onBlocking { deleteTag(any()) }.doReturn(Unit)
         }
-
         fakeTagsRepository.stub {
             onBlocking { tagsChanged() }.doReturn(flow{ emit(true) })
         }
-
         val updatedTags = tagItems.filter { tagItem -> tagItem.tag.name != "tag3" }
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(updatedTags)
@@ -274,6 +266,7 @@ class TagsViewModelTest {
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(updatedTags)
         }
+
         viewModel.updateOnResult()
 
         assertEquals(viewModel.uiState.value?.tagItems, updatedTags)

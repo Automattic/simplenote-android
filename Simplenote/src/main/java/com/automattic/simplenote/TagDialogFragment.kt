@@ -32,7 +32,6 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     private val binding  get() = _binding!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = EditTagBinding.inflate(LayoutInflater.from(context))
         return buildDialog()
     }
 
@@ -43,7 +42,8 @@ class TagDialogFragment(private val tag: Tag) : AppCompatDialogFragment(), OnSho
     }
 
     private fun buildDialog(): Dialog {
-        val context: Context = ContextThemeWrapper(requireContext(), R.style.Dialog)
+        val context = ContextThemeWrapper(requireContext(), R.style.Dialog)
+        _binding = EditTagBinding.inflate(LayoutInflater.from(context))
         _dialogEditTag = AlertDialog.Builder(context)
             .setView(binding.root)
             .setTitle(R.string.rename_tag)

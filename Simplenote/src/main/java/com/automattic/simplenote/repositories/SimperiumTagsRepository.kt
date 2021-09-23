@@ -2,6 +2,7 @@ package com.automattic.simplenote.repositories
 
 import android.util.Log
 import com.automattic.simplenote.Simplenote
+import com.automattic.simplenote.di.IO_THREAD
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.models.TagItem
@@ -10,6 +11,7 @@ import com.automattic.simplenote.utils.TagUtils
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectNameInvalid
 import com.simperium.client.Query
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -18,10 +20,13 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Named
 
+@ExperimentalCoroutinesApi
 class SimperiumTagsRepository @Inject constructor(
-        private val tagsBucket: Bucket<Tag>,
-        private val notesBucket: Bucket<Note>
+    private val tagsBucket: Bucket<Tag>,
+    private val notesBucket: Bucket<Note>,
+    @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher,
 ) : TagsRepository {
     override fun saveTag(tagName: String): Boolean {
         return try {
@@ -60,7 +65,7 @@ class SimperiumTagsRepository @Inject constructor(
         }
     }
 
-    override suspend fun deleteTag(tag: Tag) = withContext(Dispatchers.IO) {
+    override suspend fun deleteTag(tag: Tag) = withContext(ioDispatcher) {
         deleteTagFromNotes(tag)
         tag.delete()
     }
@@ -76,7 +81,6 @@ class SimperiumTagsRepository @Inject constructor(
         cursor.close()
     }
 
-    @ExperimentalCoroutinesApi
     override suspend fun tagsChanged(): Flow<Boolean> = callbackFlow {
         val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> offer(true) }
         val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> offer(true) }
@@ -93,16 +97,16 @@ class SimperiumTagsRepository @Inject constructor(
             tagsBucket.removeOnNetworkChangeListener(callbackOnNetworkChange)
             AppLog.add(AppLog.Type.SYNC, "Removed tag bucket listener (TagsActivity)")
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(ioDispatcher)
 
-    override suspend fun allTags(): List<TagItem> = withContext(Dispatchers.IO) {
+    override suspend fun allTags(): List<TagItem> = withContext(ioDispatcher) {
         val tagQuery = Tag.all(tagsBucket).reorder().orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
         val cursor = tagQuery.execute()
 
         return@withContext cursorToTagItems(cursor)
     }
 
-    override suspend fun searchTags(query: String): List<TagItem> = withContext(Dispatchers.IO) {
+    override suspend fun searchTags(query: String): List<TagItem> = withContext(ioDispatcher) {
         val tags = Tag.all(tagsBucket)
                 .where(Tag.NAME_PROPERTY, Query.ComparisonType.LIKE, "%$query%")
                 .orderByKey().include(Tag.NOTE_COUNT_INDEX_NAME)
