@@ -57,7 +57,6 @@ class GetTagsUseCaseTest {
         assertEquals(tagItemsExpected, tagItemsResult)
     }
 
-    @Ignore("Patch for code freeze")
     @Test
     fun tagsForNoteShouldFilterCollaborators() {
         val note = Note("key1")
