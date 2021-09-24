@@ -680,7 +680,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
 
         mTagsAdapter.submitList(tags);
-        //mTagsAdapter.changeCursor(tagCursor);
         mNavigationMenu.removeGroup(GROUP_SECONDARY);
         mNavigationMenu.removeGroup(GROUP_TERTIARY);
 
