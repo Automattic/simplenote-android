@@ -5,39 +5,34 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.automattic.simplenote.R
 import com.automattic.simplenote.repositories.TagsRepository
+import com.automattic.simplenote.usecases.ValidateTagUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AddTagViewModel @Inject constructor(private val tagsRepository: TagsRepository) : ViewModel() {
+class AddTagViewModel @Inject constructor(
+    private val tagsRepository: TagsRepository,
+    private val validateTagUseCase: ValidateTagUseCase
+) : ViewModel() {
     private val _uiState = MutableLiveData<UiState>()
     val uiState: LiveData<UiState> = _uiState
 
     private val _event = SingleLiveEvent<Event>()
     val event: LiveData<Event> = _event
 
-    fun updateUiState(tagName: String) {
-        if (tagName.isEmpty()) {
+    fun updateUiState(tagName: String) =  when (validateTagUseCase.isTagValid(tagName)) {
+        ValidateTagUseCase.TagValidationResult.TagEmpty ->
             _uiState.value = UiState(tagName, R.string.tag_error_empty)
-            return
-        }
-
-        if (tagName.contains(" ")) {
+        ValidateTagUseCase.TagValidationResult.TagWithSpaces ->
             _uiState.value = UiState(tagName, R.string.tag_error_spaces)
-            return
-        }
-
-        if (!tagsRepository.isTagValid(tagName)) {
+        ValidateTagUseCase.TagValidationResult.TagTooLong ->
             _uiState.value = UiState(tagName, R.string.tag_error_length)
-            return
-        }
-
-        if (!tagsRepository.isTagMissing(tagName)) {
+        ValidateTagUseCase.TagValidationResult.TagExists ->
             _uiState.value = UiState(tagName, R.string.tag_error_exists)
-            return
-        }
-
-        _uiState.value = UiState(tagName)
+        ValidateTagUseCase.TagValidationResult.TagIsCollaborator ->
+            _uiState.value = UiState(tagName, R.string.tag_error_collaborator)
+        ValidateTagUseCase.TagValidationResult.TagValid ->
+            _uiState.value = UiState(tagName)
     }
 
     fun saveTag() {
