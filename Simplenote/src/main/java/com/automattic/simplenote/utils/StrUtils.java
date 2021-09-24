@@ -5,7 +5,7 @@ package com.automattic.simplenote.utils;
  *  added 01-Apr-2013 by Nick Bradbury
  */
 
-import static android.util.Patterns.EMAIL_ADDRESS;
+import static androidx.core.util.PatternsCompat.EMAIL_ADDRESS;
 
 import android.text.Spanned;
 import android.text.TextUtils;
