@@ -72,6 +72,17 @@ class TagDialogViewModelTest {
     }
 
     @Test
+    fun validateTagIsCollaborator() {
+        val tagName = "tag1@email.com"
+        `when`(fakeTagsRepository.isTagValid(tagName)).thenReturn(true)
+        `when`(fakeTagsRepository.isTagMissing(tagName)).thenReturn(true)
+
+        viewModel.updateUiState(tagName)
+
+        assertEquals(viewModel.uiState.value?.errorMsg, R.string.tag_error_collaborator)
+    }
+
+    @Test
     fun validateValidTag() {
         val hewTagName = "tag2"
         `when`(fakeTagsRepository.isTagValid(hewTagName)).thenReturn(true)
