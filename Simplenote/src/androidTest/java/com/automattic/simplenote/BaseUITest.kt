@@ -7,6 +7,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
+import com.automattic.simplenote.utils.TagUtils
+import com.automattic.simplenote.utils.TestBucket
+import com.automattic.simplenote.utils.getRandomStringOfLen
 import com.automattic.simplenote.utils.*
 import com.simperium.client.BucketObjectMissingException
 import org.junit.After
