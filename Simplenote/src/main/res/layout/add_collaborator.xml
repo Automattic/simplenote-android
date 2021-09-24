@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:paddingEnd="@dimen/padding_extra_large"
+    android:paddingStart="@dimen/padding_extra_large"
+    android:paddingTop="@dimen/padding_large">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/collaborator_input"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_extra_small"
+        android:layout_marginEnd="@dimen/padding_extra_small"
+        android:layout_marginStart="@dimen/padding_extra_small"
+        android:layout_marginTop="@dimen/padding_large"
+        android:layout_width="match_parent"
+        android:hint="@string/email_address"
+        android:visibility="visible"
+        app:errorEnabled="true"
+        tools:visibility="visible"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/collaborator_text"
+            android:inputType="textEmailAddress"
+            android:layout_height="match_parent"
+            android:imeOptions="flagNoExtractUi"
+            android:layout_width="match_parent">
+        </com.google.android.material.textfield.TextInputEditText>
+
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

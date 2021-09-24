@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-08-19 20:49:18+0000
+Translation-Revision-Date: 2021-09-14 15:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="simperium_okay">De acuerdo</string>
+    <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_account_verification_message">Tienes que verificar tu correo electrónico antes de iniciar sesión en tu cuenta.</string>
+    <string name="simperium_account_verification">Es necesario verificar la cuenta</string>
     <string name="import_setting">Importar datos</string>
     <string name="import_unknown">Formato desconocido</string>
     <string name="import_message_success">Fecha cargada</string>
@@ -15,7 +19,7 @@ Language: es
     <string name="error_ocurred_message">Ha ocurrido un error. Inténtalo de nuevo. Si el problema persiste, ponte en contacto con nosotros a través de %1$s%2$s%3$s%4$s%5$s y te ayudaremos.</string>
     <string name="account_deletion_message">Se ha enviado un correo electrónico a %1$s. Comprueba tu bandeja de entrada y sigue las instrucciones para confirmar la eliminación de la cuenta.\n\nTu cuenta no se eliminará hasta que recibamos tu confirmación.</string>
     <string name="request_received">Solicitud recibida</string>
-    <string name="delete_account_message">Si eliminas tu cuenta, se eliminarán de forma permanente todas las notas que hayas creado con ella. Esta acción es irreversible.</string>
+    <string name="delete_account_email_message">Si eliminas la cuenta del correo electrónico %1$s, se eliminarán de forma permanente todas las notas que hayas creado con ella. Esta acción es irreversible.</string>
     <string name="delete_account">Eliminar cuenta</string>
     <string name="dialog_already_logged_in_message">Has iniciado sesión como %1$s. Cierra sesión e inténtalo de nuevo.</string>
     <string name="dialog_already_logged_in_title">Ya has iniciado sesión</string>

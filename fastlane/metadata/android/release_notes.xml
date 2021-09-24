@@ -1,86 +1,102 @@
 <ar>
-2.20:
-* تمت إزالة شريط الفرز من قائمة الملحوظات، ولكنه ما زال قابلاً للوصول إليه من الإعدادات
-* تم إصلاح زر الرجوع للعودة إلى الشاشة الرئيسية عندما يتم الوصول إلى ملحوظة من مربع جانبي
+2.21:
+* تم تحديث الأيقونات
+* تم إصلاح موضع تمرير الملحوظة مع مطابقة الكلمة المفتاحية إذا لم تكن ثابتة
+* تم إصلاح لون خلفية المحرِّر في الوضع الأفقي للقالب الداكن
 </ar>
 <de-DE>
-2.20:
-* Die Sortierleiste wurde von der Notizenliste entfernt, ist aber immer noch über die Einstellungen zugänglich
-.* Ein Fehler bei der Schaltfläche „Zurück zur Startseite“, wenn auf eine Notiz über ein Widget zugegriffen wird, wurde behoben
-.
+2.21:
+* Aktualisierte Icons
+* Die Scroll-Position einer Notiz mit passendem Stichwort wurde korrigiert
+* Die Hintergrundfarbe des Editors im Querformat für das dunkle Theme wurde korrigiert
 </de-DE>
 <es-ES>
-2.20:
-* Se ha eliminado la barra de clasificación de la lista de notas, pero se puede acceder a ella desde la configuración
-* Se ha arreglado el botón de vuelta a la pantalla de inicio cuando se accede a una nota desde un widget
+2.21:
+* Iconos actualizados
+* Se ha corregido la posición de desplazamiento de una nota con una palabra clave coincidente como no persistente
+* Se ha corregido el color de fondo del editor en modo horizontal para el tema oscuro
 </es-ES>
 <fr-FR>
-2.20 :
-* Suppression de la barre de tri de la liste de notes mais toujours accessible dans les réglages
-* Résolution du bouton Précédent pour qu’il renvoie à l’écran d’accueil lorsque l’on accède à une note depuis un widget
+2.21 :
+* Icônes mises à jour
+* Résolution de la position de défilement d’une note avec le mot-clé correspondant non persistante
+* Résolution de la couleur d’arrière-plan de l’éditeur en mode paysage pour le thème sombre 
 </fr-FR>
 <iw-IL>
-2.20:
-* הסרנו את סרגל המיון מרשימת הפתקים אבל עדיין ניתן לגשת אליו בהגדרות
-* תיקנו את הכפתור 'חזרה' כדי לחזור אל עמוד הבית לאחר שניגשים לפתק מווידג'ט
+2.21:
+* הסמלים עודכנו
+* תיקנו את מיקום הגלילה של פתקים עם מילות מפתח מתאימות במצבים לא עקביים
+* תיקנו את צבע הרקע של העורך בתצוגה לרוחב במצב כהה
 </iw-IL>
 <id>
-2.20:
-* Bilah pengurutan dihapus dari daftar catatan, tetapi masih dapat diakses dari pengaturan
-* Tombol kembali untuk kembali ke layar beranda saat catatan diakses dari widget sudah diperbaiki
+2.21:
+* Pembaruan ikon
+* Masalah posisi pengguliran layar untuk catatan dengan kata kunci sesuai yang tidak konsisten teratasi
+* Masalah warna latar belakang editor pada mode lanskap untuk tema gelap teratasi
 </id>
 <it-IT>
-2.20:
-* Barra di ordinamento rimossa dall'elenco delle note, ma ancora accessibile dalle impostazioni
-* Risolto il problema con il pulsante di ritorno alla schermata principale quando si accede a una nota da un widget
+2.21:
+* Icone aggiornate
+* Risolto il problema con la posizione di scorrimento di una nota con la parola chiave corrispondente che non è permanente
+* Risolto il problema con il colore di sfondo dell'editor in modalità orizzontale per il tema scuro
 </it-IT>
 <ja-JP>
-2.20:
-* メモリストから並べ替えバーを削除しました (設定からアクセス可能)。
-* ウィジェットからメモにアクセスしたときは「固定背景」ボタンでホーム画面に戻ります。
+2.21:
+* アイコンを更新
+*永続的でないキーワードと一致するメモのスクロール位置を修正
+* ダークテーマのランドスケープモードでのエディターの背景色を修正
 </ja-JP>
 <ko-KR>
-2.20:
-* 정렬 바를 메모 목록에서 제거했지만 설정에서 계속 액세스할 수 있음
-* 위젯에서 메모에 액세스할 때 홈 화면으로 돌아가는 뒤로 버튼 수정함
+2.21:
+* 아이콘 업데이트함
+* 일치하는 키워드가 포함된 메모의 지속하지 않는 스크롤 위치 수정함
+* 가로 모드에서 어두운 테마에 대한 편집기의 배경 색상 수정함
 </ko-KR>
 <nl-NL>
-2.20:
-* Sorteerbalk verwijderd uit notitielijst, maar deze is nog steeds beschikbaar via instellingen
-* Probleem opgelost met de terug-knop op het terug naar home-scherm wanneer een notitie wordt geopend vanuit een widget.
+2.21:
+* Bijgewerkte pictogrammen
+* Scrolpositie verholpen bij een opmerking met overeenstemmend sleutelwoord die niet blijvend was
+* Achtergrondkleur van editor in liggende modus bij nachtmodus gecorrigeerd
 </nl-NL>
 <pt-BR>
-2.20:
-* Removemos a barra de ordenação da lista de anotações. Agora você pode acessá-la pelas configurações
-* Fixamos o botão Voltar na tela inicial para quando uma anotação é acessada a partir de um widget
+2.21:
+* Atualização de ícones
+* Correção da posição de rolagem de uma anotação com uma palavra-chave correspondente que não é persistente
+* Correção da cor de fundo do editor no modo paisagem do tema escuro
 </pt-BR>
 <ru-RU>
-2.20:
-* Строка сортировки удалена из списка заметок, однако всё ещё доступна в настройках.
-* При переходе из виджета в раздел заметок на домашнем экране закреплена кнопка "Назад".
+2.21:
+* Обновлены значки
+* Фиксированное положение при прокрутке не сохраняется для заметки с совпадающим ключевым словом
+* Исправлен цвет фона редактора в альбомном режиме для тёмной темы
 </ru-RU>
 <sv-SE>
-2.20:
-* Sorteringsfältet har tagits bort från anteckningslistan, men det går fortfarande att komma åt via inställningarna
-* Tillbaka-knappen för att återgå till startskärmen om en anteckning öppnas via en widget har korrigerats
+2.21:
+* Ikonerna har uppdaterats
+* Bläddringspositionen för anteckningar med matchande nyckelord har korrigerats i ej beständiga instanser
+* Redigerarens bakgrundsfärg i liggande läge har korrigerats för mörkt tema
 </sv-SE>
 <tr-TR>
-2.20:
-* Notlar listesinden sıralama çubuğu kaldırıldı ancak yine de ayarlardan erişebilirsiniz
-* Bileşenden bir nota erişildiği durumlar için ana ekrana geri dönüş düğmesi düzeltildi
+2.21:
+* Simgeler güncellendi
+* Kalıcı olmayan anahtar sözcükle eşleşen bir notun kaydırma konumu düzeltildi
+* Koyu tema için yatay modda düzenleyicinin arka plan rengi düzeltildi
 </tr-TR>
 <zh-CN>
-2.20：
-* 从笔记列表移除了排序栏，但仍可通过设置访问
-* 从小工具访问笔记时，将返回按钮固定到主屏幕
+2.21：
+* 更新了图标
+* 修复了具有匹配关键字的备注滚动位置不持续的问题
+* 修复了黑色主题的横向模式中编辑器的背景颜色
 </zh-CN>
 <zh-TW>
-2.20：
-* 我們從筆記清單移除了排序列，但仍可從設定存取
- * 修正從小工具存取筆記時，按一下返回按鈕返回主畫面的問題
+2.21：
+* 更新圖示
+* 修正筆記和相符關鍵字捲動位置不持續的問題
+* 修正深色佈景主題編輯器在橫向模式的背景顏色
 </zh-TW>
 <en-US>
-2.20:
-* Removed sort bar from notes list but still accessible from settings
-* Fixed back button return to home screen when a note is accessed from a widget
+2.21:
+* Updated icons
+* Fixed scroll position of a note with matching keyword in not persistent
+* Fixed editor's background color in landscape mode for dark theme
 </en-US>

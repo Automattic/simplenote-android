@@ -1,3 +1,0 @@
-2.20:
-* Se ha eliminado la barra de clasificación de la lista de notas, pero se puede acceder a ella desde la configuración
-* Se ha arreglado el botón de vuelta a la pantalla de inicio cuando se accede a una nota desde un widget

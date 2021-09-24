@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?android:attr/selectableItemBackground"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="horizontal">
+
+    <com.automattic.simplenote.widgets.RobotoRegularTextView
+        android:id="@+id/collaborator_text"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:textColor="?attr/noteTitleColor"
+        tools:text="Test"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:textSize="16sp"
+        style="?android:attr/textAppearanceMedium">
+    </com.automattic.simplenote.widgets.RobotoRegularTextView>
+
+    <ImageButton
+        android:id="@+id/collaborator_remove_button"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/remove_collaborator"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:minHeight="11dp"
+        android:minWidth="11dp"
+        android:padding="@dimen/padding_medium"
+        android:src="@drawable/ic_cross_24dp"
+        android:tint="?attr/notePreviewColor">
+    </ImageButton>
+</LinearLayout>

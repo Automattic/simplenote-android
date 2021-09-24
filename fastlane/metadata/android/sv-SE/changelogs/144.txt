@@ -1,0 +1,4 @@
+2.21:
+* Ikonerna har uppdaterats
+* Bläddringspositionen för anteckningar med matchande nyckelord har korrigerats i ej beständiga instanser
+* Redigerarens bakgrundsfärg i liggande läge har korrigerats för mörkt tema
