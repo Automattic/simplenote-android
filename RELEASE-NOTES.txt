@@ -2,6 +2,7 @@
 -----
 * Added a dedicated UI to add and remove collaborators to a note [#1491](https://github.com/Automattic/simplenote-android/pull/1491)
 * Added collaboration status indicator to the note list [#1499](https://github.com/Automattic/simplenote-android/pull/1499)
+* Fixed crash when note reference is null in editor while hiding toolbar in landscape mode [#1504](https://github.com/Automattic/simplenote-android/pull/1504)
 
 2.22
 -----
