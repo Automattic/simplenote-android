@@ -754,6 +754,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 }
 
                 return true;
+            case R.id.menu_collaborators:
+                navigateToCollaborators();
+                return true;
             case R.id.menu_history:
                 showHistory();
                 return true;
@@ -799,6 +802,22 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void navigateToCollaborators() {
+        if (getActivity() == null || mNote == null) {
+            return;
+        }
+
+        Intent intent = new Intent(requireActivity(), CollaboratorsActivity.class);
+        intent.putExtra(CollaboratorsActivity.NOTE_ID_ARG, mNote.getSimperiumKey());
+        startActivity(intent);
+
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.EDITOR_COLLABORATORS_ACCESSED,
+                CATEGORY_NOTE,
+                "collaborators_ui_accessed"
+        );
     }
 
     @Override

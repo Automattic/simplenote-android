@@ -163,6 +163,11 @@
             android:name="net.openid.appauth.RedirectUriReceiverActivity"
             tools:node="replace" />
 
+        <activity
+            android:name=".CollaboratorsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:exported="false" />
+
         <!--suppress AndroidDomInspection -->
         <activity
             android:name="org.wordpress.passcodelock.PasscodeUnlockActivity"

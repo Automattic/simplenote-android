@@ -885,6 +885,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
 
     // view holder for NotesCursorAdapter
     private static class NoteViewHolder {
+        private ImageView mHasCollaborators;
         private ImageView mPinned;
         private ImageView mPublished;
         private TextView mContent;
@@ -938,6 +939,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                 holder.mTitle = view.findViewById(R.id.note_title);
                 holder.mContent = view.findViewById(R.id.note_content);
                 holder.mDate = view.findViewById(R.id.note_date);
+                holder.mHasCollaborators = view.findViewById(R.id.note_shared);
                 holder.mPinned = view.findViewById(R.id.note_pinned);
                 holder.mPublished = view.findViewById(R.id.note_published);
                 holder.mStatus = view.findViewById(R.id.note_status);
@@ -966,11 +968,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             Calendar date = getDateByPreference(mCursor.getObject());
             holder.mDate.setText(date != null ? DateTimeUtils.getDateTextNumeric(date) : "");
             holder.mDate.setVisibility(mIsSearching && date != null ? View.VISIBLE : View.GONE);
+            boolean hasCollaborators = mCursor.getObject().hasCollaborators();
+            holder.mHasCollaborators.setVisibility(!hasCollaborators || mIsSearching ? View.GONE : View.VISIBLE);
             boolean isPinned = mCursor.getObject().isPinned();
             holder.mPinned.setVisibility(!isPinned || mIsSearching ? View.GONE : View.VISIBLE);
             boolean isPublished = !mCursor.getObject().getPublishedUrl().isEmpty();
             holder.mPublished.setVisibility(!isPublished || mIsSearching ? View.GONE : View.VISIBLE);
-            boolean showIcons = isPinned || isPublished;
+            boolean showIcons = isPinned || isPublished || hasCollaborators;
             boolean showDate = mIsSearching && date != null;
             holder.mStatus.setVisibility(showIcons || showDate ? View.VISIBLE : View.GONE);
             String title = mCursor.getString(mCursor.getColumnIndex(Note.TITLE_INDEX_NAME));
