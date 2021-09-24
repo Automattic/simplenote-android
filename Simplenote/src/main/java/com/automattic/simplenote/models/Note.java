@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.utils.DateTimeUtils;
+import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagUtils;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObject;
@@ -38,6 +39,7 @@ public class Note extends BucketObject {
     public static final String BUCKET_NAME = "note";
     public static final String MARKDOWN_TAG = "markdown";
     public static final String PINNED_TAG = "pinned";
+    public static final String SHARED_TAG = "shared";
     public static final String PREVIEW_TAG = "preview";
     public static final String PUBLISHED_TAG = "published";
     public static final String NEW_LINE = "\n";
@@ -479,6 +481,20 @@ public class Note extends BucketObject {
     public boolean isPinned() {
         return hasSystemTag(PINNED_TAG);
     }
+
+    public boolean isShared() {
+        return hasSystemTag(SHARED_TAG);
+    }
+
+    public boolean hasCollaborators() {
+        for (String tag : getTags()) {
+            if (StrUtils.isEmail(tag)) {
+                return true;
+            }
+        }
+
+        return false;
+     }
 
     public void setPinned(boolean isPinned) {
         if (isPinned) {
