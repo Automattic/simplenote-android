@@ -327,9 +327,11 @@
 
     <string name="toast_email_sent">Email sent</string>
 
+
     <string name="shared_with">Shared With</string>
 
     <!-- Collaboration -->
+    <string name="note_shared">Note Shared</string>
     <string name="add_collaborator">Add Collaborator</string>
     <string name="add_email_collaborator_message">Add an email address to share this note with someone then you can both make changes to it. When you add a collaborator, they will be notified by email.</string>
     <string name="loading_collaborators">Loading…</string>

@@ -5,6 +5,8 @@ package com.automattic.simplenote.utils;
  *  added 01-Apr-2013 by Nick Bradbury
  */
 
+import static androidx.core.util.PatternsCompat.EMAIL_ADDRESS;
+
 import android.text.Spanned;
 import android.text.TextUtils;
 
@@ -19,6 +21,10 @@ public class StrUtils {
     // suppress default constructor for non-instantiability
     private StrUtils() {
         throw new AssertionError();
+    }
+
+    public static boolean isEmail(String str) {
+        return !TextUtils.isEmpty(str) && EMAIL_ADDRESS.matcher(str).matches();
     }
 
     // returns true if the passed string is null or empty
