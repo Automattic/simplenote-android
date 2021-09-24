@@ -1,3 +1,0 @@
-2.20 :
-* Suppression de la barre de tri de la liste de notes mais toujours accessible dans les réglages
-* Résolution du bouton Précédent pour qu’il renvoie à l’écran d’accueil lorsque l’on accède à une note depuis un widget

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-08-19 20:48:54+0000
+Translation-Revision-Date: 2021-09-14 09:54:07+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="simperium_okay">확인</string>
+    <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_account_verification_message">계정에 로그인하기 전에 이메일을 확인해야 합니다.</string>
+    <string name="simperium_account_verification">계정 확인 필요</string>
     <string name="import_setting">데이터 가져오기</string>
     <string name="import_unknown">알 수 없는 형식</string>
     <string name="import_message_success">데이터 로드됨</string>
@@ -15,7 +19,7 @@ Language: ko_KR
     <string name="error_ocurred_message">오류가 발생했습니다. 다시 시도하세요. 문제가 계속 발생하면 %1$s%2$s%3$s%4$s%5$s에서 도움말을 문의하세요.</string>
     <string name="account_deletion_message">이메일을 %1$s(으)로 보냈습니다. 받은 편지함을 확인하고 지침에 따라 계정 삭제를 확인하세요.\n\n시스템에 확인이 수신될 때까지 계정이 삭제되지 않습니다.</string>
     <string name="request_received">요청 수신됨</string>
-    <string name="delete_account_message">계정을 삭제하면 이 계정을 통해 생성된 모든 메모가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.</string>
+    <string name="delete_account_email_message">이메일 %1$s에 대한 계정을 삭제하면 이 계정을 통해 생성된 모든 메모가 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.</string>
     <string name="delete_account">계정 삭제</string>
     <string name="dialog_already_logged_in_message">이미 %1$s(으)로 로그인하셨습니다. 로그아웃하고 다시 시도하세요.</string>
     <string name="dialog_already_logged_in_title">이미 로그인됨</string>

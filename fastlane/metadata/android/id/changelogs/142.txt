@@ -1,3 +1,0 @@
-2.20:
-* Bilah pengurutan dihapus dari daftar catatan, tetapi masih dapat diakses dari pengaturan
-* Tombol kembali untuk kembali ke layar beranda saat catatan diakses dari widget sudah diperbaiki

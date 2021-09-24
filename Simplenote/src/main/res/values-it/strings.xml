@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-08-19 20:47:58+0000
+Translation-Revision-Date: 2021-09-16 22:08:32+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="simperium_okay">Ok</string>
+    <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_account_verification_message">Devi verificare l\'e-mail prima di accedere al tuo account.</string>
+    <string name="simperium_account_verification">Verifica dell\'account richiesta</string>
     <string name="import_setting">Importa dati</string>
     <string name="import_unknown">Formato sconosciuto</string>
     <string name="import_message_success">Dati caricati</string>
@@ -15,7 +19,7 @@ Language: it
     <string name="error_ocurred_message">Si è verificato un errore. Riprova. Se il problema persiste, contattaci all\'indirizzo %1$s%2$s%3$s%4$s%5$s per ricevere supporto.</string>
     <string name="account_deletion_message">È stata inviata un\'e-mail a %1$s. Controlla la posta in arrivo e segui le istruzioni per confermare l\'eliminazione dell\'account.\n\nIl tuo account non verrà eliminato fino alla ricezione della conferma.</string>
     <string name="request_received">Richiesta ricevuta</string>
-    <string name="delete_account_message">Eliminando il tuo account, tutte le note create con esso verranno eliminate definitivamente. Questa azione non potrà essere annullata.</string>
+    <string name="delete_account_email_message">Eliminando il tuo account per %1$s, tutte le note create con esso verranno eliminate definitivamente. Questa azione non potrà essere annullata.</string>
     <string name="delete_account">Elimina account</string>
     <string name="dialog_already_logged_in_message">Hai già effettuato l\'accesso come %1$s. Disconnettiti e riprova.</string>
     <string name="dialog_already_logged_in_title">Accesso già effettuato</string>
@@ -53,6 +57,7 @@ Language: it
     <string name="style_sepia">Seppia</string>
     <string name="style_publication">Pubblicazione</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit.nsectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
+    <string name="style_mono">Mono</string>
     <string name="style_matrix">Matrice</string>
     <string name="style_dialog_locked_title">Stile Premium</string>
     <string name="style_dialog_locked_message">Per utilizzare questo stile, devi disporre di una membership Premium.</string>

@@ -1,0 +1,4 @@
+2.21:
+* Atualização de ícones
+* Correção da posição de rolagem de uma anotação com uma palavra-chave correspondente que não é persistente
+* Correção da cor de fundo do editor no modo paisagem do tema escuro

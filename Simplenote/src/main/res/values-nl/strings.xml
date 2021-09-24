@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-08-19 20:49:55+0000
+Translation-Revision-Date: 2021-09-14 11:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="simperium_okay">Oké</string>
+    <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_account_verification_message">Je moet je e-mailadres verifiëren voordat je je aanmeldt bij je account.</string>
+    <string name="simperium_account_verification">Accountverificatie vereist</string>
     <string name="import_setting">Gegevens importeren</string>
     <string name="import_unknown">Onbekende indeling</string>
     <string name="import_message_success">Gegevens geladen</string>
@@ -15,7 +19,7 @@ Language: nl
     <string name="error_ocurred_message">Er is een fout opgetreden. Probeer het opnieuw. Neem contact met ons op via %1$s%2$s%3$s%4$s%5$s voor hulp als het probleem niet is opgelost.</string>
     <string name="account_deletion_message">Er is een e-mail verzonden naar %1$s. Controleer je inbox en volg de instructies om het verwijderen van je account te bevestigen.\n\nJe account zal niet worden verwijderd totdat we je bevestiging hebben ontvangen.</string>
     <string name="request_received">Verzoek ontvangen</string>
-    <string name="delete_account_message">Door je account te verwijderen zullen alle notities die gemaakt zijn met dit account permanent worden verwijderd. Dit kan niet worden teruggedraaid.</string>
+    <string name="delete_account_email_message">Door het account voor e-mailadres %1$s te verwijderen zullen alle opmerkingen die gemaakt zijn met dit account permanent worden verwijderd. Dit kan niet worden teruggedraaid.</string>
     <string name="delete_account">Account verwijderen</string>
     <string name="dialog_already_logged_in_message">Je bent al ingelogd als %1$s. Log uit en probeer het opnieuw.</string>
     <string name="dialog_already_logged_in_title">Al ingelogd</string>

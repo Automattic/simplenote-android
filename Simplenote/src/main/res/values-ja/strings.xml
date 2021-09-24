@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-08-19 20:50:03+0000
+Translation-Revision-Date: 2021-09-15 09:54:56+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="simperium_okay">OK</string>
+    <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_account_verification_message">アカウントにログインする前にメールアドレスを認証する必要があります。</string>
+    <string name="simperium_account_verification">アカウント認証が必要</string>
     <string name="import_setting">データのインポート</string>
     <string name="import_unknown">不明なフォーマット</string>
     <string name="import_message_success">データを読み込みました</string>
@@ -15,7 +19,7 @@ Language: ja_JP
     <string name="error_ocurred_message">エラーが発生しました。 もう一度お試しください。 問題が解決しない場合は、%1$s%2$s%3$s%4$s%5$s までお問い合わせください。</string>
     <string name="account_deletion_message">%1$s にメールが送信されました。 受信トレイを確認し、手順に従ってアカウントの削除を確定してください。\n\n当社がお客様から確認を得るまでアカウントは削除されません。</string>
     <string name="request_received">リクエストを受信しました</string>
-    <string name="delete_account_message">アカウントを削除すると、このアカウントで作成したすべてのメモが完全に削除されます。 この操作を元に戻すことはできません。</string>
+    <string name="delete_account_email_message">メールアドレス %1$s のアカウントを削除すると、このアカウントで作成したすべてのメモが完全に削除されます。 この操作を元に戻すことはできません。</string>
     <string name="delete_account">アカウントを削除</string>
     <string name="dialog_already_logged_in_message">すでに %1$s としてログインしています。 ログアウトして再度お試しください。</string>
     <string name="dialog_already_logged_in_title">すでにログイン済み</string>

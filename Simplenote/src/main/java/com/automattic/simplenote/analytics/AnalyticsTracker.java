@@ -102,6 +102,8 @@ public final class AnalyticsTracker {
         EDITOR_EMAIL_TAG_ADDED,
         EDITOR_EMAIL_TAG_REMOVED,
         EDITOR_TAG_ADDED,
+        COLLABORATOR_ADDED,
+        COLLABORATOR_REMOVED,
         EDITOR_TAG_REMOVED,
         EDITOR_NOTE_PINNED,
         EDITOR_NOTE_UNPINNED,

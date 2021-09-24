@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-08-19 20:49:45+0000
+Translation-Revision-Date: 2021-09-14 15:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="simperium_okay">確定</string>
+    <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_account_verification_message">你必須驗證電子郵件地址才能登入你的帳號。</string>
+    <string name="simperium_account_verification">需要驗證帳號</string>
     <string name="import_setting">匯入資料</string>
     <string name="import_unknown">未知的格式</string>
     <string name="import_message_success">已載入資料</string>
@@ -15,7 +19,7 @@ Language: zh_TW
     <string name="error_ocurred_message">發生錯誤。 請再試一次。 如果問題持續發生，請聯絡我們尋求協助：%1$s%2$s%3$s%4$s%5$s。</string>
     <string name="account_deletion_message">電子郵件已傳送至 %1$s。 請檢查你的收件匣，並按照說明確認刪除帳號。\n\n在收到你的確認之前，我們不會刪除你的帳號。</string>
     <string name="request_received">已收到要求</string>
-    <string name="delete_account_message">若刪除帳號，此帳號建立的所有備註都會永久刪除。 此動作無法復原。</string>
+    <string name="delete_account_email_message">若刪除電子郵件地址為 %1$s 的帳號，此帳號建立的所有筆記將永久刪除。 此動作無法復原。</string>
     <string name="delete_account">刪除帳號</string>
     <string name="dialog_already_logged_in_message">你已使用 %1$s 的身分登入。 請登出，然後再試一次。</string>
     <string name="dialog_already_logged_in_title">已登入</string>

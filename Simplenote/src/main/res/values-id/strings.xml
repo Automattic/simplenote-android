@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-08-19 20:52:13+0000
+Translation-Revision-Date: 2021-09-14 09:54:04+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="simperium_okay">Baik</string>
+    <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_account_verification_message">Anda harus memverifikasi email Anda sebelum dapat login ke akun.</string>
+    <string name="simperium_account_verification">Dibutuhkan Verifikasi Akun</string>
     <string name="import_setting">Impor data</string>
     <string name="import_unknown">Format tidak dikenali</string>
     <string name="import_message_success">Data dimuat</string>
@@ -15,7 +19,7 @@ Language: id
     <string name="error_ocurred_message">Terjadi error. Harap coba lagi. Jika masalah berlanjut, hubungi kami di %1$s%2$s%3$s%4$s%5$s untuk mendapatkan bantuan.</string>
     <string name="account_deletion_message">Email dikirim ke %1$s. Periksa kotak masuk Anda dan ikuti petunjuk untuk mengonfirmasi penghapusan akun.\n\nAkun tidak akan dihapus hingga kami menerima konfirmasi Anda.</string>
     <string name="request_received">Permintaan Diterima</string>
-    <string name="delete_account_message">Dengan menghapus akun, semua catatan yang dibuat dengan akun ini akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="delete_account_email_message">Dengan menghapus akun untuk email %1$s, semua catatan yang dibuat dengan akun tersebut akan dihapus secara permanen. Tindakan ini tidak dapat dibatalkan.</string>
     <string name="delete_account">Hapus Akun</string>
     <string name="dialog_already_logged_in_message">Anda sudah login sebagai %1$s. Harap keluar lalu coba lagi.</string>
     <string name="dialog_already_logged_in_title">Sudah Login</string>
