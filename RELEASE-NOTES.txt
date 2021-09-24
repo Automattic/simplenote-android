@@ -1,6 +1,6 @@
 2.23
 -----
-
+* Added collaboration status indicator to the note list [#1499](https://github.com/Automattic/simplenote-android/pull/1499)
 
 2.22
 -----
