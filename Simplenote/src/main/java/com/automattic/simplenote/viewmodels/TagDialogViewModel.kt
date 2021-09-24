@@ -47,7 +47,7 @@ class TagDialogViewModel @Inject constructor(
                 _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_length)
             ValidateTagUseCase.TagValidationResult.TagIsCollaborator ->
                 _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_collaborator)
-            ValidateTagUseCase.TagValidationResult.TagExists, // If the tag exists, it will manage in a later stage
+            ValidateTagUseCase.TagValidationResult.TagExists, // If the tag exists, it will be managed in a later stage
             ValidateTagUseCase.TagValidationResult.TagValid ->
                 _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = null)
         }
