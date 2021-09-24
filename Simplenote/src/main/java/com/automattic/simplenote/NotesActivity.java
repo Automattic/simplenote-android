@@ -654,10 +654,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
 
     private List<Tag> getTagsFromCursor(Bucket.ObjectCursor<Tag> tagCursor) {
         List<Tag> tags = new ArrayList<>();
-        if (tagCursor.getCount() == 0) {
-            return tags;
-        }
-
 
         for (int i = 0; i < tagCursor.getCount(); i++) {
             tagCursor.moveToNext();
