@@ -341,6 +341,7 @@
     <string name="email_address">Email Address</string>
     <string name="accept">Accept</string>
     <string name="invalid_collaborator">Please enter a valid email address</string>
+    <string name="collaborator_is_current_user">Please enter an email address different than your account\'s email</string>
     <string name="collaborators_note_deleted">Note was deleted. You cannot edit collaborators on a note that was deleted.</string>
     <string name="collaborators_note_trashed">Note was trashed. You cannot edit collaborators on a note that is in the trash.</string>
     <string name="no_collaborators">No Collaborators</string>

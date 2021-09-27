@@ -1,12 +1,12 @@
 package com.automattic.simplenote
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.os.Handler
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.core.widget.doAfterTextChanged
@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import com.automattic.simplenote.databinding.AddCollaboratorBinding
 import com.automattic.simplenote.utils.DisplayUtils
 import com.automattic.simplenote.viewmodels.AddCollaboratorViewModel
+import com.automattic.simplenote.viewmodels.AddCollaboratorViewModel.Event
 import com.automattic.simplenote.widgets.MorphCircleToRectangle
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -83,16 +84,17 @@ class AddCollaboratorFragment(private val noteId: String) : AppCompatDialogFragm
     private fun setObservers() {
         viewModel.event.observe(this, { event ->
             when (event) {
-                AddCollaboratorViewModel.Event.Close,
-                AddCollaboratorViewModel.Event.NoteDeleted, // In case the note is deleted, the activity handles it.
-                AddCollaboratorViewModel.Event.NoteInTrash, // In case the note is trashed, the activity handles it.
-                AddCollaboratorViewModel.Event.CollaboratorAdded -> dismiss()
-                AddCollaboratorViewModel.Event.InvalidCollaborator -> setErrorInputField()
+                Event.Close,
+                Event.NoteDeleted, // In case the note is deleted, the activity handles it.
+                Event.NoteInTrash, // In case the note is trashed, the activity handles it.
+                Event.CollaboratorAdded -> dismiss()
+                Event.InvalidCollaborator -> setErrorInputField(R.string.invalid_collaborator)
+                Event.CollaboratorCurrentUser -> setErrorInputField(R.string.collaborator_is_current_user)
             }
         })
     }
 
-    private fun setErrorInputField() {
-        binding.collaboratorInput.error = getString(R.string.invalid_collaborator)
+    private fun setErrorInputField(@StringRes message: Int) {
+        binding.collaboratorInput.error = getString(message)
     }
 }
