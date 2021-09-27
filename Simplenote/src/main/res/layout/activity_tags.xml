@@ -31,8 +31,7 @@
 
         <include
             android:id="@+id/empty"
-            layout="@layout/empty_view">
-        </include>
+            layout="@layout/empty_view" />
 
         <ImageButton
             android:id="@+id/button_add"
