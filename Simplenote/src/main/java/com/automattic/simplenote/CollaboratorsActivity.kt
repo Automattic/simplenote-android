@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
@@ -73,8 +74,18 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         collaboratorsList.adapter = CollaboratorsAdapter(viewModel::clickRemoveCollaborator)
         collaboratorsList.isNestedScrollingEnabled = false
         collaboratorsList.layoutManager = LinearLayoutManager(this@CollaboratorsActivity)
+        collaboratorsList.setEmptyView(empty.root)
 
-        rowAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
+        buttonAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
+    }
+
+    private fun ActivityCollaboratorsBinding.setEmptyListImage(@DrawableRes image: Int) {
+        if (image != -1) {
+            empty.image.visibility = View.VISIBLE
+            empty.image.setImageResource(image)
+        } else {
+            empty.image.visibility = View.GONE
+        }
     }
 
     private fun setupToolbar() {
@@ -113,21 +124,17 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     }
 
     private fun ActivityCollaboratorsBinding.handleCollaboratorsList(collaborators: List<String>) {
-        sharedMessage.visibility = View.VISIBLE
-        collaboratorsList.visibility = View.VISIBLE
-        dividerLine.visibility = View.VISIBLE
-        buttonAddCollaborator.visibility = View.VISIBLE
-        emptyMessage.visibility = View.GONE
-
+        setEmptyListImage(-1)
+        empty.message.visibility = View.GONE
         (collaboratorsList.adapter as CollaboratorsAdapter).submitList(collaborators)
     }
 
     private fun ActivityCollaboratorsBinding.handleEmptyCollaborators() {
-        sharedMessage.visibility = View.GONE
-        collaboratorsList.visibility = View.GONE
-        dividerLine.visibility = View.GONE
-        buttonAddCollaborator.visibility = View.VISIBLE
-        emptyMessage.visibility = View.VISIBLE
+        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(emptyList())
+        setEmptyListImage(R.drawable.ic_collaborate_24dp)
+        empty.title.text = getString(R.string.no_collaborators)
+        empty.message.visibility = View.VISIBLE
+        empty.message.text = getString(R.string.add_email_collaborator_message)
     }
 
     private fun showAddCollaboratorFragment(event: Event.AddCollaboratorEvent) {
