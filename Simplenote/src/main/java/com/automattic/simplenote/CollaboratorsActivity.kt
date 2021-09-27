@@ -14,6 +14,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.databinding.ActivityCollaboratorsBinding
 import com.automattic.simplenote.utils.CollaboratorsAdapter
+import com.automattic.simplenote.utils.CollaboratorsAdapter.*
+import com.automattic.simplenote.utils.CollaboratorsAdapter.CollaboratorDataItem.*
 import com.automattic.simplenote.utils.toast
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.Event
@@ -126,7 +128,9 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     private fun ActivityCollaboratorsBinding.handleCollaboratorsList(collaborators: List<String>) {
         setEmptyListImage(-1)
         empty.message.visibility = View.GONE
-        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(collaborators)
+
+        val items = listOf(HeaderItem) + collaborators.map { CollaboratorItem(it) }
+        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(items)
     }
 
     private fun ActivityCollaboratorsBinding.handleEmptyCollaborators() {

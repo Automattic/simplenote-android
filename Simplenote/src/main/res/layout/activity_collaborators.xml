@@ -21,6 +21,8 @@
             android:id="@+id/collaborators_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="72dp"
+            android:layout_marginBottom="10dp"
             android:background="@android:color/transparent"
             android:clipToPadding="false"
             android:divider="?attr/listDividerDrawable"
@@ -31,7 +33,7 @@
 
         <include
             android:id="@+id/empty"
-            layout="@layout/empty_view_message"></include>
+            layout="@layout/empty_view_message" />
 
         <ImageButton
             android:id="@+id/button_add_collaborator"
