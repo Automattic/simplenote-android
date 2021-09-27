@@ -12,16 +12,6 @@ class CollaboratorsAdapter(
     private val onDeleteClick: (collaborator: String) -> Unit,
 ) : ListAdapter<CollaboratorsAdapter.CollaboratorDataItem, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
-    sealed class CollaboratorDataItem {
-        abstract val id: Int
-        object HeaderItem : CollaboratorDataItem() {
-            override val id = Int.MIN_VALUE
-        }
-        data class CollaboratorItem(val email: String) : CollaboratorDataItem() {
-            override val id = email.hashCode()
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             ITEM_VIEW_TYPE_HEADER -> {
@@ -46,6 +36,16 @@ class CollaboratorsAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is CollaboratorViewHolder) {
             holder.bind(getItem(position) as CollaboratorDataItem.CollaboratorItem)
+        }
+    }
+
+    sealed class CollaboratorDataItem {
+        abstract val id: Int
+        object HeaderItem : CollaboratorDataItem() {
+            override val id = Int.MIN_VALUE
+        }
+        data class CollaboratorItem(val email: String) : CollaboratorDataItem() {
+            override val id = email.hashCode()
         }
     }
 
