@@ -48,7 +48,7 @@ class AddCollaboratorViewModel @Inject constructor(
     private fun isCurrentUser(collaborator: String): Boolean {
         return when(val currentUser = sessionManager.getCurrentUser()) {
             is UserSession.AuthorizedUser -> currentUser.user.email == collaborator
-            is UserSession.UnauthorizedUser -> false // This should not happen
+            is UserSession.UnauthorizedUser -> false // This should not happen.
         }
      }
 
