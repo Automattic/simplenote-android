@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_parent_view"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/toolbar">
-    </include>
+    <include layout="@layout/toolbar" />
 
     <RelativeLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <com.automattic.simplenote.widgets.EmptyViewRecyclerView
@@ -35,19 +32,18 @@
 
         <ImageButton
             android:id="@+id/button_add"
+            android:layout_width="@dimen/button_floating"
+            android:layout_height="@dimen/button_floating"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/padding_large"
+            android:layout_marginBottom="@dimen/padding_large"
             android:background="@drawable/bg_ripple_oval_fab_color"
             android:contentDescription="@string/add_tag"
             android:elevation="@dimen/elevation_button"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_height="@dimen/button_floating"
-            android:layout_marginEnd="@dimen/padding_large"
-            android:layout_marginBottom="@dimen/padding_large"
-            android:layout_width="@dimen/button_floating"
             android:src="@drawable/ic_add_24dp"
             android:stateListAnimator="@animator/button_raise"
-            app:tint="?attr/fabIconColor">
-        </ImageButton>
+            app:tint="?attr/fabIconColor" />
 
     </RelativeLayout>
 
