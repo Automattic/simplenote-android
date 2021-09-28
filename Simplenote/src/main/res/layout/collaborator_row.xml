@@ -33,6 +33,7 @@
         android:minHeight="11dp"
         android:minWidth="11dp"
         android:padding="@dimen/padding_medium"
+        android:layout_marginEnd="4dp"
         android:src="@drawable/ic_cross_24dp"
         android:tint="?attr/notePreviewColor">
     </ImageButton>
