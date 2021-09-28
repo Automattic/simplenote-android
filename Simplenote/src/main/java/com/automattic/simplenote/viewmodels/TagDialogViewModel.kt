@@ -7,11 +7,15 @@ import com.automattic.simplenote.R
 import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.models.Tag
 import com.automattic.simplenote.repositories.TagsRepository
+import com.automattic.simplenote.usecases.ValidateTagUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class TagDialogViewModel @Inject constructor(private val tagsRepository: TagsRepository) : ViewModel() {
+class TagDialogViewModel @Inject constructor(
+    private val tagsRepository: TagsRepository,
+    private val validateTagUseCase: ValidateTagUseCase
+) : ViewModel() {
     private val _uiState = MutableLiveData<UiState>()
     val uiState: LiveData<UiState> = _uiState
 
@@ -34,22 +38,19 @@ class TagDialogViewModel @Inject constructor(private val tagsRepository: TagsRep
             return
         }
 
-        if (tagName.isEmpty()) {
-            _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_empty)
-            return
+        when (validateTagUseCase.isTagValid(tagName)) {
+            ValidateTagUseCase.TagValidationResult.TagEmpty ->
+                _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_empty)
+            ValidateTagUseCase.TagValidationResult.TagWithSpaces ->
+                _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_spaces)
+            ValidateTagUseCase.TagValidationResult.TagTooLong ->
+                _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_length)
+            ValidateTagUseCase.TagValidationResult.TagIsCollaborator ->
+                _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_collaborator)
+            ValidateTagUseCase.TagValidationResult.TagExists, // If the tag exists, it will be managed in a later stage
+            ValidateTagUseCase.TagValidationResult.TagValid ->
+                _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = null)
         }
-
-        if (tagName.contains(" ")) {
-            _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_spaces)
-            return
-        }
-
-        if (!tagsRepository.isTagValid(tagName)) {
-            _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = R.string.tag_error_length)
-            return
-        }
-
-        _uiState.value = currentUiState.copy(tagName = tagName, errorMsg = null)
     }
 
     fun renameTagIfValid() {

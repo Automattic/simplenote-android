@@ -136,6 +136,7 @@
     <string name="tag_error_exists">Tag already exists</string>
     <string name="tag_error_length">Tag length too long</string>
     <string name="tag_error_spaces">Tags cannot contain spaces</string>
+    <string name="tag_error_collaborator">Tags cannot be emails</string>
 
     <!-- Undo -->
     <string name="undo">Undo</string>

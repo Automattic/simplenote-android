@@ -1,5 +1,34 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_TAG;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_USER;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_RESTORED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTES_SEARCHED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_CREATED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_DELETED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_OPENED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TAG_VIEWED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TRASH_EMPTIED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TRASH_VIEWED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_BUTTON_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_ACCOUNT_CREATED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_SIGNED_IN;
+import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
+import static com.automattic.simplenote.utils.TagsAdapter.ALL_NOTES_ID;
+import static com.automattic.simplenote.utils.TagsAdapter.DEFAULT_ITEM_POSITION;
+import static com.automattic.simplenote.utils.TagsAdapter.SETTINGS_ID;
+import static com.automattic.simplenote.utils.TagsAdapter.TAGS_ID;
+import static com.automattic.simplenote.utils.TagsAdapter.TRASH_ID;
+import static com.automattic.simplenote.utils.TagsAdapter.UNTAGGED_NOTES_ID;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
+
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,6 +73,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
+import com.automattic.simplenote.repositories.CollaboratorsRepository;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.AuthUtils;
@@ -75,34 +105,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.automattic.simplenote.NoteListFragment.TAG_PREFIX;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_TAG;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_USER;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.EDITOR_NOTE_RESTORED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTES_SEARCHED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_CREATED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_DELETED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_NOTE_OPENED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TAG_VIEWED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TRASH_EMPTIED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.LIST_TRASH_VIEWED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_BUTTON_TAPPED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_SIGN_IN_TAPPED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_TAPPED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_ACCOUNT_CREATED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_SIGNED_IN;
-import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
-import static com.automattic.simplenote.utils.TagsAdapter.ALL_NOTES_ID;
-import static com.automattic.simplenote.utils.TagsAdapter.DEFAULT_ITEM_POSITION;
-import static com.automattic.simplenote.utils.TagsAdapter.SETTINGS_ID;
-import static com.automattic.simplenote.utils.TagsAdapter.TAGS_ID;
-import static com.automattic.simplenote.utils.TagsAdapter.TRASH_ID;
-import static com.automattic.simplenote.utils.TagsAdapter.UNTAGGED_NOTES_ID;
-import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
-import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
+import javax.inject.Inject;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -152,6 +155,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     private ActionBarDrawerToggle mDrawerToggle;
     private TagsAdapter mTagsAdapter;
     private TagsAdapter.TagMenuItem mSelectedTag;
+    @Inject CollaboratorsRepository collaboratorsRepository;
     // Tags bucket listener
     private Bucket.Listener<Tag> mTagsMenuUpdater = new Bucket.Listener<Tag>() {
         @Override
@@ -648,16 +652,30 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
     }
 
-    private void updateNavigationDrawerItems() {
-        boolean isAlphaSort = PrefUtils.getBoolPref(this, PrefUtils.PREF_SORT_TAGS_ALPHA);
-        Bucket.ObjectCursor<Tag> tagCursor;
-        if (isAlphaSort) {
-            tagCursor = Tag.allSortedAlphabetically(mTagsBucket).execute();
-        } else {
-            tagCursor = Tag.allWithName(mTagsBucket).execute();
+    private List<Tag> getTagsFromCursor(Bucket.ObjectCursor<Tag> tagCursor) {
+        List<Tag> tags = new ArrayList<>();
+
+        for (int i = 0; i < tagCursor.getCount(); i++) {
+            tagCursor.moveToNext();
+            Tag tag = tagCursor.getObject();
+            if (!collaboratorsRepository.isValidCollaborator(tag.getName())) {
+                tags.add(tag);
+            }
         }
 
-        mTagsAdapter.changeCursor(tagCursor);
+        return tags;
+    }
+
+    private void updateNavigationDrawerItems() {
+        boolean isAlphaSort = PrefUtils.getBoolPref(this, PrefUtils.PREF_SORT_TAGS_ALPHA);
+        List<Tag> tags;
+        if (isAlphaSort) {
+            tags = getTagsFromCursor(Tag.allSortedAlphabetically(mTagsBucket).execute());
+        } else {
+            tags = getTagsFromCursor(Tag.allWithName(mTagsBucket).execute());
+        }
+
+        mTagsAdapter.submitList(tags);
         mNavigationMenu.removeGroup(GROUP_SECONDARY);
         mNavigationMenu.removeGroup(GROUP_TERTIARY);
 

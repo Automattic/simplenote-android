@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.models.TagItem
 import com.automattic.simplenote.repositories.TagsRepository
+import com.automattic.simplenote.usecases.GetTagsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -15,7 +16,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TagsViewModel @Inject constructor(private val tagsRepository: TagsRepository) : ViewModel() {
+class TagsViewModel @Inject constructor(
+    private val tagsRepository: TagsRepository,
+    private val getTagsUseCase: GetTagsUseCase
+) : ViewModel() {
     private val _uiState = MutableLiveData<UiState>()
     val uiState: LiveData<UiState> = _uiState
 
@@ -26,7 +30,7 @@ class TagsViewModel @Inject constructor(private val tagsRepository: TagsReposito
 
     fun start() {
         viewModelScope.launch {
-            val tagItems = tagsRepository.allTags()
+            val tagItems = getTagsUseCase.allTags()
             _uiState.value = UiState(tagItems)
         }
     }
@@ -41,8 +45,8 @@ class TagsViewModel @Inject constructor(private val tagsRepository: TagsReposito
     }
 
     private suspend fun updateUiState(searchQuery: String?, searchUpdate: Boolean = false) {
-        val tagItems = if (searchQuery == null) tagsRepository.allTags()
-            else tagsRepository.searchTags(searchQuery)
+        val tagItems = if (searchQuery == null) getTagsUseCase.allTags()
+            else getTagsUseCase.searchTags(searchQuery)
 
         _uiState.value = UiState(tagItems, searchUpdate, searchQuery)
     }
