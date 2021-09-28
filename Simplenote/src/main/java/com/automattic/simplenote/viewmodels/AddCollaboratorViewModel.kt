@@ -21,7 +21,7 @@ class AddCollaboratorViewModel @Inject constructor(
     val event: LiveData<Event> = _event
 
     fun addCollaborator(noteId: String, collaborator: String) {
-        when(isCurrentUser(collaborator)) {
+        when (isCurrentUser(collaborator)) {
             true -> _event.value = Event.CollaboratorCurrentUser
             false -> viewModelScope.launch {
                 when (collaboratorsRepository.isValidCollaborator(collaborator)) {
@@ -46,11 +46,11 @@ class AddCollaboratorViewModel @Inject constructor(
     }
 
     private fun isCurrentUser(collaborator: String): Boolean {
-        return when(val currentUser = sessionManager.getCurrentUser()) {
+        return when (val currentUser = sessionManager.getCurrentUser()) {
             is UserSession.AuthorizedUser -> currentUser.user.email == collaborator
             is UserSession.UnauthorizedUser -> false // This should not happen.
         }
-     }
+    }
 
     fun close() {
         _event.value = Event.Close

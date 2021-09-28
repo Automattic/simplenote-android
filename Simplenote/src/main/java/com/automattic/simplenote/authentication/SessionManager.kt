@@ -13,7 +13,7 @@ class SessionManager @Inject constructor(private val simperium: Simperium) {
     fun getCurrentUser(): UserSession {
         val currentUser = simperium.user ?: return UserSession.UnauthorizedUser
 
-        return when(currentUser.email != null && !currentUser.needsAuthorization()) {
+        return when (currentUser.email != null && !currentUser.needsAuthorization()) {
             true -> UserSession.AuthorizedUser(currentUser)
             false -> UserSession.UnauthorizedUser
         }
