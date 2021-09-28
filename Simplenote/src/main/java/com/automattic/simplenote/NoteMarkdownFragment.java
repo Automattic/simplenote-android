@@ -200,8 +200,8 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
             case R.id.menu_copy_internal:
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.INTERNOTE_LINK_COPIED,
-                    AnalyticsTracker.CATEGORY_LINK,
-                    "internote_link_copied_markdown"
+                        AnalyticsTracker.CATEGORY_LINK,
+                        "internote_link_copied_markdown"
                 );
 
                 if (!isAdded()) {
