@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.Toolbar
@@ -79,15 +78,10 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         collaboratorsList.setEmptyView(empty.root)
 
         buttonAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
-    }
 
-    private fun ActivityCollaboratorsBinding.setEmptyListImage(@DrawableRes image: Int) {
-        if (image != -1) {
-            empty.image.visibility = View.VISIBLE
-            empty.image.setImageResource(image)
-        } else {
-            empty.image.visibility = View.GONE
-        }
+        empty.image.setImageResource(R.drawable.ic_collaborate_24dp)
+        empty.title.text = getString(R.string.no_collaborators)
+        empty.message.text = getString(R.string.add_email_collaborator_message)
     }
 
     private fun setupToolbar() {
@@ -126,19 +120,26 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     }
 
     private fun ActivityCollaboratorsBinding.handleCollaboratorsList(collaborators: List<String>) {
-        setEmptyListImage(-1)
-        empty.message.visibility = View.GONE
-
+        hideEmptyView()
         val items = listOf(HeaderItem) + collaborators.map { CollaboratorItem(it) }
         (collaboratorsList.adapter as CollaboratorsAdapter).submitList(items)
     }
 
     private fun ActivityCollaboratorsBinding.handleEmptyCollaborators() {
+        showEmptyView()
         (collaboratorsList.adapter as CollaboratorsAdapter).submitList(emptyList())
-        setEmptyListImage(R.drawable.ic_collaborate_24dp)
-        empty.title.text = getString(R.string.no_collaborators)
+    }
+
+    private fun ActivityCollaboratorsBinding.hideEmptyView() {
+        empty.image.visibility = View.GONE
+        empty.title.visibility = View.GONE
+        empty.message.visibility = View.GONE
+    }
+
+    private fun ActivityCollaboratorsBinding.showEmptyView() {
+        empty.image.visibility = View.VISIBLE
+        empty.title.visibility = View.VISIBLE
         empty.message.visibility = View.VISIBLE
-        empty.message.text = getString(R.string.add_email_collaborator_message)
     }
 
     private fun showAddCollaboratorFragment(event: Event.AddCollaboratorEvent) {
