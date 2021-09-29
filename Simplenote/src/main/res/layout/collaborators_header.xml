@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/shared_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_large"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="@dimen/padding_small"
+        android:layout_marginBottom="12dp"
+        android:lineSpacingExtra="6sp"
+        android:text="@string/shared_with"
+        android:textColor="?attr/colorAccent"
+        android:textSize="14sp"
+        android:textStyle="normal" />
+</LinearLayout>

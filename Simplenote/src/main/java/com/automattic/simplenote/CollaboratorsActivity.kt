@@ -13,6 +13,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.databinding.ActivityCollaboratorsBinding
 import com.automattic.simplenote.utils.CollaboratorsAdapter
+import com.automattic.simplenote.utils.CollaboratorsAdapter.*
+import com.automattic.simplenote.utils.CollaboratorsAdapter.CollaboratorDataItem.*
 import com.automattic.simplenote.utils.toast
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.Event
@@ -73,8 +75,13 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         collaboratorsList.adapter = CollaboratorsAdapter(viewModel::clickRemoveCollaborator)
         collaboratorsList.isNestedScrollingEnabled = false
         collaboratorsList.layoutManager = LinearLayoutManager(this@CollaboratorsActivity)
+        collaboratorsList.setEmptyView(empty.root)
 
-        rowAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
+        buttonAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
+
+        empty.image.setImageResource(R.drawable.ic_collaborate_24dp)
+        empty.title.text = getString(R.string.no_collaborators)
+        empty.message.text = getString(R.string.add_email_collaborator_message)
     }
 
     private fun setupToolbar() {
@@ -113,21 +120,26 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     }
 
     private fun ActivityCollaboratorsBinding.handleCollaboratorsList(collaborators: List<String>) {
-        sharedMessage.visibility = View.VISIBLE
-        collaboratorsList.visibility = View.VISIBLE
-        dividerLine.visibility = View.VISIBLE
-        buttonAddCollaborator.visibility = View.VISIBLE
-        emptyMessage.visibility = View.GONE
-
-        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(collaborators)
+        hideEmptyView()
+        val items = listOf(HeaderItem) + collaborators.map { CollaboratorItem(it) }
+        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(items)
     }
 
     private fun ActivityCollaboratorsBinding.handleEmptyCollaborators() {
-        sharedMessage.visibility = View.GONE
-        collaboratorsList.visibility = View.GONE
-        dividerLine.visibility = View.GONE
-        buttonAddCollaborator.visibility = View.VISIBLE
-        emptyMessage.visibility = View.VISIBLE
+        showEmptyView()
+        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(emptyList())
+    }
+
+    private fun ActivityCollaboratorsBinding.hideEmptyView() {
+        empty.image.visibility = View.GONE
+        empty.title.visibility = View.GONE
+        empty.message.visibility = View.GONE
+    }
+
+    private fun ActivityCollaboratorsBinding.showEmptyView() {
+        empty.image.visibility = View.VISIBLE
+        empty.title.visibility = View.VISIBLE
+        empty.message.visibility = View.VISIBLE
     }
 
     private fun showAddCollaboratorFragment(event: Event.AddCollaboratorEvent) {

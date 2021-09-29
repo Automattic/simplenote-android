@@ -15,12 +15,12 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_width="0dp"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_marginStart="@dimen/padding_large"
         android:textColor="?attr/noteTitleColor"
         tools:text="Test"
-        android:layout_marginEnd="@dimen/padding_small"
         android:textSize="16sp"
-        style="?android:attr/textAppearanceMedium">
-    </com.automattic.simplenote.widgets.RobotoRegularTextView>
+        android:layout_marginEnd="@dimen/padding_small" />
 
     <ImageButton
         android:id="@+id/collaborator_remove_button"
@@ -33,6 +33,7 @@
         android:minHeight="11dp"
         android:minWidth="11dp"
         android:padding="@dimen/padding_medium"
+        android:layout_marginEnd="4dp"
         android:src="@drawable/ic_cross_24dp"
         android:tint="?attr/notePreviewColor">
     </ImageButton>

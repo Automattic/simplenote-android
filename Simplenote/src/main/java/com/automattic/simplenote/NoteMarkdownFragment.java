@@ -1,6 +1,11 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.Simplenote.SCROLL_POSITION_PREFERENCES;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_NOTE;
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
+
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -40,9 +45,6 @@ import com.simperium.client.BucketObjectMissingException;
 
 import java.lang.ref.SoftReference;
 import java.util.Set;
-
-import static com.automattic.simplenote.Simplenote.SCROLL_POSITION_PREFERENCES;
-import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<Note> {
     public static final String ARG_ITEM_ID = "item_id";
@@ -185,6 +187,9 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
             case R.id.menu_delete:
                 NoteUtils.showDialogDeletePermanently(requireActivity(), mNote);
                 return true;
+            case R.id.menu_collaborators:
+                navigateToCollaborators();
+                return true;
             case R.id.menu_trash:
                 if (!isAdded()) {
                     return false;
@@ -194,9 +199,9 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
                 return true;
             case R.id.menu_copy_internal:
                 AnalyticsTracker.track(
-                    AnalyticsTracker.Stat.INTERNOTE_LINK_COPIED,
-                    AnalyticsTracker.CATEGORY_LINK,
-                    "internote_link_copied_markdown"
+                        AnalyticsTracker.Stat.INTERNOTE_LINK_COPIED,
+                        AnalyticsTracker.CATEGORY_LINK,
+                        "internote_link_copied_markdown"
                 );
 
                 if (!isAdded()) {
@@ -213,6 +218,22 @@ public class NoteMarkdownFragment extends Fragment implements Bucket.Listener<No
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void navigateToCollaborators() {
+        if (getActivity() == null || mNote == null) {
+            return;
+        }
+
+        Intent intent = new Intent(requireActivity(), CollaboratorsActivity.class);
+        intent.putExtra(CollaboratorsActivity.NOTE_ID_ARG, mNote.getSimperiumKey());
+        startActivity(intent);
+
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.EDITOR_COLLABORATORS_ACCESSED,
+                CATEGORY_NOTE,
+                "collaborators_ui_accessed"
+        );
     }
 
     private void deleteNote() {
