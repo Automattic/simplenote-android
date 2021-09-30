@@ -429,4 +429,5 @@
     <string name="simperium_not_now">Cancel</string>
     <string name="simperium_change_password">Change Password</string>
     <string name="simperium_okay">Okay</string>
+    <string name="simperium_too_many_attempts">Too many log in attempts. Try again later.</string>
 </resources>

@@ -44,6 +44,9 @@ public class SimplenoteCredentialsActivity extends CredentialsActivity {
                                 case UNVERIFIED_ACCOUNT:
                                     showUnverifiedAccountDialog();
                                     break;
+                                case TOO_MANY_REQUESTS:
+                                    showDialogError(getString(R.string.simperium_too_many_attempts));
+                                    break;
                                 case INVALID_ACCOUNT:
                                 default:
                                     showDialogError(getString(
