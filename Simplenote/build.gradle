@@ -106,7 +106,7 @@ dependencies {
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
-    implementation 'com.automattic:simperium:243-47016828510f59eb4c58fb4c4cebf765ca714294'
+    implementation 'com.automattic:simperium:develop-86ea7abdda7aece428ca5144a0a099b727b2473e'
     implementation 'com.github.Automattic:Automattic-Tracks-Android:2.1.0'
     implementation 'org.wordpress:passcodelock:2.0.2'
 
