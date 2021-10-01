@@ -1,0 +1,4 @@
+2.22:
+* Se ha corregido la pantalla que pasa al modo de edición completa en el editor de etiquetas
+* Se ha corregido el botón de guardar que se desactiva para una nueva etiqueta después rotar el dispositivo
+* Se ha corregido el diálogo para el cambio de nombre de la etiqueta que se cierra al rotar el dispositivo

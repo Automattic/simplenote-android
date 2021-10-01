@@ -1,4 +1,0 @@
-2.21:
-* Aktualisierte Icons
-* Die Scroll-Position einer Notiz mit passendem Stichwort wurde korrigiert
-* Die Hintergrundfarbe des Editors im Querformat für das dunkle Theme wurde korrigiert

@@ -1,0 +1,4 @@
+2.22:
+* Correção da tela no modo de edição completa no editor de tags
+* O botão Salvar não é mais desativado para uma nova tag após a rotação do dispositivo
+* A caixa de diálogo Renomear tag não é mais fechada ao rotacionar o dispositivo

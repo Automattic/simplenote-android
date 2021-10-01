@@ -1,102 +1,102 @@
 <ar>
-2.21:
-* تم تحديث الأيقونات
-* تم إصلاح موضع تمرير الملحوظة مع مطابقة الكلمة المفتاحية إذا لم تكن ثابتة
-* تم إصلاح لون خلفية المحرِّر في الوضع الأفقي للقالب الداكن
+2.22:
+* تم إصلاح انتقال الشاشة إلى وضع التحرير الكامل في محرِّر الوسوم
+* تم إصلاح تعطيل زر الحفظ لوسم جديد بعد تدوير الجهاز
+* تم إصلاح إغلاق مربع حوار إعادة تسمية الوسم عند تدوير الجهاز
 </ar>
 <de-DE>
-2.21:
-* Aktualisierte Icons
-* Die Scroll-Position einer Notiz mit passendem Stichwort wurde korrigiert
-* Die Hintergrundfarbe des Editors im Querformat für das dunkle Theme wurde korrigiert
+2.22:
+* Fehler behoben, wobei der Bildschirm im Schlagwort-Editor in den Vollbild-Bearbeitungsmodus wechselte
+* Fehler behoben, wobei der Speichern-Button für ein neues Schlagwort nach dem Drehen des Geräts deaktiviert wurde
+* Fehler behoben, wobei der Dialog zur Umbenennung von Schlagwörtern beim Drehen des Geräts geschlossen wurde
 </de-DE>
 <es-ES>
-2.21:
-* Iconos actualizados
-* Se ha corregido la posición de desplazamiento de una nota con una palabra clave coincidente como no persistente
-* Se ha corregido el color de fondo del editor en modo horizontal para el tema oscuro
+2.22:
+* Se ha corregido la pantalla que pasa al modo de edición completa en el editor de etiquetas
+* Se ha corregido el botón de guardar que se desactiva para una nueva etiqueta después rotar el dispositivo
+* Se ha corregido el diálogo para el cambio de nombre de la etiqueta que se cierra al rotar el dispositivo
 </es-ES>
 <fr-FR>
-2.21 :
-* Icônes mises à jour
-* Résolution de la position de défilement d’une note avec le mot-clé correspondant non persistante
-* Résolution de la couleur d’arrière-plan de l’éditeur en mode paysage pour le thème sombre 
+2.22 :
+* L’écran ne passe plus automatiquement en mode modification globale dans l’éditeur d’étiquettes
+* Le bouton Enregistrer n’est plus désactivé pour les nouvelles étiquettes après la rotation de l’appareil
+* La fenêtre pour renommer une étiquette ne se ferme plus automatiquement lorsque vous tournez l’appareil
 </fr-FR>
 <iw-IL>
-2.21:
-* הסמלים עודכנו
-* תיקנו את מיקום הגלילה של פתקים עם מילות מפתח מתאימות במצבים לא עקביים
-* תיקנו את צבע הרקע של העורך בתצוגה לרוחב במצב כהה
+2.22:
+* תיקנו את המסך שעובר למצב של עריכה מלאה בעורך התגים
+* תיקנו בעיה שגרמה להשבתת כפתור השמירה בתגיות חדשות לאחר סיבוב המכשיר
+* תיקנו בעיה שגרמה לסגירה של תיבת דו-שיח לשינוי שם התגית לאחר סיבוב המכשיר
 </iw-IL>
 <id>
-2.21:
-* Pembaruan ikon
-* Masalah posisi pengguliran layar untuk catatan dengan kata kunci sesuai yang tidak konsisten teratasi
-* Masalah warna latar belakang editor pada mode lanskap untuk tema gelap teratasi
+2.22:
+* Layar yang diperbaiki masuk ke mode penyuntingan penuh di Editor tag
+* Tombol simpan yang diperbaiki dinonaktifkan untuk tag baru setelah rotasi perangkat
+* Dialog penggantian nama tag yang diperbaiki ditutup pada rotasi perangkat
 </id>
 <it-IT>
-2.21:
-* Icone aggiornate
-* Risolto il problema con la posizione di scorrimento di una nota con la parola chiave corrispondente che non è permanente
-* Risolto il problema con il colore di sfondo dell'editor in modalità orizzontale per il tema scuro
+2.22:
+* Risolto il problema con lo schermo che entrava in modalità di modifica completa nell'editor di tag
+* Risolto il problema con il pulsante per il salvataggio che era disabilitato per un nuovo tag dopo la rotazione del dispositivo
+* Risolto il problema con la finestra di rinomina del tag che si chiudeva durante la rotazione del dispositivo
 </it-IT>
 <ja-JP>
-2.21:
-* アイコンを更新
-*永続的でないキーワードと一致するメモのスクロール位置を修正
-* ダークテーマのランドスケープモードでのエディターの背景色を修正
+2.22:
+* タグエディターで画面がフル編集モードになる問題を修正
+* デバイスの向きを変えた後に新しいタグで保存ボタンが無効になる問題を修正
+* デバイスの向きを変えた時にタグの名前変更ダイアログが閉じる問題を修正
 </ja-JP>
 <ko-KR>
-2.21:
-* 아이콘 업데이트함
-* 일치하는 키워드가 포함된 메모의 지속하지 않는 스크롤 위치 수정함
-* 가로 모드에서 어두운 테마에 대한 편집기의 배경 색상 수정함
+2.22:
+* 태그 편집기에서 전체 편집 모드로 이동하는 화면을 수정했음
+* 기기 회전 후 비활성화되는 새 태그의 저장 버튼을 수정했음
+* 기기 회전 시 닫히는 태그 이름 변경 대화 상자를 수정했음
 </ko-KR>
 <nl-NL>
-2.21:
-* Bijgewerkte pictogrammen
-* Scrolpositie verholpen bij een opmerking met overeenstemmend sleutelwoord die niet blijvend was
-* Achtergrondkleur van editor in liggende modus bij nachtmodus gecorrigeerd
+2.22:
+* Probleem opgelost waarbij het venster in tageditor de modus Volledig bewerken opende
+* Probleem opgelost waarbij de knop Opslaan was uitgeschakeld voor een nieuwe tag als het apparaat werd gedraaid
+* Probleem opgelost waarbij het dialoogvenster Tag hernoemen werd afgesloten als het apparaat werd gedraaid
 </nl-NL>
 <pt-BR>
-2.21:
-* Atualização de ícones
-* Correção da posição de rolagem de uma anotação com uma palavra-chave correspondente que não é persistente
-* Correção da cor de fundo do editor no modo paisagem do tema escuro
+2.22:
+* Correção da tela no modo de edição completa no editor de tags
+* O botão Salvar não é mais desativado para uma nova tag após a rotação do dispositivo
+* A caixa de diálogo Renomear tag não é mais fechada ao rotacionar o dispositivo
 </pt-BR>
 <ru-RU>
-2.21:
-* Обновлены значки
-* Фиксированное положение при прокрутке не сохраняется для заметки с совпадающим ключевым словом
-* Исправлен цвет фона редактора в альбомном режиме для тёмной темы
+2.22:
+* Исправлена ошибка, вызывавшая переход в полноэкранный режим редактирования в редакторе тегов.
+* Исправлена ошибка, вызывавшая отключение кнопки сохранения нового тега при повороте устройства.
+* Исправлена ошибка, вызывавшая закрытие диалогового окна переименования тега при повороте устройства.
 </ru-RU>
 <sv-SE>
-2.21:
-* Ikonerna har uppdaterats
-* Bläddringspositionen för anteckningar med matchande nyckelord har korrigerats i ej beständiga instanser
-* Redigerarens bakgrundsfärg i liggande läge har korrigerats för mörkt tema
+2.22:
+* Ett problem som gjorde att skärmen gick in i fullredigeringsläge i etikettredigeraren har åtgärdats
+* Ett problem som gjorde att Spara-knappen inaktiverades för nya etiketter efter enhetsrotation har åtgärdats
+* Ett problem som gjorde att dialogrutan Ändra namn för etiketter stängdes vid enhetsrotation har åtgärdats
 </sv-SE>
 <tr-TR>
-2.21:
-* Simgeler güncellendi
-* Kalıcı olmayan anahtar sözcükle eşleşen bir notun kaydırma konumu düzeltildi
-* Koyu tema için yatay modda düzenleyicinin arka plan rengi düzeltildi
+2.22:
+* Etiket düzenleyicide ekranın tam düzenleme moduna geçmesi düzeltildi
+* Cihaz dönşünden sonra yeni bir etiket için sabit kaydetme düğmesi devre dışı bırakıldı 
+* Sabit etiket yeniden adlandırma iletişim kutusu, cihaz dönüşünde kapatıldı
 </tr-TR>
 <zh-CN>
-2.21：
-* 更新了图标
-* 修复了具有匹配关键字的备注滚动位置不持续的问题
-* 修复了黑色主题的横向模式中编辑器的背景颜色
+2.22：
+* 修复了屏幕在标签编辑器中进入完全编辑模式的问题
+* 修复了新标签的保存按钮在设备旋转后被禁用的问题
+* 修复了标签重命名对话框在设备旋转时关闭的问题
 </zh-CN>
 <zh-TW>
-2.21：
-* 更新圖示
-* 修正筆記和相符關鍵字捲動位置不持續的問題
-* 修正深色佈景主題編輯器在橫向模式的背景顏色
+2.22：
+* 修正了螢幕會在標籤編輯器中進入完整編輯模式的問題
+* 修正了儲存按鈕會在裝置旋轉時對新標籤停用的問題
+* 修正了標籤重新命名對話方塊會在裝置旋轉時關閉的問題
 </zh-TW>
 <en-US>
-2.21:
-* Updated icons
-* Fixed scroll position of a note with matching keyword in not persistent
-* Fixed editor's background color in landscape mode for dark theme
+2.22:
+* Fixed screen going into full-editing mode in tag editor
+* Fixed save button is disabled for a new tag after device rotation
+* Fixed tag rename dialog is closed on device rotation
 </en-US>

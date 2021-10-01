@@ -1,4 +1,0 @@
-2.21:
-* Pembaruan ikon
-* Masalah posisi pengguliran layar untuk catatan dengan kata kunci sesuai yang tidak konsisten teratasi
-* Masalah warna latar belakang editor pada mode lanskap untuk tema gelap teratasi

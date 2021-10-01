@@ -1,4 +1,0 @@
-2.21:
-* Bijgewerkte pictogrammen
-* Scrolpositie verholpen bij een opmerking met overeenstemmend sleutelwoord die niet blijvend was
-* Achtergrondkleur van editor in liggende modus bij nachtmodus gecorrigeerd

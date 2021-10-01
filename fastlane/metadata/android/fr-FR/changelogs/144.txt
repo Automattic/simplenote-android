@@ -1,4 +1,0 @@
-2.21 :
-* Icônes mises à jour
-* Résolution de la position de défilement d’une note avec le mot-clé correspondant non persistante
-* Résolution de la couleur d’arrière-plan de l’éditeur en mode paysage pour le thème sombre 
