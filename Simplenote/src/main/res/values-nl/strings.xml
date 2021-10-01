@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-14 11:54:03+0000
+Translation-Revision-Date: 2021-09-29 15:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="tag_added_as_collaborator">%1$s toegevoegd als samenwerker.</string>
+    <string name="invalid_tag">Ongeldige tag</string>
     <string name="simperium_okay">Oké</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
     <string name="simperium_account_verification_message">Je moet je e-mailadres verifiëren voordat je je aanmeldt bij je account.</string>

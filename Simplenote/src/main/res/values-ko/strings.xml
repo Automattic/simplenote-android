@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-14 09:54:07+0000
+Translation-Revision-Date: 2021-09-29 11:54:51+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="tag_added_as_collaborator">%1$s이(가) 공동 작업자로 추가되었습니다.</string>
+    <string name="invalid_tag">유효하지 않은 태그</string>
     <string name="simperium_okay">확인</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
     <string name="simperium_account_verification_message">계정에 로그인하기 전에 이메일을 확인해야 합니다.</string>

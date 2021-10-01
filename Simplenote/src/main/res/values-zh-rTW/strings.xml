@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-14 15:54:04+0000
+Translation-Revision-Date: 2021-09-29 09:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="tag_added_as_collaborator">已將 %1$s 新增為共同作業者。</string>
+    <string name="invalid_tag">無效的標籤</string>
     <string name="simperium_okay">確定</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
     <string name="simperium_account_verification_message">你必須驗證電子郵件地址才能登入你的帳號。</string>

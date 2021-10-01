@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-15 09:54:55+0000
+Translation-Revision-Date: 2021-09-29 11:54:48+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="tag_added_as_collaborator">המשתמש ⁦%1$s⁩ נוסף כשותף לעריכה.</string>
+    <string name="invalid_tag">תגית לא חוקית</string>
     <string name="simperium_okay">בסדר</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
     <string name="simperium_account_verification_message">עליך לאמת את כתובת האימייל שלך כדי להתחבר לחשבון.</string>
