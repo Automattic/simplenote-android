@@ -11,20 +11,22 @@ msgstr ""
 "Project-Id-Version: Release Notes & Play Store Descriptions\n"
 
 #. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
+msgctxt "release_note_0223"
+msgid ""
+"2.23:\n"
+"* Added a dedicated UI to add and remove collaborators to a note\n"
+"* Added collaboration status indicator to the note list\n"
+"* Fixed crash when note reference is null in editor while hiding toolbar in landscape mode\n"
+"* Fixed case in delete account button in settings\n"
+"* Added error handling for when the user has made too many wrong credential requests at login\n"
+msgstr ""
+
 msgctxt "release_note_0222"
 msgid ""
 "2.22:\n"
 "* Fixed screen going into full-editing mode in tag editor\n"
 "* Fixed save button is disabled for a new tag after device rotation\n"
 "* Fixed tag rename dialog is closed on device rotation\n"
-msgstr ""
-
-msgctxt "release_note_0221"
-msgid ""
-"2.21:\n"
-"* Updated icons\n"
-"* Fixed scroll position of a note with matching keyword in not persistent\n"
-"* Fixed editor's background color in landscape mode for dark theme\n"
 msgstr ""
 
 #. translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!
