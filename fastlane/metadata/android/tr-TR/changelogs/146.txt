@@ -1,0 +1,4 @@
+2.22:
+* Etiket düzenleyicide ekranın tam düzenleme moduna geçmesi düzeltildi
+* Cihaz dönşünden sonra yeni bir etiket için sabit kaydetme düğmesi devre dışı bırakıldı 
+* Sabit etiket yeniden adlandırma iletişim kutusu, cihaz dönüşünde kapatıldı

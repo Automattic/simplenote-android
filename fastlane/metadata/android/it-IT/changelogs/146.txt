@@ -1,0 +1,4 @@
+2.22:
+* Risolto il problema con lo schermo che entrava in modalità di modifica completa nell'editor di tag
+* Risolto il problema con il pulsante per il salvataggio che era disabilitato per un nuovo tag dopo la rotazione del dispositivo
+* Risolto il problema con la finestra di rinomina del tag che si chiudeva durante la rotazione del dispositivo

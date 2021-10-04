@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-15 09:54:56+0000
+Translation-Revision-Date: 2021-09-29 09:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="tag_added_as_collaborator">%1$s さんをコラボレーターとして追加しました。</string>
+    <string name="invalid_tag">無効なタグ</string>
     <string name="simperium_okay">OK</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
     <string name="simperium_account_verification_message">アカウントにログインする前にメールアドレスを認証する必要があります。</string>

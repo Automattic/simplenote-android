@@ -1,4 +1,0 @@
-2.21:
-* Icone aggiornate
-* Risolto il problema con la posizione di scorrimento di una nota con la parola chiave corrispondente che non è permanente
-* Risolto il problema con il colore di sfondo dell'editor in modalità orizzontale per il tema scuro

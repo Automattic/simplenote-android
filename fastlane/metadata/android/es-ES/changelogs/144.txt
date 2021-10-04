@@ -1,4 +1,0 @@
-2.21:
-* Iconos actualizados
-* Se ha corregido la posición de desplazamiento de una nota con una palabra clave coincidente como no persistente
-* Se ha corregido el color de fondo del editor en modo horizontal para el tema oscuro

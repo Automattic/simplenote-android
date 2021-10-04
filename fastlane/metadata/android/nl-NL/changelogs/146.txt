@@ -1,0 +1,4 @@
+2.22:
+* Probleem opgelost waarbij het venster in tageditor de modus Volledig bewerken opende
+* Probleem opgelost waarbij de knop Opslaan was uitgeschakeld voor een nieuwe tag als het apparaat werd gedraaid
+* Probleem opgelost waarbij het dialoogvenster Tag hernoemen werd afgesloten als het apparaat werd gedraaid

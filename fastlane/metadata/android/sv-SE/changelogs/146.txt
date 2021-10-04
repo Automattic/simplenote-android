@@ -1,0 +1,4 @@
+2.22:
+* Ett problem som gjorde att skärmen gick in i fullredigeringsläge i etikettredigeraren har åtgärdats
+* Ett problem som gjorde att Spara-knappen inaktiverades för nya etiketter efter enhetsrotation har åtgärdats
+* Ett problem som gjorde att dialogrutan Ändra namn för etiketter stängdes vid enhetsrotation har åtgärdats

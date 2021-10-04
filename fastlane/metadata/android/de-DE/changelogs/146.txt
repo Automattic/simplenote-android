@@ -1,0 +1,4 @@
+2.22:
+* Fehler behoben, wobei der Bildschirm im Schlagwort-Editor in den Vollbild-Bearbeitungsmodus wechselte
+* Fehler behoben, wobei der Speichern-Button für ein neues Schlagwort nach dem Drehen des Geräts deaktiviert wurde
+* Fehler behoben, wobei der Dialog zur Umbenennung von Schlagwörtern beim Drehen des Geräts geschlossen wurde

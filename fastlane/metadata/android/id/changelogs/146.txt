@@ -1,0 +1,4 @@
+2.22:
+* Layar yang diperbaiki masuk ke mode penyuntingan penuh di Editor tag
+* Tombol simpan yang diperbaiki dinonaktifkan untuk tag baru setelah rotasi perangkat
+* Dialog penggantian nama tag yang diperbaiki ditutup pada rotasi perangkat
