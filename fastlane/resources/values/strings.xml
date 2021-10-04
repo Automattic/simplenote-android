@@ -9,7 +9,7 @@
     <string name="share">Share</string>
     <string name="new_note">New Note</string>
     <string name="account">Account</string>
-    <string name="delete_account">Delete Account</string>
+    <string name="delete_account">Delete account</string>
     <string name="delete_account_email_message">By deleting the account for email %1$s, all notes created with this account will be permanently deleted. This action is not reversible.</string>
     <string name="request_received">Request Received</string>
     <string name="account_deletion_message">An email was sent to %1$s. Check your inbox and follow the instructions to confirm account deletion.\n\nYour account won\'t be deleted until we receive your confirmation.</string>
@@ -136,6 +136,7 @@
     <string name="tag_error_exists">Tag already exists</string>
     <string name="tag_error_length">Tag length too long</string>
     <string name="tag_error_spaces">Tags cannot contain spaces</string>
+    <string name="tag_error_collaborator">Tags cannot be emails</string>
 
     <!-- Undo -->
     <string name="undo">Undo</string>
@@ -326,6 +327,26 @@
 
     <string name="toast_email_sent">Email sent</string>
 
+
+    <string name="shared_with">Shared With</string>
+
+    <!-- Collaboration -->
+    <string name="note_shared">Note Shared</string>
+    <string name="add_collaborator">Add Collaborator</string>
+    <string name="add_email_collaborator_message">Add an email address to share this note with someone then you can both make changes to it. When you add a collaborator, they will be notified by email.</string>
+    <string name="loading_collaborators">Loading…</string>
+    <string name="remove_collaborator">Remove Collaborator</string>
+    <string name="collaborators">Collaborators</string>
+    <string name="remove">Remove</string>
+    <string name="remove_collaborator_message">Are you sure you want to remove this collaborator?</string>
+    <string name="email_address">Email Address</string>
+    <string name="accept">Accept</string>
+    <string name="invalid_collaborator">Please enter a valid email address</string>
+    <string name="collaborator_is_current_user">You cannot add yourself as a collaborator</string>
+    <string name="collaborators_note_deleted">Note was deleted. You cannot edit collaborators on a note that was deleted.</string>
+    <string name="collaborators_note_trashed">Note was trashed. You cannot edit collaborators on a note that is in the trash.</string>
+    <string name="no_collaborators">No Collaborators</string>
+
     <!-- PASSCODE -->
     <string name="passcode_change_passcode">Change passcode</string>
     <string name="passcode_enter_old_passcode">Enter your old passcode</string>
@@ -403,5 +424,10 @@
     <string name="simperium_account_verification">Account Verification Required</string>
     <string name="simperium_account_verification_message">You must verify your email before logging in to your account.</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
+    <string name="simperium_compromised_password">Compromised Password</string>
+    <string name="simperium_compromised_password_message">This password has appeared in a data breach, which puts your account at high risk of compromise. To protect your data, you\'ll need to update your password before being able to log in again.</string>
+    <string name="simperium_not_now">Cancel</string>
+    <string name="simperium_change_password">Change Password</string>
     <string name="simperium_okay">Okay</string>
+    <string name="simperium_too_many_attempts">Too many log in attempts. Try again later.</string>
 </resources>
