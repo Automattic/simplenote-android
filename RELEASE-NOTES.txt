@@ -1,3 +1,7 @@
+2.24
+-----
+
+
 2.23
 -----
 * Added a dedicated UI to add and remove collaborators to a note [#1491](https://github.com/Automattic/simplenote-android/pull/1491)
