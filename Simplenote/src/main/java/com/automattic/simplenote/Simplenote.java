@@ -28,6 +28,7 @@ import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import com.automattic.android.tracks.crashlogging.CrashLogging;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.analytics.AnalyticsTrackerNosara;
 import com.automattic.simplenote.models.Account;
@@ -60,6 +61,8 @@ import java.util.concurrent.TimeUnit;
 
 import dagger.hilt.android.HiltAndroidApp;
 
+import javax.inject.Inject;
+
 @HiltAndroidApp
 public class Simplenote extends Application implements HeartbeatListener {
     public static final String DELETED_NOTE_ID = "deletedNoteId";
@@ -89,6 +92,10 @@ public class Simplenote extends Application implements HeartbeatListener {
     private Runnable mHeartbeatRunnable;
     private Simperium mSimperium;
     private boolean mIsInBackground = true;
+
+    //Do not remove, it's needed for Sentry initialization
+    @Inject
+    CrashLogging crashLogging;
 
     public void onCreate() {
         super.onCreate();
