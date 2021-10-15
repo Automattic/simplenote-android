@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-29 11:54:49+0000
+Translation-Revision-Date: 2021-10-12 11:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="simperium_too_many_attempts">För många inloggningsförsök. Försök igen senare.</string>
+    <string name="simperium_change_password">Ändra lösenord</string>
+    <string name="simperium_not_now">Avbryt</string>
+    <string name="simperium_compromised_password_message">Det här lösenordet har dykt upp i ett dataintrång, vilket innebär att ditt konto löper hög risk att komprometteras. För att skydda dina data behöver du uppdatera ditt lösenord innan du kan logga in igen.</string>
+    <string name="simperium_compromised_password">Komprometterat lösenord</string>
+    <string name="no_collaborators">Inga redigerare</string>
+    <string name="collaborators_note_trashed">Anteckningen har tagits bort. Du kan inte redigera redigerare för en anteckning som har tagits bort.</string>
+    <string name="collaborators_note_deleted">Anteckningen har tagits bort. Du kan inte redigera redigerare för en anteckning som har tagits bort.</string>
+    <string name="collaborator_is_current_user">Du kan inte lägga till dig själv som medarbetare</string>
+    <string name="invalid_collaborator">Ange en giltig e-postadress</string>
+    <string name="accept">Acceptera</string>
+    <string name="email_address">E-postadress</string>
+    <string name="remove_collaborator_message">Är du säker på att du vill ta bort denna medarbetare?</string>
+    <string name="remove">Ta bort</string>
+    <string name="collaborators">Medarbetare</string>
+    <string name="remove_collaborator">Ta bort medarbetare</string>
+    <string name="loading_collaborators">Laddar in …</string>
+    <string name="add_email_collaborator_message">Lägg till en e-postadress för att dela denna anteckning med någon, så att ni båda kan göra ändringar i den. När du lägger till en redigerare meddelas redigeraren via e-post.</string>
+    <string name="add_collaborator">Lägg till medarbetare</string>
+    <string name="note_shared">Anteckningen har delats</string>
+    <string name="shared_with">Delad med</string>
+    <string name="tag_error_collaborator">Etiketter kan inte vara e-postmeddelanden</string>
     <string name="tag_added_as_collaborator">%1$s har lagts till som redigerare.</string>
     <string name="invalid_tag">Ogiltig etikett</string>
     <string name="simperium_okay">Okej</string>

@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-29 09:54:03+0000
+Translation-Revision-Date: 2021-10-13 11:54:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="simperium_too_many_attempts">ログイン試行の回数が多すぎます。 後ほど、もう一度お試しください。</string>
+    <string name="simperium_change_password">パスワードを変更</string>
+    <string name="simperium_not_now">キャンセル</string>
+    <string name="simperium_compromised_password_message">このパスワードはデータ侵害に含まれており、アカウントが不正アクセスの危険にさらされています。 データを保護するため、もう一度ログインするにはパスワードを更新する必要があります。</string>
+    <string name="simperium_compromised_password">侵害されたパスワード</string>
+    <string name="no_collaborators">共同編集者がいません</string>
+    <string name="collaborators_note_trashed">ノートをゴミ箱に移動しました。 ゴミ箱にあるノートの共同編集者は編集できません。</string>
+    <string name="collaborators_note_deleted">ノートが削除されました。 削除されたノートの共同編集者は編集できません。</string>
+    <string name="collaborator_is_current_user">自分自身を共同編集者として追加することはできません</string>
+    <string name="invalid_collaborator">有効なメールアドレスを入力してください</string>
+    <string name="accept">はい</string>
+    <string name="email_address">メールアドレス</string>
+    <string name="remove_collaborator_message">この共同編集者を削除してよろしいですか ?</string>
+    <string name="remove">削除</string>
+    <string name="collaborators">共同編集者</string>
+    <string name="remove_collaborator">共同編集者を削除</string>
+    <string name="loading_collaborators">読み込み中…</string>
+    <string name="add_email_collaborator_message">このノートを共有したい人のメールアドレスを追加してください。その人も編集できるようになります。 共同編集者を追加すると、その人にメールで通知が届きます。</string>
+    <string name="add_collaborator">共同編集者を追加</string>
+    <string name="note_shared">ノートを共有しました</string>
+    <string name="shared_with">共有した相手</string>
+    <string name="tag_error_collaborator">タグはメールにはできません</string>
     <string name="tag_added_as_collaborator">%1$s さんをコラボレーターとして追加しました。</string>
     <string name="invalid_tag">無効なタグ</string>
     <string name="simperium_okay">OK</string>

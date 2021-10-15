@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-29 15:54:03+0000
+Translation-Revision-Date: 2021-10-12 15:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="simperium_too_many_attempts">Te veel aanmeldpogingen. Probeer het later nog eens.</string>
+    <string name="simperium_change_password">Wijzig wachtwoord</string>
+    <string name="simperium_not_now">Annuleren</string>
+    <string name="simperium_compromised_password_message">Dit wachtwoord is gelekt tijdens een datalek, waardoor je account gevaar loopt. Om je data te beschermen moet je je wachtwoord bijwerken voordat je je weer mag aanmelden.</string>
+    <string name="simperium_compromised_password">Wachtwoord loopt gevaar</string>
+    <string name="no_collaborators">Geen samenwerkers</string>
+    <string name="collaborators_note_trashed">Notitie naar prullenbak verplaatst. Samenwerkers kunnen niet worden bewerkt als de notitie in kwestie in de prullenbak staat.</string>
+    <string name="collaborators_note_deleted">Notitie is verwijderd. Samenwerkers kunnen niet worden bewerkt als de notitie in kwestie is verwijderd.</string>
+    <string name="collaborator_is_current_user">Je kunt jezelf niet toevoegen als samenwerker</string>
+    <string name="invalid_collaborator">Geef een geldig e-mail adres op.</string>
+    <string name="accept">Accepteer</string>
+    <string name="email_address">E-mailadres</string>
+    <string name="remove_collaborator_message">Weet je zeker dat je deze samenwerker wil verwijderen?</string>
+    <string name="remove">Verwijderen</string>
+    <string name="collaborators">Samenwerkers</string>
+    <string name="remove_collaborator">Samenwerker verwijderen</string>
+    <string name="loading_collaborators">Laden…</string>
+    <string name="add_email_collaborator_message">Voeg een e-mailadres toe om deze notitie met iemand te delen. Dan kunnen jullie deze beide wijzigen. Als je een samenwerker toevoegt, ontvangen ze een bericht per mail.</string>
+    <string name="add_collaborator">Samenwerker toevoegen</string>
+    <string name="note_shared">Notitie gedeeld</string>
+    <string name="shared_with">Gedeeld met</string>
+    <string name="tag_error_collaborator">Tags mogen geen e-mails zijn</string>
     <string name="tag_added_as_collaborator">%1$s toegevoegd als samenwerker.</string>
     <string name="invalid_tag">Ongeldige tag</string>
     <string name="simperium_okay">Oké</string>

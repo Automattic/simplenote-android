@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-29 21:54:04+0000
+Translation-Revision-Date: 2021-10-12 15:54:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="simperium_too_many_attempts">Çok fazla oturum açma denemesi. Daha sonra yeniden deneyin.</string>
+    <string name="simperium_change_password">Parola değiştir</string>
+    <string name="simperium_not_now">İptal</string>
+    <string name="simperium_compromised_password_message">Bu şifre, hesabınızı ileri düzeyde tehlikeye atma riskine sokan bir veri ihlalinde ortaya çıktı. Verilerinizi korumak için tekrar oturum açmadan önce şifrenizi güncellemeniz gerekir.</string>
+    <string name="simperium_compromised_password">Güvenliği İhlal Edilmiş Şifre</string>
+    <string name="no_collaborators">Çalışma Arkadaşı yok</string>
+    <string name="collaborators_note_trashed">Not çöpe atıldı. Çöp kutusundaki bir notta bulunan çalışma arkadaşlarını düzenleyemezsiniz.</string>
+    <string name="collaborators_note_deleted">Not silindi. Silinmiş bir nottaki çalışma arkadaşlarını düzenleyemezsiniz.</string>
+    <string name="collaborator_is_current_user">Kendinizi çalışma arkadaşı olarak ekleyemezsiniz</string>
+    <string name="invalid_collaborator">Lütfen geçerli bir e-posta adresi giriniz</string>
+    <string name="accept">Evet</string>
+    <string name="email_address">E-posta adresi</string>
+    <string name="remove_collaborator_message">Bu çalışma arkadaşını kaldırmak istediğinizden emin misiniz?</string>
+    <string name="remove">Kaldır</string>
+    <string name="collaborators">Çalışma Arkadaşları</string>
+    <string name="remove_collaborator">Çalışma Arkadaşını Kaldır</string>
+    <string name="loading_collaborators">Yükleniyor…</string>
+    <string name="add_email_collaborator_message">Bu notu birisiyle paylaşmak için bir e-posta adresi ekleyin, ardından ikiniz de not üzerinde değişiklik yapabilirsiniz. Bir çalışma arkadaşı eklediğinizde, kendisi e-posta ile bilgilendirilecektir.</string>
+    <string name="add_collaborator">Çalışma Arkadaşı Ekle </string>
+    <string name="note_shared">Not Paylaşıldı</string>
+    <string name="shared_with">Şununla paylaşıldı:</string>
+    <string name="tag_error_collaborator">Etiketler e-posta olamaz</string>
     <string name="tag_added_as_collaborator">%1$s çalışma arkadaşı olarak eklendi.</string>
     <string name="invalid_tag">Geçersiz Etiket</string>
     <string name="simperium_okay">Tamam</string>

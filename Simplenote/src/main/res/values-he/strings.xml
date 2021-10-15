@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-29 11:54:48+0000
+Translation-Revision-Date: 2021-10-12 13:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="simperium_too_many_attempts">מספר ניסיונות התחברות גבוה מדי. יש לנסות שוב מאוחר יותר.</string>
+    <string name="simperium_change_password">לשנות סיסמה</string>
+    <string name="simperium_not_now">ביטול</string>
+    <string name="simperium_compromised_password_message">הסיסמה הזאת מופיעה ברשימה של הפרת נתונים ולכן החשבון שלך נמצא בסיכון גבוה לפגיעה. כדי להגן על הנתונים שלך, עליך לעדכן את הסיסמה שלך לפני ההתחברות מחדש.</string>
+    <string name="simperium_compromised_password">סיסמה בסכנה</string>
+    <string name="no_collaborators">אין שותפי עריכה</string>
+    <string name="collaborators_note_trashed">הפתק הועבר לפח. אין אפשרות לערוך שותפי עריכה בפתקים שהועברו לפח.</string>
+    <string name="collaborators_note_deleted">הפתק נמחק. אין אפשרות לערוך שותפי עריכה בפתקים שנמחקו.</string>
+    <string name="collaborator_is_current_user">אין לך אפשרות להוסיף את עצמך בתוך שותף עריכה</string>
+    <string name="invalid_collaborator">נא להזין כתובת אימייל תקפה</string>
+    <string name="accept">אישור</string>
+    <string name="email_address">כתובת אימייל</string>
+    <string name="remove_collaborator_message">האם ברצונך להסיר את שותף העריכה הזה?</string>
+    <string name="remove">הסרה</string>
+    <string name="collaborators">שותפי עריכה</string>
+    <string name="remove_collaborator">להסיר שותף עריכה</string>
+    <string name="loading_collaborators">טוען…</string>
+    <string name="add_email_collaborator_message">יש להוסיף כתובת אימייל כדי לשתף פתק זה עם מישהו. לאחר מכן תוכלו שניכם לערוך בו שינויים. כאשר מוסיפים שותף עריכה, תישלח אליו הודעה לאימייל.</string>
+    <string name="add_collaborator">להוסיף שותף עריכה</string>
+    <string name="note_shared">הפתק שותף</string>
+    <string name="shared_with">שותף עם</string>
+    <string name="tag_error_collaborator">לא ניתן להוסיף כתובות אימייל בתור תגיות</string>
     <string name="tag_added_as_collaborator">המשתמש ⁦%1$s⁩ נוסף כשותף לעריכה.</string>
     <string name="invalid_tag">תגית לא חוקית</string>
     <string name="simperium_okay">בסדר</string>

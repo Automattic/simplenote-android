@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-29 09:54:03+0000
+Translation-Revision-Date: 2021-10-12 09:54:48+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="simperium_too_many_attempts">登入嘗試次數過多。 請稍後再試一次。</string>
+    <string name="simperium_change_password">變更密碼</string>
+    <string name="simperium_not_now">取消</string>
+    <string name="simperium_compromised_password_message">此密碼曾出現在資料外洩事件中，這使得你的帳號有很高的風險會遭到盜用。 為保護你的資料，你需要更新密碼才能再次登入。</string>
+    <string name="simperium_compromised_password">密碼遭洩漏</string>
+    <string name="no_collaborators">沒有共同作業者</string>
+    <string name="collaborators_note_trashed">筆記已移至垃圾桶。 你無法在已移至垃圾桶的筆記上編輯共同作業者。</string>
+    <string name="collaborators_note_deleted">已刪除筆記。 你無法在已刪除的筆記上編輯共同作業者。</string>
+    <string name="collaborator_is_current_user">你不能將自己新增為共同作業者</string>
+    <string name="invalid_collaborator">請輸入正確的電子郵件地址</string>
+    <string name="accept">接受</string>
+    <string name="email_address">電子郵件地址</string>
+    <string name="remove_collaborator_message">確定要移除此共同作業者？</string>
+    <string name="remove">移除</string>
+    <string name="collaborators">協作者</string>
+    <string name="remove_collaborator">移除共同作業者</string>
+    <string name="loading_collaborators">載入中…</string>
+    <string name="add_email_collaborator_message">新增電子郵件地址，將此筆記與他人共用。這樣雙方都能變更筆記內容。 新增共同作業者時，他們將收到電子郵件通知。</string>
+    <string name="add_collaborator">新增共同作業者</string>
+    <string name="note_shared">共用筆記</string>
+    <string name="shared_with">與以下對象共用：</string>
+    <string name="tag_error_collaborator">標籤不能是電子郵件地址</string>
     <string name="tag_added_as_collaborator">已將 %1$s 新增為共同作業者。</string>
     <string name="invalid_tag">無效的標籤</string>
     <string name="simperium_okay">確定</string>

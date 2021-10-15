@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-29 09:54:03+0000
+Translation-Revision-Date: 2021-10-12 11:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="simperium_too_many_attempts">尝试登录次数过多。 请稍后重试。</string>
+    <string name="simperium_change_password">修改密码</string>
+    <string name="simperium_not_now">取消</string>
+    <string name="simperium_compromised_password_message">此密码似乎存在数据泄露，使您的账户存在高盗用风险。 为了保护您的数据，您需要先更新密码，然后才能再次进行登录。</string>
+    <string name="simperium_compromised_password">遭盗密码</string>
+    <string name="no_collaborators">无协作者</string>
+    <string name="collaborators_note_trashed">已将笔记放入回收站。 您无法在已放入回收站的笔记上编辑协作者。</string>
+    <string name="collaborators_note_deleted">已删除笔记。 您无法在已删除的笔记上编辑协作者。</string>
+    <string name="collaborator_is_current_user">您无法将自己添加为协作者</string>
+    <string name="invalid_collaborator">请输入有效的电子邮件地址</string>
+    <string name="accept">接受</string>
+    <string name="email_address">电子邮件地址</string>
+    <string name="remove_collaborator_message">是否确定要移除此协作者？</string>
+    <string name="remove">删除</string>
+    <string name="collaborators">协作者</string>
+    <string name="remove_collaborator">移除协作者</string>
+    <string name="loading_collaborators">正在加载…</string>
+    <string name="add_email_collaborator_message">添加电子邮件地址即可与他人共享此笔记。然后，您与协作者均可对笔记作出更改。 添加协作者时，他们会收到电子邮件通知。</string>
+    <string name="add_collaborator">添加协作者</string>
+    <string name="note_shared">已共享笔记</string>
+    <string name="shared_with">共享范围</string>
+    <string name="tag_error_collaborator">标签不能为电子邮件</string>
     <string name="tag_added_as_collaborator">%1$s 已添加为协作者。</string>
     <string name="invalid_tag">无效的标签</string>
     <string name="simperium_okay">是</string>
