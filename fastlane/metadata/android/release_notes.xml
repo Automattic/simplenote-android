@@ -10,15 +10,12 @@
 2.23:
 * Eine dedizierte UI zum Hinzufügen oder Entfernen von Mitarbeitern zu Notizen wurde hinzugefügt
 * Der Statusindikator „Zusammenarbeit“ wurde zur Notizliste hinzugefügt
-* Der Absturz, der auftrat, wenn die Notizreferenz im Editor Null war, während die Toolbar im Querformat ausgeblendet ist, wurde behoben
-* Schreibweise des Buttons „Delete Account“ zu „Delete account“ (Konto löschen) in den Einstellungen geändert
 * Fehlerverarbeitung hinzugefügt für den Fall, dass der Benutzer zu viele Anfragen mit falschen Anmeldedaten bei der Anmeldung gestellt hat
 </de-DE>
 <es-ES>
 2.23:
 * Se ha añadido una interfaz de usuario específica para añadir y eliminar colaboradores en una nota
 * Se ha añadido el indicador del estado de la colaboración a la lista de notas
-* Se ha corregido un bloqueo que se producía cuando no había referencia de la nota en el editor al ocultarse la barra de herramientas en modo apaisado
 * Se ha corregido el caso del botón de eliminar la cuenta en los ajustes
 * Se ha añadido la gestión de errores para el caso de que el usuario haya realizado demasiadas solicitudes de credenciales erróneas al iniciar sesión
 </es-ES>
@@ -26,7 +23,6 @@
 2.23 :
 * Ajout d’une interface utilisateur dédiée permettant d’ajouter et de supprimer des collaborateurs d’une note
 * Ajout d’un indicateur d’état de collaboration à la liste des notes
-* Résolution d’une défaillance survenant lorsque la référence de note est nulle dans l’éditeur et que la barre d’outils est masquée en mode paysage
 * Correction de la casse du bouton Supprimer le compte dans les paramètres
 * Ajout de la gestion d’erreurs survenant lorsque l’utilisateur a effectué trop de tentatives de connexion avec des identifiants incorrects
 </fr-FR>
@@ -55,7 +51,7 @@
 * Aggiunta la gestione degli errori quando l'utente ha effettuato troppe richieste di credenziali errate all'accesso
 </it-IT>
 <ja-JP>
-2.23: 
+2.23:
 * ノートに共同編集者を追加および削除する専用の UI を追加しました
 * ノートリストに共同編集のステータス指標を追加しました
 * ランドスケープモードでツールバーを非表示にしたときにエディターでノートの参照が null になるクラッシュを修正しました
@@ -98,9 +94,9 @@
 2.23:
 * Ett dedikerat gränssnitt för att lägga till och ta bort redigerare för en anteckning har lagts till
 * En statusindikator för samarbete har lagts till i anteckningslistan
-* En återkommande krasch i liggande läge när anteckningsreferensen är null i redigeraren medan verktygsfältet döljs har åtgärdats 
+* En återkommande krasch i liggande läge när anteckningsreferensen är null i redigeraren medan verktygsfältet döljs har åtgärdats
 * Skiftläget har korrigerats på knappen Ta bort konto i Inställningar
-* Felhantering har lagts till för när användaren har gjort för många felaktiga autentiseringsbegäranden vid inloggning 
+* Felhantering har lagts till för när användaren har gjort för många felaktiga autentiseringsbegäranden vid inloggning
 </sv-SE>
 <tr-TR>
 2.23:
