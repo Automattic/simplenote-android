@@ -1,0 +1,6 @@
+2.23 :
+* Ajout d’une interface utilisateur dédiée permettant d’ajouter et de supprimer des collaborateurs d’une note
+* Ajout d’un indicateur d’état de collaboration à la liste des notes
+* Résolution d’une défaillance survenant lorsque la référence de note est nulle dans l’éditeur et que la barre d’outils est masquée en mode paysage
+* Correction de la casse du bouton Supprimer le compte dans les paramètres
+* Ajout de la gestion d’erreurs survenant lorsque l’utilisateur a effectué trop de tentatives de connexion avec des identifiants incorrects

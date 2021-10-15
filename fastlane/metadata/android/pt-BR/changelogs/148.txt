@@ -1,0 +1,6 @@
+2.23:
+* Inclusão de uma IU dedicada para adicionar e remover colaboradores de uma anotação
+* Inclusão do indicador de status de colaboração na lista de anotações
+* Correção de falha que ocorria quando a referência de uma anotação no editor era nula e a barra de ferramentas estava oculta no modo paisagem
+* Correção de capitalização no botão de excluir conta nas configurações
+* Inclusão de tratamento de erros para quando o usuário faz muitas tentativas de login com credenciais incorretas

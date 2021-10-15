@@ -1,0 +1,6 @@
+2.23:
+* Se ha añadido una interfaz de usuario específica para añadir y eliminar colaboradores en una nota
+* Se ha añadido el indicador del estado de la colaboración a la lista de notas
+* Se ha corregido un bloqueo que se producía cuando no había referencia de la nota en el editor al ocultarse la barra de herramientas en modo apaisado
+* Se ha corregido el caso del botón de eliminar la cuenta en los ajustes
+* Se ha añadido la gestión de errores para el caso de que el usuario haya realizado demasiadas solicitudes de credenciales erróneas al iniciar sesión

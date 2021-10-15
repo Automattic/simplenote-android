@@ -1,0 +1,6 @@
+2.23:
+* Ett dedikerat gränssnitt för att lägga till och ta bort redigerare för en anteckning har lagts till
+* En statusindikator för samarbete har lagts till i anteckningslistan
+* En återkommande krasch i liggande läge när anteckningsreferensen är null i redigeraren medan verktygsfältet döljs har åtgärdats 
+* Skiftläget har korrigerats på knappen Ta bort konto i Inställningar
+* Felhantering har lagts till för när användaren har gjort för många felaktiga autentiseringsbegäranden vid inloggning 
