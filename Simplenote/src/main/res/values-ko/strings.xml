@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-29 11:54:51+0000
+Translation-Revision-Date: 2021-10-12 09:54:50+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="simperium_too_many_attempts">로그인을 너무 많이 시도했습니다. 나중에 다시 시도하세요.</string>
+    <string name="simperium_change_password">비밀번호 변경</string>
+    <string name="simperium_not_now">취소</string>
+    <string name="simperium_compromised_password_message">계정 손상 위험이 큰 데이터 위반이 이 비밀번호에서 나타났습니다. 데이터를 보호하려면 다시 로그인할 수 있기 전에 비밀번호를 업데이트해야 합니다.</string>
+    <string name="simperium_compromised_password">손상된 비밀번호</string>
+    <string name="no_collaborators">공동 작업자 없음</string>
+    <string name="collaborators_note_trashed">메모가 휴지통으로 이동되었습니다. 휴지통에 있는 메모의 공동 작업자를 편집할 수 없습니다.</string>
+    <string name="collaborators_note_deleted">메모가 삭제되었습니다. 삭제된 메모의 공동 작업자를 편집할 수 없습니다.</string>
+    <string name="collaborator_is_current_user">자신을 공동 작업자로 추가할 수 없습니다.</string>
+    <string name="invalid_collaborator">유효한 이메일 주소를 입력하세요.</string>
+    <string name="accept">수락</string>
+    <string name="email_address">이메일 주소</string>
+    <string name="remove_collaborator_message">이 공동 작업자를 제거하시겠어요?</string>
+    <string name="remove">제거</string>
+    <string name="collaborators">공동 작업자</string>
+    <string name="remove_collaborator">공동 작업자 제거</string>
+    <string name="loading_collaborators">로드 중…</string>
+    <string name="add_email_collaborator_message">이메일 주소를 추가하여 이 메모를 다른 사람과 공유하면 두 사람 모두 내용을 변경할 수 있습니다. 공동 작업자를 추가하면 공동 작업자에게 이메일로 통보됩니다.</string>
+    <string name="add_collaborator">공동 작업자 추가</string>
+    <string name="note_shared">메모 공유됨</string>
+    <string name="shared_with">공유 대상:</string>
+    <string name="tag_error_collaborator">태그는 이메일일 수 없음</string>
     <string name="tag_added_as_collaborator">%1$s이(가) 공동 작업자로 추가되었습니다.</string>
     <string name="invalid_tag">유효하지 않은 태그</string>
     <string name="simperium_okay">확인</string>

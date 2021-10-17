@@ -1,4 +1,0 @@
-2.22 :
-* L’écran ne passe plus automatiquement en mode modification globale dans l’éditeur d’étiquettes
-* Le bouton Enregistrer n’est plus désactivé pour les nouvelles étiquettes après la rotation de l’appareil
-* La fenêtre pour renommer une étiquette ne se ferme plus automatiquement lorsque vous tournez l’appareil

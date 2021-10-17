@@ -1,0 +1,6 @@
+2.23:
+* Een gebruikersinterface toegevoegd speciaal om samenwerkers toe te voegen aan en te verwijderen uit notities
+* Een indicator voor de samenwerkingsstatus toegevoegd aan de notitielijst
+* Crash verholpen wanneer de notitiereferentie 'null' is in de editor en de werkbalk is verborgen in de liggende modus
+* Fout verholpen in de knop voor account verwijderen bij de instellingen
+* Fouttekst toegevoegd voor wanneer de gebruiker te veel foute aanmeldverzoeken heeft ingediend bij het aanmelden

@@ -1,102 +1,132 @@
 <ar>
-2.22:
-* تم إصلاح انتقال الشاشة إلى وضع التحرير الكامل في محرِّر الوسوم
-* تم إصلاح تعطيل زر الحفظ لوسم جديد بعد تدوير الجهاز
-* تم إصلاح إغلاق مربع حوار إعادة تسمية الوسم عند تدوير الجهاز
+2.23:
+* تمت إضافة واجهة مستخدم مخصصة لإضافة المتعاونين إلى ملحوظة وإزالتهم منها
+* تمت إضافة مؤشر حالة المتعاون إلى قائمة الملحوظات
+* تم إصلاح العطل عندما أصبح مرجع الملحوظة فارغًا في المحرِّر في أثناء إخفاء شريط الأدوات في الوضع الأفقي
+* تم إصلاح حالة في زر حذف الحساب ضمن الإعدادات
+* تمت إضافة معالجة الأخطاء عند قيام المستخدم بإجراء عدد كبير جدًا من طلبات الاعتماد الخاطئة عند تسجيل الدخول
 </ar>
 <de-DE>
-2.22:
-* Fehler behoben, wobei der Bildschirm im Schlagwort-Editor in den Vollbild-Bearbeitungsmodus wechselte
-* Fehler behoben, wobei der Speichern-Button für ein neues Schlagwort nach dem Drehen des Geräts deaktiviert wurde
-* Fehler behoben, wobei der Dialog zur Umbenennung von Schlagwörtern beim Drehen des Geräts geschlossen wurde
+2.23:
+* Eine dedizierte UI zum Hinzufügen oder Entfernen von Mitarbeitern zu Notizen wurde hinzugefügt
+* Der Statusindikator „Zusammenarbeit“ wurde zur Notizliste hinzugefügt
+* Fehlerverarbeitung hinzugefügt für den Fall, dass der Benutzer zu viele Anfragen mit falschen Anmeldedaten bei der Anmeldung gestellt hat
 </de-DE>
 <es-ES>
-2.22:
-* Se ha corregido la pantalla que pasa al modo de edición completa en el editor de etiquetas
-* Se ha corregido el botón de guardar que se desactiva para una nueva etiqueta después rotar el dispositivo
-* Se ha corregido el diálogo para el cambio de nombre de la etiqueta que se cierra al rotar el dispositivo
+2.23:
+* Se ha añadido una interfaz de usuario específica para añadir y eliminar colaboradores en una nota
+* Se ha añadido el indicador del estado de la colaboración a la lista de notas
+* Se ha corregido el caso del botón de eliminar la cuenta en los ajustes
+* Se ha añadido la gestión de errores para el caso de que el usuario haya realizado demasiadas solicitudes de credenciales erróneas al iniciar sesión
 </es-ES>
 <fr-FR>
-2.22 :
-* L’écran ne passe plus automatiquement en mode modification globale dans l’éditeur d’étiquettes
-* Le bouton Enregistrer n’est plus désactivé pour les nouvelles étiquettes après la rotation de l’appareil
-* La fenêtre pour renommer une étiquette ne se ferme plus automatiquement lorsque vous tournez l’appareil
+2.23 :
+* Ajout d’une interface utilisateur dédiée permettant d’ajouter et de supprimer des collaborateurs d’une note
+* Ajout d’un indicateur d’état de collaboration à la liste des notes
+* Correction de la casse du bouton Supprimer le compte dans les paramètres
+* Ajout de la gestion d’erreurs survenant lorsque l’utilisateur a effectué trop de tentatives de connexion avec des identifiants incorrects
 </fr-FR>
 <iw-IL>
-2.22:
-* תיקנו את המסך שעובר למצב של עריכה מלאה בעורך התגים
-* תיקנו בעיה שגרמה להשבתת כפתור השמירה בתגיות חדשות לאחר סיבוב המכשיר
-* תיקנו בעיה שגרמה לסגירה של תיבת דו-שיח לשינוי שם התגית לאחר סיבוב המכשיר
+2.23:
+* הוספנו ממשק משתמש ייעודי כדי להוסיף ולהסיר שותפי עריכה לפתקים
+* הוספנו סמן לסטטוס של שיתוף פעולה ברשימת הפתקים
+* תיקנו קריסה שהתרחשה כאשר ההפניות בפתק לא קיימות בעורך כשסרגל הכלים מוסתר בתצוגה לרוחב
+* תיקנו את הכיתוב בכפתור 'למחוק חשבון' ב'הגדרות'
+* הוספנו טיפול בשגיאה כאשר המשתמש ביצע יותר מדי ניסיונות שגויים בהזנת פרטי הכניסה במהלך ההתחברות
 </iw-IL>
 <id>
-2.22:
-* Layar yang diperbaiki masuk ke mode penyuntingan penuh di Editor tag
-* Tombol simpan yang diperbaiki dinonaktifkan untuk tag baru setelah rotasi perangkat
-* Dialog penggantian nama tag yang diperbaiki ditutup pada rotasi perangkat
+2.23:
+* Penambahan UI khusus untuk menambahkan dan menghapus kolaborator ke catatan
+* Penambahan indikator status kolaborasi ke daftar catatan
+* Perbaikan crash saat referensi catatan nol pada editor saat menyembunyikan bilah peralatan di mode lanskap
+* Perbaikan masalah pada tombol hapus akun di pengaturan
+* Penambahan penanganan error saat pengguna memasukkan terlalu banyak kredensial login yang salah
 </id>
 <it-IT>
-2.22:
-* Risolto il problema con lo schermo che entrava in modalità di modifica completa nell'editor di tag
-* Risolto il problema con il pulsante per il salvataggio che era disabilitato per un nuovo tag dopo la rotazione del dispositivo
-* Risolto il problema con la finestra di rinomina del tag che si chiudeva durante la rotazione del dispositivo
+2.23:
+* Aggiunta una UI dedicata per aggiungere e rimuovere collaboratori da una nota
+* Aggiunto l'indicatore dello stato della collaborazione all'elenco delle note
+* Risolto un arresto anomalo quando il riferimento della nota è null nell'editor nascondendo la barra degli strumenti in modalità orizzontale
+* Problema risolto con il pulsante Elimina account nelle impostazioni
+* Aggiunta la gestione degli errori quando l'utente ha effettuato troppe richieste di credenziali errate all'accesso
 </it-IT>
 <ja-JP>
-2.22:
-* タグエディターで画面がフル編集モードになる問題を修正
-* デバイスの向きを変えた後に新しいタグで保存ボタンが無効になる問題を修正
-* デバイスの向きを変えた時にタグの名前変更ダイアログが閉じる問題を修正
+2.23:
+* ノートに共同編集者を追加および削除する専用の UI を追加しました
+* ノートリストに共同編集のステータス指標を追加しました
+* ランドスケープモードでツールバーを非表示にしたときにエディターでノートの参照が null になるクラッシュを修正しました
+* 設定の「アカウントを削除」ボタンの問題を修正しました
+* ユーザーがログイン時に誤ったログイン情報を何度もリクエストした場合のエラー処理を追加しました
 </ja-JP>
 <ko-KR>
-2.22:
-* 태그 편집기에서 전체 편집 모드로 이동하는 화면을 수정했음
-* 기기 회전 후 비활성화되는 새 태그의 저장 버튼을 수정했음
-* 기기 회전 시 닫히는 태그 이름 변경 대화 상자를 수정했음
+2.23:
+* 메모에 대한 공동 작업자를 추가하고 제거하는 전용 UI를 추가했음
+* 공동 작업 상태 표시기를 메모 목록에 추가했음
+* 가로 모드에서 도구 모음을 숨긴 동안 편집기에서 메모 참조가 null일 때 발생하는 충돌을 해결했음
+* 설정에서 계정 삭제 버튼의 대소문자를 해결했음
+* 사용자가 로그인 시 잘못된 자격 증명을 너무 많이 요청하는 경우의 오류 처리를 추가했음
 </ko-KR>
 <nl-NL>
-2.22:
-* Probleem opgelost waarbij het venster in tageditor de modus Volledig bewerken opende
-* Probleem opgelost waarbij de knop Opslaan was uitgeschakeld voor een nieuwe tag als het apparaat werd gedraaid
-* Probleem opgelost waarbij het dialoogvenster Tag hernoemen werd afgesloten als het apparaat werd gedraaid
+2.23:
+* Een gebruikersinterface toegevoegd speciaal om samenwerkers toe te voegen aan en te verwijderen uit notities
+* Een indicator voor de samenwerkingsstatus toegevoegd aan de notitielijst
+* Crash verholpen wanneer de notitiereferentie 'null' is in de editor en de werkbalk is verborgen in de liggende modus
+* Fout verholpen in de knop voor account verwijderen bij de instellingen
+* Fouttekst toegevoegd voor wanneer de gebruiker te veel foute aanmeldverzoeken heeft ingediend bij het aanmelden
 </nl-NL>
 <pt-BR>
-2.22:
-* Correção da tela no modo de edição completa no editor de tags
-* O botão Salvar não é mais desativado para uma nova tag após a rotação do dispositivo
-* A caixa de diálogo Renomear tag não é mais fechada ao rotacionar o dispositivo
+2.23:
+* Inclusão de uma IU dedicada para adicionar e remover colaboradores de uma anotação
+* Inclusão do indicador de status de colaboração na lista de anotações
+* Correção de falha que ocorria quando a referência de uma anotação no editor era nula e a barra de ferramentas estava oculta no modo paisagem
+* Correção de capitalização no botão de excluir conta nas configurações
+* Inclusão de tratamento de erros para quando o usuário faz muitas tentativas de login com credenciais incorretas
 </pt-BR>
 <ru-RU>
-2.22:
-* Исправлена ошибка, вызывавшая переход в полноэкранный режим редактирования в редакторе тегов.
-* Исправлена ошибка, вызывавшая отключение кнопки сохранения нового тега при повороте устройства.
-* Исправлена ошибка, вызывавшая закрытие диалогового окна переименования тега при повороте устройства.
+2.23:
+* В пользовательском интерфейсе появилась возможность добавлять и удалять соавторов в заметке.
+* В списке заметок теперь есть индикатор статуса, говорящий о наличии соавторов.
+* Во время скрытия панели инструментов в редакторе больше не происходит сбой, вызванный тем, что указатель на заметку пуст.
+* В настройках исправлена надпись на кнопке удаления учётной записи.
+* Теперь обрабатывается ошибка, происходящая, если при входе слишком много раз указаны неправильные учётные данные.
 </ru-RU>
 <sv-SE>
-2.22:
-* Ett problem som gjorde att skärmen gick in i fullredigeringsläge i etikettredigeraren har åtgärdats
-* Ett problem som gjorde att Spara-knappen inaktiverades för nya etiketter efter enhetsrotation har åtgärdats
-* Ett problem som gjorde att dialogrutan Ändra namn för etiketter stängdes vid enhetsrotation har åtgärdats
+2.23:
+* Ett dedikerat gränssnitt för att lägga till och ta bort redigerare för en anteckning har lagts till
+* En statusindikator för samarbete har lagts till i anteckningslistan
+* En återkommande krasch i liggande läge när anteckningsreferensen är null i redigeraren medan verktygsfältet döljs har åtgärdats
+* Skiftläget har korrigerats på knappen Ta bort konto i Inställningar
+* Felhantering har lagts till för när användaren har gjort för många felaktiga autentiseringsbegäranden vid inloggning
 </sv-SE>
 <tr-TR>
-2.22:
-* Etiket düzenleyicide ekranın tam düzenleme moduna geçmesi düzeltildi
-* Cihaz dönşünden sonra yeni bir etiket için sabit kaydetme düğmesi devre dışı bırakıldı 
-* Sabit etiket yeniden adlandırma iletişim kutusu, cihaz dönüşünde kapatıldı
+2.23:
+* Bir nota çalışma arkadaşları eklemek ve kaldırmak için özel bir kullanıcı arayüzü eklendi
+* Not listesine işbirliği durum göstergesi eklendi
+* Yatay modda araç çubuğunu gizlerken düzenleyicide not referansının boş görünmesine neden olan kilitlenme durumu düzeltildi
+* Ayarlarda hesabı sil düğmesiyle ilgili durum düzeltildi
+* Kullanıcının oturum açma sırasında çok fazla yanlış kimlik bilgisi isteğinde bulunması durumunda hata işleme olanağı eklendi
 </tr-TR>
 <zh-CN>
-2.22：
-* 修复了屏幕在标签编辑器中进入完全编辑模式的问题
-* 修复了新标签的保存按钮在设备旋转后被禁用的问题
-* 修复了标签重命名对话框在设备旋转时关闭的问题
+2.23：
+* 添加了专用 UI，以便在笔记中添加和删除协作者
+*在笔记列表中添加了协作状态指示器
+* 修复了在横向模式下隐藏工具栏后，编辑器中的笔记引用为空时会出现崩溃的问题
+* 修复了在设置中删除账户按钮的问题
+* 针对以下情况添加了错误处理：用户登录时发出过多错误凭据请求
 </zh-CN>
 <zh-TW>
-2.22：
-* 修正了螢幕會在標籤編輯器中進入完整編輯模式的問題
-* 修正了儲存按鈕會在裝置旋轉時對新標籤停用的問題
-* 修正了標籤重新命名對話方塊會在裝置旋轉時關閉的問題
+2.23：
+* 新增專用 UI，可以在筆記中新增和移除共同作業者
+* 在筆記清單中新增共同作業狀態指標
+* 修正在橫向模式下隱藏工具列時，因編輯器中註解參照是空值所引發的當機問題
+* 修正設定中刪除帳號按鈕的大小寫
+* 新增在登入時提出過多錯誤憑證要求的錯誤處理
 </zh-TW>
 <en-US>
-2.22:
-* Fixed screen going into full-editing mode in tag editor
-* Fixed save button is disabled for a new tag after device rotation
-* Fixed tag rename dialog is closed on device rotation
+2.23:
+* Added a dedicated UI to add and remove collaborators to a note
+* Added collaboration status indicator to the note list
+* Fixed crash when note reference is null in editor while hiding toolbar in landscape mode
+* Fixed case in delete account button in settings
+* Added error handling for when the user has made too many wrong credential requests at login
 </en-US>

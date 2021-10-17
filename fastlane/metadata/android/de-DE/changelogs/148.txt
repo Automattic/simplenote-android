@@ -1,0 +1,6 @@
+2.23:
+* Eine dedizierte UI zum Hinzufügen oder Entfernen von Mitarbeitern zu Notizen wurde hinzugefügt
+* Der Statusindikator „Zusammenarbeit“ wurde zur Notizliste hinzugefügt
+* Der Absturz, der auftrat, wenn die Notizreferenz im Editor Null war, während die Toolbar im Querformat ausgeblendet ist, wurde behoben
+* Schreibweise des Buttons „Delete Account“ zu „Delete account“ (Konto löschen) in den Einstellungen geändert
+* Fehlerverarbeitung hinzugefügt für den Fall, dass der Benutzer zu viele Anfragen mit falschen Anmeldedaten bei der Anmeldung gestellt hat

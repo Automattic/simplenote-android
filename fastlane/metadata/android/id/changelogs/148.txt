@@ -1,0 +1,6 @@
+2.23:
+* Penambahan UI khusus untuk menambahkan dan menghapus kolaborator ke catatan
+* Penambahan indikator status kolaborasi ke daftar catatan
+* Perbaikan crash saat referensi catatan nol pada editor saat menyembunyikan bilah peralatan di mode lanskap
+* Perbaikan masalah pada tombol hapus akun di pengaturan
+* Penambahan penanganan error saat pengguna memasukkan terlalu banyak kredensial login yang salah

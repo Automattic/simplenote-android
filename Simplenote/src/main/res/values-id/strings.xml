@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-28 11:54:04+0000
+Translation-Revision-Date: 2021-10-12 09:54:48+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="simperium_too_many_attempts">Terlalu banyak upaya login. Coba lagi nanti.</string>
+    <string name="simperium_change_password">Ganti Kata Sandi</string>
+    <string name="simperium_not_now">Batal</string>
+    <string name="simperium_compromised_password_message">Kata sandi ini muncul dalam kasus pelanggaran data, yang membuat akun Anda berisiko tinggi untuk disusupi. Untuk melindungi data, Anda perlu memperbarui kata sandi sebelum dapat login kembali.</string>
+    <string name="simperium_compromised_password">Kata Sandi yang Disusupi</string>
+    <string name="no_collaborators">Tidak Ada Kolaborator</string>
+    <string name="collaborators_note_trashed">Catatan Dibuang. Anda tidak dapat mengedit kolaborator pada catatan yang sudah dibuang di tempat sampah.</string>
+    <string name="collaborators_note_deleted">Catatan dihapus. Anda tidak dapat mengedit kolaborator pada catatan yang sudah dihapus.</string>
+    <string name="collaborator_is_current_user">Anda tidak dapat menambahkan diri sendiri sebagai kolaborator</string>
+    <string name="invalid_collaborator">Masukkan alamat email yang valid</string>
+    <string name="accept">Terima</string>
+    <string name="email_address">Alamat Email</string>
+    <string name="remove_collaborator_message">Anda yakin ingin menghapus kolaborator ini?</string>
+    <string name="remove">Buang</string>
+    <string name="collaborators">Kolaborator</string>
+    <string name="remove_collaborator">Hapus Kolaborator</string>
+    <string name="loading_collaborators">Memuat…</string>
+    <string name="add_email_collaborator_message">Tambahkan alamat email untuk berbagi catatan ini dengan seseorang sehingga Anda dan orang yang Anda bagi catatan tersebut dapat melakukan perubahan. Ketika Anda menambahkan kolaborator, mereka akan menerima email pemberitahuan.</string>
+    <string name="add_collaborator">Tambahkan Kolaborator</string>
+    <string name="note_shared">Catatan Dibagikan</string>
+    <string name="shared_with">Dibagikan Dengan</string>
+    <string name="tag_error_collaborator">Tag tidak boleh berisi email</string>
     <string name="tag_added_as_collaborator">%1$s ditambahkan sebagai kolaborator.</string>
     <string name="invalid_tag">Tag Tidak Valid</string>
     <string name="simperium_okay">Baik</string>

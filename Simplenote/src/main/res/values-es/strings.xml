@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-30 12:54:03+0000
+Translation-Revision-Date: 2021-10-14 09:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="simperium_too_many_attempts">Demasiados intentos de inicio de sesión. Inténtalo de nuevo más tarde.</string>
+    <string name="simperium_change_password">Cambiar contraseña</string>
+    <string name="simperium_not_now">Cancelar</string>
+    <string name="simperium_compromised_password_message">Esta contraseña ha aparecido en una filtración de datos, por lo que tu cuenta está expuesta a un alto riesgo. Para proteger tus datos, deberás actualizar tu contraseña antes de poder volver a conectarte.</string>
+    <string name="simperium_compromised_password">Contraseña en peligro</string>
+    <string name="no_collaborators">Sin colaboradores</string>
+    <string name="collaborators_note_trashed">La nota se ha enviado a la papelera. No puedes editar los colaboradores de una nota que se encuentra en la papelera.</string>
+    <string name="collaborators_note_deleted">Se ha eliminado la nota. No puedes editar los colaboradores de una nota que se ha eliminado.</string>
+    <string name="collaborator_is_current_user">No puedes añadirte como colaborador</string>
+    <string name="invalid_collaborator">Por favor, introduce una dirección de correo electrónico válida</string>
+    <string name="accept">Acepto</string>
+    <string name="email_address">Dirección de correo electrónico</string>
+    <string name="remove_collaborator_message">¿Seguro que quieres eliminar este colaborador?</string>
+    <string name="remove">Eliminar</string>
+    <string name="collaborators">Colaboradores</string>
+    <string name="remove_collaborator">Eliminar colaborador</string>
+    <string name="loading_collaborators">Cargando…</string>
+    <string name="add_email_collaborator_message">Añade una dirección de correo electrónico para compartir esta nota con alguien. Así, ambos podréis modificarla. Cuando añadas un colaborador, se le enviará un aviso por correo electrónico.</string>
+    <string name="add_collaborator">Añadir colaborador</string>
+    <string name="note_shared">Nota compartida</string>
+    <string name="shared_with">Compartida con</string>
+    <string name="tag_error_collaborator">Las etiquetas no pueden ser correos electrónicos</string>
     <string name="tag_added_as_collaborator">%1$s se ha añadido como colaborador(a).</string>
     <string name="invalid_tag">Etiqueta no válida</string>
     <string name="simperium_okay">De acuerdo</string>

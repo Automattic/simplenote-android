@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-29 15:54:03+0000
+Translation-Revision-Date: 2021-10-13 13:54:04+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="simperium_too_many_attempts">Вы пробовали войти слишком много раз. Повторите попытку позже.</string>
+    <string name="simperium_change_password">Изменить пароль</string>
+    <string name="simperium_not_now">Отмена</string>
+    <string name="simperium_compromised_password_message">Этот пароль есть в списках украденных, поэтому взломать вашу учётную запись очень легко. Чтобы защитить ваши данные, этот пароль больше не принимается. Придумайте другой, иначе вы не сможете войти.</string>
+    <string name="simperium_compromised_password">Скомпрометированный пароль</string>
+    <string name="no_collaborators">Нет соавторов</string>
+    <string name="collaborators_note_trashed">Заметка перемещена в корзину. Если заметка в корзине, соавторов изменить нельзя.</string>
+    <string name="collaborators_note_deleted">Заметка удалена. Если заметка удалена, соавторов изменить нельзя.</string>
+    <string name="collaborator_is_current_user">Нельзя сделать себя своим соавтором</string>
+    <string name="invalid_collaborator">Пожалуйста, введите корректный Email</string>
+    <string name="accept">Принять</string>
+    <string name="email_address">Адрес электронной почты</string>
+    <string name="remove_collaborator_message">Вы уверены, что хотите удалить этого соавтора?</string>
+    <string name="remove">Удалить</string>
+    <string name="collaborators">Партнёры</string>
+    <string name="remove_collaborator">Удалить соавтора</string>
+    <string name="loading_collaborators">Загрузка…</string>
+    <string name="add_email_collaborator_message">Введите адрес электронной почты, чтобы добавить соавтора заметки. Он тоже сможет её изменять. Соавтор получит уведомление.</string>
+    <string name="add_collaborator">Добавить соавтора</string>
+    <string name="note_shared">Добавлен соавтор заметки</string>
+    <string name="shared_with">Соавторы:</string>
+    <string name="tag_error_collaborator">Тег не может быть адресом электронной почты</string>
     <string name="tag_added_as_collaborator">Пользователь %1$s добавлен как соавтор.</string>
     <string name="invalid_tag">Недопустимый тег</string>
     <string name="simperium_okay">ОК</string>

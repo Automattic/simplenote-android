@@ -1,0 +1,6 @@
+2.23:
+* Bir nota çalışma arkadaşları eklemek ve kaldırmak için özel bir kullanıcı arayüzü eklendi
+* Not listesine işbirliği durum göstergesi eklendi
+* Yatay modda araç çubuğunu gizlerken düzenleyicide not referansının boş görünmesine neden olan kilitlenme durumu düzeltildi
+* Ayarlarda hesabı sil düğmesiyle ilgili durum düzeltildi
+* Kullanıcının oturum açma sırasında çok fazla yanlış kimlik bilgisi isteğinde bulunması durumunda hata işleme olanağı eklendi

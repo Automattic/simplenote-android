@@ -1,0 +1,6 @@
+2.23:
+* Aggiunta una UI dedicata per aggiungere e rimuovere collaboratori da una nota
+* Aggiunto l'indicatore dello stato della collaborazione all'elenco delle note
+* Risolto un arresto anomalo quando il riferimento della nota è null nell'editor nascondendo la barra degli strumenti in modalità orizzontale
+* Problema risolto con il pulsante Elimina account nelle impostazioni
+* Aggiunta la gestione degli errori quando l'utente ha effettuato troppe richieste di credenziali errate all'accesso

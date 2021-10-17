@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Translation-Revision-Date: 2021-09-27 15:54:05+0000
+Translation-Revision-Date: 2021-10-11 17:54:04+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
+    <string name="simperium_too_many_attempts">Muitas tentativas de login. Tente novamente mais tarde.</string>
+    <string name="simperium_change_password">Alterar senha</string>
+    <string name="simperium_not_now">Cancelar</string>
+    <string name="simperium_compromised_password_message">Esta senha apareceu em um vazamento de dados, o que coloca sua conta em alto risco de ser comprometida. Para proteger seus dados, você terá que atualizar sua senha antes de poder fazer login novamente.</string>
+    <string name="simperium_compromised_password">Senha comprometida</string>
+    <string name="no_collaborators">Nenhum colaborador</string>
+    <string name="collaborators_note_trashed">A anotação foi enviada para a lixeira. Você não pode editar os colaboradores em uma anotação que está na lixeira.</string>
+    <string name="collaborators_note_deleted">A anotação foi excluída. Você não pode editar os colaboradores em uma anotação que foi excluída.</string>
+    <string name="collaborator_is_current_user">Você não pode se adicionar como colaborador</string>
+    <string name="invalid_collaborator">Digite um endereço de e-mail válido</string>
+    <string name="accept">Aceitar</string>
+    <string name="email_address">Endereço de e-mail</string>
+    <string name="remove_collaborator_message">Tem certeza de que deseja remover este colaborador?</string>
+    <string name="remove">Remover</string>
+    <string name="collaborators">Colaboradores</string>
+    <string name="remove_collaborator">Remover colaborador</string>
+    <string name="loading_collaborators">Carregando…</string>
+    <string name="add_email_collaborator_message">Adicione um endereço de e-mail para compartilhar esta anotação com alguém. Assim, ambos poderão fazer alterações. Quando você adiciona um colaborador, ele é notificado por e-mail.</string>
+    <string name="add_collaborator">Adicionar colaborador</string>
+    <string name="note_shared">Anotação compartilhada</string>
+    <string name="shared_with">Compartilhada com</string>
+    <string name="tag_error_collaborator">Tags não podem ser e-mails</string>
     <string name="tag_added_as_collaborator">%1$s agora tem a função de colaborador.</string>
     <string name="invalid_tag">Tag inválida</string>
     <string name="simperium_okay">OK</string>
