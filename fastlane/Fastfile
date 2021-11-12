@@ -77,7 +77,6 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
     update_strings_for_translation_automation()
 
     android_tag_build()
-    get_prs_list(repository:GHHELPER_REPO, start_tag:"#{old_version}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list_#{old_version}_#{new_version}.txt")
   end
 
   #####################################################################################
@@ -293,11 +292,6 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
 ########################################################################
 # Helper Lanes
 ########################################################################
-  desc "Get a list of pull request from `start_tag` to the current state"
-  lane :get_pullrequests_list do | options |
-    get_prs_list(repository:GHHELPER_REPO, start_tag:"#{options[:start_tag]}", report_path:"#{File.expand_path('~')}/simplenoteandroid_prs_list.txt")
-  end
-
   #####################################################################################
   # download_metadata_string
   # -----------------------------------------------------------------------------------
