@@ -23,6 +23,7 @@ ENV[GHHELPER_REPO="automattic/simplenote-android"]
 ENV["PROJECT_ROOT_FOLDER"]="./"
 ENV["PROJECT_NAME"]="Simplenote"
 ENV["validate_translations"]="buildRelease"
+ENV['FL_RELEASE_TOOLKIT_DEFAULT_BRANCH'] = 'trunk'
 
 SUPPORTED_LOCALES = [
   { glotpress: "ar", google_play: "ar",  promo_config: {}},
@@ -61,7 +62,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
   # bundle exec fastlane code_freeze update_release_branch_version:false
   # bundle exec fastlane code_freeze skip_confirm:true
   #####################################################################################
-  desc "Creates a new release branch from the current develop"
+  desc "Creates a new release branch from the current trunk"
   lane :code_freeze do | options |
     old_version = android_codefreeze_prechecks(options)
 
@@ -182,7 +183,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
     configure_apply(force: is_ci)
 
     hotfix = android_current_branch_is_hotfix
-    unless hotfix 
+    unless hotfix
       UI.message('Checking app strings translation status...')
       check_translation_progress(
         glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
@@ -195,11 +196,11 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
         abort_on_violations: false
       )
 
-      android_update_metadata(options) 
-      android_bump_version_final_release() 
+      android_update_metadata(options)
+      android_bump_version_final_release()
     end
 
-    version = android_get_release_version() 
+    version = android_get_release_version()
     download_metadata_strings(version: version["name"], build_number: version["code"]) unless hotfix
     android_tag_build(tag_alpha: false)
 
