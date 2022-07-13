@@ -36,7 +36,7 @@ android {
             versionName "2.24"
         }
         versionCode 149
-        minSdkVersion 24
+        minSdkVersion 23
         targetSdkVersion 30
 
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
