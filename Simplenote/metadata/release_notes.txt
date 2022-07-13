@@ -1,5 +1,1 @@
-* Added a dedicated UI to add and remove collaborators to a note
-* Added collaboration status indicator to the note list
-* Fixed crash when note reference is null in editor while hiding toolbar in landscape mode
-* Fixed case in delete account button in settings
-* Added error handling for when the user has made too many wrong credential requests at login
+* Updated simperium library
