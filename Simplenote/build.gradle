@@ -5,8 +5,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    buildToolsVersion '29.0.2'
-    compileSdkVersion 29
+    buildToolsVersion '30.0.3'
+    compileSdkVersion 30
 
     buildTypes {
         debug {
@@ -33,11 +33,11 @@ android {
         if (project.hasProperty("versionName")) {
             versionName project.property("versionName")
         } else {
-            versionName "2.23"
+            versionName "2.24"
         }
-        versionCode 148
-        minSdkVersion 23
-        targetSdkVersion 29
+        versionCode 149
+        minSdkVersion 24
+        targetSdkVersion 30
 
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
@@ -106,7 +106,7 @@ dependencies {
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
-    implementation 'com.automattic:simperium:v1.1.0'
+    implementation 'com.automattic:simperium:v1.2.0'
     implementation 'com.github.Automattic:Automattic-Tracks-Android:2.1.0'
     implementation 'org.wordpress:passcodelock:2.0.2'
 

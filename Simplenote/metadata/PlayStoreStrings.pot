@@ -11,14 +11,10 @@ msgstr ""
 "Project-Id-Version: Release Notes & Play Store Descriptions\n"
 
 #. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
-msgctxt "release_note_0223"
+msgctxt "release_note_0224"
 msgid ""
-"2.23:\n"
-"* Added a dedicated UI to add and remove collaborators to a note\n"
-"* Added collaboration status indicator to the note list\n"
-"* Fixed crash when note reference is null in editor while hiding toolbar in landscape mode\n"
-"* Fixed case in delete account button in settings\n"
-"* Added error handling for when the user has made too many wrong credential requests at login\n"
+"2.24:\n"
+"* Updated simperium library\n"
 msgstr ""
 
 msgctxt "release_note_0222"
