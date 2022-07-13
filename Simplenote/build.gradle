@@ -5,8 +5,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    buildToolsVersion '29.0.2'
-    compileSdkVersion 29
+    buildToolsVersion '30.0.3'
+    compileSdkVersion 30
 
     buildTypes {
         debug {
