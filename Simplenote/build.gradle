@@ -33,11 +33,11 @@ android {
         if (project.hasProperty("versionName")) {
             versionName project.property("versionName")
         } else {
-            versionName "2.23"
+            versionName "2.24"
         }
-        versionCode 148
-        minSdkVersion 23
-        targetSdkVersion 29
+        versionCode 149
+        minSdkVersion 24
+        targetSdkVersion 30
 
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
