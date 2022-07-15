@@ -1,6 +1,10 @@
+2.24.1
+-----
+* Fixed links not opening in browser [#1553](https://github.com/Automattic/simplenote-android/pull/1553)
+
 2.24
 -----
-
+* Fixed problem with login [#1549](https://github.com/Automattic/simplenote-android/pull/1549)
 
 2.23
 -----
