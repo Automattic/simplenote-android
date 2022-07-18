@@ -6,6 +6,7 @@ unless FastlaneCore::Helper.bundler?
 end
 
 USER_ENV_FILE_PATH = File.join(Dir.home, '.simplenoteandroid-env.default')
+INSTALLABLE_BUILD_DOMAIN = 'https://d2twmm2nzpx3bg.cloudfront.net'
 
 before_all do
   # Check that the env file exists
@@ -386,6 +387,48 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
   end
 
   #####################################################################################
+  # build_and_upload_installable_build
+  # -----------------------------------------------------------------------------------
+  # Build an Installable Build and make it available for download
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane build_and_upload_installable_build
+  #####################################################################################
+  desc 'Build an Installable Build and make it available for download'
+  lane :build_and_upload_installable_build do
+    UI.user_error!("'BUILDKITE_ARTIFACTS_S3_BUCKET' must be defined as an environment variable.") unless ENV['BUILDKITE_ARTIFACTS_S3_BUCKET']
+
+    gradle(task: 'assembleDebug')
+
+    filename = "simplenote-android-installable-build-#{generate_installable_build_number}.apk"
+
+    upload_path = upload_to_s3(
+      bucket: 'a8c-apps-public-artifacts',
+      key: filename,
+      file: lane_context[SharedValues::GRADLE_APK_OUTPUT_PATH]
+    )
+
+    return if ENV['BUILDKITE_PULL_REQUEST'].nil?
+
+    install_url = "#{INSTALLABLE_BUILD_DOMAIN}/#{upload_path}"
+    qr_code_url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=#{CGI.escape(install_url)}&choe=UTF-8"
+    comment_body = "You can test the changes on this Pull Request by <a href='#{install_url}'>downloading an installable build (#{filename})</a>, or scanning this QR code:<br><a href='#{install_url}'><img src='#{qr_code_url}' width='250' height='250' /></a>"
+
+    comment_on_pr(
+      project: GHHELPER_REPO,
+      pr_number: Integer(ENV['BUILDKITE_PULL_REQUEST']),
+      reuse_identifier: "simplenote-installable-build-link",
+      body: comment_body
+    )
+
+    if ENV['BUILDKITE']
+      message = "Simplenote Installable Build: [#{filename}](#{install_url})"
+      sh('buildkite-agent', 'annotate', message, '--style', 'info', '--context', "installable-build")
+    end
+  end
+
+
+  #####################################################################################
   # Screenshots lanes
   #####################################################################################
 
@@ -488,4 +531,20 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
     File.join(project_root, "build", universal_apk_name(version))
   end
 
+  # This function is Buildkite-specific
+  def generate_installable_build_number
+    if ENV['BUILDKITE']
+      commit = ENV['BUILDKITE_COMMIT'][0, 7]
+      branch = ENV['BUILDKITE_BRANCH'].parameterize
+      pr_num = ENV['BUILDKITE_PULL_REQUEST']
+
+      pr_num == 'false' ? "#{branch}-#{commit}" : "pr#{pr_num}-#{commit}-#{ENV['BUILDKITE_JOB_ID']}"
+    else
+      repo = Git.open(PROJECT_ROOT_FOLDER)
+      commit = repo.current_branch.parameterize
+      branch = repo.revparse('HEAD')[0, 7]
+
+      "#{branch}-#{commit}"
+    end
+  end
 end
