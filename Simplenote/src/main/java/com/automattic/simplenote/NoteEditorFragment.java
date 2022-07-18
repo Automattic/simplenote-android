@@ -355,7 +355,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             @Override
             public CharSequence convertToString(Cursor cursor) {
-                return cursor.getString(cursor.getColumnIndex(Tag.NAME_PROPERTY));
+                int val = cursor.getColumnIndex(Tag.NAME_PROPERTY);
+                return cursor.getString(val);
             }
 
             @Override
@@ -385,7 +386,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
             @Override
             public CharSequence convertToString(Cursor cursor) {
-                return cursor.getString(cursor.getColumnIndex(Note.TITLE_INDEX_NAME));
+                int index = cursor.getColumnIndex(Note.TITLE_INDEX_NAME);
+                return cursor.getString(index);
             }
 
             @Override

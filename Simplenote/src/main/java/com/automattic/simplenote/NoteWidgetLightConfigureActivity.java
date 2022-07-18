@@ -161,12 +161,14 @@ public class NoteWidgetLightConfigureActivity extends AppCompatActivity {
             String title = "";
             String snippet = "";
 
-            if (cursor.getColumnIndex(Note.TITLE_INDEX_NAME) > -1) {
-                title =  cursor.getString(cursor.getColumnIndex(Note.TITLE_INDEX_NAME));
+            int titleIndex = cursor.getColumnIndex(Note.TITLE_INDEX_NAME);
+            if (titleIndex >= 0) {
+                title =  cursor.getString(titleIndex);
             }
 
-            if (cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME) > -1) {
-                snippet =  cursor.getString(cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME));
+            int contentPreviewIndex = cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME);
+            if (contentPreviewIndex >= 0) {
+                snippet = cursor.getString(contentPreviewIndex);
             }
 
             // Populate fields with extracted properties

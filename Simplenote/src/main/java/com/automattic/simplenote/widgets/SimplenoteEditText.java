@@ -113,7 +113,8 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         );
         @SuppressWarnings("unchecked")
         Bucket.ObjectCursor<Note> cursor = (Bucket.ObjectCursor<Note>) parent.getAdapter().getItem(position);
-        String key = cursor.getString(cursor.getColumnIndex(Note.KEY_PROPERTY)).replace("note", "");
+        int keyPropertyIndex = cursor.getColumnIndex(Note.KEY_PROPERTY);
+        String key = cursor.getString(keyPropertyIndex).replace("note", "");
         String text = SimplenoteLinkify.getNoteLink(key);
         int start = Math.max(getSelectionStart(), 0);
         int end = Math.max(getSelectionEnd(), 0);
