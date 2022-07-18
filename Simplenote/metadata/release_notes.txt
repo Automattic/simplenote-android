@@ -1,1 +1,2 @@
 * Updated simperium library
+* Fixed links not opening in browser
