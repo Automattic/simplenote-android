@@ -3,7 +3,13 @@ buildscript {
     ext.kotlin_version = '1.4.32'
 
     repositories {
-        maven { url "https://a8c-libs.s3.amazonaws.com/android" }
+        maven {
+            url 'https://a8c-libs.s3.amazonaws.com/android' 
+            content {
+                includeGroup "com.automattic.android"
+                includeGroup "com.automattic.android.publish-to-s3"
+            }
+        }
         google()
         jcenter()
         maven { url 'https://maven.google.com' }
