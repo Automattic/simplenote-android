@@ -161,14 +161,12 @@ public class NoteWidgetDarkConfigureActivity extends AppCompatActivity {
             String title = "";
             String snippet = "";
 
-            int titleIndex = cursor.getColumnIndex(Note.TITLE_INDEX_NAME);
-            if (titleIndex >= 0) {
-                title =  cursor.getString(titleIndex);
+            if (cursor.getColumnIndexOrThrow(Note.TITLE_INDEX_NAME) > -1) {
+                title =  cursor.getString(cursor.getColumnIndexOrThrow(Note.TITLE_INDEX_NAME));
             }
 
-            int contentPreviewIndex = cursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME);
-            if (contentPreviewIndex >= 0) {
-                snippet = cursor.getString(contentPreviewIndex);
+            if (cursor.getColumnIndexOrThrow(Note.CONTENT_PREVIEW_INDEX_NAME) > -1) {
+                snippet =  cursor.getString(cursor.getColumnIndexOrThrow(Note.CONTENT_PREVIEW_INDEX_NAME));
             }
 
             // Populate fields with extracted properties

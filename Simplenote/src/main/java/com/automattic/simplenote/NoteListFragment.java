@@ -977,9 +977,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             boolean showIcons = isPinned || isPublished || hasCollaborators;
             boolean showDate = mIsSearching && date != null;
             holder.mStatus.setVisibility(showIcons || showDate ? View.VISIBLE : View.GONE);
-
-            int index = mCursor.getColumnIndex(Note.TITLE_INDEX_NAME);
-            String title = mCursor.getString(index);
+            String title = mCursor.getString(mCursor.getColumnIndexOrThrow(Note.TITLE_INDEX_NAME));
 
             if (TextUtils.isEmpty(title)) {
                 SpannableString newNoteString = new SpannableString(getString(R.string.new_note_list));
@@ -1007,15 +1005,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
 
             holder.mMatchOffsets = null;
-            int matchOffsetsIndex = mCursor.getColumnIndex("match_offsets");
+            int matchOffsetsIndex = mCursor.getColumnIndexOrThrow("match_offsets");
 
             if (hasSearchQuery() && matchOffsetsIndex != -1) {
-                int matchedTitleIndex = mCursor.getColumnIndex(Note.MATCHED_TITLE_INDEX_NAME);
-                title = mCursor.getString(matchedTitleIndex);
-
-                int matchedContentIndex = mCursor.getColumnIndex(Note.MATCHED_CONTENT_INDEX_NAME);
-                String snippet = mCursor.getString(matchedContentIndex);
-
+                title = mCursor.getString(mCursor.getColumnIndexOrThrow(Note.MATCHED_TITLE_INDEX_NAME));
+                String snippet = mCursor.getString(mCursor.getColumnIndexOrThrow(Note.MATCHED_CONTENT_INDEX_NAME));
                 holder.mMatchOffsets = mCursor.getString(matchOffsetsIndex);
 
                 try {
@@ -1029,17 +1023,13 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
                         title,
                         mSnippetHighlighter, ThemeUtils.getThemeTextColorId(getContext())));
                 } catch (NullPointerException e) {
-                    int titleIndex = mCursor.getColumnIndex(Note.TITLE_INDEX_NAME);
-                    title = StrUtils.notNullStr(mCursor.getString(titleIndex));
+                    title = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndexOrThrow(Note.TITLE_INDEX_NAME)));
                     holder.mTitle.setText(title);
-
-                    int contentPreviewIndex = mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME);
-                    String matchedContentPreview = StrUtils.notNullStr(mCursor.getString(contentPreviewIndex));
+                    String matchedContentPreview = StrUtils.notNullStr(mCursor.getString(mCursor.getColumnIndexOrThrow(Note.CONTENT_PREVIEW_INDEX_NAME)));
                     holder.mContent.setText(matchedContentPreview);
                 }
             } else if (!mIsCondensedNoteList) {
-                int contentPreviewIndex = mCursor.getColumnIndex(Note.CONTENT_PREVIEW_INDEX_NAME);
-                String contentPreview = mCursor.getString(contentPreviewIndex);
+                String contentPreview = mCursor.getString(mCursor.getColumnIndexOrThrow(Note.CONTENT_PREVIEW_INDEX_NAME));
 
                 if (title == null || title.equals(contentPreview) || title.equals(getString(R.string.new_note_list))) {
                     holder.mContent.setVisibility(View.GONE);
