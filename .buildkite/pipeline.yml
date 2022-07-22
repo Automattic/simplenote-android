@@ -1,0 +1,21 @@
+# Nodes with values to reuse in the pipeline.
+common_params:
+  # Common plugin settings to use with the `plugins` key.
+  - &common_plugins
+    - automattic/bash-cache#2.6.0
+
+# This is the default pipeline – it will build and test the app
+steps:
+
+  - label: "🛠 Build and Test"
+    command: ./gradlew --stacktrace testRelease
+    plugins: *common_plugins
+
+  - label: "🔬 Lint"
+    command: ./gradlew --stacktrace lintRelease
+    plugins: *common_plugins
+
+  - label: "🛠 Installable Build"
+    command: .buildkite/commands/build-prototype.sh
+    plugins: *common_plugins
+    if: "build.pull_request.id != null || build.pull_request.draft"

@@ -1,35 +1,27 @@
 {
-  "project_name": "simplenote-android",
+  "project_name": "Simplenote-Android",
   "branch": "trunk",
-  "pinned_hash": "04d008ee0fa9eb3adeaf647672251380753a87dc",
+  "pinned_hash": "9b6326550a87fe0b6423a9e12f79ca92be8c9cff",
   "files_to_copy": [
     {
       "file": "android/simplenote/Simplenote/gradle.properties",
-      "destination": "Simplenote/gradle.properties",
-      "encrypt": true
+      "destination": "Simplenote/gradle.properties"
     },
     {
       "file": "android/simplenote/sentry.properties",
-      "destination": "sentry.properties",
-      "encrypt": true
+      "destination": "sentry.properties"
     },
     {
       "file": "android/automattic.jks",
-      "destination": "Simplenote/release.jks",
-      "encrypt": false
+      "destination": ".configure-files/release.jks"
     },
     {
       "file": "android/debug.keystore",
-      "destination": "~/.configure/simplenote-android/secrets/debug_a8c.keystore",
-      "encrypt": true
+      "destination": ".configure-files/debug_a8c.keystore"
     },
     {
       "file": "android/Simplenote/google-upload-credentials.json",
-      "destination": "~/.configure/simplenote-android/secrets/google-upload-credentials.json",
-      "encrypt": false
+      "destination": ".configure-files/google-upload-credentials.json"
     }
-  ],
-  "file_dependencies": [
-
   ]
 }
