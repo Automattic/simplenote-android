@@ -42,6 +42,7 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,10 +68,16 @@ import androidx.core.view.MenuCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
+import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.ProductDetails;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity;
+import com.automattic.simplenote.billing.BillingClientWrapper;
+import com.automattic.simplenote.billing.SubscriptionBottomSheetDialog;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.repositories.CollaboratorsRepository;
@@ -87,6 +94,8 @@ import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.UndoBarController;
+import com.automattic.simplenote.viewmodels.IapViewModel;
+import com.automattic.simplenote.viewmodels.NoteEditorViewModel;
 import com.google.android.material.navigation.NavigationView;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -146,6 +155,10 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
     };
 
+
+    private IapViewModel viewModel;
+    SubscriptionBottomSheetDialog subscriptionBottomSheetDialog = new SubscriptionBottomSheetDialog();
+
     // Menu drawer
     private static final int GROUP_PRIMARY = 100;
     private static final int GROUP_SECONDARY = 101;
@@ -197,9 +210,13 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
     };
 
+    MutableLiveData  billingConnectionState = new MutableLiveData(false);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        viewModel = new ViewModelProvider(this).get(IapViewModel.class);
 
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NotesActivity.this));
         AppLog.add(Type.SCREEN, "Created (NotesActivity)");
@@ -215,6 +232,14 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         if (mTagsBucket == null) {
             mTagsBucket = currentApp.getTagsBucket();
         }
+
+
+        findViewById(R.id.sustainer_banner).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                subscriptionBottomSheetDialog.show(getSupportFragmentManager(), "");
+            }
+        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
