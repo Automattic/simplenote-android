@@ -51,7 +51,7 @@ class SubscriptionBottomSheetDialog : BottomSheetDialogBase() {
             contentRecyclerView.layoutManager = LinearLayoutManager(requireActivity())
             contentRecyclerView.adapter = adapter
 
-            viewModel.queryProductDetails()
+            viewModel.onBottomSheetDisplayed()
 
             dialog?.setOnShowListener { dialogInterface ->
                 val sheetDialog = dialogInterface as? BottomSheetDialog

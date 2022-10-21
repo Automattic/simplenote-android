@@ -42,7 +42,6 @@ import android.os.Looper;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,11 +71,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
-import com.android.billingclient.api.BillingFlowParams;
-import com.android.billingclient.api.ProductDetails;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity;
-import com.automattic.simplenote.billing.BillingClientWrapper;
 import com.automattic.simplenote.billing.SubscriptionBottomSheetDialog;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
@@ -95,8 +91,9 @@ import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.UndoBarController;
 import com.automattic.simplenote.viewmodels.IapViewModel;
-import com.automattic.simplenote.viewmodels.NoteEditorViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -155,9 +152,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
     };
 
-
     private IapViewModel viewModel;
-    SubscriptionBottomSheetDialog subscriptionBottomSheetDialog = new SubscriptionBottomSheetDialog();
 
     // Menu drawer
     private static final int GROUP_PRIMARY = 100;
@@ -210,12 +205,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
     };
 
-    MutableLiveData  billingConnectionState = new MutableLiveData(false);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         viewModel = new ViewModelProvider(this).get(IapViewModel.class);
 
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NotesActivity.this));
@@ -233,11 +225,31 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
             mTagsBucket = currentApp.getTagsBucket();
         }
 
+        findViewById(R.id.iap_banner).setOnClickListener(view -> viewModel.onIapBannerClicked());
 
-        findViewById(R.id.sustainer_banner).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                subscriptionBottomSheetDialog.show(getSupportFragmentManager(), "");
+        viewModel.getPlansBottomSheetVisibility().observe(this, isVisible -> {
+            BottomSheetDialogFragment fragment = (BottomSheetDialogFragment) getSupportFragmentManager().findFragmentByTag(SubscriptionBottomSheetDialog.Companion.getTAG());
+            if (isVisible) {
+                if (fragment == null) {
+                    fragment = new SubscriptionBottomSheetDialog();
+                }
+                fragment.show(getSupportFragmentManager(), SubscriptionBottomSheetDialog.Companion.getTAG());
+            } else {
+                if (fragment != null && fragment.isVisible()) {
+                    fragment.dismiss();
+                }
+            }
+        });
+
+        viewModel.getSnackbarMessage().observe(this, message -> {
+            Snackbar.make(findViewById(R.id.drawer_layout), message.getMessageResId(), Snackbar.LENGTH_SHORT).show();
+        });
+
+        viewModel.getIapBannerVisibility().observe(this, isVisible -> {
+            if (isVisible) {
+                findViewById(R.id.iap_banner).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.iap_banner).setVisibility(View.GONE);
             }
         });
 

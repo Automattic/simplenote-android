@@ -87,6 +87,9 @@ public class PrefUtils {
     // string. Store notes linked to note widget instances.
     public static final String PREF_NOTE_WIDGET_NOTE = "pref_key_note_widget_";
 
+    // boolean. determines if analytics is enabled
+    public static final String PREF_ACTIVE_SUBSCRIPTION = "pref_key_active_subscription";
+
     public static final String ALPHABETICAL_ASCENDING_LABEL = "alphabetical_az";
     public static final String ALPHABETICAL_DESCENDING_LABEL = "alphabetical_za";
     public static final String DATE_CREATED_ASCENDING_LABEL = "created_oldest";
@@ -173,6 +176,14 @@ public class PrefUtils {
 
     public static void setIsPremium(Context context, boolean isPremium) {
         getPrefs(context).edit().putBoolean(PREF_PREMIUM, isPremium).apply();
+    }
+
+    public static boolean isSubscriptionActive(Context context) {
+        return getPrefs(context).getBoolean(PREF_ACTIVE_SUBSCRIPTION, false);
+    }
+
+    public static void setIsSubscriptionActive(Context context, boolean isActive) {
+        getPrefs(context).edit().putBoolean(PREF_ACTIVE_SUBSCRIPTION, isActive).apply();
     }
 
     public static int getLayoutWidget(Context context, boolean isLight) {
