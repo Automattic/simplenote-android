@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:paddingBottom="16dp"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/padding_large">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,9 +14,9 @@
 
         <View
             android:id="@+id/bottom_sheet_handle"
-            android:layout_width="32dp"
-            android:layout_height="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_width="@dimen/bottom_sheet_handle_width"
+            android:layout_height="@dimen/bottom_sheet_handle_height"
+            android:layout_marginTop="@dimen/padding_extra_small"
             android:alpha="0.12"
             android:background="@drawable/bg_bottom_sheet_handle" />
 
@@ -26,10 +26,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
-        android:paddingStart="8dp"
-        android:paddingTop="12dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="12dp"
+        android:paddingStart="@dimen/padding_large"
+        android:paddingTop="@dimen/padding_medium"
+        android:paddingEnd="@dimen/padding_large"
+        android:paddingBottom="@dimen/padding_medium"
         android:text="@string/subscription_choose_plan"
         android:textAppearance="?textAppearanceSubtitle1" />
 
