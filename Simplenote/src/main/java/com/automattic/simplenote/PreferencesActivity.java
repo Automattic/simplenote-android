@@ -6,9 +6,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 
+import com.automattic.simplenote.billing.SubscriptionBottomSheetDialog;
 import com.automattic.simplenote.utils.BrowserUtils;
+import com.automattic.simplenote.viewmodels.IapViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
@@ -19,6 +24,8 @@ import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfL
 public class PreferencesActivity extends ThemedAppCompatActivity {
     private PasscodePreferenceFragmentCompat mPasscodePreferenceFragment;
     private PreferencesFragment mPreferencesFragment;
+
+    private IapViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +41,36 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        viewModel = new ViewModelProvider(this).get(IapViewModel.class);
+
+        findViewById(R.id.iap_banner).setOnClickListener(view -> viewModel.onIapBannerClicked());
+
+        viewModel.getPlansBottomSheetVisibility().observe(this, isVisible -> {
+            BottomSheetDialogFragment fragment = (BottomSheetDialogFragment) getSupportFragmentManager().findFragmentByTag(SubscriptionBottomSheetDialog.Companion.getTAG());
+            if (isVisible) {
+                if (fragment == null) {
+                    fragment = new SubscriptionBottomSheetDialog();
+                }
+                fragment.show(getSupportFragmentManager(), SubscriptionBottomSheetDialog.Companion.getTAG());
+            } else {
+                if (fragment != null && fragment.isVisible()) {
+                    fragment.dismiss();
+                }
+            }
+        });
+
+        viewModel.getSnackbarMessage().observe(this, message -> {
+            Snackbar.make(findViewById(R.id.main_parent_view), message.getMessageResId(), Snackbar.LENGTH_SHORT).show();
+        });
+
+        viewModel.getIapBannerVisibility().observe(this, isVisible -> {
+            if (isVisible) {
+                findViewById(R.id.iap_banner).setVisibility(View.VISIBLE);
+            } else {
+                findViewById(R.id.iap_banner).setVisibility(View.GONE);
+            }
+        });
 
         String preferencesTag = "tag_preferences";
         String passcodeTag = "tag_passcode";
