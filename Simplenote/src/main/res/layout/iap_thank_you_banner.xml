@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/iap_thank_you_banner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/padding_medium"
+    android:background="@drawable/bg_iap_thank_you_banner"
+    android:padding="@dimen/padding_large">
+
+    <ImageView
+        android:id="@+id/iap_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/padding_large"
+        android:src="@drawable/ic_simplenote_24dp" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/iap_title"
+        android:layout_width="wrap_content"
+        android:textAppearance="?attr/textAppearanceSubtitle2"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/padding_extra_small"
+        android:layout_toEndOf="@+id/iap_logo"
+        android:text="@string/iap_thank_you_banner_title"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iap_title"
+        android:layout_toEndOf="@+id/iap_logo"
+        android:text="@string/iap_thank_you_banner_subtitle"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

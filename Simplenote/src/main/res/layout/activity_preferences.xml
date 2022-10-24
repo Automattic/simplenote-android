@@ -23,6 +23,8 @@
 
             <include layout="@layout/iap_banner" />
 
+            <include layout="@layout/iap_thank_you_banner" />
+
         </LinearLayout>
 
     </FrameLayout>
