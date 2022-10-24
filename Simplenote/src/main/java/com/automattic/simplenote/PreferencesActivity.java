@@ -11,6 +11,7 @@ import androidx.preference.Preference;
 
 import com.automattic.simplenote.billing.SubscriptionBottomSheetDialog;
 import com.automattic.simplenote.utils.BrowserUtils;
+import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.viewmodels.IapViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,7 +26,10 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
     private PasscodePreferenceFragmentCompat mPasscodePreferenceFragment;
     private PreferencesFragment mPreferencesFragment;
 
-    private IapViewModel viewModel;
+    private IapViewModel mViewModel;
+
+    private View mIapBanner;
+    private View mIapThankYouBanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,35 +46,49 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        viewModel = new ViewModelProvider(this).get(IapViewModel.class);
+        mIapBanner = findViewById(R.id.iap_banner);
+        mIapThankYouBanner = findViewById(R.id.iap_thank_you_banner);
 
-        findViewById(R.id.iap_banner).setOnClickListener(view -> viewModel.onIapBannerClicked());
+        if (!PrefUtils.isSubscriptionActive(this)) {
+            mIapThankYouBanner.setVisibility(View.GONE);
 
-        viewModel.getPlansBottomSheetVisibility().observe(this, isVisible -> {
-            BottomSheetDialogFragment fragment = (BottomSheetDialogFragment) getSupportFragmentManager().findFragmentByTag(SubscriptionBottomSheetDialog.Companion.getTAG());
-            if (isVisible) {
-                if (fragment == null) {
-                    fragment = new SubscriptionBottomSheetDialog();
+            mViewModel = new ViewModelProvider(this).get(IapViewModel.class);
+
+            findViewById(R.id.iap_banner).setOnClickListener(view -> mViewModel.onIapBannerClicked());
+
+            mViewModel.getPlansBottomSheetVisibility().observe(this, isVisible -> {
+                BottomSheetDialogFragment fragment = (BottomSheetDialogFragment) getSupportFragmentManager().findFragmentByTag(SubscriptionBottomSheetDialog.Companion.getTAG());
+                if (isVisible) {
+                    if (fragment == null) {
+                        fragment = new SubscriptionBottomSheetDialog();
+                    }
+                    fragment.show(getSupportFragmentManager(), SubscriptionBottomSheetDialog.Companion.getTAG());
+                } else {
+                    if (fragment != null && fragment.isVisible()) {
+                        fragment.dismiss();
+                    }
                 }
-                fragment.show(getSupportFragmentManager(), SubscriptionBottomSheetDialog.Companion.getTAG());
-            } else {
-                if (fragment != null && fragment.isVisible()) {
-                    fragment.dismiss();
+            });
+
+            mViewModel.getSnackbarMessage().observe(this, message -> {
+                Snackbar.make(findViewById(R.id.main_parent_view), message.getMessageResId(), Snackbar.LENGTH_SHORT).show();
+            });
+
+            mViewModel.getIapBannerVisibility().observe(this, isVisible -> {
+                if (isVisible) {
+                    mIapBanner.setVisibility(View.GONE);
+                    mIapBanner.setVisibility(View.VISIBLE);
+                } else {
+                    mIapBanner.setVisibility(View.GONE);
+                    if (PrefUtils.isSubscriptionActive(this)){
+                        mIapThankYouBanner.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
-        });
-
-        viewModel.getSnackbarMessage().observe(this, message -> {
-            Snackbar.make(findViewById(R.id.main_parent_view), message.getMessageResId(), Snackbar.LENGTH_SHORT).show();
-        });
-
-        viewModel.getIapBannerVisibility().observe(this, isVisible -> {
-            if (isVisible) {
-                findViewById(R.id.iap_banner).setVisibility(View.VISIBLE);
-            } else {
-                findViewById(R.id.iap_banner).setVisibility(View.GONE);
-            }
-        });
+            });
+        } else {
+            mIapBanner.setVisibility(View.GONE);
+            mIapThankYouBanner.setVisibility(View.VISIBLE);
+        }
 
         String preferencesTag = "tag_preferences";
         String passcodeTag = "tag_passcode";
