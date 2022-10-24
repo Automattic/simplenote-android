@@ -38,13 +38,6 @@ class IapViewModel(application: Application) :
         startBillingConnection()
     }
 
-    data class IapBannerUiState(val bannerType: IapBannerType, val isVisible: Boolean)
-
-    enum class IapBannerType {
-        OFFER,
-        THANK_YOU
-    }
-
     data class PurchaseRequest(val offerToke: String, val productDetails: ProductDetails)
 
     data class Plan(val offerId: String, @StringRes val period: Int, val price: String)
@@ -155,6 +148,33 @@ class IapViewModel(application: Application) :
         )
     }
 
+    // Perform new subscription purchases' acknowledgement client side.
+    private fun acknowledgePurchases(purchase: Purchase?) {
+        purchase?.let {
+            if (!it.isAcknowledged) {
+                val params = AcknowledgePurchaseParams.newBuilder()
+                    .setPurchaseToken(it.purchaseToken)
+                    .build()
+
+                billingClient.acknowledgePurchase(
+                    params
+                ) { billingResult ->
+                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
+                        it.purchaseState == Purchase.PurchaseState.PURCHASED
+                    ) {
+                        PrefUtils.setIsSubscriptionActive(getApplication(), true)
+                        _iapBannerVisibility.postValue(false)
+                        _snackbarMessage.postValue(IapSnackbarMessage(R.string.subscription_purchase_success))
+                    } else {
+                        _snackbarMessage.postValue(IapSnackbarMessage(R.string.subscription_purchase_error))
+                    }
+                }
+            }
+        }
+    }
+
+    // Listeners
+
     override fun onPurchasesUpdated(
         billingResult: BillingResult,
         purchases: MutableList<Purchase>?
@@ -172,30 +192,6 @@ class IapViewModel(application: Application) :
         } else {
             // Handle any other error codes.
             _snackbarMessage.postValue(IapSnackbarMessage(R.string.subscription_purchase_error))
-        }
-    }
-
-    // Perform new subscription purchases' acknowledgement client side.
-    private fun acknowledgePurchases(purchase: Purchase?) {
-        purchase?.let {
-            if (!it.isAcknowledged) {
-                val params = AcknowledgePurchaseParams.newBuilder()
-                    .setPurchaseToken(it.purchaseToken)
-                    .build()
-
-                billingClient.acknowledgePurchase(
-                    params
-                ) { billingResult ->
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
-                        it.purchaseState == Purchase.PurchaseState.PURCHASED
-                    ) {
-                        _iapBannerVisibility.postValue(false)
-                        _snackbarMessage.postValue(IapSnackbarMessage(R.string.subscription_purchase_success))
-                    } else {
-                        _snackbarMessage.postValue(IapSnackbarMessage(R.string.subscription_purchase_error))
-                    }
-                }
-            }
         }
     }
 
@@ -227,6 +223,8 @@ class IapViewModel(application: Application) :
             }
             else -> {
                 Log.i(TAG, "onProductDetailsResponse: $responseCode $debugMessage")
+                _plansBottomSheetVisibility.postValue(false)
+                _snackbarMessage.postValue(IapSnackbarMessage(R.string.subscription_plans_fetching_error))
             }
         }
     }

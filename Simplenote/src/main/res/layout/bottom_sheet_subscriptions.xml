@@ -33,9 +33,21 @@
         android:text="@string/subscription_choose_plan"
         android:textAppearance="?textAppearanceSubtitle1" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/contentRecyclerView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/plans_loading_progress"
+            style="@style/Simplestyle.IndeterminateProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/contentRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
 </LinearLayout>

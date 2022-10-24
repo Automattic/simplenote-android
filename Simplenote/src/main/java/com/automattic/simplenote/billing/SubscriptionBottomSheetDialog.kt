@@ -14,6 +14,7 @@ import com.automattic.simplenote.databinding.BottomSheetSubscriptionsBinding
 import com.automattic.simplenote.viewmodels.IapViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 
 class SubscriptionBottomSheetDialog : BottomSheetDialogBase() {
 
@@ -37,7 +38,9 @@ class SubscriptionBottomSheetDialog : BottomSheetDialogBase() {
 
             val adapter = SubscriptionsAdapter()
             viewModel.planOffers.observe(viewLifecycleOwner) { offers ->
-                adapter.submitList(offers)
+                adapter.submitList(offers){
+                    view.findViewById<View>(R.id.plans_loading_progress).visibility = View.GONE
+                }
             }
 
             viewModel.onPurchaseRequest.observe(viewLifecycleOwner) { productDetails ->
