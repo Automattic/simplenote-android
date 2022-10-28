@@ -14,7 +14,6 @@ import com.automattic.simplenote.databinding.BottomSheetSubscriptionsBinding
 import com.automattic.simplenote.viewmodels.IapViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.snackbar.Snackbar
 
 class SubscriptionBottomSheetDialog : BottomSheetDialogBase() {
 
@@ -43,10 +42,9 @@ class SubscriptionBottomSheetDialog : BottomSheetDialogBase() {
                 }
             }
 
-            viewModel.onPurchaseRequest.observe(viewLifecycleOwner) { productDetails ->
-                viewModel.buy(
-                    productDetails.offerToke,
-                    productDetails.productDetails,
+            viewModel.onPurchaseRequest.observe(viewLifecycleOwner) { offerToken ->
+                viewModel.startPurchaseFlow(
+                    offerToken,
                     requireActivity()
                 )
             }

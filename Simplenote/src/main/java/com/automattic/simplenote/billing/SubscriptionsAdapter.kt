@@ -39,11 +39,11 @@ class SubscriptionsAdapter :
 
 
         fun onBind(uiState: IapViewModel.PlansListItem) {
-            planName.setText(uiState.plan.period)
-            planPrice.text = uiState.plan.price
+            planName.setText(uiState.period)
+            planPrice.text = uiState.price
 
             container.setOnClickListener {
-                uiState.onTapListener?.invoke(uiState.purchaseDetails)
+                uiState.onTapListener?.invoke(uiState.offerId)
             }
 
         }
@@ -55,14 +55,14 @@ class SubscriptionsAdapter :
             oldItem: IapViewModel.PlansListItem,
             newItem: IapViewModel.PlansListItem
         ): Boolean {
-            return oldItem.plan.offerId == newItem.plan.offerId
+            return oldItem.offerId == newItem.offerId
         }
 
         override fun areContentsTheSame(
             oldItem: IapViewModel.PlansListItem,
             newItem: IapViewModel.PlansListItem
         ): Boolean {
-            return oldItem.plan.period == newItem.plan.period && oldItem.plan.price == newItem.plan.price
+            return oldItem.period == newItem.period && oldItem.price == newItem.price
         }
     }
 }

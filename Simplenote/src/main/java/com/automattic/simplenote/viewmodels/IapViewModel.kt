@@ -18,8 +18,8 @@ class IapViewModel(application: Application) :
         .enablePendingPurchases()
         .build()
 
-    private val _onPurchaseRequest = SingleLiveEvent<PurchaseRequest>()
-    val onPurchaseRequest: LiveData<PurchaseRequest> = _onPurchaseRequest
+    private val _onPurchaseRequest = SingleLiveEvent<String>()
+    val onPurchaseRequest: LiveData<String> = _onPurchaseRequest
 
     private val _planOffers = MutableLiveData<List<PlansListItem>?>()
     val planOffers: LiveData<List<PlansListItem>?> = _planOffers
@@ -38,14 +38,13 @@ class IapViewModel(application: Application) :
         startBillingConnection()
     }
 
-    data class PurchaseRequest(val offerToke: String, val productDetails: ProductDetails)
-
-    data class Plan(val offerId: String, @StringRes val period: Int, val price: String)
+    private val productDetails = ArrayList<ProductDetails>()
 
     data class PlansListItem(
-        val plan: Plan,
-        val purchaseDetails: PurchaseRequest,
-        val onTapListener: ((PurchaseRequest) -> Unit)
+        val offerId: String,
+        @StringRes val period: Int,
+        val price: String,
+        val onTapListener: ((String) -> Unit)
     )
 
     var isStarted: Boolean = false
@@ -66,8 +65,8 @@ class IapViewModel(application: Application) :
         queryProductDetails()
     }
 
-    private fun onPlanSelected(productDetails: PurchaseRequest) {
-        _onPurchaseRequest.postValue(productDetails)
+    private fun onPlanSelected(offerToken: String) {
+        _onPurchaseRequest.postValue(offerToken)
         _plansBottomSheetVisibility.postValue(false)
     }
 
@@ -127,9 +126,8 @@ class IapViewModel(application: Application) :
         }
     }
 
-    fun buy(
+    fun startPurchaseFlow(
         offerToken: String,
-        productDetails: ProductDetails,
         activity: Activity
     ) {
         val billingParams =
@@ -137,7 +135,7 @@ class IapViewModel(application: Application) :
                 listOf(
                     BillingFlowParams.ProductDetailsParams.newBuilder()
                         .setOfferToken(offerToken)
-                        .setProductDetails(productDetails)
+                        .setProductDetails(productDetails.first()) // we have only one product
                         .build()
                 )
             )
@@ -203,18 +201,15 @@ class IapViewModel(application: Application) :
         val debugMessage = billingResult.debugMessage
         when (responseCode) {
             BillingClient.BillingResponseCode.OK -> {
+                productDetails.clear()
+                productDetails.addAll(productDetailsList)
+
                 val products =
                     productDetailsList.first().subscriptionOfferDetails?.map { offerDetails ->
                         PlansListItem(
-                            Plan(
-                                offerId = offerDetails.offerToken,
-                                period = periodCodeToResource(offerDetails.pricingPhases.pricingPhaseList.first().billingPeriod),
-                                price = offerDetails.pricingPhases.pricingPhaseList.first().formattedPrice
-                            ),
-                            purchaseDetails = PurchaseRequest(
-                                offerDetails.offerToken,
-                                productDetailsList.first()
-                            ),
+                            offerId = offerDetails.offerToken,
+                            period = periodCodeToResource(offerDetails.pricingPhases.pricingPhaseList.first().billingPeriod),
+                            price = offerDetails.pricingPhases.pricingPhaseList.first().formattedPrice,
                             onTapListener = this::onPlanSelected
                         )
                     }
