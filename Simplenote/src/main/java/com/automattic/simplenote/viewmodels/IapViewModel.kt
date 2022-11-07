@@ -33,19 +33,11 @@ class IapViewModel(application: Application) :
     private val _snackbarMessage = SingleLiveEvent<IapSnackbarMessage>()
     val snackbarMessage: LiveData<IapSnackbarMessage> = _snackbarMessage
 
-    // Start the billing connection when the viewModel is initialized.
     init {
         startBillingConnection()
     }
 
     private val productDetails = ArrayList<ProductDetails>()
-
-    data class PlansListItem(
-        val offerId: String,
-        @StringRes val period: Int,
-        val price: String,
-        val onTapListener: ((String) -> Unit)
-    )
 
     var isStarted: Boolean = false
 
@@ -70,7 +62,7 @@ class IapViewModel(application: Application) :
         _plansBottomSheetVisibility.postValue(false)
     }
 
-//    Billing
+    // Billing
 
     private fun startBillingConnection() {
         billingClient.startConnection(object : BillingClientStateListener {
@@ -103,7 +95,6 @@ class IapViewModel(application: Application) :
 
         }
         params.setProductList(productList).let { productDetailsParams ->
-            Log.i(TAG, "queryProductDetailsAsync")
             billingClient.queryProductDetailsAsync(productDetailsParams.build(), this)
         }
     }
@@ -180,7 +171,7 @@ class IapViewModel(application: Application) :
         if (billingResult.responseCode == BillingClient.BillingResponseCode.OK
             && !purchases.isNullOrEmpty()
         ) {
-            // Then, handle the purchases
+            // Handle the purchases
             for (purchase in purchases) {
                 acknowledgePurchases(purchase)
             }
@@ -208,7 +199,10 @@ class IapViewModel(application: Application) :
                     productDetailsList.first().subscriptionOfferDetails?.map { offerDetails ->
                         PlansListItem(
                             offerId = offerDetails.offerToken,
-                            period = periodCodeToResource(offerDetails.pricingPhases.pricingPhaseList.first().billingPeriod),
+                            period = periodCodeToResource(
+                                offerDetails.pricingPhases
+                                    .pricingPhaseList.first().billingPeriod
+                            ),
                             price = offerDetails.pricingPhases.pricingPhaseList.first().formattedPrice,
                             onTapListener = this::onPlanSelected
                         )
@@ -239,13 +233,20 @@ class IapViewModel(application: Application) :
         }
     }
 
+    data class PlansListItem(
+        val offerId: String,
+        @StringRes val period: Int,
+        val price: String,
+        val onTapListener: ((String) -> Unit)
+    )
+
     data class IapSnackbarMessage(@StringRes val messageResId: Int)
 
     companion object {
         private const val TAG: String = "MainViewModel"
 
-        private const val SUSTAINER_SUB = "sustainer_subscription"
+        private const val SUSTAINER_SUB_PRODUCT = "sustainer_subscription"
 
-        private val LIST_OF_PRODUCTS = listOf(SUSTAINER_SUB)
+        private val LIST_OF_PRODUCTS = listOf(SUSTAINER_SUB_PRODUCT)
     }
 }

@@ -35,7 +35,7 @@ class SubscriptionBottomSheetDialog : BottomSheetDialogBase() {
                 activity as FragmentActivity
             ).get(IapViewModel::class.java)
 
-            val adapter = SubscriptionsAdapter()
+            val adapter = SubscriptionDurationAdapter()
             viewModel.planOffers.observe(viewLifecycleOwner) { offers ->
                 adapter.submitList(offers){
                     view.findViewById<View>(R.id.plans_loading_progress).visibility = View.GONE

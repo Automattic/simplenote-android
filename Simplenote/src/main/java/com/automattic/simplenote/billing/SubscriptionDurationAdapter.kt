@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.automattic.simplenote.R
 import com.automattic.simplenote.viewmodels.IapViewModel
 
-class SubscriptionsAdapter :
-    ListAdapter<IapViewModel.PlansListItem, SubscriptionsAdapter.PlanListItemViewHolder>(
+class SubscriptionDurationAdapter :
+    ListAdapter<IapViewModel.PlansListItem, SubscriptionDurationAdapter.PlanListItemViewHolder>(
         SubscriptionOffersDiffCallback
     ) {
 
@@ -31,21 +31,19 @@ class SubscriptionsAdapter :
     class PlanListItemViewHolder(
         internal val parent: ViewGroup,
     ) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.subscription_list_row, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.subscription_duration_list_row, parent, false)
     ) {
         private val planName = itemView.findViewById<TextView>(R.id.plan_name)
         private val planPrice = itemView.findViewById<TextView>(R.id.plan_price)
         private val container = itemView.findViewById<View>(R.id.container)
-
 
         fun onBind(uiState: IapViewModel.PlansListItem) {
             planName.setText(uiState.period)
             planPrice.text = uiState.price
 
             container.setOnClickListener {
-                uiState.onTapListener?.invoke(uiState.offerId)
+                uiState.onTapListener.invoke(uiState.offerId)
             }
-
         }
     }
 
