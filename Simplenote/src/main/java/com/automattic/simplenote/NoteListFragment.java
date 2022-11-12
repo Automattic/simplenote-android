@@ -930,6 +930,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
          *  nbradbury - implemented "holder pattern" to boost performance with large note lists
          */
         @Override
+        @SuppressLint("Range")
         public View getView(final int position, View view, ViewGroup parent) {
             final NoteViewHolder holder;
 
