@@ -289,10 +289,10 @@ class IapViewModel(application: Application) :
     }
 
     private fun doesNotHaveSubscriptionOnOtherPlatforms(): Boolean {
-        val preference = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+        val preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
 
-        preference?.let {
-            val currentSubscriptionPlatform = preference.currentSubscriptionPlatform
+        preferences?.let {
+            val currentSubscriptionPlatform = preferences.currentSubscriptionPlatform
 
             return currentSubscriptionPlatform == null
                     || currentSubscriptionPlatform == Preferences.SubscriptionPlatform.ANDROID
@@ -317,8 +317,8 @@ class IapViewModel(application: Application) :
     }
 
     private fun updateIapBannerVisibility() = try {
-        val preference: Preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
-        if (preference.currentSubscriptionPlatform != null) {
+        val preferences: Preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+        if (preferences.currentSubscriptionPlatform != null) {
             _iapBannerVisibility.postValue(false)
         } else {
             _iapBannerVisibility.postValue(true)
