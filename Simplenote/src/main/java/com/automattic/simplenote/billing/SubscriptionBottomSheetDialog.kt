@@ -70,6 +70,7 @@ class SubscriptionBottomSheetDialog : BottomSheetDialogBase() {
     }
 
     companion object {
+        @JvmStatic
         val TAG = SubscriptionBottomSheetDialog::class.java.simpleName
     }
 }
