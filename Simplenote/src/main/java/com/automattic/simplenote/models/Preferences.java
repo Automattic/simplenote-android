@@ -18,6 +18,10 @@ public class Preferences extends BucketObject {
     private static final String ANALYTICS_ENABLED_KEY = "analytics_enabled";
     private static final String RECENT_SEARCHES_KEY = "recent_searches";
 
+    private static final String SUBSCRIPTION_LEVEL_KEY = "subscription_level";
+    private static final String SUBSCRIPTION_PLATFORM_KEY = "subscription_platform";
+    private static final String SUBSCRIPTION_DATE_KEY = "subscription_date";
+
     private Preferences(String key, JSONObject properties) {
         super(key, properties);
     }
@@ -73,6 +77,45 @@ public class Preferences extends BucketObject {
         setProperty(RECENT_SEARCHES_KEY, new JSONArray(recents));
     }
 
+    public void setActiveSubscription(long purchaseTime){
+        setSubscriptionPlatform(Preferences.SubscriptionPlatform.ANDROID);
+        setSubscriptionLevel(Preferences.SubscriptionLevel.SUSTAINER);
+        setSubscriptionDate(purchaseTime);
+        save();
+    }
+
+    public void removeActiveSubscription(){
+        setSubscriptionPlatform(SubscriptionPlatform.NONE);
+        setSubscriptionLevel(SubscriptionLevel.NONE);
+        setSubscriptionDate(null);
+        save();
+    }
+
+    public SubscriptionPlatform getCurrentSubscriptionPlatform() {
+        Object subscriptionPlatform = getProperty(SUBSCRIPTION_PLATFORM_KEY);
+        if (subscriptionPlatform == null) {
+            return null;
+        }
+
+        if (subscriptionPlatform instanceof String) {
+            return SubscriptionPlatform.fromString((String) subscriptionPlatform);
+        } else {
+            return null;
+        }
+    }
+
+    public void setSubscriptionDate(Long subscriptionDate) {
+        setProperty(SUBSCRIPTION_DATE_KEY, subscriptionDate);
+    }
+
+    public void setSubscriptionPlatform(SubscriptionPlatform subscriptionPlatform) {
+        setProperty(SUBSCRIPTION_PLATFORM_KEY, subscriptionPlatform.platformName);
+    }
+
+    public void setSubscriptionLevel(SubscriptionLevel subscriptionLevel) {
+        setProperty(SUBSCRIPTION_LEVEL_KEY, subscriptionLevel.getName());
+    }
+
     public static class Schema extends BucketSchema<Preferences> {
 
         public Schema() {
@@ -89,6 +132,61 @@ public class Preferences extends BucketObject {
 
         public void update(Preferences prefs, JSONObject properties) {
             prefs.setProperties(properties);
+        }
+    }
+
+    public enum SubscriptionPlatform {
+        ANDROID("android"),
+        IOS("iOS"),
+        WEB("WEB"),
+        NONE(null);
+
+        private final String platformName;
+
+        SubscriptionPlatform(final String platform) {
+            this.platformName = platform;
+        }
+
+        public String getName() {
+            return platformName;
+        }
+
+        public static SubscriptionPlatform fromString(String platformName) {
+            if (platformName != null) {
+                for (SubscriptionPlatform platform : SubscriptionPlatform.values()) {
+                    if (platformName.equalsIgnoreCase(platform.getName())) {
+                        return platform;
+                    }
+                }
+            }
+            return null;
+        }
+
+    }
+
+    public enum SubscriptionLevel {
+        SUSTAINER("sustainer"),
+        NONE(null);
+
+        private final String subscriptionLevel;
+
+        SubscriptionLevel(final String level) {
+            this.subscriptionLevel = level;
+        }
+
+        public String getName() {
+            return subscriptionLevel;
+        }
+
+        public static SubscriptionLevel fromString(String level) {
+            if (level != null) {
+                for (SubscriptionLevel subscriptionLevel : SubscriptionLevel.values()) {
+                    if (level.equalsIgnoreCase(subscriptionLevel.getName())) {
+                        return subscriptionLevel;
+                    }
+                }
+            }
+            return null;
         }
     }
 }
