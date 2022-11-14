@@ -42,7 +42,7 @@ class SubscriptionDurationAdapter :
             planPrice.text = uiState.price
 
             container.setOnClickListener {
-                uiState.onTapListener.invoke(uiState.offerId)
+                uiState.onTapListener.invoke(uiState.offerId, uiState.tracker)
             }
         }
     }
