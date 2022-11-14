@@ -232,7 +232,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
                 if (fragment == null) {
                     fragment = new SubscriptionBottomSheetDialog();
                 }
-                fragment.show(getSupportFragmentManager(), SubscriptionBottomSheetDialog.Companion.getTAG());
+                if (!(fragment.getDialog() != null && fragment.getDialog().isShowing())) {
+                    fragment.show(getSupportFragmentManager(), SubscriptionBottomSheetDialog.getTAG());
+                }
             } else {
                 if (fragment != null && fragment.isVisible()) {
                     fragment.dismiss();
