@@ -227,7 +227,7 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         findViewById(R.id.iap_banner).setOnClickListener(view -> viewModel.onIapBannerClicked());
 
         viewModel.getPlansBottomSheetVisibility().observe(this, isVisible -> {
-            BottomSheetDialogFragment fragment = (BottomSheetDialogFragment) getSupportFragmentManager().findFragmentByTag(SubscriptionBottomSheetDialog.Companion.getTAG());
+            BottomSheetDialogFragment fragment = (BottomSheetDialogFragment) getSupportFragmentManager().findFragmentByTag(SubscriptionBottomSheetDialog.getTAG());
             if (isVisible) {
                 if (fragment == null) {
                     fragment = new SubscriptionBottomSheetDialog();
