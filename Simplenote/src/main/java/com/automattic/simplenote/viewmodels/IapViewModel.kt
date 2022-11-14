@@ -128,7 +128,7 @@ class IapViewModel(application: Application) :
                     val preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
                     preferences.removeActiveSubscription()
                 }
-
+                updateIapBannerVisibility()
             } else {
                 Log.e(TAG, billingResult.debugMessage)
             }
