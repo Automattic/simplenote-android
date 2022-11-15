@@ -37,13 +37,15 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
         android:background="?attr/drawerBackgroundColor"
         android:elevation="@dimen/navigation_elevation"
         android:fitsSystemWindows="true"
         android:orientation="vertical">
+
+        <include layout="@layout/iap_banner" />
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navigation_view"

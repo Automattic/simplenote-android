@@ -1,3 +1,7 @@
+2.24.2
+-----
+* Added ability to purchase a Simplenote Sustainer subscription [#1567](https://github.com/Automattic/simplenote-android/pull/1567)
+
 2.24.1
 -----
 * Fixed links not opening in browser [#1553](https://github.com/Automattic/simplenote-android/pull/1553)

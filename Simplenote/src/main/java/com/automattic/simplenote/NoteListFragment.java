@@ -930,6 +930,7 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
          *  nbradbury - implemented "holder pattern" to boost performance with large note lists
          */
         @Override
+        @SuppressLint("Range")
         public View getView(final int position, View view, ViewGroup parent) {
             final NoteViewHolder holder;
 
@@ -1005,7 +1006,11 @@ public class NoteListFragment extends ListFragment implements AdapterView.OnItem
             }
 
             holder.mMatchOffsets = null;
-            int matchOffsetsIndex = mCursor.getColumnIndexOrThrow("match_offsets");
+            int matchOffsetsIndex = -1;
+
+            try {
+                matchOffsetsIndex = mCursor.getColumnIndexOrThrow("match_offsets");
+            } catch (IllegalArgumentException ignored) {}
 
             if (hasSearchQuery() && matchOffsetsIndex != -1) {
                 title = mCursor.getString(mCursor.getColumnIndexOrThrow(Note.MATCHED_TITLE_INDEX_NAME));

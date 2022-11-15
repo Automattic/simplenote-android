@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:background="?attr/selectableItemBackground"
+    android:layout_width="match_parent"
+    android:paddingStart="@dimen/padding_large"
+    android:paddingTop="@dimen/padding_medium"
+    android:paddingEnd="@dimen/padding_large"
+    android:paddingBottom="@dimen/padding_medium"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:layout_centerVertical="true"
+        android:textAppearance="?attr/textAppearanceSubtitle1"
+        android:id="@+id/plan_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Monthly" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:textAppearance="?attr/textAppearanceSubtitle1"
+        android:layout_centerVertical="true"
+        android:id="@+id/plan_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        tools:text="$20 USD" />
+
+</RelativeLayout>

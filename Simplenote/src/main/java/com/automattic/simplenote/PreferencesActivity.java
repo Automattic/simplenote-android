@@ -6,9 +6,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 
+import com.automattic.simplenote.billing.SubscriptionBottomSheetDialog;
 import com.automattic.simplenote.utils.BrowserUtils;
+import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.viewmodels.IapViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
@@ -19,6 +25,11 @@ import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfL
 public class PreferencesActivity extends ThemedAppCompatActivity {
     private PasscodePreferenceFragmentCompat mPasscodePreferenceFragment;
     private PreferencesFragment mPreferencesFragment;
+
+    private IapViewModel mViewModel;
+
+    private View mIapBanner;
+    private View mIapThankYouBanner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +44,52 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        mIapBanner = findViewById(R.id.iap_banner);
+        mIapThankYouBanner = findViewById(R.id.iap_thank_you_banner);
+
+        if (!PrefUtils.isSubscriptionActive(this)) {
+            mIapThankYouBanner.setVisibility(View.GONE);
+
+            mViewModel = new ViewModelProvider(this).get(IapViewModel.class);
+
+            findViewById(R.id.iap_banner).setOnClickListener(view -> mViewModel.onIapBannerClicked());
+
+            mViewModel.getPlansBottomSheetVisibility().observe(this, isVisible -> {
+                BottomSheetDialogFragment fragment = (BottomSheetDialogFragment) getSupportFragmentManager().findFragmentByTag(SubscriptionBottomSheetDialog.getTAG());
+                if (isVisible) {
+                    if (fragment == null) {
+                        fragment = new SubscriptionBottomSheetDialog();
+                    }
+                    if (!(fragment.getDialog() != null && fragment.getDialog().isShowing())) {
+                        fragment.show(getSupportFragmentManager(), SubscriptionBottomSheetDialog.getTAG());
+                    }
+                } else {
+                    if (fragment != null && fragment.isVisible()) {
+                        fragment.dismiss();
+                    }
+                }
+            });
+
+            mViewModel.getSnackbarMessage().observe(this, message -> {
+                Snackbar.make(findViewById(R.id.main_parent_view), message.getMessageResId(), Snackbar.LENGTH_SHORT).show();
+            });
+
+            mViewModel.getIapBannerVisibility().observe(this, isVisible -> {
+                if (isVisible) {
+                    mIapBanner.setVisibility(View.GONE);
+                    mIapBanner.setVisibility(View.VISIBLE);
+                } else {
+                    mIapBanner.setVisibility(View.GONE);
+                    if (PrefUtils.isSubscriptionActive(this)){
+                        mIapThankYouBanner.setVisibility(View.VISIBLE);
+                    }
+                }
+            });
+        } else {
+            mIapBanner.setVisibility(View.GONE);
+            mIapThankYouBanner.setVisibility(View.VISIBLE);
         }
 
         String preferencesTag = "tag_preferences";
