@@ -46,6 +46,7 @@
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
             android:label="@string/app_launcher_name"
             android:resizeableActivity="true"
+            android:exported="true"
             android:windowSoftInputMode="adjustResize|stateHidden">
 
             <intent-filter>
@@ -101,6 +102,7 @@
 
         <activity
             android:name="com.automattic.simplenote.NoteWidgetDarkConfigureActivity"
+            android:exported="true"
             android:theme="@style/Theme.Transparent">
 
             <intent-filter>
@@ -113,6 +115,7 @@
 
         <activity
             android:name="com.automattic.simplenote.NoteWidgetLightConfigureActivity"
+            android:exported="true"
             android:theme="@style/Theme.Transparent">
 
             <intent-filter>
@@ -153,7 +156,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
 
-        <activity android:name="com.automattic.simplenote.DeepLinkActivity">
+        <activity
+            android:name="com.automattic.simplenote.DeepLinkActivity"
+            android:exported="true">
 
             <intent-filter>
 
@@ -204,6 +209,7 @@
 
         <receiver
             android:name="com.automattic.simplenote.NoteListWidgetDark"
+            android:exported="true"
             android:label="@string/note_list_widget_dark">
 
             <intent-filter>
@@ -221,6 +227,7 @@
 
         <receiver
             android:name="com.automattic.simplenote.NoteListWidgetLight"
+            android:exported="true"
             android:label="@string/note_list_widget_light">
 
             <intent-filter>
@@ -238,6 +245,7 @@
 
         <receiver
             android:name="com.automattic.simplenote.NoteWidgetDark"
+            android:exported="true"
             android:label="@string/note_widget_dark">
 
             <intent-filter>
@@ -255,6 +263,7 @@
 
         <receiver
             android:name="com.automattic.simplenote.NoteWidgetLight"
+            android:exported="true"
             android:label="@string/note_widget_light">
 
             <intent-filter>
@@ -282,7 +291,8 @@
 
         <!-- Android Wear -->
         <service
-            android:name="com.automattic.simplenote.utils.SimplenoteWearListenerService">
+            android:name="com.automattic.simplenote.utils.SimplenoteWearListenerService"
+            android:exported="true">
 
             <intent-filter>
 
