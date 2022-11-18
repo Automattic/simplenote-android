@@ -11,6 +11,7 @@ import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
 import static com.automattic.simplenote.utils.WidgetUtils.MINIMUM_HEIGHT_FOR_BUTTON;
 import static com.automattic.simplenote.utils.WidgetUtils.MINIMUM_WIDTH_FOR_BUTTON;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -99,6 +100,7 @@ public class NoteListWidgetLight extends AppWidgetProvider {
         }
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle appWidgetOptions) {
         RemoteViews views = new RemoteViews(context.getPackageName(), PrefUtils.getLayoutWidgetList(context, true));
         resizeWidget(context, appWidgetOptions, views);
@@ -148,7 +150,12 @@ public class NoteListWidgetLight extends AppWidgetProvider {
 
                 // Create intent to navigate to note editor on note list item click
                 Intent intentItem = new Intent(context, NoteEditorActivity.class);
-                PendingIntent pendingIntentItem = PendingIntent.getActivity(context, appWidgetId, intentItem, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent pendingIntentItem = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                    pendingIntentItem = PendingIntent.getActivity(context, appWidgetId, intentItem, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+                } else {
+                    pendingIntentItem = PendingIntent.getActivity(context, appWidgetId, intentItem, PendingIntent.FLAG_UPDATE_CURRENT);
+                }
                 views.setPendingIntentTemplate(R.id.widget_list, pendingIntentItem);
 
                 // Create intent to navigate to note editor on note list add button click
