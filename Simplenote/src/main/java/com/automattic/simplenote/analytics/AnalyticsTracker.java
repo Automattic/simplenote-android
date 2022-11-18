@@ -65,7 +65,7 @@ public final class AnalyticsTracker {
         }
     }
 
-    public void track(Stat stat) {
+    public static void track(Stat stat) {
         if (!Simplenote.analyticsIsEnabled()) {
             return;
         }
@@ -75,7 +75,7 @@ public final class AnalyticsTracker {
         }
     }
 
-    public void track(Stat stat, Map<String, ?> properties) {
+    public static void track(Stat stat, Map<String, ?> properties) {
         if (!Simplenote.analyticsIsEnabled()) {
             return;
         }
@@ -172,7 +172,12 @@ public final class AnalyticsTracker {
         VERIFICATION_CHANGE_EMAIL_BUTTON_TAPPED,
         VERIFICATION_RESEND_EMAIL_BUTTON_TAPPED,
         VERIFICATION_DISMISSED,
-        SETTINGS_SEARCH_SORT_MODE
+        SETTINGS_SEARCH_SORT_MODE,
+        IAP_MONTHLY_BUTTON_TAPPED,
+        IAP_YEARLY_BUTTON_TAPPED,
+        IAP_UNKNOWN_BUTTON_TAPPED, // for other subscription duration options from Play Store not specifically handled in the client
+        IAP_PURCHASE_COMPLETED,
+        IAP_PLANS_DIALOG_DISMISSED
     }
 
     public interface Tracker {

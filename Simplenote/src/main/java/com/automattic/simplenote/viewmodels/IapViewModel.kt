@@ -9,10 +9,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.android.billingclient.api.*
 import com.automattic.simplenote.R
-import com.automattic.simplenote.utils.PrefUtils
+import com.automattic.simplenote.Simplenote
+import com.automattic.simplenote.analytics.AnalyticsTracker
+import com.automattic.simplenote.models.Preferences
+import com.simperium.client.Bucket
+import com.simperium.client.BucketObjectMissingException
 
 class IapViewModel(application: Application) :
-    AndroidViewModel(application), PurchasesUpdatedListener, ProductDetailsResponseListener {
+    AndroidViewModel(application), PurchasesUpdatedListener, ProductDetailsResponseListener,
+    Bucket.OnNetworkChangeListener<Preferences>, Bucket.OnSaveObjectListener<Preferences>,
+    Bucket.OnDeleteObjectListener<Preferences> {
     private val billingClient = BillingClient.newBuilder(application)
         .setListener(this)
         .enablePendingPurchases()
@@ -33,13 +39,18 @@ class IapViewModel(application: Application) :
     private val _snackbarMessage = SingleLiveEvent<IapSnackbarMessage>()
     val snackbarMessage: LiveData<IapSnackbarMessage> = _snackbarMessage
 
+    private val preferencesBucket = getApplication<Simplenote>().preferencesBucket
+
     init {
+        preferencesBucket.addOnNetworkChangeListener(this)
+        preferencesBucket.addOnSaveObjectListener(this)
+        preferencesBucket.addOnDeleteObjectListener(this)
         startBillingConnection()
     }
 
     private val productDetails = ArrayList<ProductDetails>()
 
-    var isStarted: Boolean = false
+    private var isStarted: Boolean = false
 
     fun start() {
         if (isStarted) {
@@ -57,7 +68,8 @@ class IapViewModel(application: Application) :
         queryProductDetails()
     }
 
-    private fun onPlanSelected(offerToken: String) {
+    private fun onPlanSelected(offerToken: String, tracker: AnalyticsTracker.Stat) {
+        AnalyticsTracker.track(tracker)
         _onPurchaseRequest.postValue(offerToken)
         _plansBottomSheetVisibility.postValue(false)
     }
@@ -109,8 +121,14 @@ class IapViewModel(application: Application) :
         ) { billingResult, purchaseList ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                 val hasActiveSubscription = purchaseList.isNotEmpty()
-                PrefUtils.setIsSubscriptionActive(getApplication(), hasActiveSubscription)
-                _iapBannerVisibility.postValue(!hasActiveSubscription)
+                if (hasActiveSubscription && doesNotHaveSubscriptionOnOtherPlatforms()) {
+                    val preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+                    preferences.setActiveSubscription(purchaseList.first().purchaseTime / 1000)
+                } else if (doesNotHaveSubscriptionOnOtherPlatforms()) {
+                    val preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+                    preferences.removeActiveSubscription()
+                }
+                updateIapBannerVisibility()
             } else {
                 Log.e(TAG, billingResult.debugMessage)
             }
@@ -151,8 +169,15 @@ class IapViewModel(application: Application) :
                     if (billingResult.responseCode == BillingClient.BillingResponseCode.OK &&
                         it.purchaseState == Purchase.PurchaseState.PURCHASED
                     ) {
-                        PrefUtils.setIsSubscriptionActive(getApplication(), true)
-                        _iapBannerVisibility.postValue(false)
+                        val product = purchase.packageName + "." + purchase.products.firstOrNull()
+                        AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.IAP_PURCHASE_COMPLETED,
+                            mapOf("product" to product)
+                        )
+
+                        val preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+                        preferences.setActiveSubscription(purchase.purchaseTime / 1000)
+
                         _snackbarMessage.postValue(IapSnackbarMessage(R.string.subscription_purchase_success))
                     } else {
                         _snackbarMessage.postValue(IapSnackbarMessage(R.string.subscription_purchase_error))
@@ -204,6 +229,10 @@ class IapViewModel(application: Application) :
                                     .pricingPhaseList.first().billingPeriod
                             ),
                             price = offerDetails.pricingPhases.pricingPhaseList.first().formattedPrice,
+                            tracker = periodCodeToTracker(
+                                offerDetails.pricingPhases
+                                    .pricingPhaseList.first().billingPeriod
+                            ),
                             onTapListener = this::onPlanSelected
                         )
                     }
@@ -233,11 +262,20 @@ class IapViewModel(application: Application) :
         }
     }
 
+    private fun periodCodeToTracker(code: String): AnalyticsTracker.Stat {
+        return when (code) {
+            "P1M" -> AnalyticsTracker.Stat.IAP_MONTHLY_BUTTON_TAPPED
+            "P1Y" -> AnalyticsTracker.Stat.IAP_YEARLY_BUTTON_TAPPED
+            else -> AnalyticsTracker.Stat.IAP_UNKNOWN_BUTTON_TAPPED
+        }
+    }
+
     data class PlansListItem(
         val offerId: String,
         @StringRes val period: Int,
         val price: String,
-        val onTapListener: ((String) -> Unit)
+        val tracker: AnalyticsTracker.Stat,
+        val onTapListener: ((String, AnalyticsTracker.Stat) -> Unit)
     )
 
     data class IapSnackbarMessage(@StringRes val messageResId: Int)
@@ -248,5 +286,44 @@ class IapViewModel(application: Application) :
         private const val SUSTAINER_SUB_PRODUCT = "sustainer_subscription"
 
         private val LIST_OF_PRODUCTS = listOf(SUSTAINER_SUB_PRODUCT)
+    }
+
+    private fun doesNotHaveSubscriptionOnOtherPlatforms(): Boolean {
+        val preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+
+        preferences?.let {
+            val currentSubscriptionPlatform = preferences.currentSubscriptionPlatform
+
+            return currentSubscriptionPlatform == null
+                    || currentSubscriptionPlatform == Preferences.SubscriptionPlatform.ANDROID
+        }
+        return false
+    }
+
+    override fun onNetworkChange(
+        bucket: Bucket<Preferences>?,
+        type: Bucket.ChangeType?,
+        key: String?
+    ) {
+        updateIapBannerVisibility()
+    }
+
+    override fun onSaveObject(bucket: Bucket<Preferences>?, `object`: Preferences?) {
+        updateIapBannerVisibility()
+    }
+
+    override fun onDeleteObject(bucket: Bucket<Preferences>?, `object`: Preferences?) {
+        updateIapBannerVisibility()
+    }
+
+    private fun updateIapBannerVisibility() = try {
+        val preferences: Preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+        if (preferences.currentSubscriptionPlatform != null) {
+            _iapBannerVisibility.postValue(false)
+        } else {
+            _iapBannerVisibility.postValue(true)
+        }
+    } catch (ignore: BucketObjectMissingException) {
+        _iapBannerVisibility.postValue(false)
     }
 }

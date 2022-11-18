@@ -1,5 +1,6 @@
 package com.automattic.simplenote.billing
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +11,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.BottomSheetDialogBase
 import com.automattic.simplenote.R
+import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.databinding.BottomSheetSubscriptionsBinding
 import com.automattic.simplenote.viewmodels.IapViewModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class SubscriptionBottomSheetDialog : BottomSheetDialogBase() {
-
     private lateinit var viewModel: IapViewModel
 
     override fun onCreateView(
@@ -69,8 +70,13 @@ class SubscriptionBottomSheetDialog : BottomSheetDialogBase() {
         }
     }
 
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        AnalyticsTracker.track(AnalyticsTracker.Stat.IAP_PLANS_DIALOG_DISMISSED)
+    }
+
     companion object {
         @JvmStatic
-        val TAG = SubscriptionBottomSheetDialog::class.java.simpleName
+        val TAG: String = SubscriptionBottomSheetDialog::class.java.simpleName
     }
 }
