@@ -1,6 +1,7 @@
 2.24.2
 -----
 * Added ability to purchase a Simplenote Sustainer subscription [#1567](https://github.com/Automattic/simplenote-android/pull/1567)
+* [Internal] Upgrade to targetSdkVersion 31 (Android 31) [#1571](https://github.com/Automattic/simplenote-android/pull/1571)
 
 2.24.1
 -----

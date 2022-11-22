@@ -6,7 +6,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     buildToolsVersion '30.0.3'
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     buildTypes {
         debug {
@@ -37,7 +37,7 @@ android {
         }
         versionCode 150
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
@@ -122,7 +122,7 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.preference:preference:1.1.0'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
-    implementation 'androidx.work:work-runtime:2.5.0'
+    implementation 'androidx.work:work-runtime:2.7.1'
     implementation 'androidx.concurrent:concurrent-futures:1.1.0'
     implementation "androidx.multidex:multidex:2.0.1"
     // Support for ViewModels and LiveData

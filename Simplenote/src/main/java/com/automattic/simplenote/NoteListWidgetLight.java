@@ -1,5 +1,17 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_BUTTON_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_DELETED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_FIRST_ADDED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_LAST_DELETED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_TAPPED;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
+import static com.automattic.simplenote.utils.WidgetUtils.MINIMUM_HEIGHT_FOR_BUTTON;
+import static com.automattic.simplenote.utils.WidgetUtils.MINIMUM_WIDTH_FOR_BUTTON;
+
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -16,17 +28,6 @@ import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.Query;
 import com.simperium.client.User;
-
-import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_BUTTON_TAPPED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_DELETED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_FIRST_ADDED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_LAST_DELETED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_SIGN_IN_TAPPED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_LIST_WIDGET_TAPPED;
-import static com.automattic.simplenote.utils.WidgetUtils.KEY_LIST_WIDGET_CLICK;
-import static com.automattic.simplenote.utils.WidgetUtils.MINIMUM_HEIGHT_FOR_BUTTON;
-import static com.automattic.simplenote.utils.WidgetUtils.MINIMUM_WIDTH_FOR_BUTTON;
 
 public class NoteListWidgetLight extends AppWidgetProvider {
     public static final String KEY_LIST_WIDGET_IDS_LIGHT = "key_list_widget_ids_light";
@@ -99,6 +100,7 @@ public class NoteListWidgetLight extends AppWidgetProvider {
         }
     }
 
+    @SuppressLint("UnspecifiedImmutableFlag")
     private void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle appWidgetOptions) {
         RemoteViews views = new RemoteViews(context.getPackageName(), PrefUtils.getLayoutWidgetList(context, true));
         resizeWidget(context, appWidgetOptions, views);
@@ -113,12 +115,12 @@ public class NoteListWidgetLight extends AppWidgetProvider {
             Intent intent = new Intent(context, NotesActivity.class);
             intent.putExtra(KEY_LIST_WIDGET_CLICK, NOTE_LIST_WIDGET_SIGN_IN_TAPPED);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_IMMUTABLE);
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
 
             // Reset intent to navigate to note editor on note list add button click to navigate to notes activity, which redirects to login/signup
             Intent intentButton = new Intent(context, NotesActivity.class);
-            views.setOnClickPendingIntent(R.id.widget_button, PendingIntent.getActivity(context, appWidgetId, intentButton, PendingIntent.FLAG_UPDATE_CURRENT));
+            views.setOnClickPendingIntent(R.id.widget_button, PendingIntent.getActivity(context, appWidgetId, intentButton, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
 
             views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.log_in_use_widget));
             views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));
@@ -148,14 +150,19 @@ public class NoteListWidgetLight extends AppWidgetProvider {
 
                 // Create intent to navigate to note editor on note list item click
                 Intent intentItem = new Intent(context, NoteEditorActivity.class);
-                PendingIntent pendingIntentItem = PendingIntent.getActivity(context, appWidgetId, intentItem, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pendingIntentItem = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+                    pendingIntentItem = PendingIntent.getActivity(context, appWidgetId, intentItem, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
+                } else {
+                    pendingIntentItem = PendingIntent.getActivity(context, appWidgetId, intentItem, PendingIntent.FLAG_UPDATE_CURRENT);
+                }
                 views.setPendingIntentTemplate(R.id.widget_list, pendingIntentItem);
 
                 // Create intent to navigate to note editor on note list add button click
                 Intent intentButton = new Intent(context, NotesActivity.class);
                 intentButton.putExtra(KEY_LIST_WIDGET_CLICK, NOTE_LIST_WIDGET_BUTTON_TAPPED);
                 intentButton.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntentButton = PendingIntent.getActivity(context, appWidgetId, intentButton, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pendingIntentButton = PendingIntent.getActivity(context, appWidgetId, intentButton, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                 views.setOnClickPendingIntent(R.id.widget_button, pendingIntentButton);
 
                 views.setEmptyView(R.id.widget_list, R.id.widget_text);
@@ -175,7 +182,7 @@ public class NoteListWidgetLight extends AppWidgetProvider {
                 Intent intentButton = new Intent(context, NotesActivity.class);
                 intentButton.putExtra(KEY_LIST_WIDGET_CLICK, NOTE_LIST_WIDGET_BUTTON_TAPPED);
                 intentButton.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                PendingIntent pendingIntentButton = PendingIntent.getActivity(context, appWidgetId, intentButton, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pendingIntentButton = PendingIntent.getActivity(context, appWidgetId, intentButton, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                 views.setOnClickPendingIntent(R.id.widget_button, pendingIntentButton);
 
                 views.setTextColor(R.id.widget_text, context.getResources().getColor(R.color.text_title_light, context.getTheme()));

@@ -1,5 +1,14 @@
 package com.automattic.simplenote;
 
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_DELETED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_FIRST_ADDED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_LAST_DELETED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
+import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -18,15 +27,6 @@ import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
 import com.simperium.client.User;
-
-import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_WIDGET;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_DELETED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_FIRST_ADDED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_LAST_DELETED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_NOTE_TAPPED;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.NOTE_WIDGET_SIGN_IN_TAPPED;
-import static com.automattic.simplenote.utils.WidgetUtils.KEY_WIDGET_CLICK;
 
 public class NoteWidgetDark extends AppWidgetProvider {
     public static final String KEY_WIDGET_IDS_DARK = "key_widget_ids_dark";
@@ -111,7 +111,7 @@ public class NoteWidgetDark extends AppWidgetProvider {
             Intent intent = new Intent(context, NotesActivity.class);
             intent.putExtra(KEY_WIDGET_CLICK, NOTE_WIDGET_SIGN_IN_TAPPED);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_IMMUTABLE);
 
             views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
             views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.log_in_use_widget));
@@ -143,7 +143,7 @@ public class NoteWidgetDark extends AppWidgetProvider {
                     intent.putExtras(arguments);
                     intent.putExtra(KEY_WIDGET_CLICK, NOTE_WIDGET_NOTE_TAPPED);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
                     // Remove title from content
                     String title = updatedNote.getTitle();
@@ -169,7 +169,7 @@ public class NoteWidgetDark extends AppWidgetProvider {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra(KEY_WIDGET_CLICK, NOTE_WIDGET_NOTE_NOT_FOUND_TAPPED);
                     intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
                     views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
                     views.setTextViewText(R.id.widget_text, context.getResources().getString(R.string.note_not_found));
