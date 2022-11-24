@@ -1,2 +1,1 @@
-* Updated simperium library
-* Fixed links not opening in browser
+New: Simplenote Sustainer. Help support the ongoing development of Simplenote with an annual subscription.
