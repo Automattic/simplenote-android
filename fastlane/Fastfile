@@ -197,7 +197,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
         abort_on_violations: false
       )
 
-      android_update_metadata(options)
+      download_translations(options)
       android_bump_version_final_release()
     end
 
