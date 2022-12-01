@@ -19,6 +19,8 @@ platform :android do
 ########################################################################
 # Environment
 ########################################################################
+PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
+
 Dotenv.load(USER_ENV_FILE_PATH)
 ENV[GHHELPER_REPO="automattic/simplenote-android"]
 ENV["PROJECT_ROOT_FOLDER"]="./"
@@ -327,6 +329,24 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
     android_create_xml_release_notes(download_path: download_path, build_number: "#{options[:build_number]}", locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress], hsh[:google_play] ]})
     add_us_release_notes(relese_notes_path: download_path + "/release_notes.xml", version_name: options[:version])
     sh("git add #{download_path} && (git diff-index --quiet HEAD || git commit -m \"Update metadata translations for #{options[:version]}\") && git push")
+  end
+
+  #####################################################################################
+  # download_translations
+  # -----------------------------------------------------------------------------------
+  # This lane downloads the string translations from GlotPress
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane download_translations
+  #####################################################################################
+  desc "Download the latest app translations from GlotPress and update the strings.xml files accordingly"
+  lane :download_translations do |options|
+    android_download_translations(
+      res_dir: File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'src', 'main', 'res'),
+      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
+      locales: SUPPORTED_LOCALES,
+      lint_task: 'lintVanillaRelease'
+    )
   end
 
   #####################################################################################
