@@ -339,7 +339,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
   desc "Download the latest app translations from GlotPress and update the strings.xml files accordingly"
   lane :download_translations do |options|
     android_download_translations(
-      res_dir: File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'src', 'main', 'res'),
+      res_dir: File.join('Simplenote', 'src', 'main', 'res'),
       glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
       locales: SUPPORTED_LOCALES,
       lint_task: 'lintVanillaRelease'
