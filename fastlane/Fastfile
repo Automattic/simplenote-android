@@ -181,31 +181,28 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
   # bundle exec fastlane finalize_release skip_confirm:true
   #####################################################################################
   desc "Updates store metadata and runs the release checks"
-  lane :finalize_release do | options |
+  lane :finalize_release do |options|
+    UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix
+
     android_finalize_prechecks(options)
     configure_apply(force: is_ci)
 
-    hotfix = android_current_branch_is_hotfix
-    unless hotfix
-      UI.message('Checking app strings translation status...')
-      check_translation_progress(
-        glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
-        abort_on_violations: false
-      )
+    UI.message('Checking app strings translation status...')
+    check_translation_progress(
+      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
+      abort_on_violations: false
+    )
+    UI.message('Checking release notes strings translation status...')
+    check_translation_progress(
+      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/release-notes/',
+      abort_on_violations: false
+    )
 
-      UI.message("Checking release notes strings translation status...")
-      check_translation_progress(
-        glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/release-notes/',
-        abort_on_violations: false
-      )
-
-      download_translations(options)
-      android_bump_version_final_release()
-    end
+    download_translations(options)
+    android_bump_version_final_release()
 
     version = android_get_release_version()
-    download_metadata_strings(version: version["name"], build_number: version["code"]) unless hotfix
-    android_tag_build(tag_alpha: false)
+    download_metadata_strings(version: version["name"], build_number: version["code"])
 
     # Wrap up
     removebranchprotection(repository:GHHELPER_REPO, branch: "release/#{version["name"]}")
