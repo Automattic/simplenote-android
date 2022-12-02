@@ -342,7 +342,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
       res_dir: File.join('Simplenote', 'src', 'main', 'res'),
       glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
       locales: SUPPORTED_LOCALES,
-      lint_task: 'lintVanillaRelease'
+      lint_task: 'lintRelease'
     )
   end
 
