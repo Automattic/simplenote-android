@@ -1,11 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-10-12 15:54:03+0000
+Translation-Revision-Date: 2022-11-29 16:54:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="subscription_plans_fetching_error">Planlar alınırken hata oluştu. Lütfen bağlantınızı kontrol edip tekrar deneyin.</string>
+    <string name="subscription_purchase_error">Satın alma başarısız</string>
+    <string name="subscription_purchase_success">Satın alma başarılı. Devam eden desteğiniz için teşekkür ederiz!</string>
+    <string name="subscription_choose_plan">Bir paket seçin</string>
+    <string name="subscription_unknown">Bilinmeyen Uzunluk</string>
+    <string name="subscription_yearly_month">Yıllık</string>
+    <string name="subscription_six_month">Altı aylık</string>
+    <string name="subscription_three_month">Üç Aylık</string>
+    <string name="subscription_monthly">Aylık</string>
+    <string name="subscription_weekly">Haftalık</string>
+    <string name="iap_thank_you_banner_subtitle">Devam eden desteğiniz için teşekkür ederiz</string>
+    <string name="iap_thank_you_banner_title">Siz bir Simplenote Sustainer\'sınız</string>
+    <string name="iap_banner_subtitle">Favori notlar uygulamanızı destekleyin ve gelecekte yeni özelliklerin sunulmasına yardımcı olun.</string>
+    <string name="iap_banner_title">Bir Simplenote Sustainer Olun</string>
     <string name="simperium_too_many_attempts">Çok fazla oturum açma denemesi. Daha sonra yeniden deneyin.</string>
     <string name="simperium_change_password">Parola değiştir</string>
     <string name="simperium_not_now">İptal</string>
@@ -65,11 +79,11 @@ Language: tr
     <string name="toast_email_sent">E-posta gönderildi</string>
     <string name="fullscreen_verify_email_button_secondary">E-postayı tekrar gönder</string>
     <string name="fullscreen_verify_email_title">E-posta Adresinizi Doğrulayın</string>
-    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b> adresine bir doğrulama e-postası gönderdik. Lütfen gelen kutunuzu kontrol edip talimatları izleyin.</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b&gt;%1$s&lt;/b&gt; adresine bir doğrulama e-postası gönderdik. Lütfen gelen kutunuzu kontrol edip talimatları izleyin.</string>
     <string name="fullscreen_review_account_button_secondary">E-posta değiştir</string>
     <string name="fullscreen_review_account_button_primary">Onayla</string>
     <string name="fullscreen_review_account_title">Hesabınızı İnceleyin</string>
-    <string name="fullscreen_review_account_subtitle">&lt;b>%1$s&lt;/b> e-postasını kullanarak Simplenote\'a kayıt oldunuz.&lt;br>&lt;br>Bu e-posta adresine artık erişiminiz yoksa, hesap güvenliğindeki iyileştirmeler hesap kaybına neden olabilir.</string>
+    <string name="fullscreen_review_account_subtitle">&lt;b&gt;%1$s&lt;/b&gt; e-postasını kullanarak Simplenote\'a kayıt oldunuz.&lt;br&gt;&lt;br&gt;Bu e-posta adresine artık erişiminiz yoksa, hesap güvenliğindeki iyileştirmeler hesap kaybına neden olabilir.</string>
     <string name="description_warning">Uyarı</string>
     <string name="description_mail">Posta</string>
     <string name="description_close">Kapat</string>

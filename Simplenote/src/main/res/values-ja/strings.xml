@@ -1,11 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-10-13 11:54:04+0000
+Translation-Revision-Date: 2022-11-30 09:54:08+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="subscription_plans_fetching_error">プランを取得する際にエラーが発生しました。 接続を確認して、もう一度お試しください。</string>
+    <string name="subscription_purchase_error">購入に失敗しました</string>
+    <string name="subscription_purchase_success">正常に購入しました。 今後とも末永くご支援いただきますよう、よろしくお願い申し上げます。</string>
+    <string name="subscription_choose_plan">プランを選択</string>
+    <string name="subscription_unknown">期間の指定なし</string>
+    <string name="subscription_yearly_month">毎年</string>
+    <string name="subscription_six_month">6か月</string>
+    <string name="subscription_three_month">3か月</string>
+    <string name="subscription_monthly">毎月</string>
+    <string name="subscription_weekly">毎週</string>
+    <string name="iap_thank_you_banner_subtitle">今後とも末永くご支援いただきますよう、よろしくお願い申し上げます</string>
+    <string name="iap_thank_you_banner_title">Simplenote Sustainer です</string>
+    <string name="iap_banner_subtitle">お気に入りのメモアプリをサポートして今後の機能を利用できるようにします。</string>
+    <string name="iap_banner_title">Simplenote Sustainer になる</string>
     <string name="simperium_too_many_attempts">ログイン試行の回数が多すぎます。 後ほど、もう一度お試しください。</string>
     <string name="simperium_change_password">パスワードを変更</string>
     <string name="simperium_not_now">キャンセル</string>
@@ -65,11 +79,11 @@ Language: ja_JP
     <string name="toast_email_sent">メールを送信しました</string>
     <string name="fullscreen_verify_email_button_secondary">メールを再送信</string>
     <string name="fullscreen_verify_email_title">メールアドレスを確認</string>
-    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b> に確認メールを送信しました。 受信箱を確認して手順に従ってください。</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b&gt;%1$s&lt;/b&gt; に確認メールを送信しました。 受信箱を確認して手順に従ってください。</string>
     <string name="fullscreen_review_account_button_secondary">メールアドレスを変更</string>
     <string name="fullscreen_review_account_button_primary">確認</string>
     <string name="fullscreen_review_account_title">アカウントの設定を確認</string>
-    <string name="fullscreen_review_account_subtitle">メールアドレス &lt;b>%1$s&lt;/b> で Simplenote に登録されました。&lt;br>&lt;br>アカウントのセキュリティ強化により、このメールアドレスにアクセスできなくなった場合にはアカウントを喪失する可能性があります。</string>
+    <string name="fullscreen_review_account_subtitle">メールアドレス &lt;b&gt;%1$s&lt;/b&gt; で Simplenote に登録されました。&lt;br&gt;&lt;br&gt;アカウントのセキュリティ強化により、このメールアドレスにアクセスできなくなった場合にはアカウントを喪失する可能性があります。</string>
     <string name="description_warning">警告</string>
     <string name="description_mail">メール</string>
     <string name="description_close">閉じる</string>
