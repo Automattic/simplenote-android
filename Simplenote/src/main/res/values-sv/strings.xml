@@ -1,11 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-10-12 11:54:03+0000
+Translation-Revision-Date: 2022-11-29 10:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="subscription_plans_fetching_error">Det gick inte att hämta paket. Kontrollera din anslutning och försök igen.</string>
+    <string name="subscription_purchase_error">Köp misslyckades</string>
+    <string name="subscription_purchase_success">Köpet har slutförts. Tack för ditt fortsatta stöd.</string>
+    <string name="subscription_choose_plan">Välj ett paket</string>
+    <string name="subscription_unknown">Okänd längd</string>
+    <string name="subscription_yearly_month">Årlig</string>
+    <string name="subscription_six_month">6 månader</string>
+    <string name="subscription_three_month">3 månader</string>
+    <string name="subscription_monthly">Månatlig</string>
+    <string name="subscription_weekly">Veckovis</string>
+    <string name="iap_thank_you_banner_subtitle">Tack för ditt fortsatta stöd</string>
+    <string name="iap_thank_you_banner_title">Du är en Simplenote Sustainer</string>
+    <string name="iap_banner_subtitle">Stöd din favoritanteckningsapp och hjälp till att låsa upp framtida funktioner.</string>
+    <string name="iap_banner_title">Bli en Simplenote Sustainer</string>
     <string name="simperium_too_many_attempts">För många inloggningsförsök. Försök igen senare.</string>
     <string name="simperium_change_password">Ändra lösenord</string>
     <string name="simperium_not_now">Avbryt</string>
@@ -65,11 +79,11 @@ Language: sv_SE
     <string name="toast_email_sent">E-post skickad</string>
     <string name="fullscreen_verify_email_button_secondary">Skicka e-post igen</string>
     <string name="fullscreen_verify_email_title">Verifiera din e-post</string>
-    <string name="fullscreen_verify_email_subtitle">Vi har skickat en e-postverifiering till &lt;b>%1$s&lt;/b>.  Kontrollera din inkorg och följ instruktionerna.</string>
+    <string name="fullscreen_verify_email_subtitle">Vi har skickat en e-postverifiering till &lt;b&gt;%1$s&lt;/b&gt;.  Kontrollera din inkorg och följ instruktionerna.</string>
     <string name="fullscreen_review_account_button_secondary">Ändra e-post</string>
     <string name="fullscreen_review_account_button_primary">Bekräfta</string>
     <string name="fullscreen_review_account_title">Granska ditt konto</string>
-    <string name="fullscreen_review_account_subtitle">Du är registrerad hos Simplenote med e-postadressen &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Förbättringar av kontosäkerhet kan leda till kontoförlust om du inte längre har tillgång till den här e-postadressen.</string>
+    <string name="fullscreen_review_account_subtitle">Du är registrerad hos Simplenote med e-postadressen &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Förbättringar av kontosäkerhet kan leda till kontoförlust om du inte längre har tillgång till den här e-postadressen.</string>
     <string name="description_warning">Varning</string>
     <string name="description_mail">E-post</string>
     <string name="description_close">Stäng</string>

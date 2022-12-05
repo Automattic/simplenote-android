@@ -1,11 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2021-10-12 09:54:50+0000
+Translation-Revision-Date: 2022-11-29 12:54:02+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="subscription_plans_fetching_error">요금제를 가져오는 중 오류가 발생했습니다. 연결을 확인하고 다시 시도하세요.</string>
+    <string name="subscription_purchase_error">구매 실패</string>
+    <string name="subscription_purchase_success">구매 성공 계속 지지해 주셔서 감사합니다!</string>
+    <string name="subscription_choose_plan">요금제 선택</string>
+    <string name="subscription_unknown">알 수 없는 길이</string>
+    <string name="subscription_yearly_month">연간</string>
+    <string name="subscription_six_month">6개월</string>
+    <string name="subscription_three_month">3개월</string>
+    <string name="subscription_monthly">월간</string>
+    <string name="subscription_weekly">주간</string>
+    <string name="iap_thank_you_banner_subtitle">계속 지지해 주셔서 감사합니다.</string>
+    <string name="iap_thank_you_banner_title">회원님은 Simplenote 지지자입니다.</string>
+    <string name="iap_banner_subtitle">즐겨 찾는 메모 앱을 지원하며 향후 기능 활용에 도움이 됩니다.</string>
+    <string name="iap_banner_title">Simplenote 지지자 되기</string>
     <string name="simperium_too_many_attempts">로그인을 너무 많이 시도했습니다. 나중에 다시 시도하세요.</string>
     <string name="simperium_change_password">비밀번호 변경</string>
     <string name="simperium_not_now">취소</string>
@@ -65,11 +79,11 @@ Language: ko_KR
     <string name="toast_email_sent">이메일 보냄</string>
     <string name="fullscreen_verify_email_button_secondary">이메일 다시 보내기</string>
     <string name="fullscreen_verify_email_title">이메일 확인</string>
-    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b>(으)로 인증 이메일을 보내드렸습니다. 받은 편지함을 확인하고 지침에 따라 주세요.</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b&gt;%1$s&lt;/b&gt;(으)로 인증 이메일을 보내드렸습니다. 받은 편지함을 확인하고 지침에 따라 주세요.</string>
     <string name="fullscreen_review_account_button_secondary">이메일 변경</string>
     <string name="fullscreen_review_account_button_primary">확인</string>
     <string name="fullscreen_review_account_title">계정 검토</string>
-    <string name="fullscreen_review_account_subtitle">이메일 &lt;b>%1$s&lt;/b>을(를) 사용하여 Simplenote에 등록하셨습니다.&lt;br>&lt;br>더는 이 이메일 주소에 액세스하는 권한이 없는 경우 계정 보안 향상으로 인해 계정을 상실하실 수 있습니다.</string>
+    <string name="fullscreen_review_account_subtitle">이메일 &lt;b&gt;%1$s&lt;/b&gt;을(를) 사용하여 Simplenote에 등록하셨습니다.&lt;br&gt;&lt;br&gt;더는 이 이메일 주소에 액세스하는 권한이 없는 경우 계정 보안 향상으로 인해 계정을 상실하실 수 있습니다.</string>
     <string name="description_warning">경고</string>
     <string name="description_mail">메일</string>
     <string name="description_close">닫기</string>

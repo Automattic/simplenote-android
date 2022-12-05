@@ -19,30 +19,32 @@ platform :android do
 ########################################################################
 # Environment
 ########################################################################
+PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
+
 Dotenv.load(USER_ENV_FILE_PATH)
 ENV[GHHELPER_REPO="automattic/simplenote-android"]
-ENV["PROJECT_ROOT_FOLDER"]="./"
+ENV['PROJECT_ROOT_FOLDER'] = File.dirname(File.expand_path(__dir__)) + '/'
 ENV["PROJECT_NAME"]="Simplenote"
 ENV["validate_translations"]="buildRelease"
 ENV['FL_RELEASE_TOOLKIT_DEFAULT_BRANCH'] = 'trunk'
 
 SUPPORTED_LOCALES = [
-  { glotpress: "ar", google_play: "ar",  promo_config: {}},
-  { glotpress: "de", google_play: "de-DE",  promo_config: {} },
-  { glotpress: "es", google_play: "es-ES",  promo_config: {} },
-  { glotpress: "fr", google_play: "fr-FR",  promo_config: {} },
-  { glotpress: "he", google_play: "iw-IL",  promo_config: {} },
-  { glotpress: "id", google_play: "id",  promo_config: {} },
-  { glotpress: "it", google_play: "it-IT",  promo_config: {} },
-  { glotpress: "ja", google_play: "ja-JP",  promo_config: {} },
-  { glotpress: "ko", google_play: "ko-KR",  promo_config: {} },
-  { glotpress: "nl", google_play: "nl-NL",  promo_config: {} },
-  { glotpress: "pt-br", google_play: "pt-BR",  promo_config: {} },
-  { glotpress: "ru", google_play: "ru-RU",  promo_config: {} },
-  { glotpress: "sv", google_play: "sv-SE",  promo_config: {} },
-  { glotpress: "tr", google_play: "tr-TR",  promo_config: {} },
-  { glotpress: "zh-cn", google_play: "zh-CN",  promo_config: {} },
-  { glotpress: "zh-tw", google_play: "zh-TW",  promo_config: {} },
+  { glotpress: "ar", android: "ar", google_play: "ar",  promo_config: {}},
+  { glotpress: "de", android: "de", google_play: "de-DE",  promo_config: {} },
+  { glotpress: "es", android: "es", google_play: "es-ES",  promo_config: {} },
+  { glotpress: "fr", android: "fr", google_play: "fr-FR",  promo_config: {} },
+  { glotpress: "he", android: "he", google_play: "iw-IL",  promo_config: {} },
+  { glotpress: "id", android: "id", google_play: "id",  promo_config: {} },
+  { glotpress: "it", android: "it", google_play: "it-IT",  promo_config: {} },
+  { glotpress: "ja", android: "ja", google_play: "ja-JP",  promo_config: {} },
+  { glotpress: "ko", android: "ko", google_play: "ko-KR",  promo_config: {} },
+  { glotpress: "nl", android: "nl", google_play: "nl-NL",  promo_config: {} },
+  { glotpress: "pt-br", android: "pt-rBR", google_play: "pt-BR",  promo_config: {} },
+  { glotpress: "ru", android: "ru", google_play: "ru-RU",  promo_config: {} },
+  { glotpress: "sv", android: "sv", google_play: "sv-SE",  promo_config: {} },
+  { glotpress: "tr", android: "tr", google_play: "tr-TR",  promo_config: {} },
+  { glotpress: "zh-cn", android: "zh-rCN", google_play: "zh-CN",  promo_config: {} },
+  { glotpress: "zh-tw", android: "zh-rTW", google_play: "zh-TW",  promo_config: {} },
 ].freeze
 
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-android', 'secrets', 'google-upload-credentials.json')
@@ -70,7 +72,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
     android_bump_version_release()
     new_version = android_get_app_version()
     extract_release_notes_for_version(version: new_version,
-      release_notes_file_path:"#{ENV["PROJECT_ROOT_FOLDER"]}RELEASE-NOTES.txt",
+      release_notes_file_path: File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt'),
       extracted_notes_file_path:release_notes_path)
     android_update_release_notes(new_version: new_version)
     setbranchprotection(repository:GHHELPER_REPO, branch: "release/#{new_version}")
@@ -179,31 +181,28 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
   # bundle exec fastlane finalize_release skip_confirm:true
   #####################################################################################
   desc "Updates store metadata and runs the release checks"
-  lane :finalize_release do | options |
+  lane :finalize_release do |options|
+    UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix
+
     android_finalize_prechecks(options)
     configure_apply(force: is_ci)
 
-    hotfix = android_current_branch_is_hotfix
-    unless hotfix
-      UI.message('Checking app strings translation status...')
-      check_translation_progress(
-        glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
-        abort_on_violations: false
-      )
+    UI.message('Checking app strings translation status...')
+    check_translation_progress(
+      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
+      abort_on_violations: false
+    )
+    UI.message('Checking release notes strings translation status...')
+    check_translation_progress(
+      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/release-notes/',
+      abort_on_violations: false
+    )
 
-      UI.message("Checking release notes strings translation status...")
-      check_translation_progress(
-        glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/release-notes/',
-        abort_on_violations: false
-      )
-
-      android_update_metadata(options)
-      android_bump_version_final_release()
-    end
+    download_translations(options)
+    android_bump_version_final_release()
 
     version = android_get_release_version()
-    download_metadata_strings(version: version["name"], build_number: version["code"]) unless hotfix
-    android_tag_build(tag_alpha: false)
+    download_metadata_strings(version: version["name"], build_number: version["code"])
 
     # Wrap up
     removebranchprotection(repository:GHHELPER_REPO, branch: "release/#{version["name"]}")
@@ -327,6 +326,24 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
     android_create_xml_release_notes(download_path: download_path, build_number: "#{options[:build_number]}", locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress], hsh[:google_play] ]})
     add_us_release_notes(relese_notes_path: download_path + "/release_notes.xml", version_name: options[:version])
     sh("git add #{download_path} && (git diff-index --quiet HEAD || git commit -m \"Update metadata translations for #{options[:version]}\") && git push")
+  end
+
+  #####################################################################################
+  # download_translations
+  # -----------------------------------------------------------------------------------
+  # This lane downloads the string translations from GlotPress
+  # -----------------------------------------------------------------------------------
+  # Usage:
+  # bundle exec fastlane download_translations
+  #####################################################################################
+  desc "Download the latest app translations from GlotPress and update the strings.xml files accordingly"
+  lane :download_translations do |options|
+    android_download_translations(
+      res_dir: File.join('Simplenote', 'src', 'main', 'res'),
+      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
+      locales: SUPPORTED_LOCALES,
+      lint_task: 'lintRelease'
+    )
   end
 
   #####################################################################################
@@ -519,7 +536,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-an
   # Utils
   #####################################################################################
   def release_notes_path
-    "#{ENV["PROJECT_ROOT_FOLDER"]}Simplenote/metadata/release_notes.txt"
+    File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'metadata', 'release_notes.txt')
   end
 
   def universal_apk_name(version)
