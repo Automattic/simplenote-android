@@ -8,6 +8,7 @@ import android.text.Spanned
 import android.text.style.SuggestionSpan
 import android.view.KeyEvent
 import android.view.inputmethod.*
+import com.automattic.simplenote.utils.AppLog
 
 /**
  * Wrapper around proprietary Samsung InputConnection. Forwards all the calls to it, except for getExtractedText and
@@ -78,6 +79,10 @@ class SamsungInputConnection(
         // In this method we do everything replaceText method of EditableInputConnection does, apart from actually
         // replacing text. Instead we copy the suggestions from incoming text into editor directly.
         if (incomingTextHasSuggestions) {
+            AppLog.add(
+                AppLog.Type.EDITOR,
+                "Detected spellchecker trying to commit partial text with suggestions"
+            )
             // delete composing text set previously.
             var composingSpanStart = getComposingSpanStart(editable)
             var composingSpanEnd = getComposingSpanEnd(editable)

@@ -27,6 +27,7 @@ import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -124,6 +125,7 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         InputConnection baseInputConnection = super.onCreateInputConnection(outAttrs);
 
         if (shouldOverridePredictiveTextBehavior()) {
+            AppLog.add(AppLog.Type.EDITOR, "Samsung keyboard detected, overriding predictive text behavior");
             return new SamsungInputConnection(this, baseInputConnection);
         }
 
