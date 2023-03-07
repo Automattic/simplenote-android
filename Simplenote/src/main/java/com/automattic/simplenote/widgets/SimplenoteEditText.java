@@ -1,9 +1,14 @@
 package com.automattic.simplenote.widgets;
 
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_ID;
+import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
@@ -12,6 +17,8 @@ import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
 import android.widget.AdapterView;
 
 import androidx.annotation.DrawableRes;
@@ -20,6 +27,7 @@ import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
+import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.ChecklistUtils;
 import com.automattic.simplenote.utils.DisplayUtils;
 import com.automattic.simplenote.utils.DrawableUtils;
@@ -30,11 +38,9 @@ import com.simperium.client.Bucket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_ID;
-import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
     private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
@@ -42,7 +48,7 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
     private static final int CHECKBOX_LENGTH = 2; // one ClickableSpan character + one space character
 
     private LinkTokenizer mTokenizer;
-    private List<OnSelectionChangedListener> listeners;
+    private final List<OnSelectionChangedListener> listeners;
     private OnCheckboxToggledListener mOnCheckboxToggledListener;
 
     @Override
@@ -104,12 +110,34 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         setThreshold(1);
     }
 
+    private boolean shouldOverridePredictiveTextBehavior() {
+        String currentKeyboard = Settings.Secure.getString(
+                getContext().getContentResolver(),
+                Settings.Secure.DEFAULT_INPUT_METHOD
+        );
+
+        return "samsung".equals(Build.MANUFACTURER.toLowerCase(Locale.US)) && Build.VERSION.SDK_INT >= 33 &&
+                (currentKeyboard != null && currentKeyboard.startsWith("com.samsung.android.honeyboard"));
+    }
+
+    @Override
+    public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+        InputConnection baseInputConnection = super.onCreateInputConnection(outAttrs);
+
+        if (shouldOverridePredictiveTextBehavior()) {
+            AppLog.add(AppLog.Type.EDITOR, "Samsung keyboard detected, overriding predictive text behavior");
+            return new SamsungInputConnection(this, baseInputConnection);
+        }
+
+        return baseInputConnection;
+    }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         AnalyticsTracker.track(
-            AnalyticsTracker.Stat.INTERNOTE_LINK_CREATED,
-            AnalyticsTracker.CATEGORY_LINK,
-            "internote_link_created"
+                AnalyticsTracker.Stat.INTERNOTE_LINK_CREATED,
+                AnalyticsTracker.CATEGORY_LINK,
+                "internote_link_created"
         );
         @SuppressWarnings("unchecked")
         Bucket.ObjectCursor<Note> cursor = (Bucket.ObjectCursor<Note>) parent.getAdapter().getItem(position);
@@ -168,24 +196,21 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
             int iconSize = DisplayUtils.getChecklistIconSize(context, false);
             iconDrawable.setBounds(0, 0, iconSize, iconSize);
             final CenteredImageSpan newImageSpan = new CenteredImageSpan(context, iconDrawable);
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    editable.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    editable.removeSpan(imageSpans[0]);
-                    fixLineSpacing();
+            new Handler().post(() -> {
+                editable.setSpan(newImageSpan, checkboxStart, checkboxEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                editable.removeSpan(imageSpans[0]);
+                fixLineSpacing();
 
-                    // Restore the selection
-                    if (selectionStart >= 0
-                            && selectionStart <= editable.length()
-                            && selectionEnd <= editable.length() && hasFocus()) {
-                        setSelection(selectionStart, selectionEnd);
-                        setCursorVisible(true);
-                    }
+                // Restore the selection
+                if (selectionStart >= 0
+                        && selectionStart <= editable.length()
+                        && selectionEnd <= editable.length() && hasFocus()) {
+                    setSelection(selectionStart, selectionEnd);
+                    setCursorVisible(true);
+                }
 
-                    if (mOnCheckboxToggledListener != null) {
-                        mOnCheckboxToggledListener.onCheckboxToggled();
-                    }
+                if (mOnCheckboxToggledListener != null) {
+                    mOnCheckboxToggledListener.onCheckboxToggled();
                 }
             });
         }
