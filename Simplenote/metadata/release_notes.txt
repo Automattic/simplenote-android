@@ -1,2 +1,1 @@
-* Fixed problem with editor in Samsung devices with Android 13 [#1585](https://github.com/Automattic/simplenote-android/pull/1585)
-
+Fixed several editor issues on Samsung devices that use Android 13
