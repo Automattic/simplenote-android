@@ -1,0 +1,2 @@
+2.26:
+En rad olika redigerarproblem på Samsung-enheter som använder Android har åtgärdats 13

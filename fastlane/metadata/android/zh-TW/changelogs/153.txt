@@ -1,2 +1,0 @@
-2.25：
-新功能：Simplenote Sustainer。 以年約方案的方式，協助支持 Simplenote 持續開發。
