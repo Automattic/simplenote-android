@@ -1,0 +1,2 @@
+2.26:
+Verschillende editorproblemen op Samsung-apparaten die van Android 13 gebruik maken zijn opgelost.

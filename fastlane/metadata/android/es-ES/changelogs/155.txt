@@ -1,0 +1,2 @@
+2.26:
+Se han corregido varios problemas del editor en dispositivos Samsung que utilizan Android 13.
