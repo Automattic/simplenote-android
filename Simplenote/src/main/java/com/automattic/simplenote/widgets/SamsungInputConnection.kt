@@ -56,9 +56,12 @@ class SamsungInputConnection(
     }
 
     // Extracted text on Samsung devices on Android 13 is somehow used for Grammarly suggestions which causes a lot of
-    // issues with spans and cursors. We do not use extracted text, so returning null
-    // (default behavior of BaseInputConnection) prevents Grammarly from messing up content most of the time
+    // issues with spans and cursors. IF we return null, then it causes text duplication, so we implement the
     override fun getExtractedText(request: ExtractedTextRequest?, flags: Int): ExtractedText? {
+        val et = ExtractedText()
+        if (mTextView.extractText(request, et)) {
+            return et
+        }
         return null
     }
 
