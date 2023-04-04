@@ -1,6 +1,6 @@
 2.27
 -----
-
+* Fixed problem with editor in Samsung devices where text duplicating [#1591](https://github.com/Automattic/simplenote-android/pull/1591)
 
 2.26
 -----
