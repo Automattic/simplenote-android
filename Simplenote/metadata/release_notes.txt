@@ -1,2 +1,1 @@
-* Fixed problem with editor in Samsung devices where users observed text duplication [#1591](https://github.com/Automattic/simplenote-android/pull/1591)
-
+Fixed a problem with the editor in Samsung devices where duplication could sometime occur.
