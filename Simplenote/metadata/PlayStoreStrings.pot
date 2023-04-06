@@ -11,16 +11,16 @@ msgstr ""
 "Project-Id-Version: Release Notes & Play Store Descriptions\n"
 
 #. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
+msgctxt "release_note_0227"
+msgid ""
+"2.27:\n"
+"Fixed a problem with the editor in Samsung devices where duplication could sometime occur.\n"
+msgstr ""
+
 msgctxt "release_note_0226"
 msgid ""
 "2.26:\n"
 "Fixed several editor issues on Samsung devices that use Android 13\n"
-msgstr ""
-
-msgctxt "release_note_0225"
-msgid ""
-"2.25:\n"
-"New: Simplenote Sustainer. Help support the ongoing development of Simplenote with an annual subscription.\n"
 msgstr ""
 
 #. translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!

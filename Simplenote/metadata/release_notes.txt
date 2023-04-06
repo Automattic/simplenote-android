@@ -1,1 +1,1 @@
-Fixed several editor issues on Samsung devices that use Android 13
+Fixed a problem with the editor in Samsung devices where duplication could sometime occur.
