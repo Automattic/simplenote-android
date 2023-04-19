@@ -1,68 +1,68 @@
 <ar>
-2.26:
-تم إصلاح العديد من مشكلات المحرر على أجهزة سامسونج التي تستخدم نظام التشغيل Android 13
+2.27:
+تم إصلاح مشكلة في المحرر في أجهزة Samsung التي قد يحدث فيها تكرار في بعض الأحيان.
 </ar>
 <de-DE>
-2.26:
-Einige Probleme mit dem Editor auf Samsung-Geräten, die Android 13 nutzen, wurden behoben
+2.27:
+Wir haben ein Problem mit dem Editor auf Samsung-Geräten behoben, wo es gelegentlich zu Duplizierungen kommen konnte.
 </de-DE>
 <es-ES>
-2.26:
-Se han corregido varios problemas del editor en dispositivos Samsung que utilizan Android 13.
+2.27:
+Se ha corregido un problema con el editor en los dispositivos Samsung por el que a veces se producían duplicados.
 </es-ES>
 <fr-FR>
-2.26:
-Correction de plusieurs problèmes liés à l’éditeur sur les appareils Samsung sous Android 13
+2.27 :
+Résolution d’un problème avec l’éditeur sur les appareils Samsung, où il était parfois question de doublons.
 </fr-FR>
 <iw-IL>
-2.26:
-תיקנו מספר בעיות בעורך שהופיעו במכשירי Samsung עם מערכת ההפעלה Android 13
+2.27:
+תיקנו בעיה בעורך שהופיעה במכשירי Samsung וגרמה לשכפול במקרים מסוימים.
 </iw-IL>
 <id>
-2.26:
-Memperbaiki beberapa masalah editor di perangkat Samsung yang menggunakan Android 13
+2.27:
+Perbaiki masalah pada editor di perangkat Samsung yang kadang kala melakukan duplikasi.
 </id>
 <it-IT>
-2.26:
-Risoluzione di alcuni problemi dell'editor sui dispositivi Samsung che usano Android 13
+2.27:
+Risolto un problema con l'editor nei dispositivi Samsung in cui a volte poteva verificarsi la duplicazione.
 </it-IT>
 <ja-JP>
-2.26:
-Android 13を使用する Samsung 製端末でのエディターの問題をいくつか修正しました
+2.27:
+Samsung 製端末のエディターで重複が発生することがある問題を修正しました。
 </ja-JP>
 <ko-KR>
-2.26:
-Android 13을 사용하는 삼성 기기의 몇 가지 편집기 문제를 해결했습니다.
+2.27:
+삼성 기기에서 복제할 때 가끔 발생하던 문제를 편집기로 해결했습니다.
 </ko-KR>
 <nl-NL>
-2.26:
-Verschillende editorproblemen op Samsung-apparaten die van Android 13 gebruik maken zijn opgelost.
+2.27:
+Er is een probleem opgelost met de editor in Samsung-apparaten waarbij duplicatie soms voorkomt.
 </nl-NL>
 <pt-BR>
-2.26:
-Corrigimos vários problemas no editor que ocorriam em dispositivos Samsung com Android 13
+2.27:
+Resolvido um problema com o editor nos dispositivos Samsung onde poderia ocorrer duplicação algumas vezes.
 </pt-BR>
 <ru-RU>
-2.26:
-Исправлено несколько ошибок редактора на устройствах Samsung с Android 13
+2.27:
+Исправлена проблема с редактором на устройствах Samsung, в котором иногда происходило дублирование.
 </ru-RU>
 <sv-SE>
-2.26:
-En rad olika redigerarproblem på Samsung-enheter som använder Android har åtgärdats 13
+2.27:
+Vi har åtgärdat ett problem som gjorde att duplicering ibland kunde inträffa vid användning av redigeraren på Samsung-enheter.
 </sv-SE>
 <tr-TR>
-2.26:
-Android 13 kullanan Samsung cihazlarındaki birkaç düzenleyici sorunu düzeltildi
+2.27:
+Samsung cihazlarında bazen tekrara neden olabilen, düzenleyiciyle ilgili bir sorun düzeltildi.
 </tr-TR>
 <zh-CN>
-2.26：
-修复了使用 Android 13 的三星设备上的若干编辑器问题
+2.27：
+修复了三星设备中的编辑器有时可能会出现重复的问题。
 </zh-CN>
 <zh-TW>
-2.26：
-修正 Samsung 裝置 (使用 Android 13) 上的幾個編輯器問題
+2.27：
+修正 Samsung 裝置的編輯器有時會出現重複操作的問題。
 </zh-TW>
 <en-US>
-2.26:
-Fixed several editor issues on Samsung devices that use Android 13
+2.27:
+Fixed a problem with the editor in Samsung devices where duplication could sometime occur.
 </en-US>

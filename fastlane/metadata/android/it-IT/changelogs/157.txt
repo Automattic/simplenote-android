@@ -1,0 +1,2 @@
+2.27:
+Risolto un problema con l'editor nei dispositivi Samsung in cui a volte poteva verificarsi la duplicazione.
