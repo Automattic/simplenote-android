@@ -1,0 +1,2 @@
+2.27 :
+Résolution d’un problème avec l’éditeur sur les appareils Samsung, où il était parfois question de doublons.

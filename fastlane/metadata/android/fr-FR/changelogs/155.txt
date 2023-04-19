@@ -1,2 +1,0 @@
-2.26:
-Correction de plusieurs problèmes liés à l’éditeur sur les appareils Samsung sous Android 13

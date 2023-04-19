@@ -1,2 +1,0 @@
-2.26:
-Android 13 kullanan Samsung cihazlarındaki birkaç düzenleyici sorunu düzeltildi
