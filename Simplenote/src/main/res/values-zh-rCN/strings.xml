@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2022-11-29 10:54:04+0000
+Translation-Revision-Date: 2023-04-27 18:04:04+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
-    <string name="subscription_plans_fetching_error">获取套餐时出错。 请检查您的连接，然后重试。</string>
+    <string name="subscription_plans_fetching_error">获取套餐时出错。 请检查您的网络，然后重试。</string>
     <string name="subscription_purchase_error">购买失败</string>
     <string name="subscription_purchase_success">购买成功。 感谢您的继续支持！</string>
     <string name="subscription_choose_plan">选择套餐</string>
@@ -24,7 +24,7 @@ Language: zh_CN
     <string name="simperium_change_password">修改密码</string>
     <string name="simperium_not_now">取消</string>
     <string name="simperium_compromised_password_message">此密码似乎存在数据泄露，使您的账户存在高盗用风险。 为了保护您的数据，您需要先更新密码，然后才能再次进行登录。</string>
-    <string name="simperium_compromised_password">遭盗密码</string>
+    <string name="simperium_compromised_password">忘记密码</string>
     <string name="no_collaborators">无协作者</string>
     <string name="collaborators_note_trashed">已将笔记放入回收站。 您无法在已放入回收站的笔记上编辑协作者。</string>
     <string name="collaborators_note_deleted">已删除笔记。 您无法在已删除的笔记上编辑协作者。</string>
@@ -95,7 +95,7 @@ Language: zh_CN
     <string name="style_sepia">棕褐色</string>
     <string name="style_publication">发布内容</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
-    <string name="style_mono">莫努</string>
+    <string name="style_mono">单一</string>
     <string name="style_matrix">矩阵</string>
     <string name="style_dialog_locked_title">高级样式</string>
     <string name="style_dialog_locked_message">要使用此样式，您必须具有高级版成员资格。</string>
@@ -121,7 +121,7 @@ Language: zh_CN
     <string name="delete_dialog_error_message">删除笔记时出错。 请重试。 如果问题仍然存在，请通过 %1$s%2$s%3$s%4$s%5$s 联系我们，我们会竭诚相助。</string>
     <string name="delete">删除</string>
     <string name="confirm_empty_trash">是否要清空回收站？ 回收站中的所有笔记将永久删除。 此操作无法撤消。</string>
-    <string name="empty">空</string>
+    <string name="empty">清空</string>
     <string name="back">返回</string>
     <string name="empty_notes_untagged">没有未标记的笔记</string>
     <string name="unpublishing">正在取消发布笔记…</string>
@@ -267,10 +267,10 @@ Language: zh_CN
     <string name="note_not_found">未找到笔记</string>
     <string name="loading_note">正在加载笔记…</string>
     <string name="passcode_summary">密码锁开启时，屏幕截图将处于禁用状态</string>
-    <string name="all_notes">所有便签</string>
+    <string name="all_notes">所有笔记</string>
     <string name="appearance">外观</string>
     <string name="sort_tags_alphabetically">按字母顺序排列</string>
-    <string name="empty_note_post">不能发布空白便签。</string>
+    <string name="empty_note_post">不能发布空白笔记。</string>
     <string name="could_not_access_site_data">无法访问站点数据。</string>
     <string name="wordpress_post_link">分享 WordPress 文章</string>
     <string name="reconnect_to_wordpress">请重新连接至 WordPress.com。</string>
@@ -279,9 +279,9 @@ Language: zh_CN
     <string name="post_to_wordpress">发布至 WordPress</string>
     <string name="untitled_site">无标题站点</string>
     <string name="connect_with_wordpress">连接</string>
-    <string name="wordpress_connect_summary">要想直接在 WordPress 站点上发布便签，请连接至您的 WordPress.com 帐户。</string>
+    <string name="wordpress_connect_summary">要想直接在 WordPress 站点上发布笔记，请连接至您的 WordPress.com 帐户。</string>
     <string name="done">完成</string>
-    <string name="success">已成功将便签发布到：%1$s</string>
+    <string name="success">已成功将笔记发布到：%1$s</string>
     <string name="uploading_post">正在上传文章</string>
     <string name="wordpress_post_draft">设定草稿状态</string>
     <string name="send_post">文章</string>
