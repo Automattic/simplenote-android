@@ -14,6 +14,7 @@ import com.automattic.simplenote.analytics.AnalyticsTracker
 import com.automattic.simplenote.models.Preferences
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
+import java.lang.IllegalStateException
 
 class IapViewModel(application: Application) :
     AndroidViewModel(application), PurchasesUpdatedListener, ProductDetailsResponseListener,
@@ -77,21 +78,25 @@ class IapViewModel(application: Application) :
     // Billing
 
     private fun startBillingConnection() {
-        billingClient.startConnection(object : BillingClientStateListener {
-            override fun onBillingSetupFinished(billingResult: BillingResult) {
-                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    Log.d(TAG, "Billing response OK")
-                    queryPurchases()
-                } else {
-                    Log.e(TAG, billingResult.debugMessage)
+        try {
+            billingClient.startConnection(object : BillingClientStateListener {
+                override fun onBillingSetupFinished(billingResult: BillingResult) {
+                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                        Log.d(TAG, "Billing response OK")
+                        queryPurchases()
+                    } else {
+                        Log.e(TAG, billingResult.debugMessage)
+                    }
                 }
-            }
 
-            override fun onBillingServiceDisconnected() {
-                Log.i(TAG, "Billing connection disconnected")
-                startBillingConnection()
-            }
-        })
+                override fun onBillingServiceDisconnected() {
+                    Log.i(TAG, "Billing connection disconnected")
+                    startBillingConnection()
+                }
+            })
+        } catch (e: IllegalStateException) {
+            Log.e(TAG, "Error starting billing connection: ${e.message}")
+        }
     }
 
     private fun queryProductDetails() {
@@ -248,6 +253,7 @@ class IapViewModel(application: Application) :
     }
 
     override fun onCleared() {
+        super.onCleared()
         billingClient.endConnection()
     }
 
