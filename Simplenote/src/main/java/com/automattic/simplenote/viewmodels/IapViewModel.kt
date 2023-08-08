@@ -1,25 +1,43 @@
 package com.automattic.simplenote.viewmodels
 
 import android.app.Activity
-import android.app.Application
 import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.android.billingclient.api.*
 import com.automattic.simplenote.R
 import com.automattic.simplenote.Simplenote
 import com.automattic.simplenote.analytics.AnalyticsTracker
+import com.automattic.simplenote.di.IO_THREAD
 import com.automattic.simplenote.models.Preferences
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.IllegalStateException
+import javax.inject.Inject
+import javax.inject.Named
+import kotlin.math.min
 
-class IapViewModel(application: Application) :
+private const val RECONNECT_TIMER_START_MILLISECONDS = 1L * 1000L
+private const val RECONNECT_TIMER_MAX_TIME_MILLISECONDS = 1000L * 60L * 15L // 15 minutes
+
+@HiltViewModel
+class IapViewModel @Inject constructor(
+    application: Simplenote, @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher
+) :
     AndroidViewModel(application), PurchasesUpdatedListener, ProductDetailsResponseListener,
     Bucket.OnNetworkChangeListener<Preferences>, Bucket.OnSaveObjectListener<Preferences>,
     Bucket.OnDeleteObjectListener<Preferences> {
+    // how long before the data source tries to reconnect to Google play
+    private var reconnectMilliseconds = RECONNECT_TIMER_START_MILLISECONDS
+
     private val billingClient = BillingClient.newBuilder(application)
         .setListener(this)
         .enablePendingPurchases()
@@ -46,7 +64,9 @@ class IapViewModel(application: Application) :
         preferencesBucket.addOnNetworkChangeListener(this)
         preferencesBucket.addOnSaveObjectListener(this)
         preferencesBucket.addOnDeleteObjectListener(this)
-        startBillingConnection()
+        viewModelScope.launch {
+            startBillingConnection()
+        }
     }
 
     private val productDetails = ArrayList<ProductDetails>()
@@ -77,26 +97,40 @@ class IapViewModel(application: Application) :
 
     // Billing
 
-    private fun startBillingConnection() {
-        try {
-            billingClient.startConnection(object : BillingClientStateListener {
-                override fun onBillingSetupFinished(billingResult: BillingResult) {
-                    if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                        Log.d(TAG, "Billing response OK")
-                        queryPurchases()
-                    } else {
-                        Log.e(TAG, billingResult.debugMessage)
-                    }
-                }
+    private val billingListener = object : BillingClientStateListener {
+        override fun onBillingSetupFinished(billingResult: BillingResult) {
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                Log.i(TAG, "Billing response OK")
+                reconnectMilliseconds = RECONNECT_TIMER_START_MILLISECONDS
+                queryPurchases()
+            } else {
+                Log.e(TAG, billingResult.debugMessage)
+            }
+        }
 
-                override fun onBillingServiceDisconnected() {
-                    Log.i(TAG, "Billing connection disconnected")
-                    startBillingConnection()
-                }
-            })
+        override fun onBillingServiceDisconnected() {
+            Log.i(TAG, "Billing connection disconnected")
+            viewModelScope.launch {
+                retryBillingServiceConnectionWithExponentialBackoff()
+            }
+        }
+    }
+
+    private suspend fun startBillingConnection() = withContext(ioDispatcher) {
+        try {
+            billingClient.startConnection(billingListener)
         } catch (e: IllegalStateException) {
             Log.e(TAG, "Error starting billing connection: ${e.message}")
         }
+    }
+
+    private suspend fun retryBillingServiceConnectionWithExponentialBackoff() {
+        Log.i(TAG, "Retrying billing service connection after $reconnectMilliseconds MS delay")
+        delay(reconnectMilliseconds)
+        startBillingConnection()
+
+        reconnectMilliseconds =
+            min(reconnectMilliseconds * 2, RECONNECT_TIMER_MAX_TIME_MILLISECONDS)
     }
 
     private fun queryProductDetails() {
@@ -287,7 +321,7 @@ class IapViewModel(application: Application) :
     data class IapSnackbarMessage(@StringRes val messageResId: Int)
 
     companion object {
-        private const val TAG: String = "MainViewModel"
+        private const val TAG: String = "IapViewModel"
 
         private const val SUSTAINER_SUB_PRODUCT = "sustainer_subscription"
 
@@ -295,10 +329,10 @@ class IapViewModel(application: Application) :
     }
 
     private fun doesNotHaveSubscriptionOnOtherPlatforms(): Boolean {
-        val preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+        val preference = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
 
-        preferences?.let {
-            val currentSubscriptionPlatform = preferences.currentSubscriptionPlatform
+        preference?.let {
+            val currentSubscriptionPlatform = preference.currentSubscriptionPlatform
 
             return currentSubscriptionPlatform == null
                     || currentSubscriptionPlatform == Preferences.SubscriptionPlatform.ANDROID
@@ -323,8 +357,8 @@ class IapViewModel(application: Application) :
     }
 
     private fun updateIapBannerVisibility() = try {
-        val preferences: Preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
-        if (preferences.currentSubscriptionPlatform != null) {
+        val preference: Preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+        if (preference.currentSubscriptionPlatform != null) {
             _iapBannerVisibility.postValue(false)
         } else {
             _iapBannerVisibility.postValue(true)
