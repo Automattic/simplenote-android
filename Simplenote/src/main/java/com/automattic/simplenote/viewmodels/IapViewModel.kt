@@ -357,8 +357,8 @@ class IapViewModel @Inject constructor(
     }
 
     private fun updateIapBannerVisibility() = try {
-        val preference: Preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
-        if (preference.currentSubscriptionPlatform != null) {
+        val preferences: Preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+        if (preferences.currentSubscriptionPlatform != null) {
             _iapBannerVisibility.postValue(false)
         } else {
             _iapBannerVisibility.postValue(true)
