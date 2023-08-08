@@ -329,10 +329,10 @@ class IapViewModel @Inject constructor(
     }
 
     private fun doesNotHaveSubscriptionOnOtherPlatforms(): Boolean {
-        val preference = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
+        val preferences = preferencesBucket.get(Preferences.PREFERENCES_OBJECT_KEY)
 
-        preference?.let {
-            val currentSubscriptionPlatform = preference.currentSubscriptionPlatform
+        preferences?.let {
+            val currentSubscriptionPlatform = preferences.currentSubscriptionPlatform
 
             return currentSubscriptionPlatform == null
                     || currentSubscriptionPlatform == Preferences.SubscriptionPlatform.ANDROID
