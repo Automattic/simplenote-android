@@ -1,4 +1,2 @@
-* Fixed occasional crash on Samsung devices [#1601](https://github.com/Automattic/simplenote-android/pull/1601)
-* Fixed recurring ANR issues [#1603](https://github.com/Automattic/simplenote-android/pull/1603)
-
-
+* Fixed occasional crash for Samsung devices
+* Fixed recurring 'Application Not Responding' issues
