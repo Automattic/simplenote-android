@@ -99,12 +99,25 @@ class IapViewModel @Inject constructor(
 
     private val billingListener = object : BillingClientStateListener {
         override fun onBillingSetupFinished(billingResult: BillingResult) {
-            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                Log.i(TAG, "Billing response OK")
-                reconnectMilliseconds = RECONNECT_TIMER_START_MILLISECONDS
-                queryPurchases()
-            } else {
-                Log.e(TAG, billingResult.debugMessage)
+            when (billingResult.responseCode) {
+                BillingClient.BillingResponseCode.OK -> {
+                    Log.i(TAG, "Billing response OK")
+                    reconnectMilliseconds = RECONNECT_TIMER_START_MILLISECONDS
+                    queryPurchases()
+                }
+
+                else -> {
+                    val errorCode = billingResponseCodeToString(billingResult.responseCode)
+                    val errorMsg = "Unable to establish connection with the billing API, " +
+                            "error: $errorCode."
+                    Log.e(TAG, errorMsg)
+
+                    if (shouldRetryConnection(billingResult.responseCode)) {
+                        viewModelScope.launch {
+                            retryBillingServiceConnectionWithExponentialBackoff()
+                        }
+                    }
+                }
             }
         }
 
@@ -365,5 +378,30 @@ class IapViewModel @Inject constructor(
         }
     } catch (ignore: BucketObjectMissingException) {
         _iapBannerVisibility.postValue(false)
+    }
+
+    private fun billingResponseCodeToString(responseCode: Int): String {
+        return when(responseCode) {
+            BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> "Service Timeout"
+            BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED -> "Feature not supported"
+            BillingClient.BillingResponseCode.SERVICE_DISCONNECTED -> "Service disconnected"
+            BillingClient.BillingResponseCode.OK -> "Success"
+            BillingClient.BillingResponseCode.USER_CANCELED -> "User canceled"
+            BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> "Service unavailable"
+            BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> "Billing unavailable"
+            BillingClient.BillingResponseCode.ITEM_UNAVAILABLE -> "Item unavailable"
+            BillingClient.BillingResponseCode.DEVELOPER_ERROR -> "Developer error"
+            BillingClient.BillingResponseCode.ERROR -> "Generic error"
+            BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> "Item already owned"
+            BillingClient.BillingResponseCode.ITEM_NOT_OWNED -> "Item not owned"
+            else -> "Unknown error code"
+        }
+    }
+
+    private fun shouldRetryConnection(responseCode: Int) = when(responseCode) {
+        BillingClient.BillingResponseCode.SERVICE_TIMEOUT,
+        BillingClient.BillingResponseCode.SERVICE_DISCONNECTED,
+        BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> true
+        else -> false
     }
 }
