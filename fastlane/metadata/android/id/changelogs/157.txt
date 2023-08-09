@@ -1,2 +1,0 @@
-2.27:
-Perbaiki masalah pada editor di perangkat Samsung yang kadang kala melakukan duplikasi.
