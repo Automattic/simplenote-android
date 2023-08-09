@@ -7,6 +7,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 android {
     buildToolsVersion '30.0.3'
     compileSdkVersion 31
+    ndkVersion '25.2.9519653'
 
     buildTypes {
         debug {
