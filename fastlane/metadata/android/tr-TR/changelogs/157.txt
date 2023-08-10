@@ -1,2 +1,0 @@
-2.27:
-Samsung cihazlarında bazen tekrara neden olabilen, düzenleyiciyle ilgili bir sorun düzeltildi.

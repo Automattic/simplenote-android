@@ -1,2 +1,0 @@
-2.27:
-Er is een probleem opgelost met de editor in Samsung-apparaten waarbij duplicatie soms voorkomt.

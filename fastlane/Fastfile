@@ -47,7 +47,7 @@ SUPPORTED_LOCALES = [
   { glotpress: "zh-tw", android: "zh-rTW", google_play: "zh-TW",  promo_config: {} },
 ].freeze
 
-UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-android', 'secrets', 'google-upload-credentials.json')
+UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
 
 ########################################################################
 # Release Lanes

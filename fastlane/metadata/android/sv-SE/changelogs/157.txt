@@ -1,2 +1,0 @@
-2.27:
-Vi har åtgärdat ett problem som gjorde att duplicering ibland kunde inträffa vid användning av redigeraren på Samsung-enheter.

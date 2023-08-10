@@ -1,3 +1,7 @@
+2.29
+-----
+
+
 2.28
 -----
 * Fixed occasional crash on Samsung devices [#1601](https://github.com/Automattic/simplenote-android/pull/1601)

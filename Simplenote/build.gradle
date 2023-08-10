@@ -7,6 +7,7 @@ apply plugin: 'dagger.hilt.android.plugin'
 android {
     buildToolsVersion '30.0.3'
     compileSdkVersion 31
+    ndkVersion '25.2.9519653'
 
     buildTypes {
         debug {
@@ -33,9 +34,9 @@ android {
         if (project.hasProperty("versionName")) {
             versionName project.property("versionName")
         } else {
-            versionName "2.27"
+            versionName "2.28"
         }
-        versionCode 157
+        versionCode 159
         minSdkVersion 23
         targetSdkVersion 31
 
