@@ -1,2 +1,3 @@
-
+* Fixed occasional crash for Samsung devices
+* Fixed recurring 'Application Not Responding' issues
 
