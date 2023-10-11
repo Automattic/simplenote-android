@@ -1,3 +1,2 @@
-* Fixed occasional crash for Samsung devices
-* Fixed recurring 'Application Not Responding' issues
+* Fixed crashes when a big note is tried to be synced [#1612](https://github.com/Automattic/simplenote-android/pull/1612)
 
