@@ -11,19 +11,18 @@ msgstr ""
 "Project-Id-Version: Release Notes & Play Store Descriptions\n"
 
 #. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
+msgctxt "release_note_0230"
+msgid ""
+"2.30:\n"
+"• Fixed a crash when syncing large notes\n"
+msgstr ""
+
 msgctxt "release_note_0229"
 msgid ""
 "2.29:\n"
 "* Fixed occasional crash for Samsung devices\n"
 "* Fixed recurring 'Application Not Responding' issues\n"
 "\n"
-msgstr ""
-
-msgctxt "release_note_0228"
-msgid ""
-"2.28:\n"
-"* Fixed occasional crash for Samsung devices\n"
-"* Fixed recurring 'Application Not Responding' issues\n"
 msgstr ""
 
 #. translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!
