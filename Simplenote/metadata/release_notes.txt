@@ -1,2 +1,1 @@
-* Fixed crashes when a big note is tried to be synced [#1612](https://github.com/Automattic/simplenote-android/pull/1612)
-
+• Fixed a crash when syncing large notes
