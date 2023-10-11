@@ -1,6 +1,4 @@
 <en-US>
-2.29:
-* Fixed occasional crash for Samsung devices
-* Fixed recurring 'Application Not Responding' issues
-
+2.30:
+• Fixed a crash when syncing large notes
 </en-US>
