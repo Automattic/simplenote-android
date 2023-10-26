@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 gem 'fastlane', '~> 2'
-gem 'fastlane-plugin-wpmreleasetoolkit', '~> 7.0'
+gem 'fastlane-plugin-wpmreleasetoolkit', '~> 9.0'
