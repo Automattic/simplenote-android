@@ -17,6 +17,8 @@ steps:
   - label: "🛠 Build and Test"
     command: ./gradlew --stacktrace testRelease
     plugins: *common_plugins
+    agents:
+      queue: android-staging
 
   - label: "🔬 Lint"
     command: ./gradlew --stacktrace lintRelease
