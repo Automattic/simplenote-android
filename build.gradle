@@ -1,10 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    ext.kotlin_version = '1.4.32'
+    ext.kotlin_version = '1.8.20'
 
     repositories {
         maven {
-            url 'https://a8c-libs.s3.amazonaws.com/android' 
+            url 'https://a8c-libs.s3.amazonaws.com/android'
             content {
                 includeGroup "com.automattic.android"
                 includeGroup "com.automattic.android.publish-to-s3"
@@ -15,9 +15,9 @@ buildscript {
         maven { url 'https://maven.google.com' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.0'
+        classpath 'com.android.tools.build:gradle:8.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38'
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.50'
         classpath 'com.automattic.android:configure:0.6.1'
     }
 }
