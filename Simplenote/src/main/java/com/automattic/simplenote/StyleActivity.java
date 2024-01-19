@@ -152,9 +152,9 @@ public class StyleActivity extends ThemedAppCompatActivity {
                     public void onClick(View v) {
                         if (mIsPremium) {
                             notifyItemChanged(mSelectedPosition);
-                            mSelectedPosition = position;
+                            mSelectedPosition = holder.getAdapterPosition();
                             notifyItemChanged(mSelectedPosition);
-                            PrefUtils.setStyleIndex(StyleActivity.this, position);
+                            PrefUtils.setStyleIndex(StyleActivity.this, holder.getAdapterPosition());
                         } else if (holder.mLocked.getVisibility() == View.VISIBLE) {
                             showDialogLocked();
                         }
