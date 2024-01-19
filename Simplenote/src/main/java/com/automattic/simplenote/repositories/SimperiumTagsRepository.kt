@@ -82,9 +82,9 @@ class SimperiumTagsRepository @Inject constructor(
     }
 
     override suspend fun tagsChanged(): Flow<Boolean> = callbackFlow {
-        val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> offer(true) }
-        val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> offer(true) }
-        val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Tag> { _, _, _ -> offer(true) }
+        val callbackOnSaveObject = Bucket.OnSaveObjectListener<Tag> { _, _ -> trySend(true) }
+        val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Tag> { _, _ -> trySend(true) }
+        val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Tag> { _, _, _ -> trySend(true) }
 
         tagsBucket.addOnSaveObjectListener(callbackOnSaveObject)
         tagsBucket.addOnDeleteObjectListener(callbackOnDeleteObject)
