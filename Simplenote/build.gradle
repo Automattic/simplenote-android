@@ -5,7 +5,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    compileSdkVersion 33
+    namespace 'com.automattic.simplenote'
+    compileSdk 34
 
     buildTypes {
         debug {
@@ -36,7 +37,7 @@ android {
         }
         versionCode 162
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
 
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
@@ -106,7 +107,9 @@ dependencies {
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
     implementation 'com.automattic:simperium:v1.3.0'
-    implementation 'com.github.Automattic:Automattic-Tracks-Android:2.1.0'
+    implementation('com.github.Automattic:Automattic-Tracks-Android:2.1.0') {
+        exclude group: 'com.squareup.okhttp3'
+    }
     implementation 'org.wordpress:passcodelock:2.0.2'
 
     // Kotlin's coroutines
