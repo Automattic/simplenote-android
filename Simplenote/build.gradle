@@ -5,7 +5,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    compileSdkVersion 33
+    namespace 'com.automattic.simplenote'
+    compileSdk 34
 
     buildTypes {
         debug {
@@ -36,7 +37,7 @@ android {
         }
         versionCode 162
         minSdkVersion 23
-        targetSdkVersion 33
+        targetSdkVersion 34
 
         testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
     }
@@ -68,7 +69,7 @@ android {
 
 buildscript {
     dependencies {
-        classpath 'io.sentry:sentry-android-gradle-plugin:2.1.4'
+        classpath 'io.sentry:sentry-android-gradle-plugin:3.5.0'
     }
 
     repositories {
@@ -106,14 +107,17 @@ dependencies {
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
     implementation 'com.automattic:simperium:v1.3.0'
-    implementation 'com.github.Automattic:Automattic-Tracks-Android:2.1.0'
+    implementation('com.github.Automattic:Automattic-Tracks-Android:2.1.0') {
+        // Tracks lib is referring to an unavailable build of okhttp
+        exclude group: 'com.squareup.okhttp3'
+    }
     implementation 'org.wordpress:passcodelock:2.0.2'
 
     // Kotlin's coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 
     // Google Play Billing
-    implementation("com.android.billingclient:billing:5.0.0")
+    implementation("com.android.billingclient:billing:6.0.1")
 
     // Google Support
     implementation 'androidx.appcompat:appcompat:1.1.0'

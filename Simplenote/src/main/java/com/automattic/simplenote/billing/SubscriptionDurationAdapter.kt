@@ -1,5 +1,6 @@
 package com.automattic.simplenote.billing
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,6 +57,7 @@ class SubscriptionDurationAdapter :
             return oldItem.offerId == newItem.offerId
         }
 
+        @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(
             oldItem: IapViewModel.PlansListItem,
             newItem: IapViewModel.PlansListItem
