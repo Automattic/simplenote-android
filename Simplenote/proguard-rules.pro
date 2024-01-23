@@ -19,7 +19,6 @@
 # Fix for older Samsung devices, see https://code.google.com/p/android/issues/detail?id=78377
 -keep class !android.support.v7.internal.view.menu.**,** {*;}
 
-
 # okhttp rules from https://github.com/square/okhttp/blob/master/okhttp/src/main/resources/META-INF/proguard/okhttp3.pro
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**
@@ -32,3 +31,6 @@
 
 # OkHttp platform used only on JVM and when Conscrypt dependency is available.
 -dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+# AndroidAsync lib compiles these classes
+-dontwarn org.bouncycastle.**

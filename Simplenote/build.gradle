@@ -69,7 +69,7 @@ android {
 
 buildscript {
     dependencies {
-        classpath 'io.sentry:sentry-android-gradle-plugin:2.1.4'
+        classpath 'io.sentry:sentry-android-gradle-plugin:3.5.0'
     }
 
     repositories {
@@ -117,7 +117,7 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9'
 
     // Google Play Billing
-    implementation("com.android.billingclient:billing:5.0.0")
+    implementation("com.android.billingclient:billing:6.0.1")
 
     // Google Support
     implementation 'androidx.appcompat:appcompat:1.1.0'
