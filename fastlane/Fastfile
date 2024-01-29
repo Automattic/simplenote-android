@@ -531,7 +531,6 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
       message: 'Update strings file for translation automation',
       allow_nothing_to_commit: true
     )
-    push_to_git_remote(tags: false)
   end
 
   private_lane :create_gh_release do | options |
