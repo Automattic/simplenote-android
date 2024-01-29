@@ -524,9 +524,14 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   end
 
   private_lane :update_strings_for_translation_automation do | options |
-    sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path} && git add #{update_strings_path}strings.xml")
-    sh("git diff-index --quiet HEAD || git commit -m \"Update strings file for translation automation\"")
-    sh("git push origin HEAD")
+    sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path}")
+    strings_path = File.join(update_strings_path, 'strings.xml')
+    git_commit(
+      path: strings_path,
+      message: 'Update strings file for translation automation',
+      allow_nothing_to_commit: true
+    )
+    push_to_git_remote(tags: false)
   end
 
   private_lane :create_gh_release do | options |
