@@ -75,10 +75,17 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
       release_notes_file_path: File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt'),
       extracted_notes_file_path:release_notes_path)
     android_update_release_notes(new_version: new_version)
-    setbranchprotection(repository:GHHELPER_REPO, branch: "release/#{new_version}")
-    setfrozentag(repository:GHHELPER_REPO, milestone: new_version)
 
     update_strings_for_translation_automation()
+
+    unless options[:skip_confirm] || UI.confirm('Ready to push changes to remote to let the automation configure it on GitHub?')
+      UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.")
+      next
+    end
+
+    push_to_git_remote(tags: false, set_upstream: true)
+    setbranchprotection(repository:GHHELPER_REPO, branch: "release/#{new_version}")
+    setfrozentag(repository:GHHELPER_REPO, milestone: new_version)
 
     android_tag_build()
   end
