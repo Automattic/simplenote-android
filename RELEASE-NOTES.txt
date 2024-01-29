@@ -1,3 +1,7 @@
+2.32
+-----
+
+
 2.31
 -----
 * Fixed the app from becoming unresponsive at launch with a large amount of notes.
