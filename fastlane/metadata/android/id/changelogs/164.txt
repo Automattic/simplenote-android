@@ -1,0 +1,3 @@
+2.31:
+*Memperbaiki aplikasi agar tetap responsif saat dibuka dengan catatan yang berjumlah banyak
+

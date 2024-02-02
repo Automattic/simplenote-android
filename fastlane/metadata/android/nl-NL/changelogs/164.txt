@@ -1,0 +1,3 @@
+2.31:
+* Probleem opgelost waarbij de app niet reageerde bij het opstarten en veel opmerkingen gaf.
+
