@@ -11,4 +11,8 @@
         android:drawable="@drawable/ic_launcher_foreground">
     </foreground>
 
+    <monochrome
+        android:drawable="@drawable/ic_launcher_mono">
+    </monochrome>
+
 </adaptive-icon>
