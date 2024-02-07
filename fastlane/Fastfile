@@ -513,7 +513,7 @@ platform :android do
       app_display_name: 'Simplenote Android',
       download_url: install_url,
       metadata: {
-        'Build Type': prototype_build_type,
+        'Build Type': prototype_build_type
       }
     )
 
