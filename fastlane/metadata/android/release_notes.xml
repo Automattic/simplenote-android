@@ -1,4 +1,85 @@
+<ar>
+2.31:
+* تم إصلاح التطبيق من عدم الاستجابة عند التشغيل مع وجود عدد كبير من الملاحظات.
+
+</ar>
+<de-DE>
+2.31:
+* Fehler behoben, wodurch die App beim Start aufgrund einer hohen Anzahl von Notizen nicht antwortete.
+
+</de-DE>
+<es-ES>
+2.31:
+* Se ha solucionado un problema que hacía que la aplicación no respondiera al iniciarla con una gran cantidad de notas.
+
+</es-ES>
+<fr-FR>
+2.31 :
+* Résolution du problème qui faisait que l’application ne répondait pas lors du lancement à cause d’un grand nombre de notes.
+
+</fr-FR>
+<iw-IL>
+2.31:
+* תיקנו בעיה שגרמה לחוסר תגובתיות במהלך הפעלת האפליקציה כאשר יש מספר רב של פתקים.
+
+</iw-IL>
+<id>
+2.31:
+*Memperbaiki aplikasi agar tetap responsif saat dibuka dengan catatan yang berjumlah banyak
+
+</id>
+<it-IT>
+2.31:
+* Risolto il problema della mancata risposta al lancio dell'app in presenza di un gran numero di note.
+
+</it-IT>
+<ja-JP>
+2.31:
+* 大量のメモがある場合アプリの起動時に応答がなくなる問題を修正しました。
+
+</ja-JP>
+<ko-KR>
+2.31:
+* 메모가 많으면 시작 시 앱이 반응하지 않던 문제를 해결했습니다.
+
+</ko-KR>
+<nl-NL>
+2.31:
+* Probleem opgelost waarbij de app niet reageerde bij het opstarten en veel opmerkingen gaf.
+
+</nl-NL>
+<pt-BR>
+2.31:
+*Agora o app não para de responder quando é aberto com muitas anotações.
+
+</pt-BR>
+<ru-RU>
+2.31:
+*Исправлена ошибка, из-за которой приложение при запуске переставало отвечать на запросы из-за большого количества примечаний.
+
+</ru-RU>
+<sv-SE>
+2.31:
+* Åtgärdade problemet med att appen inte svarar när den startas med en stor mängd anteckningar.
+
+</sv-SE>
+<tr-TR>
+2.31:
+* Çok fazla not olan uygulamanın başlatılırken yanıt vermemesine neden olan sorun düzeltildi.
+
+</tr-TR>
+<zh-CN>
+2.31：
+* 修复了应用程序在有大量笔记的情况下启动反应迟钝的问题。
+
+</zh-CN>
+<zh-TW>
+2.31:
+*修復了應用程式啟動時因筆記量過大而沒有反應的問題。
+
+</zh-TW>
 <en-US>
-2.30:
-• Fixed a crash when syncing large notes
+2.31:
+* Fixed the app from becoming unresponsive at launch with a large amount of notes.
+
 </en-US>

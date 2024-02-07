@@ -1,0 +1,3 @@
+2.31:
+* Åtgärdade problemet med att appen inte svarar när den startas med en stor mängd anteckningar.
+
