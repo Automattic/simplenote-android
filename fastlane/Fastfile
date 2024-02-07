@@ -191,7 +191,7 @@ platform :android do
   # bundle exec fastlane finalize_hotfix_release
   #####################################################################################
   desc 'Finalizes a hotfix release by tagging the build'
-  lane :finalize_hotfix_release do |_options|
+  lane :finalize_hotfix_release do
     android_tag_build(tag_alpha: false)
   end
 
@@ -605,7 +605,7 @@ platform :android do
     end
   end
 
-  private_lane :update_strings_for_translation_automation do |_options|
+  private_lane :update_strings_for_translation_automation do
     sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path}")
     strings_path = File.join(update_strings_path, 'strings.xml')
     git_commit(
