@@ -1,0 +1,3 @@
+2.31:
+* Risolto il problema della mancata risposta al lancio dell'app in presenza di un gran numero di note.
+

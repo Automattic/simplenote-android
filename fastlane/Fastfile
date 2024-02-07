@@ -331,9 +331,24 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
       source_locale: "en-US",
       download_path: download_path)
 
-    android_create_xml_release_notes(download_path: download_path, build_number: "#{options[:build_number]}", locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress], hsh[:google_play] ]})
-    add_us_release_notes(relese_notes_path: download_path + "/release_notes.xml", version_name: options[:version])
-    sh("git add #{download_path} && (git diff-index --quiet HEAD || git commit -m \"Update metadata translations for #{options[:version]}\") && git push")
+    android_create_xml_release_notes(
+      download_path: download_path,
+      build_number: options[:build_number].to_s,
+      locales: SUPPORTED_LOCALES.to_h { |hsh| [hsh[:glotpress], hsh[:google_play]] }
+    )
+    add_us_release_notes(
+      release_notes_path: File.join(download_path, 'release_notes.xml'),
+      version_name: options[:version]
+    )
+
+    # We need to explicitly call `git_add`, despite the path being passed to `git_commit` as well.
+    # That's because we might have new files, that the commit command would otherwise miss.
+    git_add(path: download_path)
+    git_commit(
+      path: download_path,
+      message: "Update metadata translations for #{options[:version]}",
+      allow_nothing_to_commit: true
+    )
   end
 
   #####################################################################################
@@ -516,7 +531,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
 
   private_lane :add_us_release_notes do | options |
     en_release_notes_path  = Dir.pwd + "/.." + "/Simplenote/metadata/release_notes.txt"
-    File.open(options[:relese_notes_path], "a") { |f|
+    File.open(options[:release_notes_path], "a") { |f|
       f.puts("<en-US>")
       f.puts("#{options[:version_name]}:")
       f.puts(File.open(en_release_notes_path).read)

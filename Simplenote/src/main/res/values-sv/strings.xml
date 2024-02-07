@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2022-11-29 10:54:03+0000
+Translation-Revision-Date: 2023-10-27 12:51:37+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
@@ -25,7 +25,7 @@ Language: sv_SE
     <string name="simperium_not_now">Avbryt</string>
     <string name="simperium_compromised_password_message">Det här lösenordet har dykt upp i ett dataintrång, vilket innebär att ditt konto löper hög risk att komprometteras. För att skydda dina data behöver du uppdatera ditt lösenord innan du kan logga in igen.</string>
     <string name="simperium_compromised_password">Komprometterat lösenord</string>
-    <string name="no_collaborators">Inga redigerare</string>
+    <string name="no_collaborators">Inga medarbetare</string>
     <string name="collaborators_note_trashed">Anteckningen har tagits bort. Du kan inte redigera redigerare för en anteckning som har tagits bort.</string>
     <string name="collaborators_note_deleted">Anteckningen har tagits bort. Du kan inte redigera redigerare för en anteckning som har tagits bort.</string>
     <string name="collaborator_is_current_user">Du kan inte lägga till dig själv som medarbetare</string>
