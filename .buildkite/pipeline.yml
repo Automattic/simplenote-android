@@ -22,7 +22,7 @@ steps:
     command: ./gradlew --stacktrace lintRelease
     plugins: *common_plugins
 
-  - label: "🛠 Installable Build"
+  - label: "🛠 Prototype Build"
     command: .buildkite/commands/build-prototype.sh
     plugins: *common_plugins
     if: "build.pull_request.id != null || build.pull_request.draft"

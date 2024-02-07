@@ -6,7 +6,7 @@ fastlane_require 'dotenv'
 UI.user_error!('Please run fastlane via `bundle exec`') unless FastlaneCore::Helper.bundler?
 
 USER_ENV_FILE_PATH = File.join(Dir.home, '.simplenoteandroid-env.default')
-INSTALLABLE_BUILD_DOMAIN = 'https://d2twmm2nzpx3bg.cloudfront.net'
+PROTOTYPE_BUILD_DOMAIN = 'https://d2twmm2nzpx3bg.cloudfront.net'
 
 before_all do
   # Check that the env file exists
@@ -18,22 +18,22 @@ PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 GITHUB_REPO = 'automattic/simplenote-android'
 
 SUPPORTED_LOCALES = [
-    { glotpress: 'ar', android: 'ar', google_play: 'ar', promo_config: {} },
-    { glotpress: 'de', android: 'de', google_play: 'de-DE',  promo_config: {} },
-    { glotpress: 'es', android: 'es', google_play: 'es-ES',  promo_config: {} },
-    { glotpress: 'fr', android: 'fr', google_play: 'fr-FR',  promo_config: {} },
-    { glotpress: 'he', android: 'he', google_play: 'iw-IL',  promo_config: {} },
-    { glotpress: 'id', android: 'id', google_play: 'id', promo_config: {} },
-    { glotpress: 'it', android: 'it', google_play: 'it-IT',  promo_config: {} },
-    { glotpress: 'ja', android: 'ja', google_play: 'ja-JP',  promo_config: {} },
-    { glotpress: 'ko', android: 'ko', google_play: 'ko-KR',  promo_config: {} },
-    { glotpress: 'nl', android: 'nl', google_play: 'nl-NL',  promo_config: {} },
-    { glotpress: 'pt-br', android: 'pt-rBR', google_play: 'pt-BR', promo_config: {} },
-    { glotpress: 'ru', android: 'ru', google_play: 'ru-RU',  promo_config: {} },
-    { glotpress: 'sv', android: 'sv', google_play: 'sv-SE',  promo_config: {} },
-    { glotpress: 'tr', android: 'tr', google_play: 'tr-TR',  promo_config: {} },
-    { glotpress: 'zh-cn', android: 'zh-rCN', google_play: 'zh-CN',  promo_config: {} },
-    { glotpress: 'zh-tw', android: 'zh-rTW', google_play: 'zh-TW',  promo_config: {} }
+  { glotpress: 'ar', android: 'ar', google_play: 'ar', promo_config: {} },
+  { glotpress: 'de', android: 'de', google_play: 'de-DE',  promo_config: {} },
+  { glotpress: 'es', android: 'es', google_play: 'es-ES',  promo_config: {} },
+  { glotpress: 'fr', android: 'fr', google_play: 'fr-FR',  promo_config: {} },
+  { glotpress: 'he', android: 'he', google_play: 'iw-IL',  promo_config: {} },
+  { glotpress: 'id', android: 'id', google_play: 'id', promo_config: {} },
+  { glotpress: 'it', android: 'it', google_play: 'it-IT',  promo_config: {} },
+  { glotpress: 'ja', android: 'ja', google_play: 'ja-JP',  promo_config: {} },
+  { glotpress: 'ko', android: 'ko', google_play: 'ko-KR',  promo_config: {} },
+  { glotpress: 'nl', android: 'nl', google_play: 'nl-NL',  promo_config: {} },
+  { glotpress: 'pt-br', android: 'pt-rBR', google_play: 'pt-BR', promo_config: {} },
+  { glotpress: 'ru', android: 'ru', google_play: 'ru-RU',  promo_config: {} },
+  { glotpress: 'sv', android: 'sv', google_play: 'sv-SE',  promo_config: {} },
+  { glotpress: 'tr', android: 'tr', google_play: 'tr-TR',  promo_config: {} },
+  { glotpress: 'zh-cn', android: 'zh-rCN', google_play: 'zh-CN',  promo_config: {} },
+  { glotpress: 'zh-tw', android: 'zh-rTW', google_play: 'zh-TW',  promo_config: {} }
 ].freeze
 
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
@@ -480,20 +480,25 @@ platform :android do
   end
 
   #####################################################################################
-  # build_and_upload_installable_build
+  # build_and_upload_prototype_build
   # -----------------------------------------------------------------------------------
-  # Build an Installable Build and make it available for download
+  # Build a Prototype Build and make it available for download
   # -----------------------------------------------------------------------------------
   # Usage:
-  # bundle exec fastlane build_and_upload_installable_build
+  # bundle exec fastlane build_and_upload_prototype_build
   #####################################################################################
-  desc 'Build an Installable Build and make it available for download'
-  lane :build_and_upload_installable_build do
+  desc 'Build a Prototype Build and make it available for download'
+  lane :build_and_upload_prototype_build do
     UI.user_error!("'BUILDKITE_ARTIFACTS_S3_BUCKET' must be defined as an environment variable.") unless ENV['BUILDKITE_ARTIFACTS_S3_BUCKET']
 
-    gradle(task: 'assembleDebug')
+    prototype_build_type = 'Debug'
 
-    filename = "simplenote-android-installable-build-#{generate_installable_build_number}.apk"
+    gradle(
+      task: 'assemble',
+      build_type: prototype_build_type
+    )
+
+    filename = "simplenote-android-prototype-build-#{generate_prototype_build_number}.apk"
 
     upload_path = upload_to_s3(
       bucket: 'a8c-apps-public-artifacts',
@@ -503,20 +508,27 @@ platform :android do
 
     return if ENV['BUILDKITE_PULL_REQUEST'].nil?
 
-    install_url = "#{INSTALLABLE_BUILD_DOMAIN}/#{upload_path}"
-    qr_code_url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=#{CGI.escape(install_url)}&choe=UTF-8"
-    comment_body = "You can test the changes on this Pull Request by <a href='#{install_url}'>downloading an installable build (#{filename})</a>, or scanning this QR code:<br><a href='#{install_url}'><img src='#{qr_code_url}' width='250' height='250' /></a>"
-
-    comment_on_pr(
-      project: GHHELPER_REPO,
-      pr_number: Integer(ENV.fetch('BUILDKITE_PULL_REQUEST', nil)),
-      reuse_identifier: 'simplenote-installable-build-link',
-      body: comment_body
+    install_url = "#{PROTOTYPE_BUILD_DOMAIN}/#{upload_path}"
+    comment_body = prototype_build_details_comment(
+      app_display_name: 'Simplenote Android',
+      download_url: install_url,
+      metadata: {
+        'Build Type': prototype_build_type,
+      }
     )
 
+    unless ENV['BUILDKITE_PULL_REQUEST'].nil?
+      comment_on_pr(
+        project: GITHUB_REPO,
+        pr_number: Integer(ENV.fetch('BUILDKITE_PULL_REQUEST', nil)),
+        reuse_identifier: 'simplenote-prototype-build-link',
+        body: comment_body
+      )
+    end
+
     if ENV['BUILDKITE']
-      message = "Simplenote Installable Build: [#{filename}](#{install_url})"
-      sh('buildkite-agent', 'annotate', message, '--style', 'info', '--context', 'installable-build')
+      message = "Simplenote Android Prototype Build: [#{filename}](#{install_url})"
+      sh('buildkite-agent', 'annotate', message, '--style', 'info', '--context', 'prototype-build')
     end
   end
 
@@ -629,7 +641,7 @@ platform :android do
   end
 
   # This function is Buildkite-specific
-  def generate_installable_build_number
+  def generate_prototype_build_number
     if ENV['BUILDKITE']
       commit = ENV.fetch('BUILDKITE_COMMIT', nil)[0, 7]
       branch = ENV['BUILDKITE_BRANCH'].parameterize
