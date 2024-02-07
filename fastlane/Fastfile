@@ -411,7 +411,7 @@ platform :android do
   # bundle exec fastlane download_translations
   #####################################################################################
   desc 'Download the latest app translations from GlotPress and update the strings.xml files accordingly'
-  lane :download_translations do |_options|
+  lane :download_translations do
     android_download_translations(
       res_dir: File.join('Simplenote', 'src', 'main', 'res'),
       glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
