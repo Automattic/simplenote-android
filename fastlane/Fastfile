@@ -66,29 +66,40 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane code_freeze skip_confirm:true
   #####################################################################################
   desc "Creates a new release branch from the current trunk"
-  lane :code_freeze do | options |
+  lane :code_freeze do |options|
     old_version = android_codefreeze_prechecks(options)
 
-    android_bump_version_release()
-    new_version = android_get_app_version()
-    extract_release_notes_for_version(version: new_version,
+    android_bump_version_release
+    new_version = android_get_app_version
+    extract_release_notes_for_version(
+      version: new_version,
       release_notes_file_path: File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt'),
-      extracted_notes_file_path:release_notes_path)
+      extracted_notes_file_path:release_notes_path
+    )
     android_update_release_notes(new_version: new_version)
 
-    update_strings_for_translation_automation()
+    update_strings_for_translation_automation
 
     unless options[:skip_confirm] || UI.confirm('Ready to push changes to remote to let the automation configure it on GitHub?')
       UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.")
       next
     end
 
-    push_to_git_remote(tags: false, set_upstream: true)
+    push_to_git_remote(
+      tags: false,
+      set_upstream: true
+    )
 
-    android_tag_build()
+    android_tag_build
 
-    setbranchprotection(repository:GHHELPER_REPO, branch: "release/#{new_version}")
-    setfrozentag(repository:GHHELPER_REPO, milestone: new_version)
+    setbranchprotection(
+      repository:GHHELPER_REPO,
+      branch: "release/#{new_version}"
+    )
+    setfrozentag(
+      repository:GHHELPER_REPO,
+      milestone: new_version
+    )
   end
 
   #####################################################################################
@@ -114,9 +125,11 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
       play_store_app_title: prj_folder + "/Simplenote/metadata/title.txt"
     }
 
-    an_update_metadata_source(po_file_path: prj_folder + "/Simplenote/metadata/PlayStoreStrings.pot",
+    an_update_metadata_source(
+      po_file_path: prj_folder + "/Simplenote/metadata/PlayStoreStrings.pot",
       source_files: files,
-      release_version: options[:version])
+      release_version: options[:version]
+    )
   end
 
   #####################################################################################
@@ -136,10 +149,10 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane new_beta_release base_version:10.6.1
   #####################################################################################
   desc "Updates a release branch for a new beta release"
-  lane :new_beta_release do | options |
+  lane :new_beta_release do |options|
     android_betabuild_prechecks(options)
-    android_bump_version_beta()
-    android_tag_build()
+    android_bump_version_beta
+    android_tag_build
   end
 
   #####################################################################################
@@ -155,9 +168,16 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane new_hotfix_release skip_confirm:true version_name:10.6.1
   #####################################################################################
   desc "Creates a new hotfix branch from the given tag"
-  lane :new_hotfix_release do | options |
-    prev_ver = android_hotfix_prechecks(version_name: options[:version_name], skip_confirm: options[:skip_confirm])
-    android_bump_version_hotfix(previous_version_name: prev_ver, version_name: options[:version_name], version_code: options[:version_code])
+  lane :new_hotfix_release do |options|
+    prev_ver = android_hotfix_prechecks(
+      version_name: options[:version_name],
+      skip_confirm: options[:skip_confirm]
+    )
+    android_bump_version_hotfix(
+      previous_version_name: prev_ver,
+      version_name: options[:version_name],
+      version_code: options[:version_code]
+    )
   end
 
   #####################################################################################
@@ -172,7 +192,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane finalize_hotfix_release
   #####################################################################################
   desc "Finalizes a hotfix release by tagging the build"
-  lane :finalize_hotfix_release do | options |
+  lane :finalize_hotfix_release do |options|
     android_tag_build(tag_alpha: false)
   end
 
@@ -207,15 +227,28 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
     )
 
     download_translations(options)
-    android_bump_version_final_release()
+    android_bump_version_final_release
 
-    version = android_get_release_version()
-    download_metadata_strings(version: version["name"], build_number: version["code"])
+    version = android_get_release_version
+    download_metadata_strings(
+      version: version["name"],
+      build_number: version["code"]
+    )
 
     # Wrap up
-    removebranchprotection(repository:GHHELPER_REPO, branch: "release/#{version["name"]}")
-    setfrozentag(repository:GHHELPER_REPO, milestone: version["name"], freeze: false)
-    close_milestone(repository:GHHELPER_REPO, milestone: version["name"])
+    removebranchprotection(
+      repository: GHHELPER_REPO,
+      branch: "release/#{version["name"]}"
+    )
+    setfrozentag(
+      repository:GHHELPER_REPO,
+      milestone: version["name"],
+      freeze: false
+    )
+    close_milestone(
+      repository: GHHELPER_REPO,
+      milestone: version["name"]
+    )
   end
 
   #####################################################################################
@@ -232,13 +265,19 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane build_pre_releases create_release:true
   #####################################################################################
   desc "Builds and updates for distribution"
-  lane :build_pre_releases do | options |
-    android_build_prechecks(skip_confirm: options[:skip_confirm],
+  lane :build_pre_releases do |options|
+    android_build_prechecks(
+      skip_confirm: options[:skip_confirm],
       alpha: false,
       beta: true,
-      final: false)
-    android_build_preflight()
-    build_and_upload_beta(skip_prechecks: true, skip_confirm: options[:skip_confirm], create_release: options[:create_release])
+      final: false
+    )
+    android_build_preflight
+    build_and_upload_beta(
+      skip_prechecks: true,
+      skip_confirm: options[:skip_confirm],
+      create_release: options[:create_release]
+    )
   end
 
   #####################################################################################
@@ -255,13 +294,20 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane build_and_upload_beta create_release:true
   #####################################################################################
   desc "Builds and updates for distribution"
-  lane :build_and_upload_beta do | options |
-    android_build_prechecks(skip_confirm: options[:skip_confirm], beta: true) unless (options[:skip_prechecks])
-    android_build_preflight() unless (options[:skip_prechecks])
+  lane :build_and_upload_beta do |options|
+    android_build_prechecks(
+      skip_confirm: options[:skip_confirm],
+      beta: true
+    ) unless (options[:skip_prechecks])
+    android_build_preflight unless (options[:skip_prechecks])
 
     # Create the file names
-    version=android_get_release_version()
-    build_and_upload_apk(version: version, flavor:"Vanilla", upload_track:"beta")
+    version=android_get_release_version
+    build_and_upload_apk(
+      version: version,
+      flavor:"Vanilla",
+      upload_track:"beta"
+    )
 
     if (options[:create_release])
       create_gh_release(version: version)
@@ -282,16 +328,20 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane build_and_upload_release create_release:true
   #####################################################################################
   desc "Builds and updates for distribution"
-  lane :build_and_upload_release do | options |
+  lane :build_and_upload_release do |options|
     android_build_prechecks(skip_confirm: options[:skip_confirm],
       alpha: false,
       beta: false,
       final: true)
-    android_build_preflight()
+    android_build_preflight
 
     # Create the file names
-    version=android_get_release_version()
-    build_and_upload_apk(version: version, flavor:"Vanilla", upload_track:"production")
+    version = android_get_release_version
+    build_and_upload_apk(
+      version: version,
+      flavor:"Vanilla",
+      upload_track:"production"
+    )
 
     if (options[:create_release])
       create_gh_release(version: version)
@@ -325,14 +375,24 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
 
     delete_old_changelogs(build: options[:build_number])
     download_path=Dir.pwd + "/metadata/android"
-    gp_downloadmetadata(project_url: "https://translate.wordpress.com/projects/simplenote/android/release-notes/",
+    gp_downloadmetadata(
+      project_url: "https://translate.wordpress.com/projects/simplenote/android/release-notes/",
       target_files: files,
       locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress], hsh[:google_play] ]},
       source_locale: "en-US",
-      download_path: download_path)
+      download_path: download_path
+    )
 
-    android_create_xml_release_notes(download_path: download_path, build_number: "#{options[:build_number]}", locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress], hsh[:google_play] ]})
-    add_us_release_notes(relese_notes_path: download_path + "/release_notes.xml", version_name: options[:version])
+    android_create_xml_release_notes(
+      download_path: download_path,
+      build_number: "#{options[:build_number]}",
+      locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress],
+      hsh[:google_play] ]}
+    )
+    add_us_release_notes(
+      release_notes_path: download_path + "/release_notes.xml",
+      version_name: options[:version]
+    )
     sh("git add #{download_path} && (git diff-index --quiet HEAD || git commit -m \"Update metadata translations for #{options[:version]}\") && git push")
   end
 
@@ -365,7 +425,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   #  [skip_confirm:<skip confirm>]
   #####################################################################################
   desc "Builds an app apk and upload it"
-  lane :build_and_upload_apk do | options |
+  lane :build_and_upload_apk do |options|
     # Create the file names
     version=options[:version]
     apk_name="simplenote-#{version["name"]}.apk"
@@ -389,7 +449,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
       UI.message("Apk ready: #{apk_name}")
     end
 
-    version=android_get_release_version()
+    version = android_get_release_version
 
     project_root = File.dirname(File.expand_path(File.dirname(__FILE__)))
     apk_file_path = File.join(project_root, "#{build_dir}", "#{apk_name}")
@@ -506,7 +566,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   main_strings_path = "./Simplenote/src/main/res/values/strings.xml"
   update_strings_path = "./fastlane/resources/values/"
 
-  private_lane :delete_old_changelogs do | options |
+  private_lane :delete_old_changelogs do |options|
     Dir.glob("./metadata/android/*/").each do | folder |
       Dir["#{folder}changelogs/*"].each do | file |
         File.delete(file) if Integer(File.basename(file, ".*")) < Integer(options[:build]) rescue puts "Cannot delete file #{file}"
@@ -514,7 +574,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
     end
   end
 
-  private_lane :add_us_release_notes do | options |
+  private_lane :add_us_release_notes do |options|
     en_release_notes_path  = Dir.pwd + "/.." + "/Simplenote/metadata/release_notes.txt"
     File.open(options[:relese_notes_path], "a") { |f|
       f.puts("<en-US>")
@@ -524,7 +584,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
     }
   end
 
-  private_lane :update_strings_for_translation_automation do | options |
+  private_lane :update_strings_for_translation_automation do |options|
     sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path}")
     strings_path = File.join(update_strings_path, 'strings.xml')
     git_commit(
@@ -534,7 +594,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
     )
   end
 
-  private_lane :create_gh_release do | options |
+  private_lane :create_gh_release do |options|
     version = options[:version]
     apk_file_path = universal_apk_file_path(version)
     create_release(repository:GHHELPER_REPO,
