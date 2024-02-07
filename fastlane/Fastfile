@@ -537,7 +537,7 @@ platform :android do
   #####################################################################################
 
   desc 'Take screenshots in the app'
-  lane :take_screenshots do |_options|
+  lane :take_screenshots do
     package = 'com.automattic.simplenote.debug'
 
     # Reset the app in the emulator, just to avoid possible state related
