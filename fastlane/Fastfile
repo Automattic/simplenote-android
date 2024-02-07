@@ -436,7 +436,7 @@ platform :android do
     version = options[:version]
     apk_name = "simplenote-#{version['name']}.apk"
     orign_file = 'Simplenote-release.apk'
-    output_dir = 'Simplenote/build/outputs/apk/release/'
+    output_dir = File.join('Simplenote', 'build', 'outputs', 'apk', 'release')
     build_dir = 'build/'
     upload_track = options[:upload_track]
 
