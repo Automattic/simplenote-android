@@ -64,15 +64,15 @@ when :strip_pr_links
   formatted_lines = release_lines
                     .map { |l| l.gsub(/ \[.*\]$/, '') }
 when :keep_pr_links
-  formatted_lines = release_lines.
-                    # The PR "links" are not canonical markdown links. That's not a problem on
-                    # GitHub where they be automatically parsed into links to the corresponding
-                    # PR, but outside GitHub, such as in our internal posts that might be
-                    # confusing.
-                    #
-                    # It's probably best to update the convention in writing the release notes
-                    # but in the meantime let's compensate with more automation.
-                    map { |l| replace_pr_link_with_markdown_link(l) }
+  # The PR "links" are not canonical markdown links. That's not a problem on
+  # GitHub where they be automatically parsed into links to the corresponding
+  # PR, but outside GitHub, such as in our internal posts that might be
+  # confusing.
+  #
+  # It's probably best to update the convention in writing the release notes
+  # but in the meantime let's compensate with more automation.
+  formatted_lines = release_lines
+                    .map { |l| replace_pr_link_with_markdown_link(l) }
 end
 
 # It would be good to either add overriding of the file where the parsed
