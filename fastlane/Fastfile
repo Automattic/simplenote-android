@@ -1,57 +1,57 @@
+# frozen_string_literal: true
+
 default_platform(:android)
 fastlane_require 'dotenv'
 
-unless FastlaneCore::Helper.bundler?
-  UI.user_error!('Please run fastlane via `bundle exec`')
-end
+UI.user_error!('Please run fastlane via `bundle exec`') unless FastlaneCore::Helper.bundler?
 
 USER_ENV_FILE_PATH = File.join(Dir.home, '.simplenoteandroid-env.default')
-INSTALLABLE_BUILD_DOMAIN = 'https://d2twmm2nzpx3bg.cloudfront.net'
+PROTOTYPE_BUILD_DOMAIN = 'https://d2twmm2nzpx3bg.cloudfront.net'
 
 before_all do
   # Check that the env file exists
-  unless is_ci || File.file?(USER_ENV_FILE_PATH)
-    UI.user_error!("#{USER_ENV_FILE_PATH} not found: Please copy env.example to #{USER_ENV_FILE_PATH} and fill in the values")
-  end
+  UI.user_error!("#{USER_ENV_FILE_PATH} not found: Please copy env.example to #{USER_ENV_FILE_PATH} and fill in the values") unless is_ci || File.file?(USER_ENV_FILE_PATH)
 end
 
-platform :android do
-########################################################################
-# Environment
-########################################################################
+# Constants
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
-
-Dotenv.load(USER_ENV_FILE_PATH)
-ENV[GHHELPER_REPO="automattic/simplenote-android"]
-ENV['PROJECT_ROOT_FOLDER'] = File.dirname(File.expand_path(__dir__)) + '/'
-ENV["PROJECT_NAME"]="Simplenote"
-ENV["validate_translations"]="buildRelease"
-ENV['FL_RELEASE_TOOLKIT_DEFAULT_BRANCH'] = 'trunk'
+GITHUB_REPO = 'automattic/simplenote-android'
+DEFAULT_BRANCH = 'trunk'
 
 SUPPORTED_LOCALES = [
-  { glotpress: "ar", android: "ar", google_play: "ar",  promo_config: {}},
-  { glotpress: "de", android: "de", google_play: "de-DE",  promo_config: {} },
-  { glotpress: "es", android: "es", google_play: "es-ES",  promo_config: {} },
-  { glotpress: "fr", android: "fr", google_play: "fr-FR",  promo_config: {} },
-  { glotpress: "he", android: "he", google_play: "iw-IL",  promo_config: {} },
-  { glotpress: "id", android: "id", google_play: "id",  promo_config: {} },
-  { glotpress: "it", android: "it", google_play: "it-IT",  promo_config: {} },
-  { glotpress: "ja", android: "ja", google_play: "ja-JP",  promo_config: {} },
-  { glotpress: "ko", android: "ko", google_play: "ko-KR",  promo_config: {} },
-  { glotpress: "nl", android: "nl", google_play: "nl-NL",  promo_config: {} },
-  { glotpress: "pt-br", android: "pt-rBR", google_play: "pt-BR",  promo_config: {} },
-  { glotpress: "ru", android: "ru", google_play: "ru-RU",  promo_config: {} },
-  { glotpress: "sv", android: "sv", google_play: "sv-SE",  promo_config: {} },
-  { glotpress: "tr", android: "tr", google_play: "tr-TR",  promo_config: {} },
-  { glotpress: "zh-cn", android: "zh-rCN", google_play: "zh-CN",  promo_config: {} },
-  { glotpress: "zh-tw", android: "zh-rTW", google_play: "zh-TW",  promo_config: {} },
+  { glotpress: 'ar', android: 'ar', google_play: 'ar', promo_config: {} },
+  { glotpress: 'de', android: 'de', google_play: 'de-DE',  promo_config: {} },
+  { glotpress: 'es', android: 'es', google_play: 'es-ES',  promo_config: {} },
+  { glotpress: 'fr', android: 'fr', google_play: 'fr-FR',  promo_config: {} },
+  { glotpress: 'he', android: 'he', google_play: 'iw-IL',  promo_config: {} },
+  { glotpress: 'id', android: 'id', google_play: 'id', promo_config: {} },
+  { glotpress: 'it', android: 'it', google_play: 'it-IT',  promo_config: {} },
+  { glotpress: 'ja', android: 'ja', google_play: 'ja-JP',  promo_config: {} },
+  { glotpress: 'ko', android: 'ko', google_play: 'ko-KR',  promo_config: {} },
+  { glotpress: 'nl', android: 'nl', google_play: 'nl-NL',  promo_config: {} },
+  { glotpress: 'pt-br', android: 'pt-rBR', google_play: 'pt-BR', promo_config: {} },
+  { glotpress: 'ru', android: 'ru', google_play: 'ru-RU',  promo_config: {} },
+  { glotpress: 'sv', android: 'sv', google_play: 'sv-SE',  promo_config: {} },
+  { glotpress: 'tr', android: 'tr', google_play: 'tr-TR',  promo_config: {} },
+  { glotpress: 'zh-cn', android: 'zh-rCN', google_play: 'zh-CN',  promo_config: {} },
+  { glotpress: 'zh-tw', android: 'zh-rTW', google_play: 'zh-TW',  promo_config: {} }
 ].freeze
 
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
 
-########################################################################
-# Release Lanes
-########################################################################
+platform :android do
+  ########################################################################
+  # Environment
+  ########################################################################
+  Dotenv.load(USER_ENV_FILE_PATH)
+  ENV['PROJECT_ROOT_FOLDER'] = "#{File.dirname(File.expand_path(__dir__))}/"
+  ENV['PROJECT_NAME'] = 'Simplenote'
+  ENV['validate_translations'] = 'buildRelease'
+  ENV['FL_RELEASE_TOOLKIT_DEFAULT_BRANCH'] = 'trunk'
+
+  ########################################################################
+  # Release Lanes
+  ########################################################################
   #####################################################################################
   # code_freeze
   # -----------------------------------------------------------------------------------
@@ -65,30 +65,42 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane code_freeze update_release_branch_version:false
   # bundle exec fastlane code_freeze skip_confirm:true
   #####################################################################################
-  desc "Creates a new release branch from the current trunk"
-  lane :code_freeze do | options |
-    old_version = android_codefreeze_prechecks(options)
+  desc 'Creates a new release branch from the current trunk'
+  lane :code_freeze do |options|
+    android_codefreeze_prechecks(options)
 
-    android_bump_version_release()
-    new_version = android_get_app_version()
-    extract_release_notes_for_version(version: new_version,
+    android_bump_version_release
+    new_version = android_get_app_version
+    extract_release_notes_for_version(
+      version: new_version,
       release_notes_file_path: File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt'),
-      extracted_notes_file_path:release_notes_path)
+      extracted_notes_file_path: release_notes_path
+    )
     android_update_release_notes(new_version: new_version)
 
-    update_strings_for_translation_automation()
+    update_strings_for_translation_automation
 
     unless options[:skip_confirm] || UI.confirm('Ready to push changes to remote to let the automation configure it on GitHub?')
       UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.")
       next
     end
 
-    push_to_git_remote(tags: false, set_upstream: true)
+    push_to_git_remote(
+      tags: false,
+      set_upstream: true
+    )
 
-    android_tag_build()
+    android_tag_build
 
-    setbranchprotection(repository:GHHELPER_REPO, branch: "release/#{new_version}")
-    setfrozentag(repository:GHHELPER_REPO, milestone: new_version)
+    copy_branch_protection(
+      repository: GITHUB_REPO,
+      from_branch: DEFAULT_BRANCH,
+      to_branch: "release/#{new_version}"
+    )
+    setfrozentag(
+      repository: GITHUB_REPO,
+      milestone: new_version
+    )
   end
 
   #####################################################################################
@@ -103,20 +115,22 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # Example:
   # fastlane update_appstore_strings version:10.3
   #####################################################################################
-  desc "Updates the PlayStoreStrings.po file"
+  desc 'Updates the PlayStoreStrings.po file'
   lane :update_appstore_strings do |options|
-    prj_folder = Dir.pwd + "/.."
+    prj_folder = "#{Dir.pwd}/.."
 
     files = {
-      release_note: prj_folder + "/Simplenote/metadata/release_notes.txt",
-      play_store_promo: prj_folder + "/Simplenote/metadata/short_description.txt",
-      play_store_desc: prj_folder + "/Simplenote/metadata/full_description.txt",
-      play_store_app_title: prj_folder + "/Simplenote/metadata/title.txt"
+      release_note: File.join(prj_folder, 'Simplenote', 'metadata', 'release_notes.txt'),
+      play_store_promo: File.join(prj_folder, 'Simplenote', 'metadata', 'short_description.txt'),
+      play_store_desc: File.join(prj_folder, 'Simplenote', 'metadata', 'full_description.txt'),
+      play_store_app_title: File.join(prj_folder, 'Simplenote', 'metadata', 'title.txt')
     }
 
-    an_update_metadata_source(po_file_path: prj_folder + "/Simplenote/metadata/PlayStoreStrings.pot",
+    an_update_metadata_source(
+      po_file_path: File.join(prj_folder, 'Simplenote', 'metadata', 'PlayStoreStrings.pot'),
       source_files: files,
-      release_version: options[:version])
+      release_version: options[:version]
+    )
   end
 
   #####################################################################################
@@ -135,11 +149,11 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane new_beta_release skip_confirm:true
   # bundle exec fastlane new_beta_release base_version:10.6.1
   #####################################################################################
-  desc "Updates a release branch for a new beta release"
-  lane :new_beta_release do | options |
+  desc 'Updates a release branch for a new beta release'
+  lane :new_beta_release do |options|
     android_betabuild_prechecks(options)
-    android_bump_version_beta()
-    android_tag_build()
+    android_bump_version_beta
+    android_tag_build
   end
 
   #####################################################################################
@@ -154,10 +168,17 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane new_hotfix_release version_name:10.6.1
   # bundle exec fastlane new_hotfix_release skip_confirm:true version_name:10.6.1
   #####################################################################################
-  desc "Creates a new hotfix branch from the given tag"
-  lane :new_hotfix_release do | options |
-    prev_ver = android_hotfix_prechecks(version_name: options[:version_name], skip_confirm: options[:skip_confirm])
-    android_bump_version_hotfix(previous_version_name: prev_ver, version_name: options[:version_name], version_code: options[:version_code])
+  desc 'Creates a new hotfix branch from the given tag'
+  lane :new_hotfix_release do |options|
+    prev_ver = android_hotfix_prechecks(
+      version_name: options[:version_name],
+      skip_confirm: options[:skip_confirm]
+    )
+    android_bump_version_hotfix(
+      previous_version_name: prev_ver,
+      version_name: options[:version_name],
+      version_code: options[:version_code]
+    )
   end
 
   #####################################################################################
@@ -171,8 +192,8 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # Example:
   # bundle exec fastlane finalize_hotfix_release
   #####################################################################################
-  desc "Finalizes a hotfix release by tagging the build"
-  lane :finalize_hotfix_release do | options |
+  desc 'Finalizes a hotfix release by tagging the build'
+  lane :finalize_hotfix_release do
     android_tag_build(tag_alpha: false)
   end
 
@@ -188,7 +209,7 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane finalize_release
   # bundle exec fastlane finalize_release skip_confirm:true
   #####################################################################################
-  desc "Updates store metadata and runs the release checks"
+  desc 'Updates store metadata and runs the release checks'
   lane :finalize_release do |options|
     UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix
 
@@ -207,15 +228,28 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
     )
 
     download_translations(options)
-    android_bump_version_final_release()
+    android_bump_version_final_release
 
-    version = android_get_release_version()
-    download_metadata_strings(version: version["name"], build_number: version["code"])
+    version = android_get_release_version
+    download_metadata_strings(
+      version: version['name'],
+      build_number: version['code']
+    )
 
     # Wrap up
-    removebranchprotection(repository:GHHELPER_REPO, branch: "release/#{version["name"]}")
-    setfrozentag(repository:GHHELPER_REPO, milestone: version["name"], freeze: false)
-    close_milestone(repository:GHHELPER_REPO, milestone: version["name"])
+    remove_branch_protection(
+      repository: GITHUB_REPO,
+      branch: "release/#{version['name']}"
+    )
+    setfrozentag(
+      repository: GITHUB_REPO,
+      milestone: version['name'],
+      freeze: false
+    )
+    close_milestone(
+      repository: GITHUB_REPO,
+      milestone: version['name']
+    )
   end
 
   #####################################################################################
@@ -231,14 +265,20 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane build_pre_releases skip_confirm:true
   # bundle exec fastlane build_pre_releases create_release:true
   #####################################################################################
-  desc "Builds and updates for distribution"
-  lane :build_pre_releases do | options |
-    android_build_prechecks(skip_confirm: options[:skip_confirm],
+  desc 'Builds and updates for distribution'
+  lane :build_pre_releases do |options|
+    android_build_prechecks(
+      skip_confirm: options[:skip_confirm],
       alpha: false,
       beta: true,
-      final: false)
-    android_build_preflight()
-    build_and_upload_beta(skip_prechecks: true, skip_confirm: options[:skip_confirm], create_release: options[:create_release])
+      final: false
+    )
+    android_build_preflight
+    build_and_upload_beta(
+      skip_prechecks: true,
+      skip_confirm: options[:skip_confirm],
+      create_release: options[:create_release]
+    )
   end
 
   #####################################################################################
@@ -254,18 +294,25 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane build_and_upload_beta skip_confirm:true
   # bundle exec fastlane build_and_upload_beta create_release:true
   #####################################################################################
-  desc "Builds and updates for distribution"
-  lane :build_and_upload_beta do | options |
-    android_build_prechecks(skip_confirm: options[:skip_confirm], beta: true) unless (options[:skip_prechecks])
-    android_build_preflight() unless (options[:skip_prechecks])
+  desc 'Builds and updates for distribution'
+  lane :build_and_upload_beta do |options|
+    unless options[:skip_prechecks]
+      android_build_prechecks(
+        skip_confirm: options[:skip_confirm],
+        beta: true
+      )
+      android_build_preflight
+    end
 
     # Create the file names
-    version=android_get_release_version()
-    build_and_upload_apk(version: version, flavor:"Vanilla", upload_track:"beta")
+    version = android_get_release_version
+    build_and_upload_apk(
+      version: version,
+      flavor: 'Vanilla',
+      upload_track: 'beta'
+    )
 
-    if (options[:create_release])
-      create_gh_release(version: version)
-    end
+    create_gh_release(version: version) if options[:create_release]
   end
 
   #####################################################################################
@@ -281,26 +328,30 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # bundle exec fastlane build_and_upload_release skip_confirm:true
   # bundle exec fastlane build_and_upload_release create_release:true
   #####################################################################################
-  desc "Builds and updates for distribution"
-  lane :build_and_upload_release do | options |
-    android_build_prechecks(skip_confirm: options[:skip_confirm],
+  desc 'Builds and updates for distribution'
+  lane :build_and_upload_release do |options|
+    android_build_prechecks(
+      skip_confirm: options[:skip_confirm],
       alpha: false,
       beta: false,
-      final: true)
-    android_build_preflight()
+      final: true
+    )
+    android_build_preflight
 
     # Create the file names
-    version=android_get_release_version()
-    build_and_upload_apk(version: version, flavor:"Vanilla", upload_track:"production")
+    version = android_get_release_version
+    build_and_upload_apk(
+      version: version,
+      flavor: 'Vanilla',
+      upload_track: 'production'
+    )
 
-    if (options[:create_release])
-      create_gh_release(version: version)
-    end
+    create_gh_release(version: version) if options[:create_release]
   end
 
-########################################################################
-# Helper Lanes
-########################################################################
+  ########################################################################
+  # Helper Lanes
+  ########################################################################
   #####################################################################################
   # download_metadata_string
   # -----------------------------------------------------------------------------------
@@ -313,23 +364,25 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # Example:
   # fastlane download_metadata_string build_number:573 version:10.3
   #####################################################################################
-  desc "Downloads translated metadata from GlotPress"
+  desc 'Downloads translated metadata from GlotPress'
   lane :download_metadata_strings do |options|
     values = options[:version].split('.')
     files = {
-      "release_note_#{values[0].to_s.rjust(2, "0")}#{values[1]}" => {desc: "changelogs/#{options[:build_number]}.txt", max_size: 0},
-      play_store_promo: {desc:"short_description.txt", max_size: 80},
-      play_store_desc: {desc:"full_description.txt", max_size: 0},
-      play_store_app_title: {desc:"title.txt", max_size: 50}
+      "release_note_#{values[0].to_s.rjust(2, '0')}#{values[1]}" => { desc: "changelogs/#{options[:build_number]}.txt", max_size: 0 },
+      play_store_promo: { desc: 'short_description.txt', max_size: 80 },
+      play_store_desc: { desc: 'full_description.txt', max_size: 0 },
+      play_store_app_title: { desc: 'title.txt', max_size: 50 }
     }
 
     delete_old_changelogs(build: options[:build_number])
-    download_path=Dir.pwd + "/metadata/android"
-    gp_downloadmetadata(project_url: "https://translate.wordpress.com/projects/simplenote/android/release-notes/",
+    download_path = "#{Dir.pwd}/metadata/android"
+    gp_downloadmetadata(
+      project_url: 'https://translate.wordpress.com/projects/simplenote/android/release-notes/',
       target_files: files,
-      locales: SUPPORTED_LOCALES.map {| hsh | [ hsh[:glotpress], hsh[:google_play] ]},
-      source_locale: "en-US",
-      download_path: download_path)
+      locales: SUPPORTED_LOCALES.map { |hsh| [hsh[:glotpress], hsh[:google_play]] },
+      source_locale: 'en-US',
+      download_path: download_path
+    )
 
     android_create_xml_release_notes(
       download_path: download_path,
@@ -359,8 +412,8 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   # Usage:
   # bundle exec fastlane download_translations
   #####################################################################################
-  desc "Download the latest app translations from GlotPress and update the strings.xml files accordingly"
-  lane :download_translations do |options|
+  desc 'Download the latest app translations from GlotPress and update the strings.xml files accordingly'
+  lane :download_translations do
     android_download_translations(
       res_dir: File.join('Simplenote', 'src', 'main', 'res'),
       glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
@@ -379,68 +432,75 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   #  [updload_track:<upload_track: [production | beta]>]
   #  [skip_confirm:<skip confirm>]
   #####################################################################################
-  desc "Builds an app apk and upload it"
-  lane :build_and_upload_apk do | options |
+  desc 'Builds an app apk and upload it'
+  lane :build_and_upload_apk do |options|
     # Create the file names
-    version=options[:version]
-    apk_name="simplenote-#{version["name"]}.apk"
-    orign_file="Simplenote-release.apk"
-    output_dir="Simplenote/build/outputs/apk/release/"
-    build_dir="build/"
-    upload_track=options[:upload_track]
+    version = options[:version]
+    apk_name = "simplenote-#{version['name']}.apk"
+    orign_file = 'Simplenote-release.apk'
+    output_dir = File.join('Simplenote', 'build', 'outputs', 'apk', 'release')
+    build_dir = 'build/'
+    upload_track = options[:upload_track]
 
     # Build
-    Dir.chdir(".") do
-      UI.message("Cleaning branch...")
-      gradle(task: "clean")
-      UI.message("Running lint...")
-      gradle(task: "lint", build_type: "Release")
-      UI.message("Building #{version["name"]} / #{version["code"]} - #{apk_name}...")
-      gradle(task: "assemble", build_type: "Release")
+    Dir.chdir('.') do
+      UI.message('Cleaning branch...')
+      gradle(task: 'clean')
+      UI.message('Running lint...')
+      gradle(task: 'lint', build_type: 'Release')
+      UI.message("Building #{version['name']} / #{version['code']} - #{apk_name}...")
+      gradle(task: 'assemble', build_type: 'Release')
     end
 
-    Dir.chdir("..") do
+    Dir.chdir('..') do
       sh("cp -v #{output_dir}#{orign_file} #{build_dir}#{apk_name}")
       UI.message("Apk ready: #{apk_name}")
     end
 
-    version=android_get_release_version()
+    version = android_get_release_version
 
-    project_root = File.dirname(File.expand_path(File.dirname(__FILE__)))
-    apk_file_path = File.join(project_root, "#{build_dir}", "#{apk_name}")
+    project_root = File.dirname(__dir__)
+    apk_file_path = File.join(project_root, build_dir.to_s, apk_name.to_s)
 
     UI.error("Unable to find a build artifact at #{apk_file_path}") unless File.exist? apk_file_path
 
-    upload_to_play_store(
-      package_name: 'com.automattic.simplenote',
-      apk: apk_file_path,
-      track: upload_track,
-      release_status: 'draft',
-      skip_upload_metadata: true,
-      skip_upload_changelogs: true,
-      skip_upload_images: true,
-      skip_upload_screenshots: true,
-      json_key: UPLOAD_TO_PLAY_STORE_JSON_KEY,
-    ) unless upload_track.blank?
+    unless upload_track.blank?
+      upload_to_play_store(
+        package_name: 'com.automattic.simplenote',
+        apk: apk_file_path,
+        track: upload_track,
+        release_status: 'draft',
+        skip_upload_metadata: true,
+        skip_upload_changelogs: true,
+        skip_upload_images: true,
+        skip_upload_screenshots: true,
+        json_key: UPLOAD_TO_PLAY_STORE_JSON_KEY
+      )
+    end
 
     apk_file_path
   end
 
   #####################################################################################
-  # build_and_upload_installable_build
+  # build_and_upload_prototype_build
   # -----------------------------------------------------------------------------------
-  # Build an Installable Build and make it available for download
+  # Build a Prototype Build and make it available for download
   # -----------------------------------------------------------------------------------
   # Usage:
-  # bundle exec fastlane build_and_upload_installable_build
+  # bundle exec fastlane build_and_upload_prototype_build
   #####################################################################################
-  desc 'Build an Installable Build and make it available for download'
-  lane :build_and_upload_installable_build do
+  desc 'Build a Prototype Build and make it available for download'
+  lane :build_and_upload_prototype_build do
     UI.user_error!("'BUILDKITE_ARTIFACTS_S3_BUCKET' must be defined as an environment variable.") unless ENV['BUILDKITE_ARTIFACTS_S3_BUCKET']
 
-    gradle(task: 'assembleDebug')
+    prototype_build_type = 'Debug'
 
-    filename = "simplenote-android-installable-build-#{generate_installable_build_number}.apk"
+    gradle(
+      task: 'assemble',
+      build_type: prototype_build_type
+    )
+
+    filename = "simplenote-android-prototype-build-#{generate_prototype_build_number}.apk"
 
     upload_path = upload_to_s3(
       bucket: 'a8c-apps-public-artifacts',
@@ -450,38 +510,45 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
 
     return if ENV['BUILDKITE_PULL_REQUEST'].nil?
 
-    install_url = "#{INSTALLABLE_BUILD_DOMAIN}/#{upload_path}"
-    qr_code_url = "https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=#{CGI.escape(install_url)}&choe=UTF-8"
-    comment_body = "You can test the changes on this Pull Request by <a href='#{install_url}'>downloading an installable build (#{filename})</a>, or scanning this QR code:<br><a href='#{install_url}'><img src='#{qr_code_url}' width='250' height='250' /></a>"
+    install_url = "#{PROTOTYPE_BUILD_DOMAIN}/#{upload_path}"
 
-    comment_on_pr(
-      project: GHHELPER_REPO,
-      pr_number: Integer(ENV['BUILDKITE_PULL_REQUEST']),
-      reuse_identifier: "simplenote-installable-build-link",
-      body: comment_body
-    )
+    unless ENV['BUILDKITE_PULL_REQUEST'].nil?
+      comment_body = prototype_build_details_comment(
+        app_display_name: 'Simplenote Android',
+        download_url: install_url,
+        metadata: {
+          'Build Type': prototype_build_type
+        }
+      )
+
+      comment_on_pr(
+        project: GITHUB_REPO,
+        pr_number: Integer(ENV.fetch('BUILDKITE_PULL_REQUEST', nil)),
+        reuse_identifier: 'simplenote-prototype-build-link',
+        body: comment_body
+      )
+    end
 
     if ENV['BUILDKITE']
-      message = "Simplenote Installable Build: [#{filename}](#{install_url})"
-      sh('buildkite-agent', 'annotate', message, '--style', 'info', '--context', "installable-build")
+      message = "Simplenote Android Prototype Build: [#{filename}](#{install_url})"
+      sh('buildkite-agent', 'annotate', message, '--style', 'info', '--context', 'prototype-build')
     end
   end
-
 
   #####################################################################################
   # Screenshots lanes
   #####################################################################################
 
-  desc "Take screenshots in the app"
-  lane :take_screenshots do |options|
-    package = "com.automattic.simplenote.debug"
+  desc 'Take screenshots in the app'
+  lane :take_screenshots do
+    package = 'com.automattic.simplenote.debug'
 
     # Reset the app in the emulator, just to avoid possible state related
     # issues
     begin
       adb(command: "shell pm clear #{package}")
-    rescue
-      UI.message("Failed to reset app data on emulator. This can happen when the app is not installed yet.")
+    rescue StandardError
+      UI.message('Failed to reset app data on emulator. This can happen when the app is not installed yet.')
     end
 
     # We use the screenshots build type for the app APK, which allows us to not
@@ -489,19 +556,19 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
     # deviate from the release one. For the test APK though, we still use the
     # debug build type, as it's the only testable one, and there's no need to
     # make a dedicated one for the screenshots.
-    gradle(task: "assemble", build_type: "Screenshots")
-    gradle(task: "assemble", build_type: "DebugAndroidTest")
+    gradle(task: 'assemble', build_type: 'Screenshots')
+    gradle(task: 'assemble', build_type: 'DebugAndroidTest')
 
     capture_android_screenshots(
-      locales: ["en-US"],
+      locales: ['en-US'],
       output_directory: screenshots_directory,
       clear_previous_screenshots: false,
       app_package_name: package,
-      app_apk_path: "Simplenote/build/outputs/apk/screenshots/Simplenote-screenshots.apk",
-      tests_apk_path: "Simplenote/build/outputs/apk/androidTest/debug/Simplenote-debug-androidTest.apk",
+      app_apk_path: File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'build', 'outputs', 'apk', 'screenshots', 'Simplenote-screenshots.apk'),
+      tests_apk_path: File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'build', 'outputs', 'apk', 'androidTest', 'debug', 'Simplenote-debug-androidTest.apk'),
       # Because the screenshot tests are together with other UI tests, we need
       # to specify to run only them and not all of the others.
-      use_tests_in_classes: "com.automattic.simplenote.screenshots.ScreenshotTest",
+      use_tests_in_classes: 'com.automattic.simplenote.screenshots.ScreenshotTest',
       use_timestamp_suffix: false,
       # Need to use this in order to get access to the screenshots on the
       # emulator. Also note that you might need to run on a Google API
@@ -512,34 +579,36 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   end
 
   def screenshots_directory
-    File.join(Dir.pwd, "screenshots")
+    File.join(Dir.pwd, 'screenshots')
   end
 
   #####################################################################################
   # Private lanes
   #####################################################################################
-  main_strings_path = "./Simplenote/src/main/res/values/strings.xml"
-  update_strings_path = "./fastlane/resources/values/"
+  main_strings_path = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'src', 'main', 'res', 'values', 'strings.xml')
+  update_strings_path = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'resources', 'values')
 
-  private_lane :delete_old_changelogs do | options |
-    Dir.glob("./metadata/android/*/").each do | folder |
-      Dir["#{folder}changelogs/*"].each do | file |
-        File.delete(file) if Integer(File.basename(file, ".*")) < Integer(options[:build]) rescue puts "Cannot delete file #{file}"
+  private_lane :delete_old_changelogs do |options|
+    Dir.glob('./metadata/android/*/').each do |folder|
+      Dir["#{folder}changelogs/*"].each do |file|
+        File.delete(file) if Integer(File.basename(file, '.*')) < Integer(options[:build])
+      rescue StandardError
+        puts "Cannot delete file #{file}"
       end
     end
   end
 
-  private_lane :add_us_release_notes do | options |
-    en_release_notes_path  = Dir.pwd + "/.." + "/Simplenote/metadata/release_notes.txt"
-    File.open(options[:release_notes_path], "a") { |f|
-      f.puts("<en-US>")
+  private_lane :add_us_release_notes do |options|
+    en_release_notes_path = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'metadata', 'release_notes.txt')
+    File.open(options[:release_notes_path], 'a') do |f|
+      f.puts('<en-US>')
       f.puts("#{options[:version_name]}:")
-      f.puts(File.open(en_release_notes_path).read)
-      f.puts("</en-US>")
-    }
+      f.puts(File.read(en_release_notes_path))
+      f.puts('</en-US>')
+    end
   end
 
-  private_lane :update_strings_for_translation_automation do | options |
+  private_lane :update_strings_for_translation_automation do
     sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path}")
     strings_path = File.join(update_strings_path, 'strings.xml')
     git_commit(
@@ -549,14 +618,13 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
     )
   end
 
-  private_lane :create_gh_release do | options |
+  private_lane :create_gh_release do |options|
     version = options[:version]
     apk_file_path = universal_apk_file_path(version)
-    create_release(repository:GHHELPER_REPO,
-      version: version["name"],
-      release_notes_file_path:release_notes_path,
-      release_assets:"#{apk_file_path}"
-    )
+    create_release(repository: GITHUB_REPO,
+                   version: version['name'],
+                   release_notes_file_path: release_notes_path,
+                   release_assets: apk_file_path.to_s)
   end
 
   #####################################################################################
@@ -567,22 +635,22 @@ UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files
   end
 
   def universal_apk_name(version)
-    "simplenote-#{version["name"]}.apk"
+    "simplenote-#{version['name']}.apk"
   end
 
   def universal_apk_file_path(version)
-    project_root = File.dirname(File.expand_path(File.dirname(__FILE__)))
-    File.join(project_root, "build", universal_apk_name(version))
+    project_root = File.dirname(__dir__)
+    File.join(project_root, 'build', universal_apk_name(version))
   end
 
   # This function is Buildkite-specific
-  def generate_installable_build_number
+  def generate_prototype_build_number
     if ENV['BUILDKITE']
-      commit = ENV['BUILDKITE_COMMIT'][0, 7]
+      commit = ENV.fetch('BUILDKITE_COMMIT', nil)[0, 7]
       branch = ENV['BUILDKITE_BRANCH'].parameterize
-      pr_num = ENV['BUILDKITE_PULL_REQUEST']
+      pr_num = ENV.fetch('BUILDKITE_PULL_REQUEST', nil)
 
-      pr_num == 'false' ? "#{branch}-#{commit}" : "pr#{pr_num}-#{commit}-#{ENV['BUILDKITE_JOB_ID']}"
+      pr_num == 'false' ? "#{branch}-#{commit}" : "pr#{pr_num}-#{commit}-#{ENV.fetch('BUILDKITE_JOB_ID', nil)}"
     else
       repo = Git.open(PROJECT_ROOT_FOLDER)
       commit = repo.current_branch.parameterize
