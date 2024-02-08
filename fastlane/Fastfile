@@ -16,6 +16,7 @@ end
 # Constants
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 GITHUB_REPO = 'automattic/simplenote-android'
+DEFAULT_BRANCH = 'trunk'
 
 SUPPORTED_LOCALES = [
   { glotpress: 'ar', android: 'ar', google_play: 'ar', promo_config: {} },
@@ -91,9 +92,10 @@ platform :android do
 
     android_tag_build
 
-    setbranchprotection(
+    copy_branch_protection(
       repository: GITHUB_REPO,
-      branch: "release/#{new_version}"
+      from_branch: DEFAULT_BRANCH,
+      to_branch: "release/#{new_version}"
     )
     setfrozentag(
       repository: GITHUB_REPO,
@@ -235,7 +237,7 @@ platform :android do
     )
 
     # Wrap up
-    removebranchprotection(
+    remove_branch_protection(
       repository: GITHUB_REPO,
       branch: "release/#{version['name']}"
     )
