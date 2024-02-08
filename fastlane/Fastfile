@@ -92,11 +92,11 @@ platform :android do
     android_tag_build
 
     setbranchprotection(
-      repository: GHHELPER_REPO,
+      repository: GITHUB_REPO,
       branch: "release/#{new_version}"
     )
     setfrozentag(
-      repository: GHHELPER_REPO,
+      repository: GITHUB_REPO,
       milestone: new_version
     )
   end
@@ -236,16 +236,16 @@ platform :android do
 
     # Wrap up
     removebranchprotection(
-      repository: GHHELPER_REPO,
+      repository: GITHUB_REPO,
       branch: "release/#{version['name']}"
     )
     setfrozentag(
-      repository: GHHELPER_REPO,
+      repository: GITHUB_REPO,
       milestone: version['name'],
       freeze: false
     )
     close_milestone(
-      repository: GHHELPER_REPO,
+      repository: GITHUB_REPO,
       milestone: version['name']
     )
   end
@@ -618,7 +618,7 @@ platform :android do
   private_lane :create_gh_release do |options|
     version = options[:version]
     apk_file_path = universal_apk_file_path(version)
-    create_release(repository: GHHELPER_REPO,
+    create_release(repository: GITHUB_REPO,
                    version: version['name'],
                    release_notes_file_path: release_notes_path,
                    release_assets: apk_file_path.to_s)
