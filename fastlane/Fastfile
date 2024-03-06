@@ -67,9 +67,10 @@ platform :android do
   #####################################################################################
   desc 'Creates a new release branch from the current trunk'
   lane :code_freeze do |options|
-    android_codefreeze_prechecks(options)
+    build_gradle_path = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'build.gradle')
+    android_codefreeze_prechecks(options.merge(build_gradle_path: build_gradle_path))
 
-    android_bump_version_release
+    android_bump_version_release(build_gradle_path: build_gradle_path)
     new_version = android_get_app_version
     extract_release_notes_for_version(
       version: new_version,
