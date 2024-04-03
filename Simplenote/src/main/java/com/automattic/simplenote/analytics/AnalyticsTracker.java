@@ -172,12 +172,7 @@ public final class AnalyticsTracker {
         VERIFICATION_CHANGE_EMAIL_BUTTON_TAPPED,
         VERIFICATION_RESEND_EMAIL_BUTTON_TAPPED,
         VERIFICATION_DISMISSED,
-        SETTINGS_SEARCH_SORT_MODE,
-        IAP_MONTHLY_BUTTON_TAPPED,
-        IAP_YEARLY_BUTTON_TAPPED,
-        IAP_UNKNOWN_BUTTON_TAPPED, // for other subscription duration options from Play Store not specifically handled in the client
-        IAP_PURCHASE_COMPLETED,
-        IAP_PLANS_DIALOG_DISMISSED
+        SETTINGS_SEARCH_SORT_MODE
     }
 
     public interface Tracker {
