@@ -17,13 +17,17 @@ import static com.automattic.simplenote.utils.PrefUtils.DATE_MODIFIED_DESCENDING
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -237,6 +241,24 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         });
 
+        final SwitchPreferenceCompat sustainerIconPreference = findPreference("pref_key_sustainer_icon");
+        try {
+            if (
+                    mPreferencesBucket.get(PREFERENCES_OBJECT_KEY).getCurrentSubscriptionPlatform() != null &&
+                    Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+            ) {
+                sustainerIconPreference.setVisible(true);
+                sustainerIconPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                    toggleSustainerAppIcon((boolean) newValue);
+
+                    return true;
+                });
+            }
+        } catch (BucketObjectMissingException e) {
+            sustainerIconPreference.setVisible(false);
+        }
+
+
         final Preference membershipPreference = findPreference("pref_key_membership");
         membershipPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -345,6 +367,30 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 return true;
             }
         });
+    }
+
+    private void toggleSustainerAppIcon(boolean enabled) {
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
+
+        PackageManager packageManager = context.getPackageManager();
+        String componentPackage = BuildConfig.DEBUG ? "com.automattic.simplenote.debug" : "com.automattic.simplenote";
+
+        ComponentName mainComponent = new ComponentName(componentPackage, "com.automattic.simplenote.NotesActivity");
+        packageManager.setComponentEnabledSetting(
+                mainComponent,
+                enabled ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED : PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP
+        );
+
+        ComponentName sustainerComponent = new ComponentName(componentPackage, "com.automattic.simplenote.NotesActivitySustainerAlias");
+        packageManager.setComponentEnabledSetting(
+                sustainerComponent,
+                enabled ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED : PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP
+        );
     }
 
     private void showProgressDialogDeleteAccount() {

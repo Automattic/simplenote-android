@@ -59,6 +59,13 @@
             tools:summary="@string/style_classic">
         </Preference>
 
+        <SwitchPreferenceCompat
+            android:key="pref_key_sustainer_icon"
+            android:defaultValue="false"
+            android:title="@string/sustainer_app_icon"
+            app:isPreferenceVisible="false">
+        </SwitchPreferenceCompat>
+
     </PreferenceCategory>
 
     <PreferenceCategory

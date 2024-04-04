@@ -123,6 +123,7 @@
     <string name="detect_links">Detect links</string>
     <string name="share_analytics">Share analytics</string>
     <string name="share_analytics_summary">Help us improve Simplenote by sharing usage data with our analytics tool. %1$sLearn more%2$s</string>
+    <string name="sustainer_app_icon">Sustainer app icon</string>
 
     <!-- Tags -->
     <string name="add_tag">Add Tag</string>

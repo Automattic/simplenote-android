@@ -41,7 +41,7 @@
         </activity>
 
         <activity
-            android:name="com.automattic.simplenote.NotesActivity"
+            android:name=".NotesActivity"
             android:configChanges="screenSize|smallestScreenSize|orientation|screenLayout"
             android:label="@string/app_launcher_name"
             android:resizeableActivity="true"
@@ -92,6 +92,40 @@
             </intent-filter>
 
         </activity>
+
+        <activity-alias android:label="@string/app_name"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_green"
+            android:name=".NotesActivitySustainerAlias"
+            android:targetActivity=".NotesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="com.google.android.gm.action.AUTO_SEND" />
+                <action android:name="com.google.android.voicesearch.action.AUTO_SEND" />
+                <action android:name="com.automattic.simplenote.NEW_NOTE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.google.android.voicesearch.SELF_NOTE" />
+                <data android:mimeType="text/*" />
+            </intent-filter>
+
+            <intent-filter
+                android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="app.simplenote.com"
+                    android:pathPattern="/account/.*/reset?redirect=simplenote://launch"
+                    android:scheme="https">
+                </data>
+            </intent-filter>
+        </activity-alias>
 
         <activity
             android:name="com.automattic.simplenote.NoteEditorActivity"
