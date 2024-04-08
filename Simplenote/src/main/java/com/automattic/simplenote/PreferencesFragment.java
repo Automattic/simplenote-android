@@ -245,7 +245,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         try {
             if (
                 mPreferencesBucket.get(PREFERENCES_OBJECT_KEY).getCurrentSubscriptionPlatform() != null &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
             ) {
                 sustainerIconPreference.setVisible(true);
                 sustainerIconPreference.setOnPreferenceChangeListener((preference, newValue) -> {
