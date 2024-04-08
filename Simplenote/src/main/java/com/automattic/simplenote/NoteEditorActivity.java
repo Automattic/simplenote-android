@@ -34,7 +34,9 @@ import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.AppLog;
 import com.automattic.simplenote.utils.AppLog.Type;
 import com.automattic.simplenote.utils.DisplayUtils;
+import com.automattic.simplenote.utils.IntentUtils;
 import com.automattic.simplenote.utils.NetworkUtils;
+import com.automattic.simplenote.utils.WidgetUtils;
 import com.automattic.simplenote.widgets.NoteEditorViewPager;
 import com.automattic.simplenote.widgets.RobotoMediumTextView;
 import com.google.android.material.tabs.TabLayout;
@@ -241,7 +243,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             // The editor can be the task root when it comes from an action on a widget
             // In these cases, instead of going to the home screen, the notes activity
             // is started
-            Intent intent = new Intent(getApplicationContext(), NotesActivity.class);
+            Intent intent = IntentUtils.maybeAliasedIntent(getApplicationContext());
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
