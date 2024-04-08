@@ -14,10 +14,8 @@ public class Preferences extends BucketObject {
     public static final String BUCKET_NAME = "preferences";
     public static final String PREFERENCES_OBJECT_KEY = "preferences-key";
     public static final int MAX_RECENT_SEARCHES = 5;
-
     private static final String ANALYTICS_ENABLED_KEY = "analytics_enabled";
     private static final String RECENT_SEARCHES_KEY = "recent_searches";
-
     private static final String SUBSCRIPTION_LEVEL_KEY = "subscription_level";
     private static final String SUBSCRIPTION_PLATFORM_KEY = "subscription_platform";
     private static final String SUBSCRIPTION_DATE_KEY = "subscription_date";
@@ -77,6 +75,7 @@ public class Preferences extends BucketObject {
         setProperty(RECENT_SEARCHES_KEY, new JSONArray(recents));
     }
 
+    // These are legacy "Simplenote sustainer" methods. Keeping around for testing purposes.
     public void setActiveSubscription(long purchaseTime){
         setSubscriptionPlatform(Preferences.SubscriptionPlatform.ANDROID);
         setSubscriptionLevel(Preferences.SubscriptionLevel.SUSTAINER);

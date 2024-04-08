@@ -67,12 +67,10 @@ import androidx.core.view.MenuCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity;
-import com.automattic.simplenote.billing.SubscriptionBottomSheetDialog;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Tag;
 import com.automattic.simplenote.repositories.CollaboratorsRepository;
@@ -89,10 +87,7 @@ import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.TagsAdapter;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.UndoBarController;
-import com.automattic.simplenote.viewmodels.IapViewModel;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
 import com.simperium.client.BucketObjectMissingException;
@@ -151,8 +146,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         }
     };
 
-    private IapViewModel viewModel;
-
     // Menu drawer
     private static final int GROUP_PRIMARY = 100;
     private static final int GROUP_SECONDARY = 101;
@@ -207,7 +200,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(IapViewModel.class);
 
         AppLog.add(Type.NETWORK, NetworkUtils.getNetworkInfo(NotesActivity.this));
         AppLog.add(Type.SCREEN, "Created (NotesActivity)");
@@ -223,36 +215,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         if (mTagsBucket == null) {
             mTagsBucket = currentApp.getTagsBucket();
         }
-
-        findViewById(R.id.iap_banner).setOnClickListener(view -> viewModel.onIapBannerClicked());
-
-        viewModel.getPlansBottomSheetVisibility().observe(this, isVisible -> {
-            BottomSheetDialogFragment fragment = (BottomSheetDialogFragment) getSupportFragmentManager().findFragmentByTag(SubscriptionBottomSheetDialog.getTAG());
-            if (isVisible) {
-                if (fragment == null) {
-                    fragment = new SubscriptionBottomSheetDialog();
-                }
-                if (!(fragment.getDialog() != null && fragment.getDialog().isShowing())) {
-                    fragment.show(getSupportFragmentManager(), SubscriptionBottomSheetDialog.getTAG());
-                }
-            } else {
-                if (fragment != null && fragment.isVisible()) {
-                    fragment.dismiss();
-                }
-            }
-        });
-
-        viewModel.getSnackbarMessage().observe(this, message -> {
-            Snackbar.make(findViewById(R.id.drawer_layout), message.getMessageResId(), Snackbar.LENGTH_SHORT).show();
-        });
-
-        viewModel.getIapBannerVisibility().observe(this, isVisible -> {
-            if (isVisible) {
-                findViewById(R.id.iap_banner).setVisibility(View.VISIBLE);
-            } else {
-                findViewById(R.id.iap_banner).setVisibility(View.GONE);
-            }
-        });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
