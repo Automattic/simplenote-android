@@ -243,10 +243,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
 
         final SwitchPreferenceCompat sustainerIconPreference = findPreference("pref_key_sustainer_icon");
         try {
-            if (
-                mPreferencesBucket.get(PREFERENCES_OBJECT_KEY).getCurrentSubscriptionPlatform() != null &&
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
-            ) {
+            boolean wasSustainer = mPreferencesBucket.get(PREFERENCES_OBJECT_KEY).getWasSustainer();
+            if (wasSustainer && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 sustainerIconPreference.setVisible(true);
                 sustainerIconPreference.setOnPreferenceChangeListener((preference, newValue) -> {
                     toggleSustainerAppIcon((boolean) newValue);

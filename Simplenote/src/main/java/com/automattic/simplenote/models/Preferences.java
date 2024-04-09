@@ -19,6 +19,7 @@ public class Preferences extends BucketObject {
     private static final String SUBSCRIPTION_LEVEL_KEY = "subscription_level";
     private static final String SUBSCRIPTION_PLATFORM_KEY = "subscription_platform";
     private static final String SUBSCRIPTION_DATE_KEY = "subscription_date";
+    private static final String WAS_SUSTAINER_KEY = "was_sustainer";
 
     private Preferences(String key, JSONObject properties) {
         super(key, properties);
@@ -113,6 +114,15 @@ public class Preferences extends BucketObject {
 
     public void setSubscriptionLevel(SubscriptionLevel subscriptionLevel) {
         setProperty(SUBSCRIPTION_LEVEL_KEY, subscriptionLevel.getName());
+    }
+
+    public boolean getWasSustainer() {
+        Object wasSustainer = getProperty(WAS_SUSTAINER_KEY);
+        if (wasSustainer == null) {
+            return false;
+        }
+
+        return (Boolean)getProperty(WAS_SUSTAINER_KEY);
     }
 
     public static class Schema extends BucketSchema<Preferences> {
