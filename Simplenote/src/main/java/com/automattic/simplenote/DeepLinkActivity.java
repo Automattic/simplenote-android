@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.automattic.simplenote.utils.AuthUtils;
+import com.automattic.simplenote.utils.IntentUtils;
+import com.automattic.simplenote.utils.WidgetUtils;
 
 import net.openid.appauth.RedirectUriReceiverActivity;
 
@@ -26,7 +28,7 @@ public class DeepLinkActivity extends AppCompatActivity {
             intent.setData(uri);
             startActivity(intent);
         } else if (uri.getHost().equals(LOGIN_SCHEME)) {
-            Intent intent = new Intent(this, NotesActivity.class);
+            Intent intent = IntentUtils.maybeAliasedIntent(getApplicationContext());
             Simplenote app = (Simplenote) getApplication();
             String email = AuthUtils.extractEmailFromMagicLink(uri);
             if (app.isLoggedIn() &&

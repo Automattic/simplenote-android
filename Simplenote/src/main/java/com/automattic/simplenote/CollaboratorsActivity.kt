@@ -15,6 +15,7 @@ import com.automattic.simplenote.databinding.ActivityCollaboratorsBinding
 import com.automattic.simplenote.utils.CollaboratorsAdapter
 import com.automattic.simplenote.utils.CollaboratorsAdapter.*
 import com.automattic.simplenote.utils.CollaboratorsAdapter.CollaboratorDataItem.*
+import com.automattic.simplenote.utils.IntentUtils
 import com.automattic.simplenote.utils.toast
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.Event
@@ -157,7 +158,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     }
 
     private fun navigateToNotesList() {
-        val intent = Intent(applicationContext, NotesActivity::class.java)
+        val intent = IntentUtils.maybeAliasedIntent(applicationContext)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
     }

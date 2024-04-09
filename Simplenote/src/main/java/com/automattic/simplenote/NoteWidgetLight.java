@@ -22,6 +22,7 @@ import android.widget.RemoteViews;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.ChecklistUtils;
+import com.automattic.simplenote.utils.IntentUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.simperium.Simperium;
 import com.simperium.client.Bucket;
@@ -108,7 +109,7 @@ public class NoteWidgetLight extends AppWidgetProvider {
 
         if (user.getStatus().equals(User.Status.NOT_AUTHORIZED)) {
             // Create intent to navigate to notes activity which redirects to login on widget click
-            Intent intent = new Intent(context, NotesActivity.class);
+            Intent intent = IntentUtils.maybeAliasedIntent(context);
             intent.putExtra(KEY_WIDGET_CLICK, NOTE_WIDGET_SIGN_IN_TAPPED);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_IMMUTABLE);
