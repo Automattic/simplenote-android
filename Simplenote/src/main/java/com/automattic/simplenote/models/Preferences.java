@@ -122,7 +122,11 @@ public class Preferences extends BucketObject {
             return false;
         }
 
-        return (Boolean)getProperty(WAS_SUSTAINER_KEY);
+        if (wasSustainer instanceof Boolean) {
+            return (Boolean) wasSustainer;
+        } else {
+            return wasSustainer instanceof Integer && ((Integer) wasSustainer) > 0;
+        }
     }
 
     public static class Schema extends BucketSchema<Preferences> {
