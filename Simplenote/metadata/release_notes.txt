@@ -1,2 +1,2 @@
-
-
+• Added adaptive app icon
+• Removed Sustainer plan information and upgrade UI
