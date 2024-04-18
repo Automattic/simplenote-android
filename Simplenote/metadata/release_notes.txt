@@ -1,2 +1,2 @@
-* Fixed the app from becoming unresponsive at launch with a large amount of notes.
-
+• Added adaptive app icon
+• Removed Sustainer plan information and upgrade UI

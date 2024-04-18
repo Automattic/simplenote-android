@@ -123,6 +123,7 @@
     <string name="detect_links">Detect links</string>
     <string name="share_analytics">Share analytics</string>
     <string name="share_analytics_summary">Help us improve Simplenote by sharing usage data with our analytics tool. %1$sLearn more%2$s</string>
+    <string name="sustainer_app_icon">Sustainer app icon</string>
 
     <!-- Tags -->
     <string name="add_tag">Add Tag</string>
@@ -346,22 +347,6 @@
     <string name="collaborators_note_deleted">Note was deleted. You cannot edit collaborators on a note that was deleted.</string>
     <string name="collaborators_note_trashed">Note was trashed. You cannot edit collaborators on a note that is in the trash.</string>
     <string name="no_collaborators">No Collaborators</string>
-
-    <!-- IAP -->
-    <string name="iap_banner_title">Become a Simplenote Sustainer</string>
-    <string name="iap_banner_subtitle">Support your favorite notes app and help unlock future features.</string>
-    <string name="iap_thank_you_banner_title">You are a Simplenote Sustainer</string>
-    <string name="iap_thank_you_banner_subtitle">Thank you for your continued support</string>
-    <string name="subscription_weekly">Weekly</string>
-    <string name="subscription_monthly">Monthly</string>
-    <string name="subscription_three_month">Three Month</string>
-    <string name="subscription_six_month">Six Month</string>
-    <string name="subscription_yearly_month">Yearly</string>
-    <string name="subscription_unknown">Unknown Length</string>
-    <string name="subscription_choose_plan">Choose a plan</string>
-    <string name="subscription_purchase_success">Purchase successful. Thank you for your continued support!</string>
-    <string name="subscription_purchase_error">Purchase failed</string>
-    <string name="subscription_plans_fetching_error">Error fetching plans. Please, check your connection and try again.</string>
 
     <!-- PASSCODE -->
     <string name="passcode_change_passcode">Change passcode</string>
