@@ -453,7 +453,7 @@ platform :android do
     end
 
     Dir.chdir('..') do
-      sh("cp -v #{output_dir}#{orign_file} #{build_dir}#{apk_name}")
+      sh("cp -v #{output_dir}#{orign_file} #{build_dir}/#{apk_name}")
       UI.message("Apk ready: #{apk_name}")
     end
 
