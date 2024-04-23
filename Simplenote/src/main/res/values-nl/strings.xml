@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2022-11-30 09:54:03+0000
+Translation-Revision-Date: 2024-04-23 13:54:02+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="sustainer_app_icon">Sustainer-app-pictogram</string>
     <string name="simperium_too_many_attempts">Te veel aanmeldpogingen. Probeer het later nog eens.</string>
     <string name="simperium_change_password">Wijzig wachtwoord</string>
     <string name="simperium_not_now">Annuleren</string>
