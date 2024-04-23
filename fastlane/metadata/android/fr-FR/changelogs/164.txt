@@ -1,3 +1,0 @@
-2.31 :
-* Résolution du problème qui faisait que l’application ne répondait pas lors du lancement à cause d’un grand nombre de notes.
-

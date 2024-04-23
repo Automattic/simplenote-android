@@ -1,3 +1,0 @@
-2.31:
-* Fehler behoben, wodurch die App beim Start aufgrund einer hohen Anzahl von Notizen nicht antwortete.
-

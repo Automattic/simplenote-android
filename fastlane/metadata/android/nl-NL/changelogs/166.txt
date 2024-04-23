@@ -1,0 +1,3 @@
+2.32:
+• Adaptief app-pictogram toegevoegd
+• Informatie en upgrade-UI van het Sustainer-abonnement verwijderd

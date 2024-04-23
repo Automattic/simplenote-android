@@ -1,85 +1,75 @@
 <ar>
-2.31:
-* تم إصلاح التطبيق من عدم الاستجابة عند التشغيل مع وجود عدد كبير من الملاحظات.
-
+2.32:
+• تمت إضافة أيقونة التطبيق القابلة للمواءمة
+ • تمت إزالة معلومات خطة Sustainer وترقية واجهة المستخدم
 </ar>
 <de-DE>
-2.31:
-* Fehler behoben, wodurch die App beim Start aufgrund einer hohen Anzahl von Notizen nicht antwortete.
-
+2.32:
+• Adaptives App-Icon hinzugefügt
+• Informationen zum Unterstützer-Tarif und aktualisierte Benutzeroberfläche entfernt
 </de-DE>
 <es-ES>
-2.31:
-* Se ha solucionado un problema que hacía que la aplicación no respondiera al iniciarla con una gran cantidad de notas.
-
+2.32:
+• Se ha añadido un icono de aplicación adaptable
+• Se ha eliminado la información del plan Sustainer y la actualización de la interfaz de usuario
 </es-ES>
 <fr-FR>
-2.31 :
-* Résolution du problème qui faisait que l’application ne répondait pas lors du lancement à cause d’un grand nombre de notes.
-
+2.32 :
+• Ajout d’une icône d’application adaptative
+• Suppression des informations sur le plan Sustainer et mise à niveau de l’UI
 </fr-FR>
-<iw-IL>
-2.31:
-* תיקנו בעיה שגרמה לחוסר תגובתיות במהלך הפעלת האפליקציה כאשר יש מספר רב של פתקים.
-
-</iw-IL>
 <id>
-2.31:
-*Memperbaiki aplikasi agar tetap responsif saat dibuka dengan catatan yang berjumlah banyak
-
+2.32:
+• Menambahkan ikon aplikasi adaptif
+• Menghapus UI informasi paket Sustainer dan upgrade
 </id>
 <it-IT>
-2.31:
-* Risolto il problema della mancata risposta al lancio dell'app in presenza di un gran numero di note.
-
+2,32:
+• Icona app adattiva aggiunta
+• Informazioni sul piano Sostenitore e UI di aggiornamento rimosse
 </it-IT>
 <ja-JP>
-2.31:
-* 大量のメモがある場合アプリの起動時に応答がなくなる問題を修正しました。
-
+2.32:
+• アダプティブアプリアイコンを追加しました
+• Sustainer プランの情報を削除し、UI をアップグレードしました
 </ja-JP>
 <ko-KR>
-2.31:
-* 메모가 많으면 시작 시 앱이 반응하지 않던 문제를 해결했습니다.
-
+2.32:
+• 적응형 앱 아이콘이 제거됨
+• 지지자 요금제 정보 및 업그레이드 UI가 제거됨
 </ko-KR>
 <nl-NL>
-2.31:
-* Probleem opgelost waarbij de app niet reageerde bij het opstarten en veel opmerkingen gaf.
-
+2.32:
+• Adaptief app-pictogram toegevoegd
+• Informatie en upgrade-UI van het Sustainer-abonnement verwijderd
 </nl-NL>
 <pt-BR>
-2.31:
-*Agora o app não para de responder quando é aberto com muitas anotações.
-
+2.32:
+• Adicionamos um ícone adaptável para o app
+• Removemos a IU de upgrade e informações sobre o plano Sustainer
 </pt-BR>
-<ru-RU>
-2.31:
-*Исправлена ошибка, из-за которой приложение при запуске переставало отвечать на запросы из-за большого количества примечаний.
-
-</ru-RU>
 <sv-SE>
-2.31:
-* Åtgärdade problemet med att appen inte svarar när den startas med en stor mängd anteckningar.
-
+2.32:
+• Vi har lagt till en adaptiv appikon
+• Vi har tagit bort Sustainer-paketinformationen och uppgraderat gränssnittet
 </sv-SE>
 <tr-TR>
-2.31:
-* Çok fazla not olan uygulamanın başlatılırken yanıt vermemesine neden olan sorun düzeltildi.
-
+2.32:
+• Uyarlanabilir uygulama simgesi eklendi
+• Sustainer paket bilgileri ve yükseltme UI'ı kaldırıldı
 </tr-TR>
 <zh-CN>
-2.31：
-* 修复了应用程序在有大量笔记的情况下启动反应迟钝的问题。
-
+2.32：
+• 已添加自适应应用程序图标
+• 已删除 Sustainer 套餐信息并升级用户界面
 </zh-CN>
 <zh-TW>
-2.31:
-*修復了應用程式啟動時因筆記量過大而沒有反應的問題。
-
+2.32：
+• 新增了自適性應用程式圖示
+• 移除了 Sustainer 方案資訊和升級 UI
 </zh-TW>
 <en-US>
-2.31:
-* Fixed the app from becoming unresponsive at launch with a large amount of notes.
-
+2.32:
+• Added adaptive app icon
+• Removed Sustainer plan information and upgrade UI
 </en-US>

@@ -1,3 +1,0 @@
-2.31:
-*Agora o app não para de responder quando é aberto com muitas anotações.
-
