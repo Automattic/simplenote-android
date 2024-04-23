@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2022-11-29 14:54:03+0000
+Translation-Revision-Date: 2024-04-22 16:54:02+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
-    <string name="subscription_plans_fetching_error">Erro ao buscar planos. Verifique sua conexão e tente novamente.</string>
-    <string name="subscription_purchase_error">Falha ao comprar</string>
-    <string name="subscription_purchase_success">Compra realizada com sucesso. Agradecemos pelo seu apoio de sempre.</string>
-    <string name="subscription_choose_plan">Selecione um plano</string>
-    <string name="subscription_unknown">Duração desconhecida</string>
-    <string name="subscription_yearly_month">Anual</string>
-    <string name="subscription_six_month">Semestral</string>
-    <string name="subscription_three_month">Trimestral</string>
-    <string name="subscription_monthly">Mensal</string>
-    <string name="subscription_weekly">Semanal</string>
-    <string name="iap_thank_you_banner_subtitle">Agradecemos pelo seu apoio contínuo</string>
-    <string name="iap_thank_you_banner_title">Você é um apoiador do Simplenote</string>
-    <string name="iap_banner_subtitle">Apoie seu aplicativo de anotações favorito para ajudar a garantir mais funcionalidades no futuro.</string>
-    <string name="iap_banner_title">Seja um apoiador do Simplenote</string>
+    <string name="sustainer_app_icon">Ícone do aplicativo Sustainer</string>
     <string name="simperium_too_many_attempts">Muitas tentativas de login. Tente novamente mais tarde.</string>
     <string name="simperium_change_password">Alterar senha</string>
     <string name="simperium_not_now">Cancelar</string>
