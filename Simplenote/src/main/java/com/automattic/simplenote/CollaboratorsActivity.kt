@@ -1,6 +1,7 @@
 package com.automattic.simplenote
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.view.MenuItem
@@ -25,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CollaboratorsActivity : ThemedAppCompatActivity() {
     private val viewModel: CollaboratorsViewModel by viewModels()
+    private val collaborationRetirementUrl = "https://simplenote.com/2024/05/01/collaboration-feature-retirement"
 
     companion object {
         const val NOTE_ID_ARG = "note_id"
@@ -79,6 +81,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         collaboratorsList.setEmptyView(empty.root)
 
         buttonAddCollaborator.setOnClickListener { viewModel.clickAddCollaborator() }
+        collaborationBanner.setOnClickListener { viewModel.clickCollaborationRetirement() }
 
         empty.image.setImageResource(R.drawable.ic_collaborate_24dp)
         empty.title.text = getString(R.string.no_collaborators)
@@ -115,6 +118,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
             when (event) {
                 is Event.AddCollaboratorEvent -> showAddCollaboratorFragment(event)
                 is Event.RemoveCollaboratorEvent -> showRemoveCollaboratorDialog(event)
+                is Event.ViewCollaborationRetirementEvent -> viewCollaborationRetirement(event)
                 Event.CloseCollaboratorsEvent -> finish()
             }
         })
@@ -146,6 +150,11 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     private fun showAddCollaboratorFragment(event: Event.AddCollaboratorEvent) {
         val dialog = AddCollaboratorFragment(event.noteId)
         dialog.show(supportFragmentManager.beginTransaction(), DIALOG_TAG)
+    }
+
+    private fun viewCollaborationRetirement(event: Event.ViewCollaborationRetirementEvent) {
+        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(collaborationRetirementUrl))
+        startActivity(browserIntent)
     }
 
     private fun showRemoveCollaboratorDialog(event: Event.RemoveCollaboratorEvent) {
