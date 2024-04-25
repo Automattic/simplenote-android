@@ -1,0 +1,3 @@
+2,32:
+• Icona app adattiva aggiunta
+• Informazioni sul piano Sostenitore e UI di aggiornamento rimosse

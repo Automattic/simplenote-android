@@ -1,0 +1,3 @@
+2.32:
+• Menambahkan ikon aplikasi adaptif
+• Menghapus UI informasi paket Sustainer dan upgrade

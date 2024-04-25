@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2022-11-29 10:54:03+0000
+Translation-Revision-Date: 2024-04-22 20:54:02+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
-    <string name="subscription_plans_fetching_error">حدث خطأ في أثناء إحضار الخطط. يرجى التحقّق من اتصالك والمحاولة لاحقًا.</string>
-    <string name="subscription_purchase_error">فشل الشراء</string>
-    <string name="subscription_purchase_success">نجح الشراء. شكرًا لك على دعمك المتواصل!</string>
-    <string name="subscription_choose_plan">اختيار خطة</string>
-    <string name="subscription_unknown">طول مجهول</string>
-    <string name="subscription_yearly_month">سنوي</string>
-    <string name="subscription_six_month">ستة أشهر</string>
-    <string name="subscription_three_month">ثلاثة أشهر</string>
-    <string name="subscription_monthly">شهريًا</string>
-    <string name="subscription_weekly">أسبوعيًا</string>
-    <string name="iap_thank_you_banner_subtitle">شكرًا لك على دعمك المتواصل</string>
-    <string name="iap_thank_you_banner_title">أصبحت Simplenote Sustainer</string>
-    <string name="iap_banner_subtitle">ادعم تطبيق الملحوظات المفضَّل لديك للمساعدة على فتح الميزات في المستقبل.</string>
-    <string name="iap_banner_title">كن Simplenote Sustainer</string>
+    <string name="sustainer_app_icon">أيقونة تطبيق Sustainer</string>
     <string name="simperium_too_many_attempts">محاولات تسجيل دخول كثيرة للغاية. حاول مرة أخرى لاحقًا.</string>
     <string name="simperium_change_password">تغيير كلمة المرور</string>
     <string name="simperium_not_now">إلغاء</string>

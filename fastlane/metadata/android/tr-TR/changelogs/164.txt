@@ -1,3 +1,0 @@
-2.31:
-* Çok fazla not olan uygulamanın başlatılırken yanıt vermemesine neden olan sorun düzeltildi.
-

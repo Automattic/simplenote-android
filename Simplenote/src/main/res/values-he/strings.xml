@@ -6,20 +6,6 @@ Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
-    <string name="subscription_plans_fetching_error">שגיאה בהבאת התוכניות. יש לבדוק את החיבור ולנסות שוב.</string>
-    <string name="subscription_purchase_error">הרכישה נכשלה</string>
-    <string name="subscription_purchase_success">הרכישה בוצעה בהצלחה. תודה על התמיכה המתמשכת!</string>
-    <string name="subscription_choose_plan">יש לבחור תוכנית</string>
-    <string name="subscription_unknown">אורך לא ידוע</string>
-    <string name="subscription_yearly_month">שנתי</string>
-    <string name="subscription_six_month">שישה חודשים</string>
-    <string name="subscription_three_month">שלושה חודשים</string>
-    <string name="subscription_monthly">חודשי</string>
-    <string name="subscription_weekly">שבועי</string>
-    <string name="iap_thank_you_banner_subtitle">תודה על התמיכה המתמשכת</string>
-    <string name="iap_thank_you_banner_title">הצטרפת בתור Simplenote Sustainer</string>
-    <string name="iap_banner_subtitle">ניתן לתמוך באפליקציית הפתקים המועדפת עליך ולעזור בהפעלת אפשרויות בעתיד.</string>
-    <string name="iap_banner_title">להצטרף בתור Simplenote Sustainer</string>
     <string name="simperium_too_many_attempts">מספר ניסיונות התחברות גבוה מדי. יש לנסות שוב מאוחר יותר.</string>
     <string name="simperium_change_password">לשנות סיסמה</string>
     <string name="simperium_not_now">ביטול</string>

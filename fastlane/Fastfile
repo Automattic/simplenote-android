@@ -228,9 +228,9 @@ platform :android do
     )
 
     download_translations(options)
-    android_bump_version_final_release
+    android_bump_version_final_release(build_gradle_path: 'Simplenote/build.gradle')
 
-    version = android_get_release_version
+    version = android_get_release_version(build_gradle_path: 'Simplenote/build.gradle')
     download_metadata_strings(
       version: version['name'],
       build_number: version['code']
@@ -453,7 +453,7 @@ platform :android do
     end
 
     Dir.chdir('..') do
-      sh("cp -v #{output_dir}#{orign_file} #{build_dir}#{apk_name}")
+      sh("cp -v #{output_dir}/#{orign_file} #{build_dir}#{apk_name}")
       UI.message("Apk ready: #{apk_name}")
     end
 

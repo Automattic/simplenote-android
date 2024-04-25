@@ -1,3 +1,0 @@
-2.31:
-* Se ha solucionado un problema que hacía que la aplicación no respondiera al iniciarla con una gran cantidad de notas.
-

@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2022-11-29 10:54:04+0000
+Translation-Revision-Date: 2024-04-23 09:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
-    <string name="subscription_plans_fetching_error">获取套餐时出错。 请检查您的连接，然后重试。</string>
-    <string name="subscription_purchase_error">购买失败</string>
-    <string name="subscription_purchase_success">购买成功。 感谢您的继续支持！</string>
-    <string name="subscription_choose_plan">选择套餐</string>
-    <string name="subscription_unknown">未知时长</string>
-    <string name="subscription_yearly_month">每年</string>
-    <string name="subscription_six_month">6 个月</string>
-    <string name="subscription_three_month">3 个月</string>
-    <string name="subscription_monthly">每月</string>
-    <string name="subscription_weekly">每周</string>
-    <string name="iap_thank_you_banner_subtitle">感谢您的继续支持</string>
-    <string name="iap_thank_you_banner_title">您已成为 Simplenote 支持者</string>
-    <string name="iap_banner_subtitle">支持您喜爱的笔记应用，帮助该产品在未来提供更多功能。</string>
-    <string name="iap_banner_title">成为 Simplenote 支持者</string>
+    <string name="sustainer_app_icon">Sustainer 应用程序图标</string>
     <string name="simperium_too_many_attempts">尝试登录次数过多。 请稍后重试。</string>
     <string name="simperium_change_password">修改密码</string>
     <string name="simperium_not_now">取消</string>
