@@ -118,7 +118,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
             when (event) {
                 is Event.AddCollaboratorEvent -> showAddCollaboratorFragment(event)
                 is Event.RemoveCollaboratorEvent -> showRemoveCollaboratorDialog(event)
-                is Event.ViewCollaborationRetirementEvent -> viewCollaborationRetirement(event)
+                is Event.ViewCollaborationRetirementEvent -> viewCollaborationRetirement()
                 Event.CloseCollaboratorsEvent -> finish()
             }
         })
@@ -152,7 +152,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         dialog.show(supportFragmentManager.beginTransaction(), DIALOG_TAG)
     }
 
-    private fun viewCollaborationRetirement(event: Event.ViewCollaborationRetirementEvent) {
+    private fun viewCollaborationRetirement() {
         val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(collaborationRetirementUrl))
         startActivity(browserIntent)
     }
