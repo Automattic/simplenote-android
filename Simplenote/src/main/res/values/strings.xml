@@ -347,8 +347,6 @@
     <string name="collaborators_note_deleted">Note was deleted. You cannot edit collaborators on a note that was deleted.</string>
     <string name="collaborators_note_trashed">Note was trashed. You cannot edit collaborators on a note that is in the trash.</string>
     <string name="no_collaborators">No Collaborators</string>
-    <string name="collaboration_retire_details">Collaboration is retiring on July 1st, 2024. For more details, tap here.</string>
-    <string name="collaboration_retirement">Collaboration Retirement</string>
 
     <!-- PASSCODE -->
     <string name="passcode_change_passcode">Change passcode</string>
