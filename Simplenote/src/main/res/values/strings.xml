@@ -431,4 +431,9 @@
     <string name="simperium_change_password">Change Password</string>
     <string name="simperium_okay">Okay</string>
     <string name="simperium_too_many_attempts">Too many log in attempts. Try again later.</string>
+    <string name="magic_link_request_login_dialog_title">Check your email</string>
+    <string name="magic_link_request_login_dialog">If an account exists, we\'ve sent an email to %1$s containing a link that\'ll log you in.</string>
+    <string name="magic_link_login">Instantly Log In With Email</string>
+    <string name="login_screen_title">Log In</string>
+    <string name="login_with_password">Login With Password</string>
 </resources>

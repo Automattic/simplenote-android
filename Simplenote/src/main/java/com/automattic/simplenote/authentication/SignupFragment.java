@@ -216,7 +216,7 @@ public class SignupFragment extends Fragment {
     }
 
     private void showConfirmationScreen(String email) {
-        ConfirmationFragment confirmationFragment = ConfirmationFragment.newInstance(email);
+        ConfirmationFragment confirmationFragment = ConfirmationFragment.newInstance(email, true);
         requireFragmentManager().beginTransaction()
             .replace(R.id.fragment_container, confirmationFragment, SimplenoteSignupActivity.SIGNUP_FRAGMENT_TAG)
             .commit();
