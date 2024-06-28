@@ -1,8 +1,8 @@
 package com.automattic.simplenote
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity
 import com.automattic.simplenote.utils.AuthUtils
@@ -19,15 +19,13 @@ class DeepLinkActivity : AppCompatActivity() {
                 intent.setData(uri)
                 startActivity(intent)
             }
+            VERIFIED_WEB_SCHEME -> {
+                // New MagicLink
+                startMagicLinkConfirmation(uri)
+            }
             LOGIN_SCHEME -> {
                 if (queryParamContainsData(uri.query, "auth_key") && queryParamContainsData(uri.query, "auth_code")) {
-                    // New MagicLink logic
-                    val intent = Intent(this, SimplenoteAuthenticationActivity::class.java)
-                    intent.putExtra(SimplenoteAuthenticationActivity.KEY_IS_MAGIC_LINK, true);
-                    intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_KEY, uri.getQueryParameter("auth_key"))
-                    intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_CODE, uri.getQueryParameter("auth_code"))
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
+                    startMagicLinkConfirmation(uri)
                 } else {
                     val intent = IntentUtils.maybeAliasedIntent(applicationContext)
                     val app = application as Simplenote
@@ -47,6 +45,19 @@ class DeepLinkActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun startMagicLinkConfirmation(uri: Uri?) {
+        val authKey = uri?.getQueryParameter("auth_key")
+        val authCode = uri?.getQueryParameter("auth_code")
+        if (!authKey.isNullOrBlank() && !authCode.isNullOrBlank()) {
+            val intent = Intent(this, SimplenoteAuthenticationActivity::class.java)
+            intent.putExtra(SimplenoteAuthenticationActivity.KEY_IS_MAGIC_LINK, true);
+            intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_KEY, authKey)
+            intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_CODE, authCode)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+        }
+    }
+
     private fun queryParamContainsData(path: String?, otherString: String) : Boolean = path?.contains(otherString, true) == true
 
 
@@ -54,5 +65,6 @@ class DeepLinkActivity : AppCompatActivity() {
     companion object {
         private const val AUTHENTICATION_SCHEME = "auth"
         private const val LOGIN_SCHEME = "login"
+        private const val VERIFIED_WEB_SCHEME = "app.simplenote.com"
     }
 }

@@ -23,7 +23,13 @@ class RequestMagicLinkViewModel @Inject constructor(
     fun requestLogin(username: String) = viewModelScope.launch(ioDispatcher) {
         _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Loading(message = "Requesting Magic Link"))
         try {
-            val requestBody = SimpleHttp.buildRequestBodyFromMap(mapOf(Pair("username", username), Pair("request_source", "android")))
+            // TODO: Uncomment the request_source once finalized.
+            val requestBody = SimpleHttp.buildRequestBodyFromMap(
+                mapOf(
+                    Pair("username", username),
+//                    Pair("request_source", "android")
+                )
+            )
             SimpleHttp.firePostRequest(
                 "account/request-login",
                 requestBody
