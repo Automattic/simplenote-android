@@ -24,7 +24,7 @@ class DeepLinkActivity : AppCompatActivity() {
                 startMagicLinkConfirmation(uri)
             }
             LOGIN_SCHEME -> {
-                if (queryParamContainsData(uri.query, "auth_key") && queryParamContainsData(uri.query, "auth_code")) {
+                if (queryParamContainsData(uri.query, AUTH_KEY_QUERY) && queryParamContainsData(uri.query, AUTH_CODE_QUERY)) {
                     startMagicLinkConfirmation(uri)
                 } else {
                     val intent = IntentUtils.maybeAliasedIntent(applicationContext)
@@ -53,7 +53,7 @@ class DeepLinkActivity : AppCompatActivity() {
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_IS_MAGIC_LINK, true);
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_KEY, authKey)
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_CODE, authCode)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION and (Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
     }
@@ -66,5 +66,8 @@ class DeepLinkActivity : AppCompatActivity() {
         private const val AUTHENTICATION_SCHEME = "auth"
         private const val LOGIN_SCHEME = "login"
         private const val VERIFIED_WEB_SCHEME = "app.simplenote.com"
+
+        private const val AUTH_KEY_QUERY = "auth_key"
+        private const val AUTH_CODE_QUERY = "auth_code"
     }
 }

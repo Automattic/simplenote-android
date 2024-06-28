@@ -39,7 +39,7 @@ class CompleteMagicLinkViewModel @Inject constructor(
                     val username = json.getString("username")
                     simplenote.loginWithToken(username, syncToken)
                 } else {
-                    _magicLinkUiState.value = MagicLinkUiState.Error()
+                    _magicLinkUiState.postValue(MagicLinkUiState.Error())
                 }
             }
         } catch (exception: IOException) {
