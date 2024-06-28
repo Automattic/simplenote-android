@@ -53,7 +53,7 @@ class DeepLinkActivity : AppCompatActivity() {
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_IS_MAGIC_LINK, true);
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_KEY, authKey)
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_CODE, authCode)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION and (Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
             startActivity(intent)
         }
     }
