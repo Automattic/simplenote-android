@@ -27,7 +27,7 @@ class SignInFragment: MagicLinkableFragment() {
         loginWithPassword = view.findViewById(R.id.login_with_password_button)
         loginWithPassword?.setOnClickListener { _ ->
             activity?.let { act ->
-                val intent = Intent(act, CredentialsActivity::class.java)
+                val intent = Intent(act, SimplenoteCredentialsActivity::class.java)
                 intent.putExtra("EXTRA_IS_LOGIN", true)
                 this.startActivity(intent)
                 act.finish()

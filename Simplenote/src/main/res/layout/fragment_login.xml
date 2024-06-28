@@ -50,6 +50,9 @@
         android:layout_height="wrap_content"
         android:text="@string/login_with_password"
         android:layout_below="@id/button"
+        android:textColor="@color/blue"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
         />
 
 </RelativeLayout>

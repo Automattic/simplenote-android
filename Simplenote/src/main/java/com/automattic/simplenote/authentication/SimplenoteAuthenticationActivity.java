@@ -66,14 +66,6 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
     }
 
     @Override
-    protected void buttonLoginClicked() {
-//        super.buttonLoginClicked();
-        Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteSignupActivity.class);
-        intent.putExtra(SimplenoteSignupActivity.KEY_IS_LOGIN, true);
-        startActivity(intent);
-    }
-
-    @Override
     protected void buttonSignupClicked() {
         Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteSignupActivity.class);
         startActivity(intent);
@@ -127,10 +119,9 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
 
     @Override
     public void onLoginSheetEmailClicked() {
-        Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteCredentialsActivity.class);
-        intent.putExtra(EXTRA_IS_LOGIN, true);
+        Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteSignupActivity.class);
+        intent.putExtra(SimplenoteSignupActivity.KEY_IS_LOGIN, true);
         startActivity(intent);
-        finish();
     }
 
     @Override
