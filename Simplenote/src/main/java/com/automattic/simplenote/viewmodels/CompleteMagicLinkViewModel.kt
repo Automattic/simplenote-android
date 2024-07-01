@@ -17,7 +17,8 @@ import javax.inject.Named
 
 @HiltViewModel
 class CompleteMagicLinkViewModel @Inject constructor(
-    val simplenote: Simplenote,
+    private val simplenote: Simplenote,
+    private val simpleHttp: SimpleHttp,
     @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher,
     ) : ViewModel() {
     private val _magicLinkUiState = MutableLiveData<MagicLinkUiState>()
@@ -26,10 +27,9 @@ class CompleteMagicLinkViewModel @Inject constructor(
     fun completeLogin(authKey: String, authCode: String) = viewModelScope.launch(ioDispatcher) {
         _magicLinkUiState.postValue(MagicLinkUiState.Loading(message = "Logging In"))
         try {
-            val requestBody = SimpleHttp.buildRequestBodyFromMap(mapOf(Pair("auth_key", authKey), Pair("auth_code", authCode)))
-            SimpleHttp.firePostRequest(
+            simpleHttp.firePostRequest(
                 "account/complete-login",
-                requestBody
+                mapOf(Pair("auth_key", authKey), Pair("auth_code", authCode))
             ).use { response ->
                 if (response.isSuccessful) {
                     _magicLinkUiState.postValue(MagicLinkUiState.Success)

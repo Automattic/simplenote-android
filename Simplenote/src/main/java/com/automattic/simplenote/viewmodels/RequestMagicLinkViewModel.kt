@@ -15,6 +15,7 @@ import javax.inject.Named
 
 @HiltViewModel
 class RequestMagicLinkViewModel @Inject constructor(
+    private val simpleHttp: SimpleHttp,
     @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     private val _magicLinkRequestUiState = MutableLiveData<MagicLinkRequestUiState>()
@@ -24,15 +25,9 @@ class RequestMagicLinkViewModel @Inject constructor(
         _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Loading(message = "Requesting Magic Link"))
         try {
             // TODO: Uncomment the request_source once finalized.
-            val requestBody = SimpleHttp.buildRequestBodyFromMap(
-                mapOf(
-                    Pair("username", username),
-//                    Pair("request_source", "android")
-                )
-            )
-            SimpleHttp.firePostRequest(
+            simpleHttp.firePostRequest(
                 "account/request-login",
-                requestBody
+                mapOf(Pair("username", username), Pair("request_source", "android"))
             ).use { response ->
                 if (response.isSuccessful) {
                     _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Success(username = username))
