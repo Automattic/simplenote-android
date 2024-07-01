@@ -46,8 +46,8 @@ class DeepLinkActivity : AppCompatActivity() {
     }
 
     private fun startMagicLinkConfirmation(uri: Uri?) {
-        val authKey = uri?.getQueryParameter("auth_key")
-        val authCode = uri?.getQueryParameter("auth_code")
+        val authKey = uri?.getQueryParameter(AUTH_KEY_QUERY)
+        val authCode = uri?.getQueryParameter(AUTH_CODE_QUERY)
         if (!authKey.isNullOrBlank() && !authCode.isNullOrBlank()) {
             val intent = Intent(this, SimplenoteAuthenticationActivity::class.java)
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_IS_MAGIC_LINK, true);
