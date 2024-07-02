@@ -28,8 +28,8 @@ class DeepLinkActivity : AppCompatActivity() {
                     startMagicLinkConfirmation(uri)
                 } else {
                     val intent = IntentUtils.maybeAliasedIntent(applicationContext)
-                    val app = application as Simplenote
                     val email = AuthUtils.extractEmailFromMagicLink(uri)
+                    val app = application as Simplenote
                     if (app.isLoggedIn &&
                         email.lowercase() != app.userEmail.lowercase()
                     ) {
@@ -46,6 +46,14 @@ class DeepLinkActivity : AppCompatActivity() {
     }
 
     private fun startMagicLinkConfirmation(uri: Uri?) {
+        val app = application as Simplenote
+        if (app.isLoggedIn) {
+            intent.putExtra(NotesActivity.KEY_ALREADY_LOGGED_IN, true)
+            val intent = IntentUtils.maybeAliasedIntent(applicationContext)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            return
+        }
         val authKey = uri?.getQueryParameter(AUTH_KEY_QUERY)
         val authCode = uri?.getQueryParameter(AUTH_CODE_QUERY)
         if (!authKey.isNullOrBlank() && !authCode.isNullOrBlank()) {
