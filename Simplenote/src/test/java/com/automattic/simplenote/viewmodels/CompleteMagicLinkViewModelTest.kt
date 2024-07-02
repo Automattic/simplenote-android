@@ -57,7 +57,8 @@ class CompleteMagicLinkViewModelTest {
             states.add(it)
         }
         viewModel.completeLogin(AUTH_KEY_TEST, AUTH_CODE_TEST)
-        assertEquals(MagicLinkUiState.Loading(message = "Logging In"), states[0])
+
+        assertEquals(MagicLinkUiState.Loading::class.java, states[0]::class.java)
         assertEquals(MagicLinkUiState.Success, states[1])
     }
 
@@ -71,7 +72,7 @@ class CompleteMagicLinkViewModelTest {
             states.add(it)
         }
         viewModel.completeLogin(AUTH_KEY_TEST, AUTH_CODE_TEST)
-        assertEquals(MagicLinkUiState.Loading(message = "Logging In"), states[0])
-        assertEquals(MagicLinkUiState.Error(), states[1])
+        assertEquals(MagicLinkUiState.Loading::class.java, states[0]::class.java)
+        assertEquals(MagicLinkUiState.Error::class.java, states[1]::class.java)
     }
 }

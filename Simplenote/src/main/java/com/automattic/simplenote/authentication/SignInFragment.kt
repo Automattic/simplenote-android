@@ -12,7 +12,6 @@ import com.automattic.simplenote.R
 import com.automattic.simplenote.utils.NetworkUtils
 import com.automattic.simplenote.viewmodels.MagicLinkRequestUiState
 import com.automattic.simplenote.viewmodels.RequestMagicLinkViewModel
-import com.simperium.android.CredentialsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,7 +40,7 @@ class SignInFragment: MagicLinkableFragment() {
         viewModel?.magicLinkRequestUiState?.observe(this.viewLifecycleOwner) { state ->
             when (state) {
                 is MagicLinkRequestUiState.Loading -> {
-                    showProgressDialog(state.message)
+                    showProgressDialog(getString(state.messageRes))
                 }
                 is MagicLinkRequestUiState.Error -> hideDialogProgress()
                 is MagicLinkRequestUiState.Success -> {

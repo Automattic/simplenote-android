@@ -1,9 +1,11 @@
 package com.automattic.simplenote.viewmodels
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.automattic.simplenote.R
 import com.automattic.simplenote.di.IO_THREAD
 import com.automattic.simplenote.networking.SimpleHttp
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,9 @@ class RequestMagicLinkViewModel @Inject constructor(
     val magicLinkRequestUiState: LiveData<MagicLinkRequestUiState> get() = _magicLinkRequestUiState
 
     fun requestLogin(username: String) = viewModelScope.launch(ioDispatcher) {
-        _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Loading(message = "Requesting Magic Link"))
+        _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Loading(
+            messageRes = R.string.magic_link_request_login_loading_message)
+        )
         try {
             // TODO: Uncomment the request_source once finalized.
             simpleHttp.firePostRequest(
@@ -43,7 +47,7 @@ class RequestMagicLinkViewModel @Inject constructor(
 }
 
 sealed class MagicLinkRequestUiState {
-    data class Loading(val message: String): MagicLinkRequestUiState()
+    data class Loading(@StringRes val messageRes: Int): MagicLinkRequestUiState()
     data class Error(val message: String? = null): MagicLinkRequestUiState()
     data class Success(val username: String) : MagicLinkRequestUiState()
 }

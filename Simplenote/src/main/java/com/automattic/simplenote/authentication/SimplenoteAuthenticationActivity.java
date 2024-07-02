@@ -57,8 +57,9 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
                     final Intent notesIntent = IntentUtils.maybeAliasedIntent(this.getApplicationContext());
                     notesIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION & (Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     startActivity(notesIntent);
+                    finish();
                 } else if (state instanceof MagicLinkUiState.Error) {
-                    showDialogError(R.string.dialog_message_signup_error);
+                    showDialogError(((MagicLinkUiState.Error) state).getMessageRes());
                 }
             });
             final String authKey = intent.getStringExtra(KEY_MAGIC_LINK_AUTH_KEY);
