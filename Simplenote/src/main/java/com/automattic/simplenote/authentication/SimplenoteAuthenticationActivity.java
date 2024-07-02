@@ -125,6 +125,7 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
         Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteSignupActivity.class);
         intent.putExtra(SimplenoteSignupActivity.KEY_IS_LOGIN, true);
         startActivity(intent);
+        this.finish();
     }
 
     @Override

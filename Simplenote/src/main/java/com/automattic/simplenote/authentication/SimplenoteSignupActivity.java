@@ -1,5 +1,6 @@
 package com.automattic.simplenote.authentication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -69,5 +70,12 @@ public class SimplenoteSignupActivity extends AppCompatActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // This is weird. But see SimplenoteCredentialsActivity for why this is necessary.
+        startActivity(new Intent(this, SimplenoteAuthenticationActivity.class));
+        finish();
     }
 }
