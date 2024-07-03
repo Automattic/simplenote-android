@@ -4,6 +4,9 @@ common_params:
   - &common_plugins
     - automattic/a8c-ci-toolkit#2.13.0
 
+agents:
+  queue: "android"
+
 # This is the default pipeline – it will build and test the app
 steps:
   - label: "Gradle Wrapper Validation"
