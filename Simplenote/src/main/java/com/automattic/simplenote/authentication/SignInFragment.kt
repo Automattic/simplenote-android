@@ -7,17 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
-import androidx.lifecycle.ViewModelProvider
 import com.automattic.simplenote.R
 import com.automattic.simplenote.utils.NetworkUtils
 import com.automattic.simplenote.viewmodels.MagicLinkRequestUiState
 import com.automattic.simplenote.viewmodels.RequestMagicLinkViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+import androidx.fragment.app.viewModels
+
 @AndroidEntryPoint
 class SignInFragment: MagicLinkableFragment() {
 
-    var viewModel: RequestMagicLinkViewModel? = null
+    val viewModel: RequestMagicLinkViewModel by viewModels()
 
     private var loginWithPassword: TextView? = null
 
@@ -36,8 +37,7 @@ class SignInFragment: MagicLinkableFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProvider(this).get(RequestMagicLinkViewModel::class.java)
-        viewModel?.magicLinkRequestUiState?.observe(this.viewLifecycleOwner) { state ->
+        viewModel.magicLinkRequestUiState.observe(this.viewLifecycleOwner) { state ->
             when (state) {
                 is MagicLinkRequestUiState.Loading -> {
                     showProgressDialog(getString(state.messageRes))

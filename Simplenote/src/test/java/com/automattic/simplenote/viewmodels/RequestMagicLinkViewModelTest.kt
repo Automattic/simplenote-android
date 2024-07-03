@@ -1,16 +1,15 @@
 package com.automattic.simplenote.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.automattic.simplenote.networking.SimpleHttp
+import com.automattic.simplenote.repositories.MagicLinkRepository
+import com.automattic.simplenote.repositories.MagicLinkResponseResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
-import okhttp3.Response
 import org.junit.Test
 import org.mockito.Mockito
 
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Rule
 
 const val email = "test@email.com"
@@ -20,27 +19,21 @@ class RequestMagicLinkViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
-    private val response: Response = Mockito.mock(Response::class.java)
-    private val simpleHttp: SimpleHttp = Mockito.mock(SimpleHttp::class.java)
-
-    @Before
-    fun setup() {
-        Mockito.`when`(
-            simpleHttp.firePostRequest("account/request-login", mapOf(Pair("username", email), Pair("request_source", "android")))
-        ).thenReturn(response)
-    }
+    private val repository: MagicLinkRepository = Mockito.mock(MagicLinkRepository::class.java)
 
     @Test
     fun instantiateViewModel() = runBlockingTest {
-        val viewModel = RequestMagicLinkViewModel(simpleHttp, TestCoroutineDispatcher())
+        val viewModel = RequestMagicLinkViewModel(repository, TestCoroutineDispatcher())
         assertEquals(null, viewModel.magicLinkRequestUiState.value)
     }
 
     @Test
     fun firingPostRequestShouldLeadToSuccess() = runBlockingTest {
-        Mockito.`when`(response.isSuccessful).thenReturn(true)
+        Mockito.`when`(
+            repository.requestLogin(email)
+        ).thenReturn(MagicLinkResponseResult.MagicLinkRequestSuccess(code = 200))
 
-        val viewModel = RequestMagicLinkViewModel(simpleHttp, TestCoroutineDispatcher())
+        val viewModel = RequestMagicLinkViewModel(repository, TestCoroutineDispatcher())
         val states = mutableListOf<MagicLinkRequestUiState>()
         viewModel.magicLinkRequestUiState.observeForever {
             states.add(it)
@@ -52,9 +45,11 @@ class RequestMagicLinkViewModelTest {
 
     @Test
     fun firingPostRequestShouldLeadToError() = runBlockingTest {
-        Mockito.`when`(response.isSuccessful).thenReturn(false)
+        Mockito.`when`(
+            repository.requestLogin(email)
+        ).thenReturn(MagicLinkResponseResult.MagicLinkError(code = 400))
 
-        val viewModel = RequestMagicLinkViewModel(simpleHttp, TestCoroutineDispatcher())
+        val viewModel = RequestMagicLinkViewModel(repository, TestCoroutineDispatcher())
         val states = mutableListOf<MagicLinkRequestUiState>()
         viewModel.magicLinkRequestUiState.observeForever {
             states.add(it)

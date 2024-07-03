@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import com.automattic.simplenote.R
 import com.automattic.simplenote.di.IO_THREAD
 import com.automattic.simplenote.networking.SimpleHttp
+import com.automattic.simplenote.repositories.MagicLinkRepository
+import com.automattic.simplenote.repositories.MagicLinkResponseResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
@@ -17,7 +19,7 @@ import javax.inject.Named
 
 @HiltViewModel
 class RequestMagicLinkViewModel @Inject constructor(
-    private val simpleHttp: SimpleHttp,
+    private val magicLinkRepository: MagicLinkRepository,
     @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     private val _magicLinkRequestUiState = MutableLiveData<MagicLinkRequestUiState>()
@@ -28,16 +30,14 @@ class RequestMagicLinkViewModel @Inject constructor(
             messageRes = R.string.magic_link_request_login_loading_message)
         )
         try {
-            // TODO: Uncomment the request_source once finalized.
-            simpleHttp.firePostRequest(
-                "account/request-login",
-                mapOf(Pair("username", username), Pair("request_source", "android"))
-            ).use { response ->
-                if (response.isSuccessful) {
+            when (magicLinkRepository.requestLogin(username)) {
+                is MagicLinkResponseResult.MagicLinkRequestSuccess -> {
                     _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Success(username = username))
-                } else {
+                }
+                is MagicLinkResponseResult.MagicLinkError -> {
                     _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Error())
                 }
+                else -> _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Error())
             }
         } catch (exception: IOException) {
             _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Error())
