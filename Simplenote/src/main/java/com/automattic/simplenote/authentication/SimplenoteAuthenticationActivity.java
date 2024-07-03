@@ -8,13 +8,18 @@ import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
+import com.automattic.simplenote.utils.IntentUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.WordPressUtils;
+import com.automattic.simplenote.viewmodels.MagicLinkUiState;
+import com.automattic.simplenote.viewmodels.CompleteMagicLinkViewModel;
 import com.simperium.android.AuthenticationActivity;
 
 import net.openid.appauth.AuthorizationException;
@@ -24,14 +29,43 @@ import net.openid.appauth.AuthorizationService;
 
 import java.util.UUID;
 
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
     private static String STATE_AUTH_STATE = "STATE_AUTH_STATE";
 
+    public static final String KEY_IS_MAGIC_LINK = "KEY_IS_MAGIC_LINK";
+    public static final String KEY_MAGIC_LINK_AUTH_KEY = "KEY_MAGIC_LINK_AUTH_KEY";
+    public static final String KEY_MAGIC_LINK_AUTH_CODE = "KEY_MAGIC_LINK_AUTH_CODE";
+
     private String mAuthState;
 
+    @Nullable
+    private CompleteMagicLinkViewModel completeMagicLinkViewModel = null;
+
     @Override
-    protected void buttonLoginClicked() {
-        super.buttonLoginClicked();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        final Intent intent = getIntent();
+        final boolean isMagicLink = intent.getBooleanExtra(KEY_IS_MAGIC_LINK, false);
+        if (isMagicLink) {
+            completeMagicLinkViewModel = new ViewModelProvider(this).get(CompleteMagicLinkViewModel.class);
+            completeMagicLinkViewModel.getMagicLinkUiState().observe(this, state -> {
+                if (MagicLinkUiState.Success.INSTANCE.equals(state)) {
+                    final Intent notesIntent = IntentUtils.maybeAliasedIntent(this.getApplicationContext());
+                    notesIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION & (Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                    startActivity(notesIntent);
+                    finish();
+                } else if (state instanceof MagicLinkUiState.Error) {
+                    showDialogError(((MagicLinkUiState.Error) state).getMessageRes());
+                }
+            });
+            final String authKey = intent.getStringExtra(KEY_MAGIC_LINK_AUTH_KEY);
+            final String authCode = intent.getStringExtra(KEY_MAGIC_LINK_AUTH_CODE);
+            completeMagicLinkViewModel.completeLogin(authKey, authCode);
+        }
     }
 
     @Override
@@ -88,10 +122,10 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
 
     @Override
     public void onLoginSheetEmailClicked() {
-        Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteCredentialsActivity.class);
-        intent.putExtra(EXTRA_IS_LOGIN, true);
+        Intent intent = new Intent(SimplenoteAuthenticationActivity.this, SimplenoteSignupActivity.class);
+        intent.putExtra(SimplenoteSignupActivity.KEY_IS_LOGIN, true);
         startActivity(intent);
-        finish();
+        this.finish();
     }
 
     @Override

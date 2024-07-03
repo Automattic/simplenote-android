@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 
 import com.automattic.simplenote.R;
@@ -17,11 +18,13 @@ import com.automattic.simplenote.utils.HtmlCompat;
 
 public class ConfirmationFragment extends Fragment {
     private final static String CONFIRMATION_EMAIL_KEY = "CONFIRMATION_EMAIL_KEY";
+    private final static String IS_SIGNUP_KEY = "IS_SIGNUP_KEY";
 
-    public static ConfirmationFragment newInstance(String email) {
+    public static ConfirmationFragment newInstance(String email, boolean isSignUp) {
         ConfirmationFragment confirmationFragment = new ConfirmationFragment();
         Bundle bundle = new Bundle();
         bundle.putString(CONFIRMATION_EMAIL_KEY, email);
+        bundle.putBoolean(IS_SIGNUP_KEY, isSignUp);
         confirmationFragment.setArguments(bundle);
         return confirmationFragment;
     }
@@ -41,9 +44,16 @@ public class ConfirmationFragment extends Fragment {
     }
 
     private void initEmailConfirmation(TextView emailConfirmation) {
+        boolean isSignup = requireArguments().getBoolean(IS_SIGNUP_KEY, true);
         String boldEmail = "<b>" + requireArguments().getString(CONFIRMATION_EMAIL_KEY) + "</b>";
+        @StringRes final int stringRes;
+        if (isSignup) {
+            stringRes = R.string.email_confirmation_text;
+        } else {
+            stringRes = R.string.magic_link_request_login_dialog;
+        }
         Spanned emailConfirmationText = HtmlCompat.fromHtml(String.format(
-            getString(R.string.email_confirmation_text),
+            getString(stringRes),
             boldEmail));
         emailConfirmation.setText(emailConfirmationText);
     }
