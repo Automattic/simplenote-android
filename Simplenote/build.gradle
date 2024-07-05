@@ -146,6 +146,9 @@ dependencies {
     annotationProcessor 'com.google.dagger:hilt-compiler:2.38.1'
     kapt 'com.google.dagger:hilt-compiler:2.38.1'
 
+    // Credentials
+    implementation("androidx.credentials:credentials:1.2.2")
+
     wearApp project(':Wear')
 }
 
