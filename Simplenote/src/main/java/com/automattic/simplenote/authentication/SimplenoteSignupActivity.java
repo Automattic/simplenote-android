@@ -72,8 +72,10 @@ public class SimplenoteSignupActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressWarnings("MissingSuperCall")
     @Override
     public void onBackPressed() {
+        // TODO: Handle deprecated onBackPressed change.
         // This is weird. But see SimplenoteCredentialsActivity for why this is necessary.
         startActivity(new Intent(this, SimplenoteAuthenticationActivity.class));
         finish();

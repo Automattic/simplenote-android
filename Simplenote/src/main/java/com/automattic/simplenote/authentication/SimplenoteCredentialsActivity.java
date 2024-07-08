@@ -68,8 +68,10 @@ public class SimplenoteCredentialsActivity extends CredentialsActivity {
         }
     };
 
+    @SuppressWarnings("MissingSuperCall")
     @Override
     public void onBackPressed() {
+        // TODO: Handle deprecated onBackPressed change.
         startActivity(new Intent(SimplenoteCredentialsActivity.this, SimplenoteAuthenticationActivity.class));
         finish();
     }

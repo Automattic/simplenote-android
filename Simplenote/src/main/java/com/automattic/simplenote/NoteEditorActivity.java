@@ -232,8 +232,10 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
         }
     }
 
+    @SuppressWarnings("MissingSuperCall")
     @Override
     public void onBackPressed() {
+        // TODO: Handle deprecated onBackPressed change.
         handleBackPressed();
     }
 
