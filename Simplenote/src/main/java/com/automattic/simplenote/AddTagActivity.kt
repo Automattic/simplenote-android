@@ -98,6 +98,7 @@ class AddTagActivity : AppCompatActivity() {
                     DisplayUtils.hideKeyboard(tagInput)
                     showDialogError()
                 }
+                else -> {}
             }
         })
     }

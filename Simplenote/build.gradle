@@ -55,11 +55,11 @@ android {
 
     // Target Java8 to avoid use certain Kotlin's features
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
 
     viewBinding {
@@ -79,6 +79,8 @@ buildscript {
 }
 
 dependencies {
+    def lifecycle_version = "2.6.2"
+
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:4.0.0'
     testImplementation 'org.mockito:mockito-inline:4.0.0'
@@ -104,10 +106,12 @@ dependencies {
     // Support for JsonObjects in unit tests since they are used by BucketObjects
     testImplementation 'org.json:json:20210307'
 
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.4"
+
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
-    implementation 'com.automattic:simperium:v1.3.0'
+    implementation 'com.automattic:simperium:249-74c9bd151fed95f352ae1ffcfa53d65dcf987014'
     implementation('com.github.Automattic:Automattic-Tracks-Android:2.1.0') {
         // Tracks lib is referring to an unavailable build of okhttp
         exclude group: 'com.squareup.okhttp3'
@@ -128,11 +132,13 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
     // Support for ViewModels and LiveData
     implementation "androidx.activity:activity-ktx:1.3.1"
-    implementation "androidx.fragment:fragment-ktx:1.3.6"
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation "androidx.fragment:fragment-ktx:1.8.1"
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version") {
+        exclude group: 'androidx', module: 'lifecycle'
+    }
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     // Support for androidx Fragments
-    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
     // Google Play Services
     implementation 'com.google.android.gms:play-services-wearable:17.0.0'
@@ -142,9 +148,9 @@ dependencies {
     implementation 'net.openid:appauth:0.7.0'
 
     // Dagger Hilt dependencies
-    implementation 'com.google.dagger:hilt-android:2.38.1'
-    annotationProcessor 'com.google.dagger:hilt-compiler:2.38.1'
-    kapt 'com.google.dagger:hilt-compiler:2.38.1'
+    implementation 'com.google.dagger:hilt-android:2.48'
+    annotationProcessor 'com.google.dagger:hilt-compiler:2.48'
+    kapt 'com.google.dagger:hilt-compiler:2.48'
 
     // Credentials
     implementation("androidx.credentials:credentials:1.2.2")

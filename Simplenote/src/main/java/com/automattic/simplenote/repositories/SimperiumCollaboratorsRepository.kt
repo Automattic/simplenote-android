@@ -69,17 +69,17 @@ class SimperiumCollaboratorsRepository @Inject constructor(
     override suspend fun collaboratorsChanged(noteId: String): Flow<Boolean> = callbackFlow {
         val callbackOnSaveObject = Bucket.OnSaveObjectListener<Note> { _, note ->
             if (note.simperiumKey == noteId) {
-                offer(true)
+                trySend(true)
             }
         }
         val callbackOnDeleteObject = Bucket.OnDeleteObjectListener<Note> { _, note ->
             if (note.simperiumKey == noteId) {
-                offer(true)
+                trySend(true)
             }
         }
         val callbackOnNetworkChange = Bucket.OnNetworkChangeListener<Note> { _, _, updatedNoteId ->
             if (updatedNoteId != null && noteId == updatedNoteId) {
-                offer(true)
+                trySend(true)
             }
         }
 
