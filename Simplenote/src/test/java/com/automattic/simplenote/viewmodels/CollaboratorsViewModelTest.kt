@@ -5,9 +5,14 @@ import com.automattic.simplenote.repositories.CollaboratorsActionResult
 import com.automattic.simplenote.repositories.CollaboratorsRepository
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.Event
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.UiState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -20,20 +25,25 @@ class CollaboratorsViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    private val testDispatcher = UnconfinedTestDispatcher()
     private val mockCollaboratorsRepository = mock(CollaboratorsRepository::class.java)
     private val viewModel = CollaboratorsViewModel(mockCollaboratorsRepository)
 
     private val noteId = "key1"
-
-
     @Before
-    fun setup() = runBlockingTest {
-        whenever(mockCollaboratorsRepository.getCollaborators(noteId))
-            .thenReturn(CollaboratorsActionResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp")))
+    fun setup() {
+        Dispatchers.setMain(testDispatcher)
+        runTest {
+            whenever(mockCollaboratorsRepository.getCollaborators(noteId))
+                .thenReturn(CollaboratorsActionResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp")))
+        }
     }
-
+    @After
+    fun finish() {
+        Dispatchers.resetMain()
+    }
     @Test
-    fun loadCollaboratorsShouldUpdateUiStateWithList() = runBlockingTest {
+    fun loadCollaboratorsShouldUpdateUiStateWithList() = runTest {
         viewModel.loadCollaborators(noteId)
 
         val expectedCollaborators = UiState.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
@@ -41,7 +51,7 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun loadEmptyCollaboratorsShouldUpdateUiStateWithEmpty() = runBlockingTest {
+    fun loadEmptyCollaboratorsShouldUpdateUiStateWithEmpty() = runTest {
         whenever(mockCollaboratorsRepository.getCollaborators(noteId))
             .thenReturn(CollaboratorsActionResult.CollaboratorsList(emptyList()))
 
@@ -51,7 +61,7 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun loadCollaboratorsForNoteInTrashShouldUpdateUiStateNoteInTrash() = runBlockingTest {
+    fun loadCollaboratorsForNoteInTrashShouldUpdateUiStateNoteInTrash() = runTest {
         whenever(mockCollaboratorsRepository.getCollaborators(noteId))
             .thenReturn(CollaboratorsActionResult.NoteInTrash)
 
@@ -61,7 +71,7 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun loadCollaboratorsForNoteInTrashShouldUpdateUiStateNoteDeleted() = runBlockingTest {
+    fun loadCollaboratorsForNoteInTrashShouldUpdateUiStateNoteDeleted() = runTest {
         whenever(mockCollaboratorsRepository.getCollaborators(noteId))
             .thenReturn(CollaboratorsActionResult.NoteDeleted)
 
@@ -71,7 +81,7 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun removeCollaboratorShouldReturnListEmails() = runBlockingTest {
+    fun removeCollaboratorShouldReturnListEmails() = runTest {
         viewModel.loadCollaborators(noteId)
         whenever(mockCollaboratorsRepository.removeCollaborator(noteId, "test@emil.com"))
             .thenReturn(CollaboratorsActionResult.CollaboratorsList(listOf("name@example.co.jp")))
@@ -83,7 +93,7 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun removeLastCollaboratorShouldReturnEmpty() = runBlockingTest {
+    fun removeLastCollaboratorShouldReturnEmpty() = runTest {
         viewModel.loadCollaborators(noteId)
         whenever(mockCollaboratorsRepository.removeCollaborator(noteId, "test@emil.com"))
             .thenReturn(CollaboratorsActionResult.CollaboratorsList(emptyList()))
@@ -94,7 +104,7 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun removeCollaboratorForNoteInTrashShouldTriggerEvent() = runBlockingTest {
+    fun removeCollaboratorForNoteInTrashShouldTriggerEvent() = runTest {
         viewModel.loadCollaborators(noteId)
         whenever(mockCollaboratorsRepository.removeCollaborator(noteId, "test@emil.com"))
             .thenReturn(CollaboratorsActionResult.NoteInTrash)
@@ -105,7 +115,7 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun removeCollaboratorForNoteDeletedShouldTriggerEvent() = runBlockingTest {
+    fun removeCollaboratorForNoteDeletedShouldTriggerEvent() = runTest {
         viewModel.loadCollaborators(noteId)
         whenever(mockCollaboratorsRepository.removeCollaborator(noteId, "test@emil.com"))
             .thenReturn(CollaboratorsActionResult.NoteDeleted)
@@ -140,21 +150,22 @@ class CollaboratorsViewModelTest {
     }
 
     @Test
-    fun collaboratorAddedAfterStoppedListeningChangesShouldNotUpdateUiState() = runBlockingTest {
+    fun collaboratorAddedAfterStoppedListeningChangesShouldNotUpdateUiState() = runTest {
         viewModel.loadCollaborators(noteId)
-        viewModel.startListeningChanges()
-        viewModel.stopListeningChanges()
 
         whenever(mockCollaboratorsRepository.collaboratorsChanged(noteId)).thenReturn(flow { emit(true) })
         val expectedList = listOf("test@emil.com", "name@example.co.jp")
         whenever(mockCollaboratorsRepository.getCollaborators(noteId))
             .thenReturn(CollaboratorsActionResult.CollaboratorsList(expectedList))
 
+        viewModel.startListeningChanges()
+        viewModel.stopListeningChanges()
+
         assertEquals(UiState.CollaboratorsList(expectedList), viewModel.uiState.value)
     }
 
     @Test
-    fun collaboratorAddedShouldUpdateUiState() = runBlockingTest {
+    fun collaboratorAddedShouldUpdateUiState() = runTest {
         viewModel.loadCollaborators(noteId)
         whenever(mockCollaboratorsRepository.collaboratorsChanged(noteId)).thenReturn(flow { emit(true) })
         val expectedList = listOf("test@emil.com", "name@example.co.jp", "test2@email.com")

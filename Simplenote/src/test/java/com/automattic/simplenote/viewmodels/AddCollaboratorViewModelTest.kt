@@ -8,9 +8,13 @@ import com.simperium.Simperium
 import com.simperium.client.Bucket
 import com.simperium.client.BucketObjectMissingException
 import com.simperium.client.User
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -24,8 +28,9 @@ class AddCollaboratorViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    private val testDispatcher = UnconfinedTestDispatcher()
     private val notesBucket = Mockito.mock(Bucket::class.java) as Bucket<Note>
-    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
+    private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, testDispatcher)
     private val simperium = Mockito.mock(Simperium::class.java)
     private val viewModel = AddCollaboratorViewModel(collaboratorsRepository, SessionManager(simperium))
 
@@ -38,6 +43,7 @@ class AddCollaboratorViewModelTest {
 
     @Before
     fun setup() {
+        Dispatchers.setMain(testDispatcher)
         whenever(notesBucket.get(any())).thenReturn(note)
         val user = User().apply {
             email = "test@test.com"
@@ -46,22 +52,27 @@ class AddCollaboratorViewModelTest {
         whenever(simperium.user).thenReturn(user)
     }
 
+    @After
+    fun finish() {
+        Dispatchers.resetMain()
+    }
+
     @Test
-    fun addValidCollaboratorShouldTriggerAddedEvent() = runBlockingTest {
+    fun addValidCollaboratorShouldTriggerAddedEvent() = runTest {
         viewModel.addCollaborator(noteId,"test@emil.com")
 
         assertEquals(AddCollaboratorViewModel.Event.CollaboratorAdded, viewModel.event.value)
     }
 
     @Test
-    fun addInvalidCollaboratorShouldTriggerInvalidEvent() = runBlockingTest {
+    fun addInvalidCollaboratorShouldTriggerInvalidEvent() = runTest {
         viewModel.addCollaborator(noteId, "test@emil")
 
         assertEquals(AddCollaboratorViewModel.Event.InvalidCollaborator, viewModel.event.value)
     }
 
     @Test
-    fun addValidCollaboratorToNoteInTrashShouldTriggerNoteInTrash() = runBlockingTest {
+    fun addValidCollaboratorToNoteInTrashShouldTriggerNoteInTrash() = runTest {
         note.isDeleted = true
 
         viewModel.addCollaborator(noteId, "test@emil.com")
@@ -70,7 +81,7 @@ class AddCollaboratorViewModelTest {
     }
 
     @Test
-    fun addValidCollaboratorToNoteDeletedShouldTriggerNoteDeleted() = runBlockingTest {
+    fun addValidCollaboratorToNoteDeletedShouldTriggerNoteDeleted() = runTest {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
 
         viewModel.addCollaborator(noteId, "test@emil.com")
@@ -79,7 +90,7 @@ class AddCollaboratorViewModelTest {
     }
 
     @Test
-    fun addSameAccountShouldTriggerCollaboratorCurrentUser() = runBlockingTest {
+    fun addSameAccountShouldTriggerCollaboratorCurrentUser() = runTest {
         viewModel.addCollaborator(noteId, "test@test.com")
 
         assertEquals(AddCollaboratorViewModel.Event.CollaboratorCurrentUser, viewModel.event.value)

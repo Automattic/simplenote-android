@@ -9,12 +9,18 @@ import com.automattic.simplenote.repositories.SimperiumCollaboratorsRepository
 import com.automattic.simplenote.repositories.TagsRepository
 import com.automattic.simplenote.usecases.GetTagsUseCase
 import com.simperium.client.Bucket
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Before
@@ -31,6 +37,7 @@ import org.mockito.kotlin.stub
 class TagsViewModelTest {
     @get:Rule val rule = InstantTaskExecutorRule()
 
+    private val testDispatcher = UnconfinedTestDispatcher()
     private val tagsBucket = mock(Bucket::class.java) as Bucket<Tag>
     private val notesBucket = mock(Bucket::class.java) as Bucket<Note>
     private val collaboratorsRepository = SimperiumCollaboratorsRepository(notesBucket, TestCoroutineDispatcher())
@@ -57,7 +64,14 @@ class TagsViewModelTest {
         TagItem(Tag("tag5").apply { bucket = tagsBucket }, 0),
         TagItem(Tag("あいうえお@example.com").apply { bucket = tagsBucket }, 1),
     )
-
+    @Before
+    fun setup() {
+        Dispatchers.setMain(testDispatcher)
+    }
+    @After
+    fun finish() {
+        Dispatchers.resetMain()
+    }
     @Test
     fun startShouldSetupUiState() = runBlockingTest {
         fakeTagsRepository.stub {
@@ -75,7 +89,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun whenTagsChangedWithANewTagUiStateShouldUpdate() = runBlockingTest {
+    fun whenTagsChangedWithANewTagUiStateShouldUpdate() = runTest {
         val variableTagItems = tagItems.toMutableList()
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
@@ -107,7 +121,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun whenPauseIsCalledAllChangedToTagsAreNotListened() = runBlockingTest {
+    fun whenPauseIsCalledAllChangedToTagsAreNotListened() = runTest {
         val variableTagItems = expectedTagItems.toMutableList()
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
@@ -159,7 +173,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun closeSearchShouldCleanQuery() = runBlockingTest {
+    fun closeSearchShouldCleanQuery() = runTest {
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
         }
@@ -175,7 +189,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun searchShouldFilterTags() = runBlockingTest {
+    fun searchShouldFilterTags() = runTest {
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(tagItems)
         }
@@ -198,7 +212,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun afterAddingATagUpdateOnResultShouldUpdateUiState() = runBlockingTest {
+    fun afterAddingATagUpdateOnResultShouldUpdateUiState() = runTest {
         val mutableTagItems = expectedTagItems.toMutableList()
         fakeTagsRepository.stub {
             onBlocking { allTags() }.doReturn(mutableTagItems)
@@ -236,7 +250,7 @@ class TagsViewModelTest {
     }
 
     @Test
-    fun clickDeleteTagOfTagWithoutNotesShouldDeleteTagDirectly() = runBlockingTest {
+    fun clickDeleteTagOfTagWithoutNotesShouldDeleteTagDirectly() = runTest {
         fakeTagsRepository.stub {
             onBlocking { deleteTag(any()) }.doReturn(Unit)
         }
