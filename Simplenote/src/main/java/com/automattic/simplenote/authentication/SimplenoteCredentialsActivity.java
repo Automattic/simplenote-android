@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.widget.EditText;
 
@@ -83,8 +84,12 @@ public class SimplenoteCredentialsActivity extends CredentialsActivity {
             EditText inputPassword = ((TextInputLayout) findViewById(R.id.input_password)).getEditText();
 
             if (inputEmail != null && inputPassword != null) {
-                inputEmail.setText(BuildConfig.LOGIN_EMAIL);
-                inputPassword.setText(BuildConfig.LOGIN_PASSWORD);
+                if (!TextUtils.isEmpty(BuildConfig.LOGIN_EMAIL)) {
+                    inputEmail.setText(BuildConfig.LOGIN_EMAIL);
+                }
+                if (!TextUtils.isEmpty(BuildConfig.LOGIN_PASSWORD)) {
+                    inputPassword.setText(BuildConfig.LOGIN_PASSWORD);
+                }
             }
         }
     }
