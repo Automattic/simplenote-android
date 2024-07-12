@@ -1,6 +1,6 @@
 2.33
 -----
-
+* Added support for logging in with magic links for a passwordless experience.
 
 2.32
 -----

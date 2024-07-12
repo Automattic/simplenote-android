@@ -1,8 +1,14 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
+---
+
 # Nodes with values to reuse in the pipeline.
 common_params:
   # Common plugin settings to use with the `plugins` key.
   - &common_plugins
     - automattic/a8c-ci-toolkit#2.13.0
+
+agents:
+  queue: "android"
 
 # This is the default pipeline – it will build and test the app
 steps:
