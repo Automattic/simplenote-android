@@ -1,8 +1,6 @@
 package com.automattic.simplenote.authentication;
 
-import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_USER;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.AUTH_MAGIC_LINK;
-import static com.automattic.simplenote.analytics.AnalyticsTracker.Stat.USER_SIGNED_IN;
+import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_USER;;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -62,7 +60,7 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
                     notesIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION & (Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     startActivity(notesIntent);
                     AnalyticsTracker.track(
-                            AUTH_MAGIC_LINK,
+                            AnalyticsTracker.Stat.USER_CONFIRMED_LOGIN_LINK,
                             CATEGORY_USER,
                             "user_confirmed_login_link"
                     );

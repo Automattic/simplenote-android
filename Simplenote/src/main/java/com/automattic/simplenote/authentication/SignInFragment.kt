@@ -48,7 +48,7 @@ class SignInFragment: MagicLinkableFragment() {
                     hideDialogProgress()
                     showConfirmationScreen(state.username, false)
                     AnalyticsTracker.track(
-                        Stat.AUTH_MAGIC_LINK,
+                        Stat.USER_REQUESTED_LOGIN_LINK,
                         AnalyticsTracker.CATEGORY_USER,
                         "user_requested_login_link"
                     )

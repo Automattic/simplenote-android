@@ -173,7 +173,8 @@ public final class AnalyticsTracker {
         VERIFICATION_RESEND_EMAIL_BUTTON_TAPPED,
         VERIFICATION_DISMISSED,
         SETTINGS_SEARCH_SORT_MODE,
-        AUTH_MAGIC_LINK,
+        USER_REQUESTED_LOGIN_LINK,
+        USER_CONFIRMED_LOGIN_LINK,
     }
 
     public interface Tracker {
