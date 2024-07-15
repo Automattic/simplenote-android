@@ -2,6 +2,7 @@ package com.automattic.simplenote.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.credentials.CreatePublicKeyCredentialResponse
+import androidx.credentials.GetCredentialResponse
 import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.CreateCredentialCancellationException
 import androidx.credentials.exceptions.CreateCredentialUnknownException
@@ -25,6 +26,8 @@ class PasskeyViewModelTest {
 
     private val testDispatcher = UnconfinedTestDispatcher()
     private val repository: PasskeyRepository = Mockito.mock(PasskeyRepository::class.java)
+
+    val testResponse = "{\"Hello\": \"World\"}"
 
     @Test
     fun defaultViewModelState() = runTest {
@@ -66,7 +69,6 @@ class PasskeyViewModelTest {
 
     @Test
     fun extractChallengeFromCreateCredentialResponseAndAddPasskeySuccessfully() = runTest {
-        val testResponse = "{\"Hello\": \"World\""
         Mockito.`when`(repository.addCredential("email", testResponse)).thenReturn(
             PasskeyResponseResult.PasskeyAddSuccess(code = 200)
         )
@@ -147,5 +149,59 @@ class PasskeyViewModelTest {
 
         assertEquals(1, state.size)
         assertEquals(PasskeyUiState.PasskeyError::class.java, state[0]::class.java)
+    }
+
+    @Test
+    fun requestAuthChallengeForLoginWithPasskey() = runTest {
+        Mockito.`when`(repository.prepareAuthChallenge("email")).thenReturn(
+            PasskeyResponseResult.PasskeyPrepareResult(json = testResponse)
+        )
+        val viewModel = PasskeyViewModel(repository, testDispatcher)
+        val state = mutableListOf<PasskeyUiState>()
+        viewModel.passkeyUiState.observeForever {
+            state.add(it)
+        }
+        viewModel.prepareAuthChallenge("email")
+        assertEquals(2, state.size)
+        assertEquals(PasskeyUiState.PasskeyLoading::class.java, state[0]::class.java)
+        assertEquals(PasskeyUiState.PasskeyPrepareAuthChallengeRequest::class.java, state[1]::class.java)
+    }
+
+    @Test
+    fun requestAuthChallengeForLoginWithPasskeyWithError() = runTest {
+        Mockito.`when`(repository.prepareAuthChallenge("email")).thenReturn(
+            PasskeyResponseResult.PasskeyError(code = 400)
+        )
+        val viewModel = PasskeyViewModel(repository, testDispatcher)
+        val state = mutableListOf<PasskeyUiState>()
+        viewModel.passkeyUiState.observeForever {
+            state.add(it)
+        }
+        viewModel.prepareAuthChallenge("email")
+        assertEquals(2, state.size)
+        assertEquals(PasskeyUiState.PasskeyLoading::class.java, state[0]::class.java)
+        assertEquals(PasskeyUiState.PasskeyError::class.java, state[1]::class.java)
+    }
+
+    @Test
+    fun verifyAuthChallengeForLoginWithPasskey() = runTest {
+        val getCredentialResponse = Mockito.mock(GetCredentialResponse::class.java)
+        val credential = Mockito.mock(PublicKeyCredential::class.java)
+        Mockito.`when`(credential.authenticationResponseJson).thenReturn(testResponse)
+        Mockito.`when`(getCredentialResponse.credential).thenReturn(credential)
+
+        Mockito.`when`(repository.verifyAuthChallenge("email", testResponse)).thenReturn(
+            PasskeyResponseResult.PasskeyVerifyResult("testToken", "email")
+        )
+        val viewModel = PasskeyViewModel(repository, testDispatcher)
+        val state = mutableListOf<PasskeyUiState>()
+        viewModel.passkeyUiState.observeForever {
+            state.add(it)
+        }
+
+        viewModel.verifyAuthChallenge("email", getCredentialResponse)
+        assertEquals(2, state.size)
+        assertEquals(PasskeyUiState.PasskeyLoading::class.java, state[0]::class.java)
+        assertEquals(PasskeyUiState.PasskeyVerifyAuthChallengeRequest::class.java, state[1]::class.java)
     }
 }

@@ -21,6 +21,9 @@ import com.simperium.android.ProgressDialogFragment
  */
 abstract class MagicLinkableFragment : Fragment() {
 
+    var emailField: EditText? = null
+    var signupButton: Button? = null
+
     private var progressDialogFragment: ProgressDialogFragment? = null
 
     abstract fun inflateLayout(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -37,27 +40,37 @@ abstract class MagicLinkableFragment : Fragment() {
     }
 
     private fun initSignupButton(view: View) {
-        val emailEditText = (view.findViewById<View>(R.id.input_email) as TextInputLayout).editText
-        val signupButton = view.findViewById<Button>(R.id.button)
-        signupButton.text = actionButtonText()
+        emailField = (view.findViewById<View>(R.id.input_email) as TextInputLayout).editText
+        signupButton = view.findViewById(R.id.button)
+        signupButton?.text = actionButtonText()
 
-        setButtonState(signupButton, emailEditText!!.text)
-        listenToEmailChanges(emailEditText, signupButton)
-        listenToActionButtonClick(signupButton, emailEditText)
+        emailField?.let {
+            signupButton?.let { button ->
+                setButtonState(button, it.text)
+                listenToEmailChanges(it)
+                listenToActionButtonClick(button, it)
+            }
+        }
     }
 
     private fun setButtonState(signupButton: Button, email: CharSequence) {
         signupButton.isEnabled = isValidEmail(email)
     }
 
-    private fun isValidEmail(text: CharSequence): Boolean {
+    protected fun isValidEmail(text: CharSequence): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(text).matches()
     }
 
-    private fun listenToEmailChanges(emailEditText: EditText, signupButton: Button) {
+    protected open fun emailEntered(s: Editable, isValid: Boolean) {
+        signupButton?.let {
+            setButtonState(it, s)
+        }
+    }
+
+    private fun listenToEmailChanges(emailEditText: EditText) {
         emailEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                setButtonState(signupButton, s)
+                emailEntered(s, isValidEmail(s))
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
