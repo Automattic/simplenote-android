@@ -592,4 +592,8 @@
         <item name="android:backgroundTint">@color/background_light_sepia</item>
     </style>
 
+    <style name="SignUpOverride" parent="Simperium">
+        <item name="mainBackgroundColor">@color/background_light</item>
+    </style>
+
 </resources>

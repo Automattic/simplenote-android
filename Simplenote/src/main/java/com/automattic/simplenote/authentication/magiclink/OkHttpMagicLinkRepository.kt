@@ -9,10 +9,10 @@ import javax.inject.Inject
 
 class OkHttpMagicLinkRepository @Inject constructor(private val simpleHttp: SimpleHttp,) : MagicLinkRepository {
     @Throws(IOException::class)
-    override suspend fun completeLogin(authKey: String, authCode: String): MagicLinkResponseResult {
+    override suspend fun completeLogin(username: String, authCode: String): MagicLinkResponseResult {
         simpleHttp.firePostRequest(
             "account/complete-login",
-            mapOf(Pair("auth_key", authKey), Pair("auth_code", authCode))
+            mapOf(Pair("username", username), Pair("auth_code", authCode))
         ).use { response ->
             if (response.isSuccessful) {
                 val body = response.body()?.string()

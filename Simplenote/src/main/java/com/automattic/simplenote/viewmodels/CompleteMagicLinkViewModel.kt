@@ -26,10 +26,10 @@ class CompleteMagicLinkViewModel @Inject constructor(
     private val _magicLinkUiState = MutableLiveData<MagicLinkUiState>()
     val magicLinkUiState: LiveData<MagicLinkUiState> get() = _magicLinkUiState
 
-    fun completeLogin(authKey: String, authCode: String) = viewModelScope.launch(ioDispatcher) {
+    fun completeLogin(username: String, authCode: String) = viewModelScope.launch(ioDispatcher) {
         _magicLinkUiState.postValue(MagicLinkUiState.Loading(messageRes = R.string.magic_link_complete_login_loading_message))
         try {
-            when (val result = magicLinkRepository.completeLogin(authKey, authCode)) {
+            when (val result = magicLinkRepository.completeLogin(username, authCode)) {
                 is MagicLinkResponseResult.MagicLinkCompleteSuccess -> {
                     simplenote.loginWithToken(result.username, result.syncToken)
                     _magicLinkUiState.postValue(MagicLinkUiState.Success)

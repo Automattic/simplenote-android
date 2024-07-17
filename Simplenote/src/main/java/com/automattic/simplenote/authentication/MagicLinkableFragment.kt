@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.automattic.simplenote.R
+import com.automattic.simplenote.authentication.magiclink.MagicLinkConfirmationFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.simperium.android.ProgressDialogFragment
 
@@ -72,10 +73,18 @@ abstract class MagicLinkableFragment : Fragment() {
     }
 
     protected fun showConfirmationScreen(email: String, isSignUp: Boolean) {
-        val confirmationFragment = ConfirmationFragment.newInstance(email, isSignUp)
-        requireFragmentManager().beginTransaction()
-            .replace(R.id.fragment_container, confirmationFragment, SimplenoteSignupActivity.SIGNUP_FRAGMENT_TAG)
-            .commit()
+        if (isSignUp) {
+            val confirmationFragment = ConfirmationFragment.newInstance(email, isSignUp)
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, confirmationFragment, SimplenoteSignupActivity.SIGNUP_FRAGMENT_TAG)
+                .commit()
+        } else {
+            val magicLinkConfirmationFrag = MagicLinkConfirmationFragment.newInstance(email)
+            parentFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, magicLinkConfirmationFrag, SimplenoteSignupActivity.SIGNUP_FRAGMENT_TAG)
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     fun showProgressDialog(label: String) {

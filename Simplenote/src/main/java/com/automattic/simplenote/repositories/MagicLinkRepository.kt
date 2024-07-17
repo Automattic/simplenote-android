@@ -1,7 +1,7 @@
 package com.automattic.simplenote.repositories
 
 interface MagicLinkRepository {
-    suspend fun completeLogin(authKey: String, authCode: String): MagicLinkResponseResult
+    suspend fun completeLogin(username: String, authCode: String): MagicLinkResponseResult
     suspend fun requestLogin(username: String): MagicLinkResponseResult
 }
 

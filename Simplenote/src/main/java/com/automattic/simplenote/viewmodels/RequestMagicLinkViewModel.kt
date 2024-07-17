@@ -1,5 +1,6 @@
 package com.automattic.simplenote.viewmodels
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +18,8 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Named
 
+const val TAG = "RequestMagicLinkViewModel"
+
 @HiltViewModel
 class RequestMagicLinkViewModel @Inject constructor(
     private val magicLinkRepository: MagicLinkRepository,
@@ -30,17 +33,24 @@ class RequestMagicLinkViewModel @Inject constructor(
             messageRes = R.string.magic_link_request_login_loading_message)
         )
         try {
-            when (magicLinkRepository.requestLogin(username)) {
+            when (val response = magicLinkRepository.requestLogin(username)) {
                 is MagicLinkResponseResult.MagicLinkRequestSuccess -> {
+                    Log.d(TAG, "Request magic link login success: ${response.code}")
                     _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Success(username = username))
                 }
                 is MagicLinkResponseResult.MagicLinkError -> {
-                    _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Error())
+                    Log.e(TAG, "Request magic link login error: ${response.code}")
+                    _magicLinkRequestUiState.postValue(
+                        MagicLinkRequestUiState.Error(
+                            response.code,
+                            if (response.code == 429) R.string.magic_link_error_too_many_requests_enter_password_message else R.string.magic_link_request_error_message
+                        )
+                    )
                 }
-                else -> _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Error())
+                else -> _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Error(null, R.string.magic_link_request_error_message))
             }
         } catch (exception: IOException) {
-            _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Error())
+            _magicLinkRequestUiState.postValue(MagicLinkRequestUiState.Error(null, R.string.magic_link_request_error_message))
         }
     }
 
@@ -48,6 +58,6 @@ class RequestMagicLinkViewModel @Inject constructor(
 
 sealed class MagicLinkRequestUiState {
     data class Loading(@StringRes val messageRes: Int): MagicLinkRequestUiState()
-    data class Error(val message: String? = null): MagicLinkRequestUiState()
+    data class Error(val code: Int? = null, @StringRes val messageRes: Int): MagicLinkRequestUiState()
     data class Success(val username: String) : MagicLinkRequestUiState()
 }

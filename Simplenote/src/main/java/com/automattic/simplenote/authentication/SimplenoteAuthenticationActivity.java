@@ -2,6 +2,7 @@ package com.automattic.simplenote.authentication;
 
 import static com.automattic.simplenote.analytics.AnalyticsTracker.CATEGORY_USER;;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +47,18 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
     @Nullable
     private CompleteMagicLinkViewModel completeMagicLinkViewModel = null;
 
+    public static void startNotesActivity(final Activity activity) {
+        final Intent notesIntent = IntentUtils.maybeAliasedIntent(activity.getApplicationContext());
+        notesIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION & (Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+        activity.startActivity(notesIntent);
+        AnalyticsTracker.track(
+                AnalyticsTracker.Stat.USER_CONFIRMED_LOGIN_LINK,
+                CATEGORY_USER,
+                "user_confirmed_login_link"
+        );
+        activity.finish();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,15 +69,7 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
             completeMagicLinkViewModel = new ViewModelProvider(this).get(CompleteMagicLinkViewModel.class);
             completeMagicLinkViewModel.getMagicLinkUiState().observe(this, state -> {
                 if (MagicLinkUiState.Success.INSTANCE.equals(state)) {
-                    final Intent notesIntent = IntentUtils.maybeAliasedIntent(this.getApplicationContext());
-                    notesIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION & (Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                    startActivity(notesIntent);
-                    AnalyticsTracker.track(
-                            AnalyticsTracker.Stat.USER_CONFIRMED_LOGIN_LINK,
-                            CATEGORY_USER,
-                            "user_confirmed_login_link"
-                    );
-                    finish();
+                    startNotesActivity(this);
                 } else if (state instanceof MagicLinkUiState.Error) {
                     showDialogError(((MagicLinkUiState.Error) state).getMessageRes());
                 }
@@ -133,6 +138,11 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
         intent.putExtra(SimplenoteSignupActivity.KEY_IS_LOGIN, true);
         startActivity(intent);
         this.finish();
+    }
+
+    @Override
+    protected void buttonLoginClicked() {
+        onLoginSheetEmailClicked();
     }
 
     @Override
