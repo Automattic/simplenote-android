@@ -8,14 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import com.automattic.simplenote.R
+import com.automattic.simplenote.analytics.AnalyticsTracker
+import com.automattic.simplenote.analytics.AnalyticsTracker.Stat
 import com.automattic.simplenote.utils.NetworkUtils
 import com.automattic.simplenote.viewmodels.MagicLinkRequestUiState
 import com.automattic.simplenote.viewmodels.RequestMagicLinkViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
-import androidx.fragment.app.viewModels
-import com.simperium.android.CredentialsActivity
 
 @AndroidEntryPoint
 class SignInFragment: MagicLinkableFragment() {
@@ -52,6 +52,11 @@ class SignInFragment: MagicLinkableFragment() {
                 is MagicLinkRequestUiState.Success -> {
                     hideDialogProgress()
                     showConfirmationScreen(state.username, false)
+                    AnalyticsTracker.track(
+                        Stat.USER_REQUESTED_LOGIN_LINK,
+                        AnalyticsTracker.CATEGORY_USER,
+                        "user_requested_login_link"
+                    )
                 }
             }
         }
