@@ -39,8 +39,7 @@ public class SimplenoteSignupActivity extends AppCompatActivity implements SignU
             fragment = createFragment(isSignUp);
         }
         getSupportFragmentManager().beginTransaction()
-            .add(R.id.fragment_container, fragment, SIGNUP_FRAGMENT_TAG)
-                .addToBackStack(null)
+            .replace(R.id.fragment_container, fragment, SIGNUP_FRAGMENT_TAG)
             .commit();
     }
 

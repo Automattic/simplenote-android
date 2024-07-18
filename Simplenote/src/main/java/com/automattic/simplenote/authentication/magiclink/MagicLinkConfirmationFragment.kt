@@ -17,7 +17,7 @@ import androidx.fragment.app.viewModels
 import com.automattic.simplenote.R
 import com.automattic.simplenote.authentication.SignInFragment
 import com.automattic.simplenote.authentication.SignUpCallback
-import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity
+import com.automattic.simplenote.utils.NetworkUtils
 import com.automattic.simplenote.viewmodels.CompleteMagicLinkViewModel
 import com.automattic.simplenote.viewmodels.MagicLinkUiState
 import com.simperium.android.ProgressDialogFragment
@@ -63,7 +63,7 @@ class MagicLinkConfirmationFragment : Fragment() {
                 }
                 is MagicLinkUiState.Success -> {
                     hideDialogProgress()
-                    SimplenoteAuthenticationActivity.startNotesActivity(activity)
+                    activity?.finish()
                 }
                 is MagicLinkUiState.Error -> {
                     hideDialogProgress()
@@ -82,7 +82,11 @@ class MagicLinkConfirmationFragment : Fragment() {
             val code = codeEditText?.text?.toString()
             val username = arguments?.getString(PARAM_USERNAME)
             if (!code.isNullOrBlank() && !username.isNullOrBlank()) {
-                completeMagicLinkViewModel.completeLogin(username, code)
+                if (NetworkUtils.isNetworkAvailable(view.context)) {
+                    completeMagicLinkViewModel.completeLogin(username, code, true)
+                } else {
+                    Toast.makeText(view.context, getString(R.string.simperium_dialog_message_network), Toast.LENGTH_SHORT).show()
+                }
             }
         }
         codeEditText?.addTextChangedListener(object : TextWatcher {

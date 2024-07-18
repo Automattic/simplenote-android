@@ -36,10 +36,7 @@ class SignInFragment: MagicLinkableFragment() {
 
     val viewModel: RequestMagicLinkViewModel by viewModels()
 
-
-    private var loginWithWordpress: Button? = null
-
-    private var mAuthState: String? = null
+    private var authState: String? = null
 
     private var signUpCallback: SignUpCallback? = null
 
@@ -68,7 +65,7 @@ class SignInFragment: MagicLinkableFragment() {
             val authSuccess = WordPressUtils.processAuthResponse(
                 activity?.application as Simplenote?,
                 authorizationResponse,
-                mAuthState,
+                authState,
                 true
             )
             if (!authSuccess) {
@@ -87,19 +84,16 @@ class SignInFragment: MagicLinkableFragment() {
     override fun inflateLayout(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
-        loginWithWordpress = view.findViewById(R.id.button_login_with_wordpress)
+        val loginWithWordpress: Button? = view.findViewById(R.id.button_login_with_wordpress)
         loginWithWordpress?.setOnClickListener {
-            val ctx = context ?: return@setOnClickListener
             val authRequestBuilder = WordPressUtils.getWordPressAuthorizationRequestBuilder()
 
             // Set unique state value.
-
-            // Set unique state value.
-            mAuthState = "app-" + UUID.randomUUID()
-            authRequestBuilder.setState(mAuthState)
+            authState = "app-" + UUID.randomUUID()
+            authRequestBuilder.setState(authState)
 
             val request = authRequestBuilder.build()
-            authService = AuthorizationService(ctx)
+            authService = AuthorizationService(loginWithWordpress.context)
             authService?.getAuthorizationRequestIntent(request)?.let {
                 resultLauncher.launch(it)
             }
@@ -150,7 +144,7 @@ class SignInFragment: MagicLinkableFragment() {
 
     override fun onActionButtonClicked(view: View, emailEditText: EditText) {
         if (NetworkUtils.isNetworkAvailable(requireContext())) {
-            viewModel?.requestLogin(emailEditText.text.toString())
+            viewModel.requestLogin(emailEditText.text.toString())
         } else {
             showDialogError(getString(R.string.simperium_dialog_message_network))
         }

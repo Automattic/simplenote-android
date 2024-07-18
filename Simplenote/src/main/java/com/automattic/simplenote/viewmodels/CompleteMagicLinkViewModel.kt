@@ -1,5 +1,6 @@
 package com.automattic.simplenote.viewmodels
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -26,7 +27,16 @@ class CompleteMagicLinkViewModel @Inject constructor(
     private val _magicLinkUiState = MutableLiveData<MagicLinkUiState>()
     val magicLinkUiState: LiveData<MagicLinkUiState> get() = _magicLinkUiState
 
-    fun completeLogin(username: String, authCode: String) = viewModelScope.launch(ioDispatcher) {
+    private var lastKnownUserName: String? = null
+    private var lastKnownAuthCode: String? = null
+
+    fun completeLogin(username: String, authCode: String, userInitiated: Boolean = false) = viewModelScope.launch(ioDispatcher) {
+        if (!userInitiated && lastKnownUserName == username && lastKnownAuthCode == authCode) {
+            Log.d(TAG, "Already checked deeplinked magic link")
+            return@launch
+        }
+        lastKnownUserName = username
+        lastKnownAuthCode = authCode
         _magicLinkUiState.postValue(MagicLinkUiState.Loading(messageRes = R.string.magic_link_complete_login_loading_message))
         try {
             when (val result = magicLinkRepository.completeLogin(username, authCode)) {
