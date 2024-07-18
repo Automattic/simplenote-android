@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import static android.app.Activity.RESULT_OK;
+import static com.automattic.simplenote.di.ThreadModuleKt.IO_THREAD;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING_LABEL;
@@ -80,9 +81,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import kotlinx.coroutines.CoroutineDispatcher;
+
 /**
  * A simple {@link Fragment} subclass.
  */
+@AndroidEntryPoint
 public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
     public static final String WEB_APP_URL = "https://app.simplenote.com";
 
@@ -93,6 +101,10 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     private Bucket<Preferences> mPreferencesBucket;
     private SwitchPreferenceCompat mAnalyticsSwitch;
     private SimplenoteProgressDialogFragment mProgressDialogFragment;
+
+    @Named(IO_THREAD)
+    @Inject
+    CoroutineDispatcher ioDispatcher;
 
     @Nullable
     private PasskeyViewModel mPasskeyViewModel;
@@ -111,7 +123,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
               closeProgressDialog();
             } else if (passkeyUiState instanceof PasskeyUiState.PasskeyChallengeRequestSuccess state) {
                 closeProgressDialog();
-                PasskeyManager.INSTANCE.createCredential(requireContext(), state.getJson(), mPasskeyViewModel);
+                PasskeyManager.INSTANCE.createCredential(requireContext(), ioDispatcher, state.getJson(), mPasskeyViewModel);
             } else if (passkeyUiState instanceof PasskeyUiState.PasskeyAddedSuccessfully) {
                 closeProgressDialog();
                 toast(R.string.add_passkey_success_label, Toast.LENGTH_LONG);
