@@ -122,7 +122,8 @@ class SignInFragment: MagicLinkableFragment() {
                 is MagicLinkRequestUiState.Error -> {
                     hideDialogProgress()
                     if (state.code == 429) {
-                        showLoginWithPassword(activity)
+                        val email = getEmailEditText()
+                        showLoginWithPassword(activity, email?.text?.toString())
                     }
                     Toast.makeText(context, getString(state.messageRes), Toast.LENGTH_LONG).show()
                 }
@@ -162,10 +163,13 @@ class SignInFragment: MagicLinkableFragment() {
     }
 
     companion object {
-        fun showLoginWithPassword(activity: Activity?) {
+        fun showLoginWithPassword(activity: Activity?, username: String?) {
             activity?.let { act ->
                 val intent = Intent(act, SimplenoteCredentialsActivity::class.java)
                 intent.putExtra("EXTRA_IS_LOGIN", true)
+                if (!username.isNullOrBlank()) {
+                    intent.putExtra(Intent.EXTRA_EMAIL, username)
+                }
                 activity.startActivity(intent)
                 act.finish()
             }

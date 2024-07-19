@@ -24,6 +24,8 @@ abstract class MagicLinkableFragment : Fragment() {
 
     private var progressDialogFragment: ProgressDialogFragment? = null
 
+    private var emailField: EditText? = null
+
     abstract fun inflateLayout(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
 
     abstract fun actionButtonText(): String
@@ -38,13 +40,15 @@ abstract class MagicLinkableFragment : Fragment() {
     }
 
     private fun initSignupButton(view: View) {
-        val emailEditText = (view.findViewById<View>(R.id.input_email) as TextInputLayout).editText
+        emailField = (view.findViewById<View>(R.id.input_email) as TextInputLayout).editText
         val signupButton = view.findViewById<Button>(R.id.button)
         signupButton.text = actionButtonText()
 
-        setButtonState(signupButton, emailEditText!!.text)
-        listenToEmailChanges(emailEditText, signupButton)
-        listenToActionButtonClick(signupButton, emailEditText)
+        emailField?.let {
+            setButtonState(signupButton, it.text)
+            listenToEmailChanges(it, signupButton)
+            listenToActionButtonClick(signupButton, it)
+        }
     }
 
     private fun setButtonState(signupButton: Button, email: CharSequence) {
@@ -115,4 +119,9 @@ abstract class MagicLinkableFragment : Fragment() {
             .setPositiveButton(android.R.string.ok, null)
             .show()
     }
+
+    /**
+     * Exposes the field used to store the email
+     */
+    protected fun getEmailEditText() = emailField
 }

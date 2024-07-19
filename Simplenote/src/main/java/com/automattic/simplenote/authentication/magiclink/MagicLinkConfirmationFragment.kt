@@ -106,7 +106,8 @@ class MagicLinkConfirmationFragment : Fragment() {
         })
         loginWithPassword = view.findViewById(R.id.login_with_password_button)
         loginWithPassword?.setOnClickListener { _ ->
-            SignInFragment.showLoginWithPassword(activity)
+            val username: String? = arguments?.getString(PARAM_USERNAME)
+            SignInFragment.showLoginWithPassword(activity, username)
         }
     }
 
