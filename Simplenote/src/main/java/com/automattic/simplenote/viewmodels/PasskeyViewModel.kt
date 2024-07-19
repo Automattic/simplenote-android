@@ -1,5 +1,6 @@
 package com.automattic.simplenote.viewmodels
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.credentials.CreateCredentialResponse
 import androidx.credentials.CreatePublicKeyCredentialResponse
@@ -8,6 +9,9 @@ import androidx.credentials.exceptions.CreateCredentialCancellationException
 import androidx.credentials.exceptions.CreateCredentialCustomException
 import androidx.credentials.exceptions.CreateCredentialException
 import androidx.credentials.exceptions.CreateCredentialUnknownException
+import androidx.credentials.exceptions.domerrors.AbortError
+import androidx.credentials.exceptions.domerrors.NotAllowedError
+import androidx.credentials.exceptions.domerrors.TimeoutError
 import androidx.credentials.exceptions.publickeycredential.CreatePublicKeyCredentialDomException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -82,10 +86,17 @@ class PasskeyViewModel @Inject constructor(
     fun handleCreateCredentialException(exception: CreateCredentialException) {
         when (exception) {
             is CreatePublicKeyCredentialDomException -> {
-                if (exception.message == "User canceled the request") {
-                    _passkeyUiState.postValue(PasskeyUiState.PasskeyUserCancelledProcess)
-                } else {
-                    _passkeyUiState.postValue(PasskeyUiState.PasskeyError(message = R.string.add_passkey_error_label))
+                Log.d(TAG, "CreatePublicKeyCredentialDomException (${exception.domError.type})")
+                when (exception.domError) {
+                    is NotAllowedError, is AbortError -> {
+                        _passkeyUiState.postValue(PasskeyUiState.PasskeyUserCancelledProcess)
+                    }
+                    is TimeoutError -> {
+                        _passkeyUiState.postValue(PasskeyUiState.PasskeyError(message = R.string.add_passkey_error_timeout_label))
+                    }
+                    else -> {
+                        _passkeyUiState.postValue(PasskeyUiState.PasskeyError(message = R.string.add_passkey_error_label))
+                    }
                 }
             }
             is CreateCredentialCancellationException -> {

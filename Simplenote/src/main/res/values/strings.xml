@@ -449,4 +449,5 @@
     <string name="add_passkey_success_label">Successfully added passkey</string>
     <string name="add_passkey_request_challenge_error_label">An error occurred trying to request challenge. Check your credentials.</string>
     <string name="add_passkey_error_label">An error occurred trying to add a passkey. Try again later.</string>
+    <string name="add_passkey_error_timeout_label">Passkey process timed out.</string>
 </resources>
