@@ -41,16 +41,31 @@
         android:textAllCaps="true"
         android:textColor="@android:color/white" />
 
-    <TextView
-        android:id="@+id/login_with_password_button"
-        android:layout_width="wrap_content"
+    <include
+        layout="@layout/authentication_fancy_or"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login_with_password"
         app:layout_constraintTop_toBottomOf="@+id/confirmation_code_button"
+        android:layout_marginVertical="10dp"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/login_with_password_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/or_row"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textColor="@color/blue"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-        />
+        app:rippleColor="?attr/colorControlHighlight"
+        android:backgroundTint="@color/button_disabled_selector"
+        android:layout_marginTop="@dimen/margin_default_quarter"
+        android:layout_marginBottom="@dimen/margin_default_quarter"
+        app:strokeColor="@color/background_dark_black_0"
+        app:strokeWidth="1dp"
+        android:minHeight="@dimen/height_button"
+        android:text="@string/login_with_password"
+        android:textAllCaps="true"
+        android:textColor="@android:color/black"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

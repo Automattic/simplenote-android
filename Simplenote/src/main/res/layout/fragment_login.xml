@@ -45,34 +45,7 @@
         android:textAllCaps="true"
         android:textColor="@android:color/white" />
 
-    <LinearLayout
-        android:id="@+id/or_row"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_below="@id/button"
-        android:layout_marginVertical="10dp">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_20"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/magic_link_login_with_wordpress_or_break"
-            android:paddingHorizontal="5dp"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/gray_20"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1" />
-    </LinearLayout>
+    <include layout="@layout/authentication_fancy_or" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button_login_with_wordpress"
