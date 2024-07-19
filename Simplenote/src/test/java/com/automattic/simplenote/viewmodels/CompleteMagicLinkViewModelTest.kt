@@ -34,7 +34,7 @@ class CompleteMagicLinkViewModelTest {
     @Test
     fun instantiateViewModel() = runBlockingTest {
         val viewModel = CompleteMagicLinkViewModel(app, repository, TestCoroutineDispatcher())
-        assertEquals(null, viewModel.magicLinkUiState.value)
+        assertEquals(MagicLinkUiState.Waiting, viewModel.magicLinkUiState.value)
     }
 
     @Test
@@ -50,8 +50,9 @@ class CompleteMagicLinkViewModelTest {
         }
         viewModel.completeLogin(AUTH_KEY_TEST, AUTH_CODE_TEST)
 
-        assertEquals(MagicLinkUiState.Loading::class.java, states[0]::class.java)
-        assertEquals(MagicLinkUiState.Success, states[1])
+        assertEquals(MagicLinkUiState.Waiting::class.java, states[0]::class.java)
+        assertEquals(MagicLinkUiState.Loading::class.java, states[1]::class.java)
+        assertEquals(MagicLinkUiState.Success, states[2])
     }
 
     @Test
@@ -66,7 +67,8 @@ class CompleteMagicLinkViewModelTest {
             states.add(it)
         }
         viewModel.completeLogin(AUTH_KEY_TEST, AUTH_CODE_TEST)
-        assertEquals(MagicLinkUiState.Loading::class.java, states[0]::class.java)
-        assertEquals(MagicLinkUiState.Error::class.java, states[1]::class.java)
+        assertEquals(MagicLinkUiState.Waiting::class.java, states[0]::class.java)
+        assertEquals(MagicLinkUiState.Loading::class.java, states[1]::class.java)
+        assertEquals(MagicLinkUiState.Error::class.java, states[2]::class.java)
     }
 }

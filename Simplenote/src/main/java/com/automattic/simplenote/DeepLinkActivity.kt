@@ -80,7 +80,7 @@ class DeepLinkActivity : AppCompatActivity() {
         } else {
             Toast.makeText(
                 this,
-                getString(R.string.magic_link_complete_login_error_message),
+                getString(R.string.magic_link_general_error),
                 Toast.LENGTH_SHORT
             ).show()
         }

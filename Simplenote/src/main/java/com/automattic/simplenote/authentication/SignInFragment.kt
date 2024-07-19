@@ -127,6 +127,7 @@ class SignInFragment: MagicLinkableFragment() {
                     Toast.makeText(context, getString(state.messageRes), Toast.LENGTH_LONG).show()
                 }
                 is MagicLinkRequestUiState.Success -> {
+                    viewModel.resetState()
                     hideDialogProgress()
                     showConfirmationScreen(state.username, false)
                     AnalyticsTracker.track(
@@ -134,6 +135,10 @@ class SignInFragment: MagicLinkableFragment() {
                         AnalyticsTracker.CATEGORY_USER,
                         "user_requested_login_link"
                     )
+                }
+
+                else -> {
+                    // no-ops
                 }
             }
         }

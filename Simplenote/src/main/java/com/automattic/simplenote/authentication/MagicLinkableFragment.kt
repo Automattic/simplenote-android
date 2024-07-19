@@ -88,14 +88,18 @@ abstract class MagicLinkableFragment : Fragment() {
     }
 
     fun showProgressDialog(label: String) {
-        progressDialogFragment =
-            ProgressDialogFragment.newInstance(label)
-        progressDialogFragment?.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium)
-        progressDialogFragment?.show(requireFragmentManager(), ProgressDialogFragment.TAG)
+        val existingProgressFrag = parentFragmentManager.findFragmentByTag(ProgressDialogFragment.TAG)
+        if (existingProgressFrag == null) {
+            progressDialogFragment =
+                ProgressDialogFragment.newInstance(label)
+            progressDialogFragment?.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium)
+            progressDialogFragment?.show(requireFragmentManager(), ProgressDialogFragment.TAG)
+        }
     }
 
     protected fun hideDialogProgress() {
-        progressDialogFragment?.let {
+        val existingProgressFrag = progressDialogFragment ?: (parentFragmentManager.findFragmentByTag(ProgressDialogFragment.TAG) as ProgressDialogFragment?)
+        existingProgressFrag?.let {
             if (!it.isHidden) {
                 it.dismiss()
                 progressDialogFragment = null

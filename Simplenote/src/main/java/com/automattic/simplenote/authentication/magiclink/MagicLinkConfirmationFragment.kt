@@ -62,10 +62,12 @@ class MagicLinkConfirmationFragment : Fragment() {
                     showProgressDialog(getString(state.messageRes))
                 }
                 is MagicLinkUiState.Success -> {
+                    completeMagicLinkViewModel.resetState()
                     hideDialogProgress()
                     activity?.finish()
                 }
                 is MagicLinkUiState.Error -> {
+                    completeMagicLinkViewModel.resetState()
                     hideDialogProgress()
                     Toast.makeText(context, getString(state.messageRes), Toast.LENGTH_LONG).show()
                 }

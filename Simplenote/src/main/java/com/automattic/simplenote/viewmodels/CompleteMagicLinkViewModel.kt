@@ -24,7 +24,7 @@ class CompleteMagicLinkViewModel @Inject constructor(
     private val magicLinkRepository: MagicLinkRepository,
     @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher,
     ) : ViewModel() {
-    private val _magicLinkUiState = MutableLiveData<MagicLinkUiState>()
+    private val _magicLinkUiState = MutableLiveData<MagicLinkUiState>(MagicLinkUiState.Waiting)
     val magicLinkUiState: LiveData<MagicLinkUiState> get() = _magicLinkUiState
 
     private var lastKnownUserName: String? = null
@@ -45,17 +45,17 @@ class CompleteMagicLinkViewModel @Inject constructor(
                     _magicLinkUiState.postValue(MagicLinkUiState.Success)
                 }
                 is MagicLinkResponseResult.MagicLinkError -> {
-                    if (result.code == 400) {
-                        _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.magic_link_complete_login_error_message))
-                    } else {
-                        _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.dialog_message_signup_error))
-                    }
+                    _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = result.errorMessage ?: R.string.magic_link_general_error))
                 }
-                else -> _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.dialog_message_signup_error))
+                else -> _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.magic_link_general_error))
             }
         } catch (exception: IOException) {
-            _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.dialog_message_signup_error))
+            _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.magic_link_general_error))
         }
+    }
+
+    fun resetState() {
+        _magicLinkUiState.postValue(MagicLinkUiState.Waiting)
     }
 }
 
@@ -66,4 +66,5 @@ sealed class MagicLinkUiState {
     data class Loading(@StringRes val messageRes: Int): MagicLinkUiState()
     data class Error(@StringRes val messageRes: Int): MagicLinkUiState()
     object Success : MagicLinkUiState()
+    object Waiting : MagicLinkUiState()
 }

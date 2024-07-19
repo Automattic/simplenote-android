@@ -2,7 +2,6 @@ package com.automattic.simplenote.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
@@ -37,10 +36,10 @@ public class SimplenoteSignupActivity extends AppCompatActivity implements SignU
         Fragment fragment = getSupportFragmentManager().findFragmentByTag(SIGNUP_FRAGMENT_TAG);
         if (fragment == null) {
             fragment = createFragment(isSignUp);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, fragment, SIGNUP_FRAGMENT_TAG)
+                    .commit();
         }
-        getSupportFragmentManager().beginTransaction()
-            .replace(R.id.fragment_container, fragment, SIGNUP_FRAGMENT_TAG)
-            .commit();
     }
 
     private Fragment createFragment(final boolean isSignUp) {
