@@ -11,6 +11,9 @@ import androidx.credentials.exceptions.CreateCredentialCustomException
 import androidx.credentials.exceptions.CreateCredentialException
 import androidx.credentials.exceptions.CreateCredentialUnknownException
 import androidx.credentials.exceptions.GetCredentialException
+import androidx.credentials.exceptions.domerrors.AbortError
+import androidx.credentials.exceptions.domerrors.NotAllowedError
+import androidx.credentials.exceptions.domerrors.TimeoutError
 import androidx.credentials.exceptions.publickeycredential.CreatePublicKeyCredentialDomException
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,7 +37,7 @@ class PasskeyViewModel @Inject constructor(
     @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
-    private val _passkeyUiState = MutableLiveData<PasskeyUiState>()
+    private val _passkeyUiState = MutableLiveData<PasskeyUiState>(PasskeyUiState.Waiting)
     val passkeyUiState: LiveData<PasskeyUiState> get() = _passkeyUiState
 
     // ADD PASSKEYS
@@ -89,10 +92,17 @@ class PasskeyViewModel @Inject constructor(
         Log.e(TAG, "handleCreateCredentialException", exception)
         when (exception) {
             is CreatePublicKeyCredentialDomException -> {
-                if (exception.message == "User canceled the request") {
-                    _passkeyUiState.postValue(PasskeyUiState.PasskeyUserCancelledProcess)
-                } else {
-                    _passkeyUiState.postValue(PasskeyUiState.PasskeyError(message = R.string.add_passkey_error_label))
+                Log.d(TAG, "CreatePublicKeyCredentialDomException (${exception.domError.type})")
+                when (exception.domError) {
+                    is NotAllowedError, is AbortError -> {
+                        _passkeyUiState.postValue(PasskeyUiState.PasskeyUserCancelledProcess)
+                    }
+                    is TimeoutError -> {
+                        _passkeyUiState.postValue(PasskeyUiState.PasskeyError(message = R.string.add_passkey_error_timeout_label))
+                    }
+                    else -> {
+                        _passkeyUiState.postValue(PasskeyUiState.PasskeyError(message = R.string.add_passkey_error_label))
+                    }
                 }
             }
             is CreateCredentialCancellationException -> {
@@ -154,9 +164,17 @@ class PasskeyViewModel @Inject constructor(
             _passkeyUiState.postValue(PasskeyUiState.PasskeyError(R.string.passkey_login_error_label))
         }
     }
+
+    /**
+     * Used to reset the state back to Waiting. Required to avoid refiring certain events on orientation change.
+     */
+    fun resetState() {
+        _passkeyUiState.postValue(PasskeyUiState.Waiting)
+    }
 }
 
 sealed class PasskeyUiState {
+    data object Waiting: PasskeyUiState()
     data class PasskeyLoading(@StringRes val msg: Int) : PasskeyUiState()
     data object PasskeyUserCancelledProcess : PasskeyUiState()
     data class PasskeyError(@StringRes val message: Int): PasskeyUiState()

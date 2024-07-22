@@ -95,22 +95,16 @@ class SignInFragment: MagicLinkableFragment() {
                 is PasskeyUiState.PasskeyPrepareAuthChallengeRequest -> {
                     // Prepare Auth Challenge for login
                     hideDialogProgress()
+                    passkeyViewModel.resetState()
                     PasskeyManager.getCredential(requireContext(), emailField?.editableText.toString(), state.challengeJson, passkeyViewModel)
                 }
                 is PasskeyUiState.PasskeyVerifyAuthChallengeRequest -> {
                     // Use this token to sign in with Simplenote
                     hideDialogProgress()
+                    passkeyViewModel.resetState()
                     val simplenote = requireActivity().application as Simplenote
                     simplenote.loginWithToken(state.username, state.token)
-
-                    val notesIntent = IntentUtils.maybeAliasedIntent(simplenote)
-                    notesIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION and (Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK))
-                    startActivity(notesIntent)
-                    AnalyticsTracker.track(
-                        Stat.USER_CONFIRMED_LOGIN_LINK,
-                        AnalyticsTracker.CATEGORY_USER,
-                        "user_confirmed_passkey"
-                    )
+                    
                     activity?.finish()
                 }
                 is PasskeyUiState.PasskeyError -> {
@@ -118,8 +112,7 @@ class SignInFragment: MagicLinkableFragment() {
                     Toast.makeText(requireContext(), getString(state.message), Toast.LENGTH_LONG).show()
                 }
                 else -> {
-                    hideDialogProgress()
-                    Toast.makeText(requireContext(), getString(R.string.passkey_login_error_label), Toast.LENGTH_LONG).show()
+                    // no-ops
                 }
             }
         }

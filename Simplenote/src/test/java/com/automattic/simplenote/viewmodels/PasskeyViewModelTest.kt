@@ -6,6 +6,7 @@ import androidx.credentials.GetCredentialResponse
 import androidx.credentials.PublicKeyCredential
 import androidx.credentials.exceptions.CreateCredentialCancellationException
 import androidx.credentials.exceptions.CreateCredentialUnknownException
+import androidx.credentials.exceptions.domerrors.NotAllowedError
 import androidx.credentials.exceptions.publickeycredential.CreatePublicKeyCredentialDomException
 import com.automattic.simplenote.repositories.PasskeyRepository
 import com.automattic.simplenote.repositories.PasskeyResponseResult
@@ -115,8 +116,10 @@ class PasskeyViewModelTest {
         viewModel.passkeyUiState.observeForever {
             state.add(it)
         }
+        val domErrorMock = Mockito.mock(NotAllowedError::class.java)
         val domExceptionMock = Mockito.mock(CreatePublicKeyCredentialDomException::class.java)
-        Mockito.`when`(domExceptionMock.message).thenReturn("User canceled the request")
+        Mockito.`when`(domErrorMock.type).thenReturn("some_error") // Actual value shouldn't matter.
+        Mockito.`when`(domExceptionMock.domError).thenReturn(domErrorMock)
         viewModel.handleCreateCredentialException(domExceptionMock)
 
         assertEquals(1, state.size)

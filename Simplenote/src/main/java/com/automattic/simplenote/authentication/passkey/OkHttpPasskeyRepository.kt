@@ -10,11 +10,13 @@ import org.json.JSONObject
 import java.io.IOException
 import java.lang.Exception
 import javax.inject.Inject
+import javax.inject.Singleton
 
 const val EMAIL_KEY = "email"
 const val PASSWORD_KEY = "password"
 const val WEB_AUTHN_KEY = "webauthn"
 
+@Singleton
 class OkHttpPasskeyRepository @Inject constructor(private val simpleHttp: SimpleHttp,) : PasskeyRepository {
     @Throws(IOException::class)
     override suspend fun requestChallenge(username: String, password: String): PasskeyResponseResult {

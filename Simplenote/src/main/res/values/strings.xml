@@ -452,4 +452,5 @@
     <string name="passkey_login_error_label">An error occurred logging in with passkey. Try again later.</string>
     <string name="passkey_link_login">Log In With A Passkey</string>
     <string name="passkey_login_verification">Validating passkey</string>
+    <string name="add_passkey_error_timeout_label">Passkey process timed out.</string>
 </resources>
