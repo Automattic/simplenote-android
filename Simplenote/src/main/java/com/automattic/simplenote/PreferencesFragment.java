@@ -1,6 +1,7 @@
 package com.automattic.simplenote;
 
 import static android.app.Activity.RESULT_OK;
+import static com.automattic.simplenote.di.ThreadModuleKt.IO_THREAD;
 import static com.automattic.simplenote.models.Preferences.PREFERENCES_OBJECT_KEY;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING;
 import static com.automattic.simplenote.utils.PrefUtils.ALPHABETICAL_ASCENDING_LABEL;
@@ -27,14 +28,20 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
-import android.widget.Switch;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.app.ShareCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -42,6 +49,7 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import com.automattic.simplenote.analytics.AnalyticsTracker;
 import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity;
+import com.automattic.simplenote.authentication.passkey.PasskeyManager;
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.models.Preferences;
 import com.automattic.simplenote.utils.AccountNetworkUtils;
@@ -55,6 +63,8 @@ import com.automattic.simplenote.utils.HtmlCompat;
 import com.automattic.simplenote.utils.NetworkUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SimplenoteProgressDialogFragment;
+import com.automattic.simplenote.viewmodels.PasskeyUiState;
+import com.automattic.simplenote.viewmodels.PasskeyViewModel;
 import com.simperium.Simperium;
 import com.simperium.android.ProgressDialogFragment;
 import com.simperium.client.Bucket;
@@ -71,9 +81,16 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import kotlinx.coroutines.CoroutineDispatcher;
+
 /**
  * A simple {@link Fragment} subclass.
  */
+@AndroidEntryPoint
 public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
     public static final String WEB_APP_URL = "https://app.simplenote.com";
 
@@ -85,8 +102,37 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
     private SwitchPreferenceCompat mAnalyticsSwitch;
     private SimplenoteProgressDialogFragment mProgressDialogFragment;
 
+    @Named(IO_THREAD)
+    @Inject
+    CoroutineDispatcher ioDispatcher;
+
+    @Nullable
+    private PasskeyViewModel mPasskeyViewModel;
+
     public PreferencesFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mPasskeyViewModel = new ViewModelProvider(requireActivity()).get(PasskeyViewModel.class);
+        mPasskeyViewModel.getPasskeyUiState().observe(getViewLifecycleOwner(), passkeyUiState -> {
+            if (passkeyUiState instanceof PasskeyUiState.PasskeyLoading loadingState) {
+                showProgressDialog(getString(loadingState.getMsg()));
+            } else if (passkeyUiState instanceof PasskeyUiState.PasskeyUserCancelledProcess) {
+              closeProgressDialog();
+            } else if (passkeyUiState instanceof PasskeyUiState.PasskeyChallengeRequestSuccess state) {
+                closeProgressDialog();
+                PasskeyManager.INSTANCE.createCredential(requireContext(), ioDispatcher, state.getJson(), mPasskeyViewModel);
+            } else if (passkeyUiState instanceof PasskeyUiState.PasskeyAddedSuccessfully) {
+                closeProgressDialog();
+                toast(R.string.add_passkey_success_label, Toast.LENGTH_LONG);
+            } else if (passkeyUiState instanceof PasskeyUiState.PasskeyError error) {
+                closeProgressDialog();
+                toast(error.getMessage(), Toast.LENGTH_LONG);
+            }
+        });
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -364,6 +410,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 return true;
             }
         });
+
+        findPreference("pref_key_add_passkey").setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                showAddPassskeyCollectPasswordDialog();
+                return true;
+            }
+        });
     }
 
     private void toggleSustainerAppIcon(boolean enabled) {
@@ -390,17 +444,17 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         );
     }
 
-    private void showProgressDialogDeleteAccount() {
+    private void showProgressDialog(final String label) {
         FragmentActivity activity = getActivity();
         if (activity == null) {
             return;
         }
 
-        mProgressDialogFragment = SimplenoteProgressDialogFragment.newInstance(getString(R.string.requesting_message));
+        mProgressDialogFragment = SimplenoteProgressDialogFragment.newInstance(label);
         mProgressDialogFragment.show(activity.getSupportFragmentManager(), ProgressDialogFragment.TAG);
     }
 
-    private void closeProgressDialogDeleteAccount() {
+    private void closeProgressDialog() {
         if (mProgressDialogFragment != null && !mProgressDialogFragment.isHidden()) {
             mProgressDialogFragment.dismiss();
             mProgressDialogFragment = null;
@@ -429,7 +483,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                                 return;
                             }
 
-                            showProgressDialogDeleteAccount();
+                            showProgressDialog(getString(R.string.requesting_message));
 
                             // makeDeleteAccountRequest can throw an exception when it cannot build
                             // the JSON object. In those cases, we show the error dialog since
@@ -445,14 +499,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                                             deleteAccountHandler);
                                 } else {
                                     AppLog.add(Type.ACCOUNT, "No connectivity to make request to delete account");
-                                    closeProgressDialogDeleteAccount();
+                                    closeProgressDialog();
                                     showDialogDeleteAccountNoConnectivity();
                                 }
 
                             } catch (IllegalArgumentException exception) {
                                 AppLog.add(Type.ACCOUNT, "Error trying to make request " +
                                         "to delete account. Error: " + exception.getMessage());
-                                closeProgressDialogDeleteAccount();
+                                closeProgressDialog();
                                 showDialogDeleteAccountError();
                             }
                         }
@@ -498,6 +552,41 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
                 .create();
 
         dialogDeleteAccountConfirmation.show();
+    }
+
+    private void showAddPassskeyCollectPasswordDialog() {
+        FragmentActivity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+
+        View v = getLayoutInflater().inflate(R.layout.passkey_add_dialog, null);
+        final int padding = getContext().getResources().getDimensionPixelSize(R.dimen.padding_dialog);
+        final AlertDialog dialogCollectPassword = new AlertDialog.Builder(
+                new ContextThemeWrapper(activity, R.style.Dialog))
+                .setTitle(R.string.add_passkey_collect_pass_dialog)
+                .setMessage(R.string.add_passkey_collect_pass_dialog_message)
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int i) {
+                                final EditText editText = v.findViewById(R.id.add_passkey_textfield);
+                                final String password = editText.getText().toString();
+                                final Simplenote simplenote = (Simplenote) activity.getApplication();
+                                final String email = simplenote.getUserEmail();
+                                if (!password.isBlank() && !email.isBlank()) {
+                                    if (mPasskeyViewModel != null) {
+                                        mPasskeyViewModel.requestAuthChallenge(email, password);
+                                    }
+                                    dialog.dismiss();
+                                }
+                            }
+                        }
+                )
+                .create();
+        dialogCollectPassword.setView(v, padding, 0, padding, 0);
+
+        dialogCollectPassword.show();
     }
 
     private void showDialogDeleteAccountError() {
@@ -843,7 +932,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    fragment.closeProgressDialogDeleteAccount();
+                    fragment.closeProgressDialog();
                     fragment.showDeleteAccountConfirmationDialog();
                 }
             });
@@ -871,7 +960,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             activity.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    fragment.closeProgressDialogDeleteAccount();
+                    fragment.closeProgressDialog();
                     fragment.showDialogDeleteAccountError();
                 }
             });

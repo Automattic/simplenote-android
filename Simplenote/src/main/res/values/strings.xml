@@ -440,4 +440,14 @@
     <string name="magic_link_request_login_loading_message">Requesting log in link</string>
     <string name="magic_link_complete_login_loading_message">Logging In</string>
     <string name="magic_link_complete_login_error_message">Link no longer valid</string>
+
+    <string name="add_passkey_pref_label">Add Passkey Authentication</string>
+    <string name="add_passkey_collect_pass_dialog">Passkey Setup</string>
+    <string name="add_passkey_collect_pass_dialog_message">To add passkeys you must enter your password</string>
+    <string name="add_passkey_loading_label">Adding Passkey</string>
+    <string name="add_passkey_loading_request_challenge_label">Requesting passkey challenge</string>
+    <string name="add_passkey_success_label">Successfully added passkey</string>
+    <string name="add_passkey_request_challenge_error_label">An error occurred trying to request challenge. Check your credentials.</string>
+    <string name="add_passkey_error_label">An error occurred trying to add a passkey. Try again later.</string>
+    <string name="add_passkey_error_timeout_label">Passkey process timed out.</string>
 </resources>
