@@ -2,6 +2,7 @@ package com.automattic.simplenote.authentication
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
@@ -44,6 +45,10 @@ class SignInFragment: MagicLinkableFragment() {
             activity?.let { act ->
                 val intent = Intent(act, SimplenoteCredentialsActivity::class.java)
                 intent.putExtra("EXTRA_IS_LOGIN", true)
+                val currentEmail = getEmailEditText()?.text.toString()
+                if (!TextUtils.isEmpty(currentEmail)) {
+                    intent.putExtra(Intent.EXTRA_EMAIL, currentEmail)
+                }
                 this.startActivity(intent)
                 act.finish()
             }

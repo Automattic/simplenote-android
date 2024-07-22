@@ -22,7 +22,7 @@ import com.simperium.android.ProgressDialogFragment
 abstract class MagicLinkableFragment : Fragment() {
 
     var emailField: EditText? = null
-    var signupButton: Button? = null
+    private var signupButton: Button? = null
 
     private var progressDialogFragment: ProgressDialogFragment? = null
 
@@ -115,4 +115,9 @@ abstract class MagicLinkableFragment : Fragment() {
             .setPositiveButton(android.R.string.ok, null)
             .show()
     }
+
+    /**
+     * Exposes the field used to store the email
+     */
+    protected fun getEmailEditText() = emailField
 }
