@@ -104,7 +104,7 @@ class SignInFragment: MagicLinkableFragment() {
                     passkeyViewModel.resetState()
                     val simplenote = requireActivity().application as Simplenote
                     simplenote.loginWithToken(state.username, state.token)
-                    
+
                     activity?.finish()
                 }
                 is PasskeyUiState.PasskeyError -> {
