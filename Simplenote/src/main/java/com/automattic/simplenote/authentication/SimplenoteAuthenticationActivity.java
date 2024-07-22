@@ -29,6 +29,8 @@ import net.openid.appauth.AuthorizationService;
 
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
@@ -44,6 +46,9 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
     @Nullable
     private AlertDialog mPendingDialog;
 
+    @Inject
+    Simplenote simplenote;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +58,9 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
         if (isMagicLink) {
             CompleteMagicLinkViewModel completeMagicLinkViewModel = new ViewModelProvider(this).get(CompleteMagicLinkViewModel.class);
             completeMagicLinkViewModel.getMagicLinkUiState().observe(this, state -> {
-                if (MagicLinkUiState.Success.INSTANCE.equals(state)) {
+                if (state instanceof MagicLinkUiState.Success) {
+                    final MagicLinkUiState.Success stateResult = (MagicLinkUiState.Success) state;
+                    simplenote.loginWithToken(stateResult.getEmail(), stateResult.getToken());
                     finish();
                 } else if (state instanceof MagicLinkUiState.Error) {
                     showDialogError(((MagicLinkUiState.Error) state).getMessageRes());
