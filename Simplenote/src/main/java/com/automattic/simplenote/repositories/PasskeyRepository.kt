@@ -5,6 +5,7 @@ interface PasskeyRepository {
     suspend fun addCredential(username: String, json: String): PasskeyResponseResult
 
     suspend fun prepareAuthChallenge(username: String): PasskeyResponseResult
+    suspend fun prepareDiscoverableAuthChallenge(): PasskeyResponseResult
     suspend fun verifyAuthChallenge(username: String, json: String): PasskeyResponseResult
 }
 

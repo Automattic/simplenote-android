@@ -37,6 +37,8 @@ class PasskeyViewModel @Inject constructor(
     @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
+    private var autoFillRequested: Boolean = false
+
     private val _passkeyUiState = MutableLiveData<PasskeyUiState>(PasskeyUiState.Waiting)
     val passkeyUiState: LiveData<PasskeyUiState> get() = _passkeyUiState
 
@@ -170,6 +172,26 @@ class PasskeyViewModel @Inject constructor(
      */
     fun resetState() {
         _passkeyUiState.postValue(PasskeyUiState.Waiting)
+    }
+
+    fun attemptAutofill() {
+        // This is special functionality we only ever want to do ONE time on Sign In Load.
+        if (!autoFillRequested) {
+            autoFillRequested = true
+            viewModelScope.launch(ioDispatcher) {
+                when (val result = passkeyRepository.prepareDiscoverableAuthChallenge()) {
+                    is PasskeyResponseResult.PasskeyPrepareResult -> {
+                        _passkeyUiState.postValue(PasskeyUiState.PasskeyPrepareAuthChallengeRequest(challengeJson = result.json))
+                    }
+                    is PasskeyResponseResult.PasskeyError -> {
+                        Log.e(TAG, "Something went wrong attempting to autofill passkey (${result.code}). Carry on.")
+                    }
+                    else -> {
+                        Log.e(TAG, "Something went wrong attempting to autofill passkey. Carry on.")
+                    }
+                }
+            }
+        }
     }
 }
 

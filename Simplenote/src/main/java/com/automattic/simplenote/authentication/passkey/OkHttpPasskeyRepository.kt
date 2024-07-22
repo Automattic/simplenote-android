@@ -8,7 +8,6 @@ import com.automattic.simplenote.repositories.PasskeyResponseResult
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.lang.Exception
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -57,6 +56,24 @@ class OkHttpPasskeyRepository @Inject constructor(private val simpleHttp: Simple
         ).use { response ->
             if (response.isSuccessful) {
                 val body = response.body()?.string()
+                Log.e(TAG, "prepareAuthChallenge - ($body)")
+                if (!body.isNullOrBlank()) {
+                    return PasskeyResponseResult.PasskeyPrepareResult(body)
+                }
+                return PasskeyResponseResult.PasskeyError(response.code())
+            }
+            return PasskeyResponseResult.PasskeyError(response.code())
+        }
+    }
+
+    override suspend fun prepareDiscoverableAuthChallenge(): PasskeyResponseResult {
+        simpleHttp.firePostRequest(
+            OkHttpEndpoints.PASSKEY_DISCOVERABLE_CHALLENGE,
+            ""
+        ).use { response ->
+            if (response.isSuccessful) {
+                val body = response.body()?.string()
+                Log.e(TAG, body ?: "")
                 if (!body.isNullOrBlank()) {
                     return PasskeyResponseResult.PasskeyPrepareResult(body)
                 }

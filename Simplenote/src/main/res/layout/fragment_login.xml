@@ -26,7 +26,8 @@
             android:id="@+id/email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:autofillHints="username"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -42,6 +43,7 @@
         android:minHeight="@dimen/height_button"
         android:text="@string/passkey_link_login"
         android:textAllCaps="true"
+        android:visibility="gone"
         android:textColor="@android:color/white" />
 
     <androidx.appcompat.widget.AppCompatButton
