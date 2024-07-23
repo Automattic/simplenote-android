@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.Simplenote;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
+import com.automattic.simplenote.utils.IntentUtils;
 import com.automattic.simplenote.utils.StrUtils;
 import com.automattic.simplenote.utils.WordPressUtils;
 import com.automattic.simplenote.viewmodels.MagicLinkUiState;
@@ -61,6 +62,17 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
                 if (state instanceof MagicLinkUiState.Success) {
                     final MagicLinkUiState.Success stateResult = (MagicLinkUiState.Success) state;
                     simplenote.loginWithToken(stateResult.getEmail(), stateResult.getToken());
+
+                    final Intent notesIntent = IntentUtils.maybeAliasedIntent(this.getApplicationContext());
+                    notesIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION & (Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                    startActivity(notesIntent);
+
+                    AnalyticsTracker.track(
+                            AnalyticsTracker.Stat.USER_CONFIRMED_LOGIN_LINK,
+                            AnalyticsTracker.CATEGORY_USER,
+                            "user_confirmed_login_link"
+                    );
+
                     finish();
                 } else if (state instanceof MagicLinkUiState.Error) {
                     showDialogError(((MagicLinkUiState.Error) state).getMessageRes());
