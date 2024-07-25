@@ -1,7 +1,6 @@
 package com.automattic.simplenote.authentication
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -37,8 +36,6 @@ class SignInFragment: MagicLinkableFragment() {
     val viewModel: RequestMagicLinkViewModel by viewModels()
 
     private var authState: String? = null
-
-    private var signUpCallback: SignUpCallback? = null
 
     private var authService: AuthorizationService? = null
 
@@ -107,13 +104,7 @@ class SignInFragment: MagicLinkableFragment() {
         return view
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        signUpCallback = context as SignUpCallback?
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        signUpCallback?.setTitle(getString(R.string.login_screen_title))
         viewModel.magicLinkRequestUiState.observe(this.viewLifecycleOwner) { state ->
             when (state) {
                 is MagicLinkRequestUiState.Loading -> {

@@ -1,6 +1,5 @@
 package com.automattic.simplenote.authentication.magiclink
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.automattic.simplenote.R
 import com.automattic.simplenote.authentication.SignInFragment
-import com.automattic.simplenote.authentication.SignUpCallback
+import com.automattic.simplenote.utils.HtmlCompat
 import com.automattic.simplenote.utils.NetworkUtils
 import com.automattic.simplenote.viewmodels.CompleteMagicLinkViewModel
 import com.automattic.simplenote.viewmodels.MagicLinkUiState
@@ -34,8 +33,6 @@ class MagicLinkConfirmationFragment : Fragment() {
 
     private val completeMagicLinkViewModel: CompleteMagicLinkViewModel by viewModels()
 
-    private var signUpCallback: SignUpCallback? = null
-
     companion object {
         const val PARAM_USERNAME = "param_username"
         fun newInstance(username: String) : Fragment {
@@ -47,14 +44,8 @@ class MagicLinkConfirmationFragment : Fragment() {
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        signUpCallback = context as SignUpCallback?
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_magic_link_code, container, false)
-        signUpCallback?.setTitle(getString(R.string.magic_link_enter_code_title))
         initUi(view)
         completeMagicLinkViewModel.magicLinkUiState.observe(this.viewLifecycleOwner) { state ->
             when (state) {
@@ -77,8 +68,19 @@ class MagicLinkConfirmationFragment : Fragment() {
     }
 
     private fun initUi(view: View) {
+        val textView: TextView = view.findViewById(R.id.magic_link_enter_code_message)
+        arguments?.getString(PARAM_USERNAME)?.let {
+            val bolded = "<br/><b>$it</b>"
+            textView.text = HtmlCompat.fromHtml(
+                String.format(
+                    getString(R.string.magic_link_confirm_code_message),
+                    bolded
+                )
+            )
+        }
         codeEditText = view.findViewById(R.id.confirmation_code_textfield)
         actionCodeButton = view.findViewById(R.id.confirmation_code_button)
+
         actionCodeButton?.isEnabled = false
         actionCodeButton?.setOnClickListener {
             val code = codeEditText?.text?.toString()

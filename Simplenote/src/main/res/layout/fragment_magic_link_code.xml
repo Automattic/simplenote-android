@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/margin_default"
     android:layout_marginTop="?attr/actionBarSize"
-    android:background="?mainBackgroundColor">
+    android:background="?mainBackgroundColor"
+    android:orientation="vertical"
+    >
+    <TextView
+        android:id="@+id/magic_link_enter_code_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="?attr/onMainBackgroundColor"
+        android:textSize="18sp"
+        tools:text="We\'ve sent a code to example@email.com. The code will be valid for a few minutes"
+        android:layout_marginVertical="15dp"
+        />
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/confirmation_code_input_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="@dimen/margin_default_quarter"
         android:layout_marginTop="@dimen/margin_default"
         android:layout_marginEnd="@dimen/margin_default_quarter"
@@ -27,12 +39,11 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/confirmation_code_button"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/confirmation_code_input_layout"
         android:layout_marginTop="@dimen/margin_default_quarter"
         android:layout_marginBottom="@dimen/margin_default_quarter"
         android:backgroundTint="@color/button_primary_disabled_selector"
@@ -45,7 +56,6 @@
         layout="@layout/authentication_fancy_or"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/confirmation_code_button"
         android:layout_marginVertical="10dp"
         />
 
@@ -54,9 +64,6 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/or_row"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:rippleColor="?attr/colorControlHighlight"
         android:backgroundTint="@color/button_disabled_selector"
         android:layout_marginTop="@dimen/margin_default_quarter"
@@ -64,8 +71,8 @@
         app:strokeColor="@color/background_dark_black_0"
         app:strokeWidth="1dp"
         android:minHeight="@dimen/height_button"
-        android:text="@string/login_with_password"
+        android:text="@string/magic_link_confirm_code_enter_pass_label"
         android:textAllCaps="true"
         android:textColor="@android:color/black"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -448,4 +448,6 @@
     <string name="magic_link_code_hint">Code</string>
     <string name="magic_link_enter_code_title">Enter Code</string>
     <string name="magic_link_login_with_wordpress_or_break">Or</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Enter password</string>
+    <string name="magic_link_confirm_code_message">We\'ve sent a code to \n%1$s. The code will be valid for a few minutes.</string>
 </resources>

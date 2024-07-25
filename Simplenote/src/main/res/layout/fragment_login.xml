@@ -31,7 +31,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
@@ -47,7 +47,7 @@
 
     <include layout="@layout/authentication_fancy_or" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_login_with_wordpress"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.authentication.magiclink.MagicLinkConfirmationFragment;
@@ -15,13 +16,27 @@ import com.automattic.simplenote.authentication.magiclink.MagicLinkConfirmationF
 import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
-public class SimplenoteSignupActivity extends AppCompatActivity implements SignUpCallback {
+public class SimplenoteSignupActivity extends AppCompatActivity {
     public final static String SIGNUP_FRAGMENT_TAG = "signup";
 
     // Used to differentiate between sign in and sign up in the sign in activity
     public static final String KEY_IS_LOGIN = "KEY_IS_LOGIN";
 
     Toolbar mToolbar;
+
+    FragmentManager.OnBackStackChangedListener mBackstackListener = new FragmentManager.OnBackStackChangedListener() {
+        @Override
+        public void onBackStackChanged() {
+            final Fragment fragment = getSupportFragmentManager().findFragmentByTag(SIGNUP_FRAGMENT_TAG);
+            if (fragment instanceof SignInFragment) {
+                mToolbar.setTitle(R.string.login_screen_title);
+            } else if (fragment instanceof SignupFragment) {
+                mToolbar.setTitle(R.string.simperium_button_signup);
+            } else if (fragment instanceof MagicLinkConfirmationFragment) {
+                mToolbar.setTitle(R.string.magic_link_enter_code_title);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +63,18 @@ public class SimplenoteSignupActivity extends AppCompatActivity implements SignU
         } else {
             return new SignInFragment();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        getSupportFragmentManager().removeOnBackStackChangedListener(mBackstackListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getSupportFragmentManager().addOnBackStackChangedListener(mBackstackListener);
     }
 
     private void initToolbar(final boolean isSignUp) {
@@ -86,12 +113,5 @@ public class SimplenoteSignupActivity extends AppCompatActivity implements SignU
         // This is weird. But see SimplenoteCredentialsActivity for why this is necessary.
         startActivity(new Intent(this, SimplenoteAuthenticationActivity.class));
         finish();
-    }
-
-    @Override
-    public void setTitle(String title) {
-        if (mToolbar != null) {
-            mToolbar.setTitle(title);
-        }
     }
 }
