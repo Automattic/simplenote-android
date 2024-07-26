@@ -1,12 +1,12 @@
 package com.automattic.simplenote.viewmodels
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.automattic.simplenote.R
-import com.automattic.simplenote.Simplenote
 import com.automattic.simplenote.di.IO_THREAD
 import com.automattic.simplenote.repositories.MagicLinkRepository
 import com.automattic.simplenote.repositories.MagicLinkResponseResult
@@ -19,33 +19,40 @@ import javax.inject.Named
 
 @HiltViewModel
 class CompleteMagicLinkViewModel @Inject constructor(
-    private val simplenote: Simplenote,
     private val magicLinkRepository: MagicLinkRepository,
     @Named(IO_THREAD) private val ioDispatcher: CoroutineDispatcher,
     ) : ViewModel() {
-    private val _magicLinkUiState = MutableLiveData<MagicLinkUiState>()
+    private val _magicLinkUiState = MutableLiveData<MagicLinkUiState>(MagicLinkUiState.Waiting)
     val magicLinkUiState: LiveData<MagicLinkUiState> get() = _magicLinkUiState
 
-    fun completeLogin(authKey: String, authCode: String) = viewModelScope.launch(ioDispatcher) {
+    private var lastKnownUserName: String? = null
+    private var lastKnownAuthCode: String? = null
+
+    fun completeLogin(username: String, authCode: String, userInitiated: Boolean = false) = viewModelScope.launch(ioDispatcher) {
+        if (!userInitiated && lastKnownUserName == username && lastKnownAuthCode == authCode) {
+            Log.d(TAG, "Already checked deeplinked magic link")
+            return@launch
+        }
+        lastKnownUserName = username
+        lastKnownAuthCode = authCode
         _magicLinkUiState.postValue(MagicLinkUiState.Loading(messageRes = R.string.magic_link_complete_login_loading_message))
         try {
-            when (val result = magicLinkRepository.completeLogin(authKey, authCode)) {
+            when (val result = magicLinkRepository.completeLogin(username, authCode)) {
                 is MagicLinkResponseResult.MagicLinkCompleteSuccess -> {
-                    simplenote.loginWithToken(result.username, result.syncToken)
-                    _magicLinkUiState.postValue(MagicLinkUiState.Success)
+                    _magicLinkUiState.postValue(MagicLinkUiState.Success(result.username, result.syncToken))
                 }
                 is MagicLinkResponseResult.MagicLinkError -> {
-                    if (result.code == 400) {
-                        _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.magic_link_complete_login_error_message))
-                    } else {
-                        _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.dialog_message_signup_error))
-                    }
+                    _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = result.errorMessage ?: R.string.magic_link_general_error))
                 }
-                else -> _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.dialog_message_signup_error))
+                else -> _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.magic_link_general_error))
             }
         } catch (exception: IOException) {
-            _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.dialog_message_signup_error))
+            _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.magic_link_general_error))
         }
+    }
+
+    fun resetState() {
+        _magicLinkUiState.postValue(MagicLinkUiState.Waiting)
     }
 }
 
@@ -55,5 +62,6 @@ class CompleteMagicLinkViewModel @Inject constructor(
 sealed class MagicLinkUiState {
     data class Loading(@StringRes val messageRes: Int): MagicLinkUiState()
     data class Error(@StringRes val messageRes: Int): MagicLinkUiState()
-    object Success : MagicLinkUiState()
+    data class Success(val email: String, val token: String) : MagicLinkUiState()
+    object Waiting : MagicLinkUiState()
 }
