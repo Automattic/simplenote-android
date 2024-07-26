@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.automattic.simplenote.R
+import com.automattic.simplenote.Simplenote
 import com.automattic.simplenote.authentication.SignInFragment
 import com.automattic.simplenote.utils.HtmlCompat
 import com.automattic.simplenote.utils.NetworkUtils
@@ -21,9 +22,12 @@ import com.automattic.simplenote.viewmodels.CompleteMagicLinkViewModel
 import com.automattic.simplenote.viewmodels.MagicLinkUiState
 import com.simperium.android.ProgressDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MagicLinkConfirmationFragment : Fragment() {
+
+    @Inject lateinit var simplenote: Simplenote
 
     private var progressDialogFragment: ProgressDialogFragment? = null
 
@@ -55,7 +59,10 @@ class MagicLinkConfirmationFragment : Fragment() {
                 is MagicLinkUiState.Success -> {
                     completeMagicLinkViewModel.resetState()
                     hideDialogProgress()
-                    activity?.finish()
+                    simplenote?.let {
+                        it.loginWithToken(state.email, state.token)
+                        activity?.finish()
+                    }
                 }
                 is MagicLinkUiState.Error -> {
                     completeMagicLinkViewModel.resetState()
