@@ -282,9 +282,9 @@ platform :android do
   # bundle exec fastlane build_pre_releases create_release:true
   #####################################################################################
   desc 'Builds and updates for distribution'
-  lane :build_pre_releases do |options|
+  lane :build_pre_releases do |skip_confirm: false, create_release: true|
     android_build_prechecks(
-      skip_confirm: options[:skip_confirm],
+      skip_confirm: skip_confirm,
       alpha: false,
       beta: true,
       final: false
@@ -292,8 +292,8 @@ platform :android do
     android_build_preflight
     build_and_upload_beta(
       skip_prechecks: true,
-      skip_confirm: options[:skip_confirm],
-      create_release: options[:create_release]
+      skip_confirm: skip_confirm,
+      create_release: create_release
     )
   end
 
