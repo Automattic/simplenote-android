@@ -27,24 +27,33 @@ class OkHttpMagicLinkRepository @Inject constructor(private val simpleHttp: Simp
                 val user = json.getString("username")
                 return MagicLinkResponseResult.MagicLinkCompleteSuccess(user, syncToken)
             }
-            Log.d(TAG, "Error completing login: $body")
-            return MagicLinkResponseResult.MagicLinkError(response.code(), handleErrorMessage(body))
+            val authError = getErrorFromJson(body)
+            val errorStringRes = when (authError) {
+                MagicLinkAuthError.INVALID_CODE -> R.string.magic_link_complete_login_invalid_code_error_message
+                MagicLinkAuthError.REQUEST_NOT_FOUND -> R.string.magic_link_complete_login_expired_code_error_message
+                MagicLinkAuthError.UNKNOWN_ERROR -> R.string.magic_link_general_error
+            }
+            return MagicLinkResponseResult.MagicLinkError(response.code(), authError, errorStringRes)
         }
     }
 
-    private fun handleErrorMessage(body: String?): Int  {
+    private fun getErrorFromJson(body: String?): MagicLinkAuthError {
         try {
             val errorJson = JSONObject(body ?: "")
             val errorString = errorJson.getString(ERROR_FIELD)
-            if (errorString == "invalid-code") {
-                return R.string.magic_link_complete_login_invalid_code_error_message
-            } else if (errorString == "request-not-found") {
-                return R.string.magic_link_complete_login_expired_code_error_message
+            return when(errorString) {
+                MagicLinkAuthError.INVALID_CODE.str -> {
+                    MagicLinkAuthError.INVALID_CODE
+                }
+                MagicLinkAuthError.REQUEST_NOT_FOUND.str -> {
+                    MagicLinkAuthError.REQUEST_NOT_FOUND
+                }
+                else -> MagicLinkAuthError.UNKNOWN_ERROR
             }
         } catch (e: JSONException) {
-            Log.e(TAG, "Error parsing unsuccessful response", e)
+            Log.e(TAG, "Error parsing error json", e)
         }
-        return R.string.magic_link_general_error
+        return MagicLinkAuthError.UNKNOWN_ERROR
     }
 
     @Throws(IOException::class)

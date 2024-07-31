@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.automattic.simplenote.R
+import com.automattic.simplenote.authentication.magiclink.MagicLinkAuthError
 import com.automattic.simplenote.di.IO_THREAD
 import com.automattic.simplenote.repositories.MagicLinkRepository
 import com.automattic.simplenote.repositories.MagicLinkResponseResult
@@ -42,7 +43,7 @@ class CompleteMagicLinkViewModel @Inject constructor(
                     _magicLinkUiState.postValue(MagicLinkUiState.Success(result.username, result.syncToken))
                 }
                 is MagicLinkResponseResult.MagicLinkError -> {
-                    _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = result.errorMessage ?: R.string.magic_link_general_error))
+                    _magicLinkUiState.postValue(MagicLinkUiState.Error(result.authError, messageRes = result.errorMessage ?: R.string.magic_link_general_error))
                 }
                 else -> _magicLinkUiState.postValue(MagicLinkUiState.Error(messageRes = R.string.magic_link_general_error))
             }
@@ -61,7 +62,7 @@ class CompleteMagicLinkViewModel @Inject constructor(
  */
 sealed class MagicLinkUiState {
     data class Loading(@StringRes val messageRes: Int): MagicLinkUiState()
-    data class Error(@StringRes val messageRes: Int): MagicLinkUiState()
+    data class Error(val authError: MagicLinkAuthError = MagicLinkAuthError.UNKNOWN_ERROR, @StringRes val messageRes: Int): MagicLinkUiState()
     data class Success(val email: String, val token: String) : MagicLinkUiState()
     object Waiting : MagicLinkUiState()
 }
