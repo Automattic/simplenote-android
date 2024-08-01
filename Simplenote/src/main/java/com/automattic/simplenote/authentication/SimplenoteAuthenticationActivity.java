@@ -63,9 +63,7 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
                     final MagicLinkUiState.Success stateResult = (MagicLinkUiState.Success) state;
                     simplenote.loginWithToken(stateResult.getEmail(), stateResult.getToken());
 
-                    final Intent notesIntent = IntentUtils.maybeAliasedIntent(this.getApplicationContext());
-                    notesIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION & (Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                    startActivity(notesIntent);
+                    startNotesActivity(this, false);
 
                     AnalyticsTracker.track(
                             AnalyticsTracker.Stat.USER_CONFIRMED_LOGIN_LINK,
@@ -82,6 +80,18 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
             final String authCode = intent.getStringExtra(KEY_MAGIC_LINK_AUTH_CODE);
             completeMagicLinkViewModel.completeLogin(authKey, authCode, false);
         }
+    }
+
+    public static void startNotesActivity(final Context context, final boolean showAnimation) {
+        final Intent notesIntent = IntentUtils.maybeAliasedIntent(context.getApplicationContext());
+        int flags;
+        if (showAnimation) {
+            flags = Intent.FLAG_ACTIVITY_NO_ANIMATION & (Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        } else {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK;
+        }
+        notesIntent.addFlags(flags);
+        context.startActivity(notesIntent);
     }
 
     @Override
