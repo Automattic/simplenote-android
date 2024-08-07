@@ -8,7 +8,6 @@ import okhttp3.RequestBody
 import okhttp3.Response
 import org.json.JSONException
 import org.json.JSONObject
-import java.util.Locale
 import javax.inject.Inject
 
 private const val HTTP_SCHEME = "https"
@@ -28,7 +27,6 @@ open class SimpleHttp @Inject constructor(val client: OkHttpClient) {
     ): Response {
         val request = Request.Builder()
             .addHeader("Content-Type", "application/json; charset=utf-8")
-            .addHeader("Accept-Language", Locale.getDefault().toString())
             .url(buildUrl(path))
             .post(buildRequestBodyFromMap(bodyAsMap))
             .build()
