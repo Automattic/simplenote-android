@@ -10,7 +10,7 @@ import java.util.Locale
 class HeadersInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val newRequest = chain.request().newBuilder()
-            .header("Accept-Language", Locale.getDefault().toString())
+            .header("Accept-Language", Locale.getDefault().toLanguageTag())
             .build()
         return chain.proceed(newRequest)
     }
