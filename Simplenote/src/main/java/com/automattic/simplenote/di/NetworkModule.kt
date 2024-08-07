@@ -16,7 +16,7 @@ private const val TIMEOUT_SECS = 30
 object NetworkModule {
     @Provides
     fun provideOkHttp(): OkHttpClient = OkHttpClient().newBuilder()
-        .addNetworkInterceptor(HeadersInterceptor())
+        .addInterceptor(HeadersInterceptor())
         .readTimeout(TIMEOUT_SECS.toLong(), TimeUnit.SECONDS)
         .build()
 
