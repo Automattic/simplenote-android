@@ -71,7 +71,7 @@ platform :android do
 
     message = <<-MESSAGE
       Code Freeze:
-        • New release branch from #{DEFAULT_BRANCH}: release/#{new_version_final}
+        • New release branch from #{DEFAULT_BRANCH}: #{release_branch_name(release_version: new_version_final)}
         • Current release version and build code: #{release_version_current} (#{build_code_current}).
         • New beta version and build code: #{new_version_with_beta} (#{new_build_code}).
     MESSAGE
@@ -83,7 +83,7 @@ platform :android do
     end
 
     UI.message 'Creating release branch...'
-    Fastlane::Helper::GitHelper.create_branch("release/#{new_version_final}", from: DEFAULT_BRANCH)
+    Fastlane::Helper::GitHelper.create_branch(release_branch_name(release_version: new_version_final), from: DEFAULT_BRANCH)
     UI.success("Done! New release branch is: #{git_branch}.")
 
     UI.message 'Bumping beta version and build code...'
@@ -119,7 +119,7 @@ platform :android do
     copy_branch_protection(
       repository: GITHUB_REPO,
       from_branch: DEFAULT_BRANCH,
-      to_branch: "release/#{new_version_final}"
+      to_branch: release_branch_name
     )
     set_milestone_frozen_marker(
       repository: GITHUB_REPO,
@@ -200,7 +200,7 @@ platform :android do
 
     remove_branch_protection(
       repository: GITHUB_REPO,
-      branch: "release/#{version['name']}"
+      branch: release_branch_name
     )
     set_milestone_frozen_marker(
       repository: GITHUB_REPO,
@@ -602,4 +602,8 @@ def commit_version_bump
     message: 'Bump version name and code',
     allow_nothing_to_commit: false
   )
+end
+
+def release_branch_name(release_version: release_version_current)
+  "release/#{release_version}"
 end
