@@ -42,6 +42,14 @@ SUPPORTED_LOCALES = [
 
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
 
+VERSION_PROPERTIES_PATH = File.join(PROJECT_ROOT_FOLDER, 'version.properties')
+
+VERSION_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SemanticVersionCalculator.new
+VERSION_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::RCNotationVersionFormatter.new
+BUILD_CODE_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::SimpleBuildCodeFormatter.new
+BUILD_CODE_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SimpleBuildCodeCalculator.new
+VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::AndroidVersionFile.new(version_properties_path: VERSION_PROPERTIES_PATH)
+
 platform :android do
   ENV['PROJECT_ROOT_FOLDER'] = "#{File.dirname(File.expand_path(__dir__))}/"
   ENV['PROJECT_NAME'] = 'Simplenote'
@@ -534,4 +542,43 @@ platform :android do
       "#{branch}-#{commit}"
     end
   end
+end
+
+def release_version_current
+  current_version = VERSION_FORMATTER.parse(VERSION_FILE.read_version_name)
+  VERSION_FORMATTER.release_version(current_version)
+end
+
+def release_version_next
+  current_version = VERSION_FORMATTER.parse(VERSION_FILE.read_version_name)
+  release_version_next = VERSION_CALCULATOR.next_release_version(version: current_version)
+  VERSION_FORMATTER.release_version(release_version_next)
+end
+
+# Compute the version to be used by the code freeze step in the release process.
+#
+# It first increments the minor number, which also resets the build number to 0.
+# It then bumps the build number so the -rc-1 can be appended to the code freeze version.
+def release_version_for_code_freeze
+  current_version = VERSION_FORMATTER.parse(VERSION_FILE.read_version_name)
+  next_version = VERSION_CALCULATOR.next_release_version(version: current_version)
+  beta_version_first = VERSION_CALCULATOR.next_build_number(version: next_version)
+  VERSION_FORMATTER.beta_version(beta_version_first)
+end
+
+def release_version_next_beta
+  current_version = VERSION_FORMATTER.parse(VERSION_FILE.read_version_name)
+  beta_version_next = VERSION_CALCULATOR.next_build_number(version: current_version)
+  VERSION_FORMATTER.beta_version(beta_version_next)
+end
+
+def build_code_current
+  build_code_current = VERSION_FILE.read_version_code
+  BUILD_CODE_FORMATTER.build_code(build_code: build_code_current)
+end
+
+def build_code_next
+  build_code_current = VERSION_FILE.read_version_code
+  build_code_next = BUILD_CODE_CALCULATOR.next_build_code(build_code: build_code_current)
+  BUILD_CODE_FORMATTER.build_code(build_code: build_code_next)
 end
