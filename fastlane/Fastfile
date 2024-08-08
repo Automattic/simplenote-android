@@ -57,8 +57,8 @@ platform :android do
   ENV['FL_RELEASE_TOOLKIT_DEFAULT_BRANCH'] = 'trunk'
 
   desc 'Creates a new release branch from the current trunk'
-  lane :code_freeze do |options|
-    ensure_git_status_clean unless options.fetch(:skip_prechecks, false) || is_ci
+  lane :code_freeze do |skip_prechecks: false, skip_confirm: false|
+    ensure_git_status_clean unless skip_prechecks || is_ci
 
     Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
 
@@ -87,7 +87,7 @@ platform :android do
 
     update_strings_for_translation_automation
 
-    unless options[:skip_confirm] || UI.confirm('Ready to push changes to remote to let the automation configure it on GitHub?')
+    unless skip_confirm || UI.confirm('Ready to push changes to remote to let the automation configure it on GitHub?')
       UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.")
       next
     end
