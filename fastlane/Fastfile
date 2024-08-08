@@ -9,14 +9,17 @@ USER_ENV_FILE_PATH = File.join(Dir.home, '.simplenoteandroid-env.default')
 PROTOTYPE_BUILD_DOMAIN = 'https://d2twmm2nzpx3bg.cloudfront.net'
 
 before_all do
-  # Check that the env file exists
+  # TODO: Use EnvManager — https://github.com/wordpress-mobile/release-toolkit/pull/578
   UI.user_error!("#{USER_ENV_FILE_PATH} not found: Please copy env.example to #{USER_ENV_FILE_PATH} and fill in the values") unless is_ci || File.file?(USER_ENV_FILE_PATH)
+  Dotenv.load(USER_ENV_FILE_PATH)
 end
 
-# Constants
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 GITHUB_REPO = 'automattic/simplenote-android'
 DEFAULT_BRANCH = 'trunk'
+
+MAIN_STRINGS_PATH = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'src', 'main', 'res', 'values', 'strings.xml')
+UPDATE_STRINGS_PATH = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'resources', 'values')
 
 SUPPORTED_LOCALES = [
   { glotpress: 'ar', android: 'ar', google_play: 'ar', promo_config: {} },
@@ -40,31 +43,11 @@ SUPPORTED_LOCALES = [
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
 
 platform :android do
-  ########################################################################
-  # Environment
-  ########################################################################
-  Dotenv.load(USER_ENV_FILE_PATH)
   ENV['PROJECT_ROOT_FOLDER'] = "#{File.dirname(File.expand_path(__dir__))}/"
   ENV['PROJECT_NAME'] = 'Simplenote'
   ENV['validate_translations'] = 'buildRelease'
   ENV['FL_RELEASE_TOOLKIT_DEFAULT_BRANCH'] = 'trunk'
 
-  ########################################################################
-  # Release Lanes
-  ########################################################################
-  #####################################################################################
-  # code_freeze
-  # -----------------------------------------------------------------------------------
-  # This lane executes the steps planned on code freeze
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane code_freeze [update_release_branch_version:<update flag>] [skip_confirm:<skip confirm>]
-  #
-  # Example:
-  # bundle exec fastlane code_freeze
-  # bundle exec fastlane code_freeze update_release_branch_version:false
-  # bundle exec fastlane code_freeze skip_confirm:true
-  #####################################################################################
   desc 'Creates a new release branch from the current trunk'
   lane :code_freeze do |options|
     ensure_git_status_clean unless options.fetch(:skip_prechecks, false) || is_ci
@@ -119,18 +102,6 @@ platform :android do
     )
   end
 
-  #####################################################################################
-  # update_appstore_strings
-  # -----------------------------------------------------------------------------------
-  # This lane gets the data from the txt files in the Simplenote/metadata/ folder
-  # and updates the .po file that is then picked by GlotPress for translations.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # fastlane update_appstore_strings version:<version>
-  #
-  # Example:
-  # fastlane update_appstore_strings version:10.3
-  #####################################################################################
   desc 'Updates the PlayStoreStrings.po file'
   lane :update_appstore_strings do |options|
     prj_folder = "#{Dir.pwd}/.."
@@ -149,22 +120,6 @@ platform :android do
     )
   end
 
-  #####################################################################################
-  # new_beta_release
-  # -----------------------------------------------------------------------------------
-  # This lane updates the release branch for a new beta release. It will update the
-  # current release branch by default. If you want to update a different branch
-  # (i.e. hotfix branch) pass the related version with the 'base_version' param
-  # (example: base_version:10.6.1 will work on the 10.6.1 branch)
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane new_beta_release [skip_confirm:<skip confirm>] [base_version:<version>]
-  #
-  # Example:
-  # bundle exec fastlane new_beta_release
-  # bundle exec fastlane new_beta_release skip_confirm:true
-  # bundle exec fastlane new_beta_release base_version:10.6.1
-  #####################################################################################
   desc 'Updates a release branch for a new beta release'
   lane :new_beta_release do |options|
     android_betabuild_prechecks(options)
@@ -172,18 +127,6 @@ platform :android do
     android_tag_build
   end
 
-  #####################################################################################
-  # new_hotfix_release
-  # -----------------------------------------------------------------------------------
-  # This lane updates the release branch for a new hotix release.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane new_hotfix_release [skip_confirm:<skip confirm>] [version_name:<version>]
-  #
-  # Example:
-  # bundle exec fastlane new_hotfix_release version_name:10.6.1
-  # bundle exec fastlane new_hotfix_release skip_confirm:true version_name:10.6.1
-  #####################################################################################
   desc 'Creates a new hotfix branch from the given tag'
   lane :new_hotfix_release do |options|
     prev_ver = android_hotfix_prechecks(
@@ -197,34 +140,11 @@ platform :android do
     )
   end
 
-  #####################################################################################
-  # finalize_hotfix_release
-  # -----------------------------------------------------------------------------------
-  # This lane finalizes the hotfix release.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane finalize_hotfix_release
-  #
-  # Example:
-  # bundle exec fastlane finalize_hotfix_release
-  #####################################################################################
   desc 'Finalizes a hotfix release by tagging the build'
   lane :finalize_hotfix_release do
     android_tag_build(tag_alpha: false)
   end
 
-  #####################################################################################
-  # finalize_release
-  # -----------------------------------------------------------------------------------
-  # This lane finalize a release: updates store metadata and runs the release checks
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane finalize_release [skip_confirm:<skip confirm>]
-  #
-  # Example:
-  # bundle exec fastlane finalize_release
-  # bundle exec fastlane finalize_release skip_confirm:true
-  #####################################################################################
   desc 'Updates store metadata and runs the release checks'
   lane :finalize_release do |options|
     UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix
@@ -252,7 +172,6 @@ platform :android do
       build_number: version['code']
     )
 
-    # Wrap up
     remove_branch_protection(
       repository: GITHUB_REPO,
       branch: "release/#{version['name']}"
@@ -268,19 +187,6 @@ platform :android do
     )
   end
 
-  #####################################################################################
-  # build_pre_releases
-  # -----------------------------------------------------------------------------------
-  # This lane builds the app it for both internal and external distribution
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_pre_releases [skip_confirm:<skip confirm>] [create_release:<Create release on GH> ]
-  #
-  # Example:
-  # bundle exec fastlane build_pre_releases
-  # bundle exec fastlane build_pre_releases skip_confirm:true
-  # bundle exec fastlane build_pre_releases create_release:true
-  #####################################################################################
   desc 'Builds and updates for distribution'
   lane :build_pre_releases do |skip_confirm: false, create_release: true|
     # android_build_prechecks(
@@ -329,19 +235,6 @@ platform :android do
     )
   end
 
-  #####################################################################################
-  # build_and_upload_beta
-  # -----------------------------------------------------------------------------------
-  # This lane builds the app it for internal testing
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_and_upload_beta [skip_confirm:<skip confirm>] [create_release:<Create release on GH> ]
-  #
-  # Example:
-  # bundle exec fastlane build_and_upload_beta
-  # bundle exec fastlane build_and_upload_beta skip_confirm:true
-  # bundle exec fastlane build_and_upload_beta create_release:true
-  #####################################################################################
   desc 'Builds and updates for distribution'
   lane :build_and_upload_beta do |options|
     unless options[:skip_prechecks]
@@ -363,19 +256,6 @@ platform :android do
     create_gh_release(version: version) if options[:create_release]
   end
 
-  #####################################################################################
-  # build_and_upload_release
-  # -----------------------------------------------------------------------------------
-  # This lane builds the final release of the app and uploads it
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_and_upload_release [skip_confirm:<skip confirm>] [create_release:<Create release on GH> ]
-  #
-  # Example:
-  # bundle exec fastlane build_and_upload_release
-  # bundle exec fastlane build_and_upload_release skip_confirm:true
-  # bundle exec fastlane build_and_upload_release create_release:true
-  #####################################################################################
   desc 'Builds and updates for distribution'
   lane :build_and_upload_release do |options|
     android_build_prechecks(
@@ -397,21 +277,6 @@ platform :android do
     create_gh_release(version: version) if options[:create_release]
   end
 
-  ########################################################################
-  # Helper Lanes
-  ########################################################################
-  #####################################################################################
-  # download_metadata_string
-  # -----------------------------------------------------------------------------------
-  # This lane downloads the translated metadata (release notes,
-  # app store strings, title, etc.) from GlotPress and updates the local files
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # fastlane download_metadata_string build_number:<build_number> version:<version>
-  #
-  # Example:
-  # fastlane download_metadata_string build_number:573 version:10.3
-  #####################################################################################
   desc 'Downloads translated metadata from GlotPress'
   lane :download_metadata_strings do |options|
     values = options[:version].split('.')
@@ -452,14 +317,6 @@ platform :android do
     )
   end
 
-  #####################################################################################
-  # download_translations
-  # -----------------------------------------------------------------------------------
-  # This lane downloads the string translations from GlotPress
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane download_translations
-  #####################################################################################
   desc 'Download the latest app translations from GlotPress and update the strings.xml files accordingly'
   lane :download_translations do
     android_download_translations(
@@ -470,16 +327,6 @@ platform :android do
     )
   end
 
-  #####################################################################################
-  # build_and_upload_apk
-  # -----------------------------------------------------------------------------------
-  # This lane builds and uploads an app apk
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_and_upload_apk version:<version>
-  #  [updload_track:<upload_track: [production | beta]>]
-  #  [skip_confirm:<skip confirm>]
-  #####################################################################################
   desc 'Builds an app apk and upload it'
   lane :build_and_upload_apk do |options|
     # Create the file names
@@ -529,14 +376,6 @@ platform :android do
     apk_file_path
   end
 
-  #####################################################################################
-  # build_and_upload_prototype_build
-  # -----------------------------------------------------------------------------------
-  # Build a Prototype Build and make it available for download
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_and_upload_prototype_build
-  #####################################################################################
   desc 'Build a Prototype Build and make it available for download'
   lane :build_and_upload_prototype_build do
     UI.user_error!("'BUILDKITE_ARTIFACTS_S3_BUCKET' must be defined as an environment variable.") unless ENV['BUILDKITE_ARTIFACTS_S3_BUCKET']
@@ -583,10 +422,6 @@ platform :android do
     end
   end
 
-  #####################################################################################
-  # Screenshots lanes
-  #####################################################################################
-
   desc 'Take screenshots in the app'
   lane :take_screenshots do
     package = 'com.automattic.simplenote.debug'
@@ -630,12 +465,6 @@ platform :android do
     File.join(Dir.pwd, 'screenshots')
   end
 
-  #####################################################################################
-  # Private lanes
-  #####################################################################################
-  main_strings_path = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'src', 'main', 'res', 'values', 'strings.xml')
-  update_strings_path = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'resources', 'values')
-
   private_lane :delete_old_changelogs do |options|
     Dir.glob('./metadata/android/*/').each do |folder|
       Dir["#{folder}changelogs/*"].each do |file|
@@ -657,8 +486,8 @@ platform :android do
   end
 
   private_lane :update_strings_for_translation_automation do
-    sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path}")
-    strings_path = File.join(update_strings_path, 'strings.xml')
+    sh("cd .. && mkdir -p #{UPDATE_STRINGS_PATH} && cp #{MAIN_STRINGS_PATH} #{UPDATE_STRINGS_PATH}")
+    strings_path = File.join(UPDATE_STRINGS_PATH, 'strings.xml')
     git_commit(
       path: strings_path,
       message: 'Update strings file for translation automation',
@@ -675,9 +504,6 @@ platform :android do
                    release_assets: apk_file_path.to_s)
   end
 
-  #####################################################################################
-  # Utils
-  #####################################################################################
   def release_notes_path
     File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'metadata', 'release_notes.txt')
   end
