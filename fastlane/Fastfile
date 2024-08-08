@@ -99,8 +99,6 @@ platform :android do
       set_upstream: true
     )
 
-    android_tag_build
-
     copy_branch_protection(
       repository: GITHUB_REPO,
       from_branch: DEFAULT_BRANCH,
@@ -135,7 +133,6 @@ platform :android do
   lane :new_beta_release do |options|
     android_betabuild_prechecks(options)
     android_bump_version_beta
-    android_tag_build
   end
 
   desc 'Creates a new hotfix branch from the given tag'
@@ -153,7 +150,8 @@ platform :android do
 
   desc 'Finalizes a hotfix release by tagging the build'
   lane :finalize_hotfix_release do
-    android_tag_build(tag_alpha: false)
+    UI.important('TODO! We are in the process of upgrading the release automation and this step is currently a no-op.')
+    UI.important("Please ensure all local changes reached the remote; git push that's not the case.")
   end
 
   desc 'Updates store metadata and runs the release checks'
