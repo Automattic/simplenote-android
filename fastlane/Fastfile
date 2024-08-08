@@ -40,6 +40,7 @@ SUPPORTED_LOCALES = [
   { glotpress: 'zh-tw', android: 'zh-rTW', google_play: 'zh-TW',  promo_config: {} }
 ].freeze
 
+RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt')
 RELEASE_NOTES_PATH = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'metadata', 'release_notes.txt')
 
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
@@ -64,28 +65,44 @@ platform :android do
 
     Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
 
-    # android_bump_version_release
-    #
-    # The call above fails with:
-    #
-    # /path/to/proj/vendor/bundle/ruby/3.2.0/gems/fastlane-plugin-wpmreleasetoolkit-9.4.0/lib/fastlane/plugin/wpmreleasetoolkit/helper/android/android_git_helper.rb:22:
-    #   in `commit_version_bump':
-    #     [!] undefined method `git_commit' for FastlaneCore::Helper::Android::GitHelper:Module (NoMethodError)
-    #
-    # So, for the time being, we'll bump the version manually.
-    # We are in the middle of updating the tooling anyway, so this shouldn't last for long.
-    unless UI.confirm("Automatic version bump had to be disabled.\nHave you update the version and build in Simplenote/build.gradle?")
-      UI.error('Please bump the version and build then run the lane again.')
+    new_version_with_beta = release_version_for_code_freeze
+    new_version_final = release_version_next
+    new_build_code = build_code_next
+
+    message = <<-MESSAGE
+      Code Freeze:
+        • New release branch from #{DEFAULT_BRANCH}: release/#{new_version_final}
+        • Current release version and build code: #{release_version_current} (#{build_code_current}).
+        • New beta version and build code: #{new_version_with_beta} (#{new_build_code}).
+    MESSAGE
+    UI.important(message)
+
+    unless skip_confirm || UI.confirm('Do you want to continue?')
+      UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.")
       next
     end
 
-    new_version = android_get_app_version
+    UI.message 'Creating release branch...'
+    Fastlane::Helper::GitHelper.create_branch("release/#{new_version_final}", from: DEFAULT_BRANCH)
+    UI.success("Done! New release branch is: #{git_branch}.")
+
+    UI.message 'Bumping beta version and build code...'
+    VERSION_FILE.write_version(
+      version_name: new_version_with_beta,
+      version_code: new_build_code
+    )
+    commit_version_bump
+    UI.success("Done! New beta version: #{version_name_current}. New build code: #{build_code_current}.")
+
     extract_release_notes_for_version(
-      version: new_version,
-      release_notes_file_path: File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt'),
+      version: new_version_with_beta,
+      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH,
       extracted_notes_file_path: RELEASE_NOTES_PATH
     )
-    android_update_release_notes(new_version: new_version)
+    android_update_release_notes(
+      new_version: new_version,
+      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
+    )
 
     update_strings_for_translation_automation
 
@@ -102,11 +119,11 @@ platform :android do
     copy_branch_protection(
       repository: GITHUB_REPO,
       from_branch: DEFAULT_BRANCH,
-      to_branch: "release/#{new_version}"
+      to_branch: "release/#{new_version_final}"
     )
     set_milestone_frozen_marker(
       repository: GITHUB_REPO,
-      milestone: new_version,
+      milestone: new_version_final,
       freeze: true
     )
   end
@@ -577,4 +594,12 @@ def build_code_next
   build_code_current = VERSION_FILE.read_version_code
   build_code_next = BUILD_CODE_CALCULATOR.next_build_code(build_code: build_code_current)
   BUILD_CODE_FORMATTER.build_code(build_code: build_code_next)
+end
+
+def commit_version_bump
+  git_commit(
+    path: VERSION_PROPERTIES_PATH,
+    message: 'Bump version name and code',
+    allow_nothing_to_commit: false
+  )
 end
