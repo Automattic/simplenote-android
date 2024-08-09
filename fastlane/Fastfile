@@ -475,41 +475,39 @@ platform :android do
   end
 
   desc 'Builds an app apk and upload it'
-  lane :build_and_upload_apk do |options|
-    # Create the file names
-    version = options[:version]
-    apk_name = "simplenote-#{version['name']}.apk"
-    orign_file = 'Simplenote-release.apk'
-    output_dir = File.join(BUILD_FOLDER, 'outputs', 'apk', 'release')
-    build_dir = 'build/'
-    upload_track = options[:upload_track]
+  lane :build_and_upload_apk do |version: release_version_current, build_code: build_code_current, upload_track: nil|
+    gradle_output_dir = File.join(BUILD_FOLDER, 'outputs', 'apk', 'release')
+    gradle_output_apk_name = 'Simplenote-release.apk'
+    gradle_output_path = File.join(gradle_output_dir, gradle_output_apk_name)
 
-    # Build
-    Dir.chdir('.') do
-      UI.message('Cleaning branch...')
-      gradle(task: 'clean')
-      UI.message('Running lint...')
-      gradle(task: 'lint', build_type: 'Release')
-      UI.message("Building #{version['name']} / #{version['code']} - #{apk_name}...")
-      gradle(task: 'assemble', build_type: 'Release')
+    user_friendly_output_dir = File.join(PROJECT_ROOT_FOLDER, 'build')
+    user_friendly_output_apk_name = "simplenote-#{version}.apk"
+    user_friendly_output_path = File.join(user_friendly_output_dir, user_friendly_output_apk_name)
+
+    build_type = 'Release'
+
+    UI.message('Cleaning build folder...')
+    gradle(task: 'clean')
+
+    UI.message('Linting...')
+    gradle(task: 'lint', build_type: build_type)
+
+    UI.message("Building #{version} (#{build_code}) to #{user_friendly_output_path}...")
+    gradle(task: 'assemble', build_type: build_type)
+    FileUtils.copy(gradle_output_path, user_friendly_output_path)
+
+    if File.exist? user_friendly_output_path
+      UI.success("APK ready at #{user_friendly_output_path}")
+    else
+      UI.user_error!("Unable to find a build artifact at #{user_friendly_output_path}")
     end
 
-    Dir.chdir('..') do
-      sh("cp -v #{output_dir}/#{orign_file} #{build_dir}#{apk_name}")
-      UI.message("Apk ready: #{apk_name}")
-    end
-
-    version = android_get_release_version
-
-    project_root = File.dirname(__dir__)
-    apk_file_path = File.join(project_root, build_dir.to_s, apk_name.to_s)
-
-    UI.error("Unable to find a build artifact at #{apk_file_path}") unless File.exist? apk_file_path
-
-    unless upload_track.blank?
+    if upload_track.nil?
+      UI.message('Skipping upload to Google Play Console because on `upload_track` given.')
+    else
       upload_to_play_store(
         package_name: 'com.automattic.simplenote',
-        apk: apk_file_path,
+        apk: user_friendly_output_path,
         track: upload_track,
         release_status: 'draft',
         skip_upload_metadata: true,
@@ -520,7 +518,7 @@ platform :android do
       )
     end
 
-    apk_file_path
+    user_friendly_output_path
   end
 
   desc 'Build a Prototype Build and make it available for download'
