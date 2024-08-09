@@ -133,14 +133,14 @@ platform :android do
   end
 
   desc 'Updates the PlayStoreStrings.pot file'
-  lane :update_appstore_strings do |options|
+  lane :update_appstore_strings do |version: release_version_current|
     UI.important('This has been renamed to update_play_store_strings – Here only for backwards compatibility with checklists. Will be removed soon.')
     UI.important('Forwarding to update_play_store_strings....')
-    update_play_store_strings(options)
+    update_play_store_strings(version: version)
   end
 
   desc 'Updates the PlayStoreStrings.pot file'
-  lane :update_play_store_strings do |options|
+  lane :update_play_store_strings do |version: release_version_current|
     files = {
       release_note: RELEASE_NOTES_PATH,
       play_store_promo: File.join(METADATA_FOLDER, 'short_description.txt'),
@@ -151,7 +151,7 @@ platform :android do
     an_update_metadata_source(
       po_file_path: File.join(METADATA_FOLDER, 'PlayStoreStrings.pot'),
       source_files: files,
-      release_version: options[:version]
+      release_version: version
     )
   end
 
