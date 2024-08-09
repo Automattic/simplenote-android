@@ -205,16 +205,48 @@ platform :android do
   end
 
   desc 'Creates a new hotfix branch from the given tag'
-  lane :new_hotfix_release do |options|
-    prev_ver = android_hotfix_prechecks(
-      version_name: options[:version_name],
-      skip_confirm: options[:skip_confirm]
+  lane :new_hotfix_release do |version_name:, version_code:, skip_confirm: false|
+    ensure_git_status_clean
+
+    new_version = version_name
+    version_code_new = version_code
+
+    previous_version = VERSION_FORMATTER.release_version(
+      VERSION_CALCULATOR.previous_patch_version(version: VERSION_FORMATTER.parse(new_version))
     )
-    android_bump_version_hotfix(
-      previous_version_name: prev_ver,
-      version_name: options[:version_name],
-      version_code: options[:version_code]
+
+    UI.user_error!("The version `#{new_version}` tag already exists!") if git_tag_exists(tag: new_version)
+    UI.user_error!("Version #{previous_version} is not tagged! A hotfix branch cannot be created.") unless git_tag_exists(tag: previous_version)
+
+    message = <<-MESSAGE
+      Current release version: #{release_version_current}
+      New hotfix version: #{new_version}
+
+      Current build code: #{build_code_current}
+      New build code: #{version_code_new}
+
+      Branching from tag: #{previous_version}
+    MESSAGE
+    UI.important(message)
+
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    UI.message('Creating hotfix branch...')
+    Fastlane::Helper::GitHelper.create_branch(release_branch_name(release_version: new_version), from: previous_version)
+    UI.success("Done! New hotfix branch is: #{git_branch}")
+
+    UI.message('Bumping hotfix version and build code...')
+    VERSION_FILE.write_version(
+      version_name: new_version,
+      version_code: version_code_new
     )
+    commit_version_bump
+    UI.success("Done! New release version: #{release_version_current}. New build code: #{build_code_current}.")
+
+    UI.important('Pushing new hotfix branch to remote...')
+    push_to_git_remote(tags: false)
+
+    # TODO: Switch to working branch and open back-merge PR
   end
 
   desc 'Finalizes a hotfix release by tagging the build'
