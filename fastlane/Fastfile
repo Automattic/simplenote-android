@@ -20,6 +20,7 @@ GITHUB_REPO = 'automattic/simplenote-android'
 DEFAULT_BRANCH = 'trunk'
 
 APP_SOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'Simplenote')
+METADATA_FOLDER = File.join(APP_SOURCES_FOLDER, 'metadata')
 MAIN_STRINGS_PATH = File.join(APP_SOURCES_FOLDER, 'src', 'main', 'res', 'values', 'strings.xml')
 UPDATE_STRINGS_PATH = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'resources', 'values')
 
@@ -43,7 +44,7 @@ SUPPORTED_LOCALES = [
 ].freeze
 
 RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt')
-RELEASE_NOTES_PATH = File.join(APP_SOURCES_FOLDER, 'metadata', 'release_notes.txt')
+RELEASE_NOTES_PATH = File.join(METADATA_FOLDER, 'release_notes.txt')
 
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
 
@@ -133,14 +134,14 @@ platform :android do
   desc 'Updates the PlayStoreStrings.pot file'
   lane :update_appstore_strings do |options|
     files = {
-      release_note: File.join(APP_SOURCES_FOLDER, 'metadata', 'release_notes.txt'),
-      play_store_promo: File.join(APP_SOURCES_FOLDER, 'metadata', 'short_description.txt'),
-      play_store_desc: File.join(APP_SOURCES_FOLDER, 'metadata', 'full_description.txt'),
+      release_note: RELEASE_NOTES_PATH,
+      play_store_promo: File.join(METADATA_FOLDER, 'short_description.txt'),
+      play_store_desc: File.join(METADATA_FOLDER, 'full_description.txt'),
       play_store_app_title: File.join(APP_SOURCES_FOLDER, 'metadata', 'title.txt')
     }
 
     an_update_metadata_source(
-      po_file_path: File.join(APP_SOURCES_FOLDER, 'metadata', 'PlayStoreStrings.pot'),
+      po_file_path: File.join(METADATA_FOLDER, 'PlayStoreStrings.pot'),
       source_files: files,
       release_version: options[:version]
     )
@@ -502,7 +503,7 @@ platform :android do
   end
 
   private_lane :add_us_release_notes do |options|
-    en_release_notes_path = File.join(APP_SOURCES_FOLDER, 'metadata', 'release_notes.txt')
+    en_release_notes_path = File.join(METADATA_FOLDER, 'release_notes.txt')
     File.open(options[:release_notes_path], 'a') do |f|
       f.puts('<en-US>')
       f.puts("#{options[:version_name]}:")
