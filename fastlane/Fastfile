@@ -15,10 +15,12 @@ before_all do
 end
 
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
+
 GITHUB_REPO = 'automattic/simplenote-android'
 DEFAULT_BRANCH = 'trunk'
 
-MAIN_STRINGS_PATH = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'src', 'main', 'res', 'values', 'strings.xml')
+APP_SOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'Simplenote')
+MAIN_STRINGS_PATH = File.join(APP_SOURCES_FOLDER, 'src', 'main', 'res', 'values', 'strings.xml')
 UPDATE_STRINGS_PATH = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'resources', 'values')
 
 SUPPORTED_LOCALES = [
@@ -41,7 +43,7 @@ SUPPORTED_LOCALES = [
 ].freeze
 
 RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt')
-RELEASE_NOTES_PATH = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'metadata', 'release_notes.txt')
+RELEASE_NOTES_PATH = File.join(APP_SOURCES_FOLDER, 'metadata', 'release_notes.txt')
 
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
 
@@ -128,19 +130,17 @@ platform :android do
     )
   end
 
-  desc 'Updates the PlayStoreStrings.po file'
+  desc 'Updates the PlayStoreStrings.pot file'
   lane :update_appstore_strings do |options|
-    prj_folder = "#{Dir.pwd}/.."
-
     files = {
-      release_note: File.join(prj_folder, 'Simplenote', 'metadata', 'release_notes.txt'),
-      play_store_promo: File.join(prj_folder, 'Simplenote', 'metadata', 'short_description.txt'),
-      play_store_desc: File.join(prj_folder, 'Simplenote', 'metadata', 'full_description.txt'),
-      play_store_app_title: File.join(prj_folder, 'Simplenote', 'metadata', 'title.txt')
+      release_note: File.join(APP_SOURCES_FOLDER, 'metadata', 'release_notes.txt'),
+      play_store_promo: File.join(APP_SOURCES_FOLDER, 'metadata', 'short_description.txt'),
+      play_store_desc: File.join(APP_SOURCES_FOLDER, 'metadata', 'full_description.txt'),
+      play_store_app_title: File.join(APP_SOURCES_FOLDER, 'metadata', 'title.txt')
     }
 
     an_update_metadata_source(
-      po_file_path: File.join(prj_folder, 'Simplenote', 'metadata', 'PlayStoreStrings.pot'),
+      po_file_path: File.join(APP_SOURCES_FOLDER, 'metadata', 'PlayStoreStrings.pot'),
       source_files: files,
       release_version: options[:version]
     )
@@ -473,8 +473,8 @@ platform :android do
       output_directory: screenshots_directory,
       clear_previous_screenshots: false,
       app_package_name: package,
-      app_apk_path: File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'build', 'outputs', 'apk', 'screenshots', 'Simplenote-screenshots.apk'),
-      tests_apk_path: File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'build', 'outputs', 'apk', 'androidTest', 'debug', 'Simplenote-debug-androidTest.apk'),
+      app_apk_path: File.join(APP_SOURCES_FOLDER, 'build', 'outputs', 'apk', 'screenshots', 'Simplenote-screenshots.apk'),
+      tests_apk_path: File.join(APP_SOURCES_FOLDER, 'build', 'outputs', 'apk', 'androidTest', 'debug', 'Simplenote-debug-androidTest.apk'),
       # Because the screenshot tests are together with other UI tests, we need
       # to specify to run only them and not all of the others.
       use_tests_in_classes: 'com.automattic.simplenote.screenshots.ScreenshotTest',
@@ -502,7 +502,7 @@ platform :android do
   end
 
   private_lane :add_us_release_notes do |options|
-    en_release_notes_path = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'metadata', 'release_notes.txt')
+    en_release_notes_path = File.join(APP_SOURCES_FOLDER, 'metadata', 'release_notes.txt')
     File.open(options[:release_notes_path], 'a') do |f|
       f.puts('<en-US>')
       f.puts("#{options[:version_name]}:")
