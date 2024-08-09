@@ -148,10 +148,19 @@ platform :android do
       play_store_app_title: File.join(APP_SOURCES_FOLDER, 'metadata', 'title.txt')
     }
 
+    pot_path = File.join(METADATA_FOLDER, 'PlayStoreStrings.pot')
+
     an_update_metadata_source(
-      po_file_path: File.join(METADATA_FOLDER, 'PlayStoreStrings.pot'),
+      po_file_path: pot_path,
       source_files: files,
       release_version: version
+    )
+
+    git_add(path: pot_path)
+    git_commit(
+      path: pot_path,
+      message: "Update `#{File.basename(pot_path)}` for #{version}",
+      allow_nothing_to_commit: true
     )
   end
 
