@@ -270,21 +270,32 @@ platform :android do
   end
 
   desc 'Updates store metadata and runs the release checks'
-  lane :finalize_release do |options|
-    UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix
+  lane :finalize_release do |skip_confirm: false|
+    UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix(version_properties_path: VERSION_PROPERTIES_PATH)
 
-    android_finalize_prechecks(options)
+    ensure_git_status_clean
+    ensure_git_branch_is_release_branch
+
+    UI.important("Finalizing release: #{release_version_current}")
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
     configure_apply(force: is_ci)
 
     check_translation_progress_all unless is_ci
-    download_translations(options)
-    android_bump_version_final_release(build_gradle_path: 'Simplenote/build.gradle')
+    download_translations
 
-    version = android_get_release_version(build_gradle_path: 'Simplenote/build.gradle')
-    download_metadata_strings(
-      version: version['name'],
-      build_number: version['code']
+    UI.message 'Bumping final release version and build code...'
+    VERSION_FILE.write_version(
+      version_name: release_version_current,
+      version_code: build_code_next
     )
+    commit_version_bump
+
+    version = release_version_current
+    build_code = build_code_current
+    UI.success("Done! New release version: #{version}. New build code: #{build_code}.")
+
+    download_metadata_strings(version: version, build_number: build_code)
 
     remove_branch_protection(
       repository: GITHUB_REPO,
@@ -292,12 +303,12 @@ platform :android do
     )
     set_milestone_frozen_marker(
       repository: GITHUB_REPO,
-      milestone: version['name'],
+      milestone: version,
       freeze: false
     )
     close_milestone(
       repository: GITHUB_REPO,
-      milestone: version['name']
+      milestone: version
     )
   end
 
@@ -412,17 +423,18 @@ platform :android do
     create_gh_release(version: version) if options[:create_release]
   end
 
+  # TODO: Drop build_number like https://github.com/wordpress-mobile/WordPress-Android/pull/21103
   desc 'Downloads translated metadata from GlotPress'
-  lane :download_metadata_strings do |options|
-    values = options[:version].split('.')
+  lane :download_metadata_strings do |version:, build_number:|
+    values = version.split('.')
     files = {
-      "release_note_#{values[0].to_s.rjust(2, '0')}#{values[1]}" => { desc: "changelogs/#{options[:build_number]}.txt", max_size: 0 },
+      "release_note_#{values[0].to_s.rjust(2, '0')}#{values[1]}" => { desc: "changelogs/#{build_number}.txt", max_size: 0 },
       play_store_promo: { desc: 'short_description.txt', max_size: 80 },
       play_store_desc: { desc: 'full_description.txt', max_size: 0 },
       play_store_app_title: { desc: 'title.txt', max_size: 50 }
     }
 
-    delete_old_changelogs(build: options[:build_number])
+    delete_old_changelogs(build: build_number)
     download_path = "#{Dir.pwd}/metadata/android"
     gp_downloadmetadata(
       project_url: GLOTPRESS_PLAYSTORE_METADATA_PROJECT_URL,
@@ -434,7 +446,7 @@ platform :android do
 
     android_create_xml_release_notes(
       download_path: download_path,
-      build_number: options[:build_number].to_s,
+      build_number: build_number.to_s,
       locales: SUPPORTED_LOCALES.to_h { |hsh| [hsh[:glotpress], hsh[:google_play]] }
     )
     add_us_release_notes(
@@ -447,7 +459,7 @@ platform :android do
     git_add(path: download_path)
     git_commit(
       path: download_path,
-      message: "Update metadata translations for #{options[:version]}",
+      message: "Update metadata translations for #{version}",
       allow_nothing_to_commit: true
     )
   end
