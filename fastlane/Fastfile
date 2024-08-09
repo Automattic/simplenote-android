@@ -16,8 +16,12 @@ end
 
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
 
-GITHUB_REPO = 'automattic/simplenote-android'
+ORGANIZATION = 'automattic'
+REPO_NAME = 'simplenote-android'
+GITHUB_REPO = "#{ORGANIZATION}/#{REPO_NAME}".freeze
 DEFAULT_BRANCH = 'trunk'
+BUILDKITE_ORG = ORGANIZATION
+BUILDKITE_PIPELINE = REPO_NAME
 
 APP_SOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'Simplenote')
 METADATA_FOLDER = File.join(APP_SOURCES_FOLDER, 'metadata')
@@ -165,11 +169,39 @@ platform :android do
   end
 
   desc 'Updates a release branch for a new beta release'
-  lane :new_beta_release do
+  lane :new_beta_release do |skip_confirm: false|
     ensure_git_status_clean
     ensure_git_branch_is_release_branch
 
     android_bump_version_beta
+
+    message = <<-MESSAGE
+      Current beta version: #{version_name_current}
+      New beta version: #{release_version_next_beta}
+
+      Current build code: #{build_code_current}
+      New build code: #{build_code_next}
+    MESSAGE
+    UI.important(message)
+
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    UI.message 'Bumping beta version and build code...'
+    VERSION_FILE.write_version(
+      version_name: beta_version_next,
+      version_code: build_code_next
+    )
+    commit_version_bump
+    UI.success("Done! New Beta Version: #{version_name_current}. New Build Code: #{build_code_current}")
+
+    UI.important('Pushing changes to remote and triggering the beta build...')
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    push_to_git_remote(tags: false)
+
+    trigger_release_build(branch_to_build: release_branch_name)
+
+    # TODO: Switch to working branch and open back-merge PR
   end
 
   desc 'Creates a new hotfix branch from the given tag'
@@ -466,6 +498,16 @@ platform :android do
       message = "Simplenote Android Prototype Build: [#{filename}](#{install_url})"
       sh('buildkite-agent', 'annotate', message, '--style', 'info', '--context', 'prototype-build')
     end
+  end
+
+  desc 'Trigger a release build on Buildkit'
+  lane :trigger_release_build do |branch_to_build: git_branch|
+    buildkite_trigger_build(
+      buildkite_organization: BUILDKITE_ORG,
+      buildkite_pipeline: BUILDKITE_PIPELINE,
+      branch: branch_to_build,
+      pipeline_file: 'release-builds.yml'
+    )
   end
 
   desc 'Take screenshots in the app'
