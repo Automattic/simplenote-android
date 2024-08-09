@@ -165,8 +165,10 @@ platform :android do
   end
 
   desc 'Updates a release branch for a new beta release'
-  lane :new_beta_release do |options|
-    android_betabuild_prechecks(options)
+  lane :new_beta_release do
+    ensure_git_status_clean
+    ensure_git_branch_is_release_branch
+
     android_bump_version_beta
   end
 
@@ -622,5 +624,12 @@ def commit_version_bump
 end
 
 def release_branch_name(release_version: release_version_current)
-  "release/#{release_version}"
+  "#{RELEASE_BRANCH_ROOT}#{release_version}"
 end
+
+def ensure_git_branch_is_release_branch
+  # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
+  ensure_git_branch(branch: "^#{RELEASE_BRANCH_ROOT}")
+end
+
+RELEASE_BRANCH_ROOT = 'release/'
