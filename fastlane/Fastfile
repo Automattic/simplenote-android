@@ -21,6 +21,7 @@ DEFAULT_BRANCH = 'trunk'
 
 APP_SOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'Simplenote')
 METADATA_FOLDER = File.join(APP_SOURCES_FOLDER, 'metadata')
+BUILD_FOLDER = File.join(APP_SOURCES_FOLDER, 'build')
 MAIN_STRINGS_PATH = File.join(APP_SOURCES_FOLDER, 'src', 'main', 'res', 'values', 'strings.xml')
 UPDATE_STRINGS_PATH = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'resources', 'values')
 
@@ -360,7 +361,7 @@ platform :android do
     version = options[:version]
     apk_name = "simplenote-#{version['name']}.apk"
     orign_file = 'Simplenote-release.apk'
-    output_dir = File.join('Simplenote', 'build', 'outputs', 'apk', 'release')
+    output_dir = File.join(BUILD_FOLDER, 'outputs', 'apk', 'release')
     build_dir = 'build/'
     upload_track = options[:upload_track]
 
@@ -474,8 +475,8 @@ platform :android do
       output_directory: screenshots_directory,
       clear_previous_screenshots: false,
       app_package_name: package,
-      app_apk_path: File.join(APP_SOURCES_FOLDER, 'build', 'outputs', 'apk', 'screenshots', 'Simplenote-screenshots.apk'),
-      tests_apk_path: File.join(APP_SOURCES_FOLDER, 'build', 'outputs', 'apk', 'androidTest', 'debug', 'Simplenote-debug-androidTest.apk'),
+      app_apk_path: File.join(BUILD_FOLDER, 'outputs', 'apk', 'screenshots', 'Simplenote-screenshots.apk'),
+      tests_apk_path: File.join(BUILD_FOLDER, 'outputs', 'apk', 'androidTest', 'debug', 'Simplenote-debug-androidTest.apk'),
       # Because the screenshot tests are together with other UI tests, we need
       # to specify to run only them and not all of the others.
       use_tests_in_classes: 'com.automattic.simplenote.screenshots.ScreenshotTest',
@@ -536,8 +537,7 @@ platform :android do
   end
 
   def universal_apk_file_path(version)
-    project_root = File.dirname(__dir__)
-    File.join(project_root, 'build', universal_apk_name(version))
+    File.join(BUILD_FOLDER, universal_apk_name(version))
   end
 
   # This function is Buildkite-specific
