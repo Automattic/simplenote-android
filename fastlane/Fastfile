@@ -26,7 +26,8 @@ BUILDKITE_PIPELINE = REPO_NAME
 APP_SOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'Simplenote')
 METADATA_FOLDER = File.join(APP_SOURCES_FOLDER, 'metadata')
 BUILD_FOLDER = File.join(APP_SOURCES_FOLDER, 'build')
-MAIN_STRINGS_PATH = File.join(APP_SOURCES_FOLDER, 'src', 'main', 'res', 'values', 'strings.xml')
+RES_FOLDER = File.join(APP_SOURCES_FOLDER, 'src', 'main', 'res')
+MAIN_STRINGS_PATH = File.join(RES_FOLDER, 'values', 'strings.xml')
 UPDATE_STRINGS_PATH = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'resources', 'values')
 
 SUPPORTED_LOCALES = [
@@ -454,7 +455,7 @@ platform :android do
   desc 'Download the latest app translations from GlotPress and update the strings.xml files accordingly'
   lane :download_translations do
     android_download_translations(
-      res_dir: File.join('Simplenote', 'src', 'main', 'res'),
+      res_dir: RES_FOLDER,
       glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
       locales: SUPPORTED_LOCALES,
       lint_task: 'lintRelease'
