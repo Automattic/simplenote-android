@@ -250,9 +250,16 @@ platform :android do
   end
 
   desc 'Finalizes a hotfix release by tagging the build'
-  lane :finalize_hotfix_release do
-    UI.important('TODO! We are in the process of upgrading the release automation and this step is currently a no-op.')
-    UI.important("Please ensure all local changes reached the remote; git push that's not the case.")
+  lane :finalize_hotfix_release do |skip_confirm: false|
+    ensure_git_status_clean
+    ensure_git_branch_is_release_branch
+
+    hotfix_version = release_version_current
+
+    UI.important("Triggering hotfix build for version: #{hotfix_version}...")
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    trigger_release_build(branch_to_build: release_branch_name)
   end
 
   desc 'Updates store metadata and runs the release checks'
