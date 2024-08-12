@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <dimen name="passcodelock_button_text_size">24sp</dimen>
+    <dimen name="passcodelock_divider">1dp</dimen>
+    <dimen name="passcodelock_fingerprint_image_margin_top">18dp</dimen>
+
+</resources>

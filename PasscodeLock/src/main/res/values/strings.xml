@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <string name="passcode">PIN</string>
+    <string name="passcode_manage">Manage passcode</string>
+    <string name="passcode_enter_old_passcode">Enter your old passcode</string>
+    <string name="passcode_re_enter_passcode">Re-enter your passcode</string>
+    <string name="passcode_change_passcode">Change passcode</string>
+    <string name="passcode_set">Passcode set</string>
+    <string name="passcode_wrong_passcode">Wrong passcode, please try again.</string>
+    <string name="passcode_preference_title">Passcode lock</string>
+    <string name="passcode_turn_off">Turn passcode off</string>
+    <string name="passcode_turn_on">Turn passcode on</string>
+
+    <string name="passcodelock_prompt_message">Enter your passcode</string>
+    <string name="passcodelock_hint"></string>
+    <string name="passcodelock_numpad_0">0</string>
+    <string name="passcodelock_numpad_1">1</string>
+    <string name="passcodelock_numpad_2">2</string>
+    <string name="passcodelock_numpad_3">3</string>
+    <string name="passcodelock_numpad_4">4</string>
+    <string name="passcodelock_numpad_5">5</string>
+    <string name="passcodelock_numpad_6">6</string>
+    <string name="passcodelock_numpad_7">7</string>
+    <string name="passcodelock_numpad_8">8</string>
+    <string name="passcodelock_numpad_9">9</string>
+
+    <!-- Preference keys -->
+    <string name="pref_key_passcode_toggle">turn_passcode_on_off</string>
+    <string name="pref_key_change_passcode">change_passcode</string>
+
+    <string name="passcode_description_delete">Delete</string>
+    <string name="passcode_description_fingerprint">Fingerprint authentication supported</string>
+
+</resources>
