@@ -1,1 +1,2 @@
 include ':Simplenote', ':Wear'
+include ':PasscodeLock'
