@@ -254,7 +254,7 @@ open class NewCredentialsActivity : AppCompatActivity() {
         this.runOnUiThread {
             hideDialogProgress()
             val inputMethodManager =
-                getSystemService("input_method") as InputMethodManager
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(button?.windowToken, 0)
             if (isValidPassword(user.email, user.password) && isValidPasswordLength(false)) {
                 user.status = User.Status.AUTHORIZED
@@ -298,7 +298,7 @@ open class NewCredentialsActivity : AppCompatActivity() {
         val context: Context = ContextThemeWrapper(this, this.theme)
 
         try {
-            val clipboard = this.getSystemService("clipboard") as ClipboardManager
+            val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText(this.getString(R.string.app_name), url)
             clipboard.setPrimaryClip(clip)
             Toast.makeText(context, R.string.simperium_error_browser_copy_success, Toast.LENGTH_SHORT).show()
