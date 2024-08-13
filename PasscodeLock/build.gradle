@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        google()
+        maven { url 'https://maven.google.com' }
+    }
+
+}
+
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'org.wordpress.passcodelock'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 23
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.preference:preference:1.0.0'
+}
+
+android.buildTypes.all { buildType ->
+    project.properties.any { property ->
+        if (property.key.toLowerCase().startsWith("passcodelock.")) {
+            buildType.buildConfigField "String", property.key.replace("passcodelock.", "").replace(".", "_").toUpperCase(), "\"${property.value}\""
+        }
+    }
+}
