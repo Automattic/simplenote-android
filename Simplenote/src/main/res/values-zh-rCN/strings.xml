@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 09:54:03+0000
+Translation-Revision-Date: 2024-08-01 11:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">我们已向 \n 发送代码%1$s。 此代码将在几分钟后失效。</string>
+    <string name="magic_link_confirm_code_enter_pass_label">输入密码</string>
+    <string name="magic_link_login_with_wordpress_or_break">或</string>
+    <string name="magic_link_enter_code_title">输入代码</string>
+    <string name="magic_link_code_hint">代码</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">代码无效</string>
+    <string name="magic_link_complete_login_expired_code_error_message">链接已失效</string>
+    <string name="magic_link_complete_login_loading_message">正在登录</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">使用电子邮件登录失败，请输入您的密码。</string>
+    <string name="magic_link_error_too_many_requests_message">请求过多。 请稍后重试。</string>
+    <string name="magic_link_request_error_message">请求免密链接时出错</string>
+    <string name="magic_link_request_login_loading_message">正在请求登录链接</string>
+    <string name="magic_link_general_error">我们遇到了问题。 请稍后重试。</string>
+    <string name="login_with_password">使用密码登录</string>
+    <string name="login_screen_title">登录</string>
+    <string name="magic_link_login">使用电子邮件登录</string>
+    <string name="magic_link_request_login_dialog">如果您已有账户，我们会向 %1$s 发送一封电子邮件，其中包含一个登录链接。</string>
+    <string name="magic_link_request_login_dialog_title">检查您的电子邮件</string>
     <string name="sustainer_app_icon">Sustainer 应用程序图标</string>
     <string name="simperium_too_many_attempts">尝试登录次数过多。 请稍后重试。</string>
     <string name="simperium_change_password">修改密码</string>
@@ -66,11 +84,11 @@ Language: zh_CN
     <string name="toast_email_sent">电子邮件已发送</string>
     <string name="fullscreen_verify_email_button_secondary">重发电子邮件</string>
     <string name="fullscreen_verify_email_title">验证您的电子邮件</string>
-    <string name="fullscreen_verify_email_subtitle">我们已向 &lt;b&gt;%1$s&lt;/b&gt; 发送了一封验证电子邮件。 请检查您的收件箱并按照说明执行操作。</string>
+    <string name="fullscreen_verify_email_subtitle">我们已向 &lt;b>%1$s&lt;/b> 发送了一封验证电子邮件。 请检查您的收件箱并按照说明执行操作。</string>
     <string name="fullscreen_review_account_button_secondary">更改电子邮件地址</string>
     <string name="fullscreen_review_account_button_primary">确认</string>
     <string name="fullscreen_review_account_title">检查您的帐户</string>
-    <string name="fullscreen_review_account_subtitle">您已使用电子邮件 &lt;b&gt;%1$s&lt;/b&gt; 注册 Simplenote。&lt;br&gt;&lt;br&gt;如果您无法再访问此电子邮件地址，那么帐户安全性的改进可能会导致您无法找回帐户。</string>
+    <string name="fullscreen_review_account_subtitle">您已使用电子邮件 &lt;b>%1$s&lt;/b> 注册 Simplenote。&lt;br>&lt;br>如果您无法再访问此电子邮件地址，那么帐户安全性的改进可能会导致您无法找回帐户。</string>
     <string name="description_warning">警告</string>
     <string name="description_mail">邮件</string>
     <string name="description_close">关闭</string>
@@ -111,7 +129,7 @@ Language: zh_CN
     <string name="empty">空</string>
     <string name="back">返回</string>
     <string name="empty_notes_untagged">没有未标记的笔记</string>
-    <string name="unpublishing">正在取消发布笔记…</string>
+    <string name="unpublishing">正在取消发布笔记...</string>
     <string name="unpublish_successful">已取消发布笔记。</string>
     <string name="web_view_error_button">转到 WebView 应用</string>
     <string name="web_view_error">必须在设备上安装 Web 视图才能预览 markdown。</string>
@@ -285,7 +303,7 @@ Language: zh_CN
     <string name="wpcom_log_in_error_generic">无法登录 WordPress.com。请重试。</string>
     <string name="collaborate_message">在标签中添加邮箱地址即可与其他用户协作。</string>
     <string name="collaborate">协作</string>
-    <string name="publishing">正在发布笔记…</string>
+    <string name="publishing">正在发布笔记...</string>
     <string name="unpublish">删除公开链接</string>
     <string name="no_browser_available">“无法打开网站。没有可用的浏览器。”</string>
     <string name="blog">博客</string>

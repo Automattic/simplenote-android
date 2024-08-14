@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-22 12:54:02+0000
+Translation-Revision-Date: 2024-08-01 15:54:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Şuraya bir kod gönderildi: \n%1$s. Kod birkaç dakikalığına geçerli olacak.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Şifre girin</string>
+    <string name="magic_link_login_with_wordpress_or_break">Veya</string>
+    <string name="magic_link_enter_code_title">Kod Girin</string>
+    <string name="magic_link_code_hint">Kod</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Geçersiz kod</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Bağlantı artık geçerli değil</string>
+    <string name="magic_link_complete_login_loading_message">Oturum Açılıyor</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">E-postayla oturum açma başarısız oldu, lütfen şifrenizi girin.</string>
+    <string name="magic_link_error_too_many_requests_message">Çok fazla istek var. Daha sonra yeniden deneyin.</string>
+    <string name="magic_link_request_error_message">Sihirli Bağlantı istenirken hata oluştu</string>
+    <string name="magic_link_request_login_loading_message">Oturum açma bağlantısı isteniyor</string>
+    <string name="magic_link_general_error">Sorun yaşanıyor. Lütfen kısa bir süre sonra tekrar deneyin.</string>
+    <string name="login_with_password">Şifreyle Oturum Aç</string>
+    <string name="login_screen_title">Oturum Aç</string>
+    <string name="magic_link_login">E-postayla oturum aç</string>
+    <string name="magic_link_request_login_dialog">Bir hesap varsa oturumunuzu açacak bir bağlantı içeren %1$s adresine bir e-posta gönderildi.</string>
+    <string name="magic_link_request_login_dialog_title">E-postanızı kontrol edin</string>
     <string name="sustainer_app_icon">Sustainer uygulaması simgesi</string>
     <string name="simperium_too_many_attempts">Çok fazla oturum açma denemesi. Daha sonra yeniden deneyin.</string>
     <string name="simperium_change_password">Parola değiştir</string>
@@ -23,7 +41,7 @@ Language: tr
     <string name="remove">Kaldır</string>
     <string name="collaborators">Çalışma Arkadaşları</string>
     <string name="remove_collaborator">Çalışma Arkadaşını Kaldır</string>
-    <string name="loading_collaborators">Yükleniyor…</string>
+    <string name="loading_collaborators">Yükleniyor...</string>
     <string name="add_email_collaborator_message">Bu notu birisiyle paylaşmak için bir e-posta adresi ekleyin, ardından ikiniz de not üzerinde değişiklik yapabilirsiniz. Bir çalışma arkadaşı eklediğinizde, kendisi e-posta ile bilgilendirilecektir.</string>
     <string name="add_collaborator">Çalışma Arkadaşı Ekle </string>
     <string name="note_shared">Not Paylaşıldı</string>
@@ -66,11 +84,11 @@ Language: tr
     <string name="toast_email_sent">E-posta gönderildi</string>
     <string name="fullscreen_verify_email_button_secondary">E-postayı tekrar gönder</string>
     <string name="fullscreen_verify_email_title">E-posta Adresinizi Doğrulayın</string>
-    <string name="fullscreen_verify_email_subtitle">&lt;b&gt;%1$s&lt;/b&gt; adresine bir doğrulama e-postası gönderdik. Lütfen gelen kutunuzu kontrol edip talimatları izleyin.</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b> adresine bir doğrulama e-postası gönderdik. Lütfen gelen kutunuzu kontrol edip talimatları izleyin.</string>
     <string name="fullscreen_review_account_button_secondary">E-posta değiştir</string>
     <string name="fullscreen_review_account_button_primary">Onayla</string>
     <string name="fullscreen_review_account_title">Hesabınızı İnceleyin</string>
-    <string name="fullscreen_review_account_subtitle">&lt;b&gt;%1$s&lt;/b&gt; e-postasını kullanarak Simplenote\'a kayıt oldunuz.&lt;br&gt;&lt;br&gt;Bu e-posta adresine artık erişiminiz yoksa, hesap güvenliğindeki iyileştirmeler hesap kaybına neden olabilir.</string>
+    <string name="fullscreen_review_account_subtitle">&lt;b>%1$s&lt;/b> e-postasını kullanarak Simplenote\'a kayıt oldunuz.&lt;br>&lt;br>Bu e-posta adresine artık erişiminiz yoksa, hesap güvenliğindeki iyileştirmeler hesap kaybına neden olabilir.</string>
     <string name="description_warning">Uyarı</string>
     <string name="description_mail">Posta</string>
     <string name="description_close">Kapat</string>
@@ -111,7 +129,7 @@ Language: tr
     <string name="empty">Boş</string>
     <string name="back">Geri</string>
     <string name="empty_notes_untagged">Etiketsiz not yok</string>
-    <string name="unpublishing">Not yayından kaldırılıyor…</string>
+    <string name="unpublishing">Not yayından kaldırılıyor...</string>
     <string name="unpublish_successful">Not yayından kaldırıldı.</string>
     <string name="web_view_error_button">WebView uygulamasına git</string>
     <string name="web_view_error">Markdown’ı önizlemek için cihazınızda bir web görünümü kurulu olmalıdır.</string>
@@ -285,7 +303,7 @@ Language: tr
     <string name="wpcom_log_in_error_generic">WordPress.com ile giriş yapılamadı. Lütfen yeniden deneyin.</string>
     <string name="collaborate_message">Diğer kullanıcılarla iş birliği yapmak için etiket alanına bir e-posta girin.</string>
     <string name="collaborate">İşbirliği Yap</string>
-    <string name="publishing">Not yayınlanıyor…</string>
+    <string name="publishing">Not yayınlanıyor...</string>
     <string name="unpublish">Herkese açık bağlantıyı kaldır</string>
     <string name="no_browser_available">\"Web sitesi açılamıyor. Kullanılabilir tarayıcı yok.\"</string>
     <string name="blog">Blog</string>

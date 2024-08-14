@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 09:54:03+0000
+Translation-Revision-Date: 2024-08-01 09:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">コードを \n に送信しました%1$s。 コードは数分間有効です。</string>
+    <string name="magic_link_confirm_code_enter_pass_label">パスワードを入力</string>
+    <string name="magic_link_login_with_wordpress_or_break">または</string>
+    <string name="magic_link_enter_code_title">コードを入力</string>
+    <string name="magic_link_code_hint">コード</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">無効なコード</string>
+    <string name="magic_link_complete_login_expired_code_error_message">リンクはすでに無効です</string>
+    <string name="magic_link_complete_login_loading_message">ログイン</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">メールアドレスでのログインに失敗しました。パスワードを入力してください。</string>
+    <string name="magic_link_error_too_many_requests_message">リクエスト数が多すぎます。 後ほど、もう一度お試しください。</string>
+    <string name="magic_link_request_error_message">マジックリンクのリクエスト中にエラーが発生しました</string>
+    <string name="magic_link_request_login_loading_message">ログインリンクをリクエスト中</string>
+    <string name="magic_link_general_error">問題が発生しました。 すぐにもう一度実行してください。</string>
+    <string name="login_with_password">パスワードでログイン</string>
+    <string name="login_screen_title">ログイン</string>
+    <string name="magic_link_login">メールアドレスでログイン</string>
+    <string name="magic_link_request_login_dialog">アカウントが存在する場合は、ログインするためのリンクを記載したメールを %1$s に送信しました。</string>
+    <string name="magic_link_request_login_dialog_title">メールをご確認ください</string>
     <string name="sustainer_app_icon">Sustainer アプリアイコン</string>
     <string name="simperium_too_many_attempts">ログイン試行の回数が多すぎます。 後ほど、もう一度お試しください。</string>
     <string name="simperium_change_password">パスワードを変更</string>
@@ -40,7 +58,7 @@ Language: ja_JP
     <string name="import_message_success">データを読み込みました</string>
     <string name="import_error_parse">ファイルを解析できません</string>
     <string name="import_error_file">ファイルを読み取れません</string>
-    <string name="requesting_message">リクエストしています…</string>
+    <string name="requesting_message">リクエストしています...</string>
     <string name="error_ocurred_message">エラーが発生しました。 もう一度お試しください。 問題が解決しない場合は、%1$s%2$s%3$s%4$s%5$s までお問い合わせください。</string>
     <string name="account_deletion_message">%1$s にメールが送信されました。 受信トレイを確認し、手順に従ってアカウントの削除を確定してください。\n\n当社がお客様から確認を得るまでアカウントは削除されません。</string>
     <string name="request_received">リクエストを受信しました</string>
@@ -66,11 +84,11 @@ Language: ja_JP
     <string name="toast_email_sent">メールを送信しました</string>
     <string name="fullscreen_verify_email_button_secondary">メールを再送信</string>
     <string name="fullscreen_verify_email_title">メールアドレスを確認</string>
-    <string name="fullscreen_verify_email_subtitle">&lt;b&gt;%1$s&lt;/b&gt; に確認メールを送信しました。 受信箱を確認して手順に従ってください。</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b> に確認メールを送信しました。 受信箱を確認して手順に従ってください。</string>
     <string name="fullscreen_review_account_button_secondary">メールアドレスを変更</string>
     <string name="fullscreen_review_account_button_primary">確認</string>
     <string name="fullscreen_review_account_title">アカウントの設定を確認</string>
-    <string name="fullscreen_review_account_subtitle">メールアドレス &lt;b&gt;%1$s&lt;/b&gt; で Simplenote に登録されました。&lt;br&gt;&lt;br&gt;アカウントのセキュリティ強化により、このメールアドレスにアクセスできなくなった場合にはアカウントを喪失する可能性があります。</string>
+    <string name="fullscreen_review_account_subtitle">メールアドレス &lt;b>%1$s&lt;/b> で Simplenote に登録されました。&lt;br>&lt;br>アカウントのセキュリティ強化により、このメールアドレスにアクセスできなくなった場合にはアカウントを喪失する可能性があります。</string>
     <string name="description_warning">警告</string>
     <string name="description_mail">メール</string>
     <string name="description_close">閉じる</string>
@@ -111,7 +129,7 @@ Language: ja_JP
     <string name="empty">空</string>
     <string name="back">戻る</string>
     <string name="empty_notes_untagged">タグが付けられていないメモはありません</string>
-    <string name="unpublishing">ノートを非公開にしています…</string>
+    <string name="unpublishing">ノートを非公開にしています...</string>
     <string name="unpublish_successful">ノートが非公開になりました。</string>
     <string name="web_view_error_button">WebView アプリに移動</string>
     <string name="web_view_error">マークダウンをプレビューするには、WebView がデバイスにインストールされている必要があります。</string>
@@ -186,7 +204,7 @@ Language: ja_JP
     <string name="search">メモまたはタグを検索</string>
     <string name="empty_tags_search">タグが見つかりません</string>
     <string name="empty_notes_widget">メモがありません</string>
-    <string name="loading_notes">メモを読み込んでいます…</string>
+    <string name="loading_notes">メモを読み込んでいます...</string>
     <string name="note_widget_light">メモ (ライト)</string>
     <string name="note_widget_dark">メモ (ダーク)</string>
     <string name="note_list_widget_light">メモリスト (ライト)</string>
@@ -222,7 +240,7 @@ Language: ja_JP
     <string name="description_sort">並べ替え</string>
     <string name="description_down">下に</string>
     <string name="description_delete_item">項目を削除</string>
-    <string name="welcome_note">Simplenote Android へようこそ !\n手順についてはこのメモを開いてください。\n\n新しいメモを作成するには、「+」アイコンのついた「新しいメモ」ボタンをタップします。\n\nメモを検索するには、虫眼鏡アイコンの「検索」ボタンをタップして、テキストを入力します。 Simplenote では、最初に最近の検索が表示され、テキストを入力すると検索候補が表示されます。 検索を実行すると、入力したテキストに一致するメモが表示されます。\n\nとても重要なメモですか ? メモリストの最上部にピンできます。 メモのピンには2つの方法があります。 リスト内のメモを長押しして、ピンアイコンの「上部に固定」ボタンをタップします。 メモの表示中に3つのドットの「More Options」ボタンをタップして、「Pin」ボックスにチェックマークを入れます。\n\nメモを整理するにはタグを利用します。 タグを作成するには、「タグを編集」画面で「タグを追加」ボタンを使用するか、メモの最下部にある「タグを追加…」フィールドで作成します。 メモを他の人と共有するために、メールアドレスをタグとして追加することもできます。\n\nメモを表示するとき、「その他のオプション」メニューの「共有」をタップすると、簡単に他の Android アプリとメモを共有できます。\n\n削除したメモはゴミ箱に入ります。 ゴミ箱内のメモは必要に応じて復元できます。完全にメモを削除するには、ゴミ箱を空にします。\n\nメモは Web を通じてさまざまな端末でアクセスできます。 開始するには、http://simplenote.com に移動します。\n\nSimplenote をお楽しみください !</string>
+    <string name="welcome_note">Simplenote Android へようこそ !\n手順についてはこのメモを開いてください。\n\n新しいメモを作成するには、「+」アイコンのついた「新しいメモ」ボタンをタップします。\n\nメモを検索するには、虫眼鏡アイコンの「検索」ボタンをタップして、テキストを入力します。 Simplenote では、最初に最近の検索が表示され、テキストを入力すると検索候補が表示されます。 検索を実行すると、入力したテキストに一致するメモが表示されます。\n\nとても重要なメモですか ? メモリストの最上部にピンできます。 メモのピンには2つの方法があります。 リスト内のメモを長押しして、ピンアイコンの「上部に固定」ボタンをタップします。 メモの表示中に3つのドットの「More Options」ボタンをタップして、「Pin」ボックスにチェックマークを入れます。\n\nメモを整理するにはタグを利用します。 タグを作成するには、「タグを編集」画面で「タグを追加」ボタンを使用するか、メモの最下部にある「タグを追加...」フィールドで作成します。 メモを他の人と共有するために、メールアドレスをタグとして追加することもできます。\n\nメモを表示するとき、「その他のオプション」メニューの「共有」をタップすると、簡単に他の Android アプリとメモを共有できます。\n\n削除したメモはゴミ箱に入ります。 ゴミ箱内のメモは必要に応じて復元できます。完全にメモを削除するには、ゴミ箱を空にします。\n\nメモは Web を通じてさまざまな端末でアクセスできます。 開始するには、http://simplenote.com に移動します。\n\nSimplenote をお楽しみください !</string>
     <string name="search_hint">メモまたはタグを検索</string>
     <string name="log_out">ログアウト</string>
     <string name="log_in">ログイン</string>
@@ -252,7 +270,7 @@ Language: ja_JP
     <string name="log_in_add_widget">ログインしてこのウィジェットを追加</string>
     <string name="select_note">メモを選択</string>
     <string name="note_not_found">メモが見つかりませんでした</string>
-    <string name="loading_note">メモを読み込み中…</string>
+    <string name="loading_note">メモを読み込み中...</string>
     <string name="passcode_summary">パスコードロックが有効な間はスクリーンショットが無効になります</string>
     <string name="all_notes">すべてのノート</string>
     <string name="appearance">外観</string>
@@ -285,7 +303,7 @@ Language: ja_JP
     <string name="wpcom_log_in_error_generic">WordPress.com にログインできませんでした。もう一度お試しください。</string>
     <string name="collaborate_message">メールアドレスをタグフィールドに追加すると、他のユーザーと共同作業できます。</string>
     <string name="collaborate">共同編集</string>
-    <string name="publishing">ノートを公開しています…</string>
+    <string name="publishing">ノートを公開しています...</string>
     <string name="unpublish">公開リンクを削除</string>
     <string name="no_browser_available">「サイトを開けません。使用可能なブラウザーがありません。」</string>
     <string name="blog">ブログ</string>

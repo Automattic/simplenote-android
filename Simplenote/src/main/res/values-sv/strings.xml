@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 13:54:03+0000
+Translation-Revision-Date: 2024-07-31 17:17:02+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Vi har skickat en kod till \n%1$s. Koden kommer vara giltig i några minuter.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Ange lösenord</string>
+    <string name="magic_link_login_with_wordpress_or_break">Eller</string>
+    <string name="magic_link_enter_code_title">Ange kod</string>
+    <string name="magic_link_code_hint">Kod</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Ogiltig kod</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Länk är inte längre giltig</string>
+    <string name="magic_link_complete_login_loading_message">Loggar in</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Inloggning med e-post misslyckades, ange ditt lösenord.</string>
+    <string name="magic_link_error_too_many_requests_message">För många förfrågningar. Försök igen senare.</string>
+    <string name="magic_link_request_error_message">Fel vid begäran om magisk länk</string>
+    <string name="magic_link_request_login_loading_message">Begär inloggningslänk</string>
+    <string name="magic_link_general_error">Vi har problem. Försök igen om en stund.</string>
+    <string name="login_with_password">Logga in med lösenord</string>
+    <string name="login_screen_title">Logga in</string>
+    <string name="magic_link_login">Logga in med e-post</string>
+    <string name="magic_link_request_login_dialog">Om det finns ett konto har vi skickat ett e-postmeddelande till %1$s med en länk som loggar in dig.</string>
+    <string name="magic_link_request_login_dialog_title">Kolla din e-post</string>
     <string name="sustainer_app_icon">Sustainer-appikon</string>
     <string name="simperium_too_many_attempts">För många inloggningsförsök. Försök igen senare.</string>
     <string name="simperium_change_password">Ändra lösenord</string>
@@ -40,7 +58,7 @@ Language: sv_SE
     <string name="import_message_success">Data laddat</string>
     <string name="import_error_parse">Kan inte analysera fil</string>
     <string name="import_error_file">Kan inte läsa fil</string>
-    <string name="requesting_message">Begär…</string>
+    <string name="requesting_message">Begär...</string>
     <string name="error_ocurred_message">Ett okänt fel uppstod. Försök igen. Om problemet fortsätter, kontakta oss på %1$s%2$s%3$s%4$s%5$s för hjälp.</string>
     <string name="account_deletion_message">Ett e-postmeddelande har skickats till %1$s. Kolla din inkorg och följ instruktionerna för att bekräfta kontoborttagningen.\n\nDitt konto kommer inte att tas bort förrän vi har mottagit din bekräftelse.</string>
     <string name="request_received">Begäran mottagen</string>
@@ -66,11 +84,11 @@ Language: sv_SE
     <string name="toast_email_sent">E-post skickad</string>
     <string name="fullscreen_verify_email_button_secondary">Skicka e-post igen</string>
     <string name="fullscreen_verify_email_title">Verifiera din e-post</string>
-    <string name="fullscreen_verify_email_subtitle">Vi har skickat en e-postverifiering till &lt;b&gt;%1$s&lt;/b&gt;.  Kontrollera din inkorg och följ instruktionerna.</string>
+    <string name="fullscreen_verify_email_subtitle">Vi har skickat en e-postverifiering till &lt;b>%1$s&lt;/b>.  Kontrollera din inkorg och följ instruktionerna.</string>
     <string name="fullscreen_review_account_button_secondary">Ändra e-post</string>
     <string name="fullscreen_review_account_button_primary">Bekräfta</string>
     <string name="fullscreen_review_account_title">Granska ditt konto</string>
-    <string name="fullscreen_review_account_subtitle">Du är registrerad hos Simplenote med e-postadressen &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Förbättringar av kontosäkerhet kan leda till kontoförlust om du inte längre har tillgång till den här e-postadressen.</string>
+    <string name="fullscreen_review_account_subtitle">Du är registrerad hos Simplenote med e-postadressen &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Förbättringar av kontosäkerhet kan leda till kontoförlust om du inte längre har tillgång till den här e-postadressen.</string>
     <string name="description_warning">Varning</string>
     <string name="description_mail">E-post</string>
     <string name="description_close">Stäng</string>
@@ -236,8 +254,8 @@ Language: sv_SE
     <string name="simperium_error_password">Ogiltigt lösenord</string>
     <string name="simperium_error_email">Ogiltig e-post</string>
     <string name="simperium_dialog_title_error">Fel</string>
-    <string name="simperium_dialog_progress_signing_up">Skapar konto…</string>
-    <string name="simperium_dialog_progress_logging_in">Loggar in…</string>
+    <string name="simperium_dialog_progress_signing_up">Skapar konto...</string>
+    <string name="simperium_dialog_progress_logging_in">Loggar in...</string>
     <string name="simperium_dialog_message_signup_existing">Den angivna e-postadressen är redan associerad med ett Simplenote-konto.</string>
     <string name="simperium_dialog_message_signup">Det gick inte att skapa kontot med den angivna e-postadressen eller lösenordet.</string>
     <string name="simperium_dialog_message_network">Det finns inget tillgängligt nätverk. Anslut till ett nätverk och försök igen.</string>
@@ -334,7 +352,7 @@ Language: sv_SE
     <string name="open_drawer">Öppna låda</string>
     <string name="condensed_note_list">Enkel lista</string>
     <string name="rename_tag">Döp om etikett</string>
-    <string name="new_note_list">Ny anteckning…</string>
+    <string name="new_note_list">Ny anteckning...</string>
     <string name="confirm_delete_tag">Är du säker på att du vill ta bort etiketten?</string>
     <string name="note_deleted">Anteckning borttagen.</string>
     <string name="undo">Ångra</string>
@@ -360,5 +378,5 @@ Language: sv_SE
     <string name="new_note">Ny anteckning</string>
     <string name="share">Dela</string>
     <string name="settings">Inställningar</string>
-    <string name="tag_hint">Lägg till etikett…</string>
+    <string name="tag_hint">Lägg till etikett...</string>
 </resources>

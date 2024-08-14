@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 09:54:03+0000
+Translation-Revision-Date: 2024-08-01 09:54:03+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Nous avons envoyé un code à \n%1$s. Ce code sera valide pendant quelques minutes.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Saisir le mot de passe</string>
+    <string name="magic_link_login_with_wordpress_or_break">Ou</string>
+    <string name="magic_link_enter_code_title">Saisir le code</string>
+    <string name="magic_link_code_hint">Code</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Code non valide</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Le lien n’est plus valide</string>
+    <string name="magic_link_complete_login_loading_message">Connexion</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Échec de la connexion avec l’adresse e-mail, saisissez votre mot de passe.</string>
+    <string name="magic_link_error_too_many_requests_message">Trop de requêtes. Réessayez plus tard.</string>
+    <string name="magic_link_request_error_message">Erreur lors de la demande de Magic Link</string>
+    <string name="magic_link_request_login_loading_message">Demander un lien de connexion</string>
+    <string name="magic_link_general_error">Nous rencontrons des problèmes. Veuillez réessayer un peu plus tard.</string>
+    <string name="login_with_password">Se connecter avec le mot de passe</string>
+    <string name="login_screen_title">Se connecter</string>
+    <string name="magic_link_login">Se connecter avec une adresse e-mail</string>
+    <string name="magic_link_request_login_dialog">Si un compte existe, un e-mail a été envoyé à %1$s et il contient un lien de connexion.</string>
+    <string name="magic_link_request_login_dialog_title">Vérifier votre adresse e-mail</string>
     <string name="sustainer_app_icon">Icône de l’application Sustainer</string>
     <string name="simperium_too_many_attempts">Nombre excessif de tentatives de connexion. Réessayez plus tard.</string>
     <string name="simperium_change_password">Changer le mot de passe</string>
@@ -66,11 +84,11 @@ Language: fr
     <string name="toast_email_sent">E-mail envoyé</string>
     <string name="fullscreen_verify_email_button_secondary">Renvoyer l’e-mail</string>
     <string name="fullscreen_verify_email_title">Vérifiez votre messagerie</string>
-    <string name="fullscreen_verify_email_subtitle">Nous avons envoyé un e-mail de vérification à &lt;b&gt;%1$s&lt;/b&gt;. Consultez votre boîte de réception et suivez les instructions.</string>
+    <string name="fullscreen_verify_email_subtitle">Nous avons envoyé un e-mail de vérification à &lt;b>%1$s&lt;/b>. Consultez votre boîte de réception et suivez les instructions.</string>
     <string name="fullscreen_review_account_button_secondary">Changez d’adresse e-mail</string>
     <string name="fullscreen_review_account_button_primary">Confirmer</string>
     <string name="fullscreen_review_account_title">Passez en revue votre compte</string>
-    <string name="fullscreen_review_account_subtitle">Vous êtes enregistré sur Simplenote avec l’adresse e-mail &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Les améliorations apportées à la sécurité de votre compte peuvent entraîner la perte de votre compte si vous n’avez plus accès à cette adresse e-mail.</string>
+    <string name="fullscreen_review_account_subtitle">Vous êtes enregistré sur Simplenote avec l’adresse e-mail &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Les améliorations apportées à la sécurité de votre compte peuvent entraîner la perte de votre compte si vous n’avez plus accès à cette adresse e-mail.</string>
     <string name="description_warning">Avertissement</string>
     <string name="description_mail">E-mail</string>
     <string name="description_close">Fermer</string>
@@ -111,7 +129,7 @@ Language: fr
     <string name="empty">Vider</string>
     <string name="back">Retour</string>
     <string name="empty_notes_untagged">Aucune note sans étiquette</string>
-    <string name="unpublishing">Annulation de la publication de la note en cours…</string>
+    <string name="unpublishing">Annulation de la publication de la note en cours...</string>
     <string name="unpublish_successful">Publication de la note annulée.</string>
     <string name="web_view_error_button">Accéder à l’application WebView</string>
     <string name="web_view_error">Un affichage Web doit être installé sur votre appareil pour afficher l’aperçu de la note.</string>
@@ -236,8 +254,8 @@ Language: fr
     <string name="simperium_error_password">Mot de passe invalide</string>
     <string name="simperium_error_email">E-mail non valide</string>
     <string name="simperium_dialog_title_error">Erreur</string>
-    <string name="simperium_dialog_progress_signing_up">Inscription en cours…</string>
-    <string name="simperium_dialog_progress_logging_in">Connexion en cours…</string>
+    <string name="simperium_dialog_progress_signing_up">Inscription en cours...</string>
+    <string name="simperium_dialog_progress_logging_in">Connexion en cours...</string>
     <string name="simperium_dialog_message_signup_existing">L\'adresse e-mail saisie est déjà associée à un compte Simplenote.</string>
     <string name="simperium_dialog_message_signup">Impossible de s\'inscrire avec l\'adresse e-mail et le mot de passe fournis.</string>
     <string name="simperium_dialog_message_network">Aucun réseau disponible. Connectez-vous à un réseau et essayez de nouveau.</string>
@@ -285,7 +303,7 @@ Language: fr
     <string name="wpcom_log_in_error_generic">Impossible de se connecter à WordPress.com. Veuillez réessayer.</string>
     <string name="collaborate_message">Ajoutez un e-mail dans le champ des balises pour collaborer avec d’autres utilisateurs.</string>
     <string name="collaborate">Collaborer</string>
-    <string name="publishing">Publication de la note en cours…</string>
+    <string name="publishing">Publication de la note en cours...</string>
     <string name="unpublish">Supprimer le lien public</string>
     <string name="no_browser_available">« Impossible d’ouvrir le site web. Aucun navigateur disponible. »</string>
     <string name="blog">Blog</string>
@@ -334,7 +352,7 @@ Language: fr
     <string name="open_drawer">Ouvrir le tiroir</string>
     <string name="condensed_note_list">Vue condensée</string>
     <string name="rename_tag">Renommer tag</string>
-    <string name="new_note_list">Nouvelle note…</string>
+    <string name="new_note_list">Nouvelle note...</string>
     <string name="confirm_delete_tag">Êtes-vous sûr de vouloir supprimer ce tag ?</string>
     <string name="note_deleted">Note placée dans la corbeille</string>
     <string name="undo">Défaire</string>
@@ -360,5 +378,5 @@ Language: fr
     <string name="new_note">Nouvelle note</string>
     <string name="share">Partager</string>
     <string name="settings">Paramètres</string>
-    <string name="tag_hint">Ajouter un tag…</string>
+    <string name="tag_hint">Ajouter un tag...</string>
 </resources>

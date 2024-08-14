@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 09:54:03+0000
+Translation-Revision-Date: 2024-08-01 09:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">다음으로 코드를 보냈습니다: \n%1$s 코드는 몇 분 동안 유효합니다.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">비밀번호 입력</string>
+    <string name="magic_link_login_with_wordpress_or_break">또는</string>
+    <string name="magic_link_enter_code_title">코드 입력</string>
+    <string name="magic_link_code_hint">코드</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">유효하지 않은 코드</string>
+    <string name="magic_link_complete_login_expired_code_error_message">링크가 더 이상 유효하지 않음</string>
+    <string name="magic_link_complete_login_loading_message">로그인 중</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">이메일로 로그인하지 못했습니다. 비밀번호를 입력해 주세요.</string>
+    <string name="magic_link_error_too_many_requests_message">요청이 너무 많습니다. 나중에 다시 시도하세요.</string>
+    <string name="magic_link_request_error_message">매직 링크 요청 중 오류 발생</string>
+    <string name="magic_link_request_login_loading_message">로그인 링크 요청 중</string>
+    <string name="magic_link_general_error">문제가 발생했습니다. 잠시 후 다시 시도해 주세요.</string>
+    <string name="login_with_password">비밀번호로 로그인</string>
+    <string name="login_screen_title">로그인</string>
+    <string name="magic_link_login">이메일로 로그인</string>
+    <string name="magic_link_request_login_dialog">계정이 있다면 %1$s 주소로 로그인용 링크가 포함된 이메일이 전송되었을 것입니다.</string>
+    <string name="magic_link_request_login_dialog_title">이메일을 확인하세요</string>
     <string name="sustainer_app_icon">지지자 앱 아이콘</string>
     <string name="simperium_too_many_attempts">로그인을 너무 많이 시도했습니다. 나중에 다시 시도하세요.</string>
     <string name="simperium_change_password">비밀번호 변경</string>
@@ -23,7 +41,7 @@ Language: ko_KR
     <string name="remove">제거</string>
     <string name="collaborators">공동 작업자</string>
     <string name="remove_collaborator">공동 작업자 제거</string>
-    <string name="loading_collaborators">로드 중…</string>
+    <string name="loading_collaborators">로드 중...</string>
     <string name="add_email_collaborator_message">이메일 주소를 추가하여 이 메모를 다른 사람과 공유하면 두 사람 모두 내용을 변경할 수 있습니다. 공동 작업자를 추가하면 공동 작업자에게 이메일로 통보됩니다.</string>
     <string name="add_collaborator">공동 작업자 추가</string>
     <string name="note_shared">메모 공유됨</string>
@@ -66,11 +84,11 @@ Language: ko_KR
     <string name="toast_email_sent">이메일 보냄</string>
     <string name="fullscreen_verify_email_button_secondary">이메일 다시 보내기</string>
     <string name="fullscreen_verify_email_title">이메일 확인</string>
-    <string name="fullscreen_verify_email_subtitle">&lt;b&gt;%1$s&lt;/b&gt;(으)로 인증 이메일을 보내드렸습니다. 받은 편지함을 확인하고 지침에 따라 주세요.</string>
+    <string name="fullscreen_verify_email_subtitle">&lt;b>%1$s&lt;/b>(으)로 인증 이메일을 보내드렸습니다. 받은 편지함을 확인하고 지침에 따라 주세요.</string>
     <string name="fullscreen_review_account_button_secondary">이메일 변경</string>
     <string name="fullscreen_review_account_button_primary">확인</string>
     <string name="fullscreen_review_account_title">계정 검토</string>
-    <string name="fullscreen_review_account_subtitle">이메일 &lt;b&gt;%1$s&lt;/b&gt;을(를) 사용하여 Simplenote에 등록하셨습니다.&lt;br&gt;&lt;br&gt;더는 이 이메일 주소에 액세스하는 권한이 없는 경우 계정 보안 향상으로 인해 계정을 상실하실 수 있습니다.</string>
+    <string name="fullscreen_review_account_subtitle">이메일 &lt;b>%1$s&lt;/b>을(를) 사용하여 Simplenote에 등록하셨습니다.&lt;br>&lt;br>더는 이 이메일 주소에 액세스하는 권한이 없는 경우 계정 보안 향상으로 인해 계정을 상실하실 수 있습니다.</string>
     <string name="description_warning">경고</string>
     <string name="description_mail">메일</string>
     <string name="description_close">닫기</string>
@@ -111,7 +129,7 @@ Language: ko_KR
     <string name="empty">비었음</string>
     <string name="back">뒤로</string>
     <string name="empty_notes_untagged">태그 없는 메모 없음</string>
-    <string name="unpublishing">메모 공개 취소 중…</string>
+    <string name="unpublishing">메모 공개 취소 중...</string>
     <string name="unpublish_successful">메모 공개가 취소되었습니다.</string>
     <string name="web_view_error_button">WebView 앱으로 이동</string>
     <string name="web_view_error">마크다운을 미리 보려면 기기에 웹 보기를 설치해야 합니다.</string>
@@ -236,8 +254,8 @@ Language: ko_KR
     <string name="simperium_error_password">잘못된 비밀번호</string>
     <string name="simperium_error_email">잘못된 이메일</string>
     <string name="simperium_dialog_title_error">오류</string>
-    <string name="simperium_dialog_progress_signing_up">가입 중…</string>
-    <string name="simperium_dialog_progress_logging_in">로그인 중…</string>
+    <string name="simperium_dialog_progress_signing_up">가입 중...</string>
+    <string name="simperium_dialog_progress_logging_in">로그인 중...</string>
     <string name="simperium_dialog_message_signup_existing">입력한 이메일 주소가 이미 Simplenote 계정과 연결되어 있습니다.</string>
     <string name="simperium_dialog_message_signup">입력한 이메일 주소와 비밀번호로 가입할 수 없습니다.</string>
     <string name="simperium_dialog_message_network">지원되는 네트워크가 없습니다. 네트워크에 연결한 후 다시 시도해 주세요.</string>
@@ -334,7 +352,7 @@ Language: ko_KR
     <string name="open_drawer">보관함 열기</string>
     <string name="condensed_note_list">메모 요약 목록</string>
     <string name="rename_tag">태그 이름 변경</string>
-    <string name="new_note_list">새 메모…</string>
+    <string name="new_note_list">새 메모...</string>
     <string name="confirm_delete_tag">이 태그를 삭제하시겠습니까?</string>
     <string name="note_deleted">메모가 삭제되었습니다.</string>
     <string name="undo">실행 취소</string>
@@ -360,5 +378,5 @@ Language: ko_KR
     <string name="new_note">새 메모</string>
     <string name="share">공유</string>
     <string name="settings">설정</string>
-    <string name="tag_hint">태그 추가…</string>
+    <string name="tag_hint">태그 추가...</string>
 </resources>

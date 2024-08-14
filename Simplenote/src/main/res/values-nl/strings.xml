@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 13:54:02+0000
+Translation-Revision-Date: 2024-07-31 15:54:09+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">We hebben een code gestuurd naar \n%1$s. De code is een paar minuten geldig.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Voer wachtwoord in</string>
+    <string name="magic_link_login_with_wordpress_or_break">Of</string>
+    <string name="magic_link_enter_code_title">Voer code in</string>
+    <string name="magic_link_code_hint">Code</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Ongeldige code</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Link is niet meer geldig</string>
+    <string name="magic_link_complete_login_loading_message">Inloggen</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Inloggen met e-mail is mislukt. Vul je wachtwoord in.</string>
+    <string name="magic_link_error_too_many_requests_message">Te veel verzoeken. Probeer het later nog eens.</string>
+    <string name="magic_link_request_error_message">Fout bij aanvragen van magische link</string>
+    <string name="magic_link_request_login_loading_message">Inloglink wordt aangevraagd</string>
+    <string name="magic_link_general_error">We ondervinden wat problemen. Probeer het later opnieuw.</string>
+    <string name="login_with_password">Inloggen met wachtwoord</string>
+    <string name="login_screen_title">Inloggen</string>
+    <string name="magic_link_login">Inloggen met e-mail</string>
+    <string name="magic_link_request_login_dialog">Als er een account bestaat, hebben we een e-mail naar %1$s gestuurd met een link waarmee je kan inloggen.</string>
+    <string name="magic_link_request_login_dialog_title">Controleer je e-mail</string>
     <string name="sustainer_app_icon">Sustainer-app-pictogram</string>
     <string name="simperium_too_many_attempts">Te veel aanmeldpogingen. Probeer het later nog eens.</string>
     <string name="simperium_change_password">Wijzig wachtwoord</string>
@@ -23,7 +41,7 @@ Language: nl
     <string name="remove">Verwijderen</string>
     <string name="collaborators">Samenwerkers</string>
     <string name="remove_collaborator">Samenwerker verwijderen</string>
-    <string name="loading_collaborators">Laden…</string>
+    <string name="loading_collaborators">Laden...</string>
     <string name="add_email_collaborator_message">Voeg een e-mailadres toe om deze notitie met iemand te delen. Dan kunnen jullie deze beide wijzigen. Als je een samenwerker toevoegt, ontvangen ze een bericht per mail.</string>
     <string name="add_collaborator">Samenwerker toevoegen</string>
     <string name="note_shared">Notitie gedeeld</string>
@@ -40,7 +58,7 @@ Language: nl
     <string name="import_message_success">Gegevens geladen</string>
     <string name="import_error_parse">Kan bestand niet analyseren</string>
     <string name="import_error_file">Kan bestand niet lezen</string>
-    <string name="requesting_message">Aanvragen…</string>
+    <string name="requesting_message">Aanvragen...</string>
     <string name="error_ocurred_message">Er is een fout opgetreden. Probeer het opnieuw. Neem contact met ons op via %1$s%2$s%3$s%4$s%5$s voor hulp als het probleem niet is opgelost.</string>
     <string name="account_deletion_message">Er is een e-mail verzonden naar %1$s. Controleer je inbox en volg de instructies om het verwijderen van je account te bevestigen.\n\nJe account zal niet worden verwijderd totdat we je bevestiging hebben ontvangen.</string>
     <string name="request_received">Verzoek ontvangen</string>
@@ -66,11 +84,11 @@ Language: nl
     <string name="toast_email_sent">E-mail verzonden</string>
     <string name="fullscreen_verify_email_button_secondary">E-mail opnieuw verzenden</string>
     <string name="fullscreen_verify_email_title">Verifieer je e-mail</string>
-    <string name="fullscreen_verify_email_subtitle">We hebben een verificatiemail verzonden naar &lt;b&gt;%1$s&lt;/b&gt;. Controleer je postvak IN en volg de instructies.</string>
+    <string name="fullscreen_verify_email_subtitle">We hebben een verificatiemail verzonden naar &lt;b>%1$s&lt;/b>. Controleer je postvak IN en volg de instructies.</string>
     <string name="fullscreen_review_account_button_secondary">E-mail wijzigen</string>
     <string name="fullscreen_review_account_button_primary">Bevestigen</string>
     <string name="fullscreen_review_account_title">Controleer je account</string>
-    <string name="fullscreen_review_account_subtitle">Je staat geregistreerd bij Simplenote met het e-mailadres &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Verbeteringen aan accountbeveiliging kunnen leiden tot accountverlies als je geen toegang meer hebt tot dit e-mailadres.</string>
+    <string name="fullscreen_review_account_subtitle">Je staat geregistreerd bij Simplenote met het e-mailadres &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Verbeteringen aan accountbeveiliging kunnen leiden tot accountverlies als je geen toegang meer hebt tot dit e-mailadres.</string>
     <string name="description_warning">Waarschuwing</string>
     <string name="description_mail">Mail</string>
     <string name="description_close">Sluiten</string>
@@ -237,7 +255,7 @@ Language: nl
     <string name="simperium_error_email">Ongeldig e-mailadres</string>
     <string name="simperium_dialog_title_error">Fout</string>
     <string name="simperium_dialog_progress_signing_up">Registreren …</string>
-    <string name="simperium_dialog_progress_logging_in">Inloggen …</string>
+    <string name="simperium_dialog_progress_logging_in">Inloggen ...</string>
     <string name="simperium_dialog_message_signup_existing">Het e-mailadres dat je hebt ingevoerd, is al gekoppeld aan een Simplenote-account.</string>
     <string name="simperium_dialog_message_signup">Kan niet aanmelden met het opgegeven e-mailadres en wachtwoord.</string>
     <string name="simperium_dialog_message_network">Er is geen netwerk beschikbaar. Maak verbinding met een netwerk en probeer het nogmaals.</string>

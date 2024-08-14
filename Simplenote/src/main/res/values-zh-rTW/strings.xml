@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 09:54:03+0000
+Translation-Revision-Date: 2024-08-01 15:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">我們已傳送驗證碼到 \n%1$s。 此驗證碼在幾分鐘內有效。</string>
+    <string name="magic_link_confirm_code_enter_pass_label">輸入密碼</string>
+    <string name="magic_link_login_with_wordpress_or_break">或</string>
+    <string name="magic_link_enter_code_title">輸入驗證碼</string>
+    <string name="magic_link_code_hint">驗證碼</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">無效的驗證碼</string>
+    <string name="magic_link_complete_login_expired_code_error_message">連結失效</string>
+    <string name="magic_link_complete_login_loading_message">正在登入</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">透過電子郵件登入失敗，請輸入你的密碼。</string>
+    <string name="magic_link_error_too_many_requests_message">你已提出太多要求。 請稍後再試一次。</string>
+    <string name="magic_link_request_error_message">要求神奇連結時出現錯誤</string>
+    <string name="magic_link_request_login_loading_message">正在要求登入連結</string>
+    <string name="magic_link_general_error">發生問題， 請接著再試一次。</string>
+    <string name="login_with_password">使用密碼登入</string>
+    <string name="login_screen_title">登入</string>
+    <string name="magic_link_login">透過電子郵件登入</string>
+    <string name="magic_link_request_login_dialog">若帳號存在，我們已將登入連結透過電子郵件傳送至「%1$s」。</string>
+    <string name="magic_link_request_login_dialog_title">請檢查電子郵件信箱</string>
     <string name="sustainer_app_icon">Sustainer 應用程式圖示</string>
     <string name="simperium_too_many_attempts">登入嘗試次數過多。 請稍後再試一次。</string>
     <string name="simperium_change_password">變更密碼</string>
@@ -23,7 +41,7 @@ Language: zh_TW
     <string name="remove">移除</string>
     <string name="collaborators">協作者</string>
     <string name="remove_collaborator">移除共同作業者</string>
-    <string name="loading_collaborators">載入中…</string>
+    <string name="loading_collaborators">載入中...</string>
     <string name="add_email_collaborator_message">新增電子郵件地址，將此筆記與他人共用。這樣雙方都能變更筆記內容。 新增共同作業者時，他們將收到電子郵件通知。</string>
     <string name="add_collaborator">新增共同作業者</string>
     <string name="note_shared">共用筆記</string>
@@ -66,11 +84,11 @@ Language: zh_TW
     <string name="toast_email_sent">電子郵件已傳送</string>
     <string name="fullscreen_verify_email_button_secondary">重新傳送電子郵件</string>
     <string name="fullscreen_verify_email_title">驗證你的電子郵件</string>
-    <string name="fullscreen_verify_email_subtitle">我們已傳送一封驗證電子郵件到 &lt;b&gt;%1$s&lt;/b&gt;。 請檢查你的收件匣並依照指示操作。</string>
+    <string name="fullscreen_verify_email_subtitle">我們已傳送一封驗證電子郵件到 &lt;b>%1$s&lt;/b>。 請檢查你的收件匣並依照指示操作。</string>
     <string name="fullscreen_review_account_button_secondary">變更電子郵件</string>
     <string name="fullscreen_review_account_button_primary">確認</string>
     <string name="fullscreen_review_account_title">檢閱你的帳號</string>
-    <string name="fullscreen_review_account_subtitle">你已使用電子郵件地址 &lt;b&gt;%1$s&lt;/b&gt; 註冊 Simplenote。&lt;br&gt;&lt;br&gt;如果你不再擁有存取此電子郵件地址的權限，對帳號安全性的改善項目可能導致帳號遺失。</string>
+    <string name="fullscreen_review_account_subtitle">你已使用電子郵件地址 &lt;b>%1$s&lt;/b> 註冊 Simplenote。&lt;br>&lt;br>如果你不再擁有存取此電子郵件地址的權限，對帳號安全性的改善項目可能導致帳號遺失。</string>
     <string name="description_warning">警告</string>
     <string name="description_mail">郵件</string>
     <string name="description_close">關閉</string>

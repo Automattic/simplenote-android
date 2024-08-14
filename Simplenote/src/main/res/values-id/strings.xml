@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 11:54:03+0000
+Translation-Revision-Date: 2024-08-01 09:54:03+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Kami telah mengirimkan kode ke \n%1$s. Kode ini valid selama beberapa menit.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Masukkan kata sandi</string>
+    <string name="magic_link_login_with_wordpress_or_break">Atau</string>
+    <string name="magic_link_enter_code_title">Masukkan Kode</string>
+    <string name="magic_link_code_hint">Kode</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Kode tidak valid</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Tautan tidak lagi valid</string>
+    <string name="magic_link_complete_login_loading_message">Sedang Login</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Login dengan email gagal, masukkan kata sandi.</string>
+    <string name="magic_link_error_too_many_requests_message">Terlalu banyak permintaan. Coba lagi nanti.</string>
+    <string name="magic_link_request_error_message">Error terjadi saat meminta Tautan Ajaib</string>
+    <string name="magic_link_request_login_loading_message">Meminta tautan login</string>
+    <string name="magic_link_general_error">Terjadi masalah. Coba lagi nanti.</string>
+    <string name="login_with_password">Login dengan Kata Sandi</string>
+    <string name="login_screen_title">Login</string>
+    <string name="magic_link_login">Login dengan email</string>
+    <string name="magic_link_request_login_dialog">Jika akun valid, Anda akan menerima tautan untuk login di %1$s.</string>
+    <string name="magic_link_request_login_dialog_title">Periksa email Anda</string>
     <string name="sustainer_app_icon">Ikon aplikasi Sustainer</string>
     <string name="simperium_too_many_attempts">Terlalu banyak upaya login. Coba lagi nanti.</string>
     <string name="simperium_change_password">Ganti Kata Sandi</string>
@@ -23,7 +41,7 @@ Language: id
     <string name="remove">Buang</string>
     <string name="collaborators">Kolaborator</string>
     <string name="remove_collaborator">Hapus Kolaborator</string>
-    <string name="loading_collaborators">Memuat…</string>
+    <string name="loading_collaborators">Memuat...</string>
     <string name="add_email_collaborator_message">Tambahkan alamat email untuk berbagi catatan ini dengan seseorang sehingga Anda dan orang yang Anda bagi catatan tersebut dapat melakukan perubahan. Ketika Anda menambahkan kolaborator, mereka akan menerima email pemberitahuan.</string>
     <string name="add_collaborator">Tambahkan Kolaborator</string>
     <string name="note_shared">Catatan Dibagikan</string>
@@ -40,7 +58,7 @@ Language: id
     <string name="import_message_success">Data dimuat</string>
     <string name="import_error_parse">Tidak dapat mengurai file</string>
     <string name="import_error_file">Tidak dapat membaca file</string>
-    <string name="requesting_message">Meminta…</string>
+    <string name="requesting_message">Meminta...</string>
     <string name="error_ocurred_message">Terjadi error. Harap coba lagi. Jika masalah berlanjut, hubungi kami di %1$s%2$s%3$s%4$s%5$s untuk mendapatkan bantuan.</string>
     <string name="account_deletion_message">Email dikirim ke %1$s. Periksa kotak masuk Anda dan ikuti petunjuk untuk mengonfirmasi penghapusan akun.\n\nAkun tidak akan dihapus hingga kami menerima konfirmasi Anda.</string>
     <string name="request_received">Permintaan Diterima</string>
@@ -66,11 +84,11 @@ Language: id
     <string name="toast_email_sent">Email terkirim</string>
     <string name="fullscreen_verify_email_button_secondary">Kirim ulang email</string>
     <string name="fullscreen_verify_email_title">Verifikasi Email Anda</string>
-    <string name="fullscreen_verify_email_subtitle">Kami telah mengirimkan email verifikasi ke &lt;b&gt;%1$s&lt;/b&gt;. Harap periksa kotak masuk Anda dan ikuti instruksi berikut.</string>
+    <string name="fullscreen_verify_email_subtitle">Kami telah mengirimkan email verifikasi ke &lt;b>%1$s&lt;/b>. Harap periksa kotak masuk Anda dan ikuti instruksi berikut.</string>
     <string name="fullscreen_review_account_button_secondary">Ubah email</string>
     <string name="fullscreen_review_account_button_primary">Konfirmasi</string>
     <string name="fullscreen_review_account_title">Tinjau Akun Anda</string>
-    <string name="fullscreen_review_account_subtitle">Anda terdaftar pada SImplenote menggunakan email &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;Peningkatan keamanan akun dapat menyebabkan akun hilang jika Anda tidak lagi memiliki akses ke alamat email ini.</string>
+    <string name="fullscreen_review_account_subtitle">Anda terdaftar pada SImplenote menggunakan email &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>Peningkatan keamanan akun dapat menyebabkan akun hilang jika Anda tidak lagi memiliki akses ke alamat email ini.</string>
     <string name="description_warning">Peringatan</string>
     <string name="description_mail">Surat</string>
     <string name="description_close">Tutup</string>
@@ -111,7 +129,7 @@ Language: id
     <string name="empty">Kosong</string>
     <string name="back">Kembali</string>
     <string name="empty_notes_untagged">Tidak ada catatan tanpa tag</string>
-    <string name="unpublishing">Membatalkan penerbitan catatan…</string>
+    <string name="unpublishing">Membatalkan penerbitan catatan...</string>
     <string name="unpublish_successful">Catatan tidak diterbitkan.</string>
     <string name="web_view_error_button">Buka aplikasi WebView</string>
     <string name="web_view_error">Tampilan web harus terpasang pada perangkat Anda untuk pratinjau markdown.</string>
@@ -222,7 +240,7 @@ Language: id
     <string name="description_sort">Urutkan</string>
     <string name="description_down">Bawah</string>
     <string name="description_delete_item">Hapus item</string>
-    <string name="welcome_note">Selamat datang di Simplenote Android!\nBuka catatan ini untuk melihat instruksi.\n\nUntuk membuat catatan baru, ketuk tombol \"Catatan Baru\" dengan ikon tambah.\n\nUntuk mencari catatan, ketuk tombol \"Cari\" dengan ikon kaca pembesar dan ketik apa yang ingin dicari. Simplenote akan menunjukkan pencarian terkini yang pertama kali serta pencarian yang disarankan saat mengetik kata-kata. Catatan yang cocok dengan kata yang dimasukkan akan ditampilkan setelah pencarian dikirim.\n\nAda catatan yang sangat penting? Sematkan di bagian atas daftar catatan. Anda dapat menyematkan catatan dengan dua cara. Tekan lama catatan di daftar, lalu tombol \"Sematkan ke atas\" dengan ikon pin. Ketuk tombol \"Pilihan Lainnya\" dengan ikon tiga titik vertikal ketika melihat catatan dan centang kotak \"Sematkan\".\n\nGunakan tag untuk membantu menata catatan. Buat tag pada layar \"Edit Tag\" menggunakan tombol \"Tambah Tag\" atau kolom \"Tambah tag…\" di bagian bawah catatan. Anda juga dapat menambahkan alamat email sebagai tag untuk membagikan catatan kepada seseorang.\n\nBagikan catatan dengan mudah ke aplikasi Android lainnya dengan mengetuk tombol \"Bagikan\" di menu \"Pilihan Lainnya\" ketika melihat catatan.\n\nCatatan yang dihapus berada di tempat sampah. Anda dapat memulihkannya jika mau, atau kosongkan tempat sampah untuk membuang catatan selamanya.\n\nAnda dapat mengakses catatan di web dan perangkat lainnya. Buka http://simplenote.com untuk memulai.\n\nSemoga Anda suka Simplenote!</string>
+    <string name="welcome_note">Selamat datang di Simplenote Android!\nBuka catatan ini untuk melihat instruksi.\n\nUntuk membuat catatan baru, ketuk tombol \"Catatan Baru\" dengan ikon tambah.\n\nUntuk mencari catatan, ketuk tombol \"Cari\" dengan ikon kaca pembesar dan ketik apa yang ingin dicari. Simplenote akan menunjukkan pencarian terkini yang pertama kali serta pencarian yang disarankan saat mengetik kata-kata. Catatan yang cocok dengan kata yang dimasukkan akan ditampilkan setelah pencarian dikirim.\n\nAda catatan yang sangat penting? Sematkan di bagian atas daftar catatan. Anda dapat menyematkan catatan dengan dua cara. Tekan lama catatan di daftar, lalu tombol \"Sematkan ke atas\" dengan ikon pin. Ketuk tombol \"Pilihan Lainnya\" dengan ikon tiga titik vertikal ketika melihat catatan dan centang kotak \"Sematkan\".\n\nGunakan tag untuk membantu menata catatan. Buat tag pada layar \"Edit Tag\" menggunakan tombol \"Tambah Tag\" atau kolom \"Tambah tag...\" di bagian bawah catatan. Anda juga dapat menambahkan alamat email sebagai tag untuk membagikan catatan kepada seseorang.\n\nBagikan catatan dengan mudah ke aplikasi Android lainnya dengan mengetuk tombol \"Bagikan\" di menu \"Pilihan Lainnya\" ketika melihat catatan.\n\nCatatan yang dihapus berada di tempat sampah. Anda dapat memulihkannya jika mau, atau kosongkan tempat sampah untuk membuang catatan selamanya.\n\nAnda dapat mengakses catatan di web dan perangkat lainnya. Buka http://simplenote.com untuk memulai.\n\nSemoga Anda suka Simplenote!</string>
     <string name="search_hint">Cari catatan atau tag</string>
     <string name="log_out">Logout</string>
     <string name="log_in">Login</string>
@@ -285,7 +303,7 @@ Language: id
     <string name="wpcom_log_in_error_generic">Tidak dapat login dengan WordPress.com. Coba lagi.</string>
     <string name="collaborate_message">Tambahkan email di bidang tag untuk berkolaborasi dengan pengguna lain.</string>
     <string name="collaborate">Kolaborasi</string>
-    <string name="publishing">Menerbitkan catatan…</string>
+    <string name="publishing">Menerbitkan catatan...</string>
     <string name="unpublish">Hapus tautan publik</string>
     <string name="no_browser_available">\"Tidak dapat membuka situs web. Browser tidak tersedia.\"</string>
     <string name="blog">Blog</string>

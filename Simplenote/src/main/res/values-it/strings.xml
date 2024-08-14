@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 11:54:04+0000
+Translation-Revision-Date: 2024-08-01 11:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Abbiamo inviato un codice a \n%1$s. Il codice sarà valido per pochi minuti.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Inserisci password</string>
+    <string name="magic_link_login_with_wordpress_or_break">Oppure</string>
+    <string name="magic_link_enter_code_title">Inserisci codice</string>
+    <string name="magic_link_code_hint">Codice</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Codice non valido</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Link non più valido</string>
+    <string name="magic_link_complete_login_loading_message">Accesso in corso</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Accesso con e-mail non riuscito, inserisci la tua password.</string>
+    <string name="magic_link_error_too_many_requests_message">Troppe richieste. Riprova più tardi.</string>
+    <string name="magic_link_request_error_message">Errore nella richiesta del link magico</string>
+    <string name="magic_link_request_login_loading_message">Richiesta del link di accesso</string>
+    <string name="magic_link_general_error">Stiamo riscontrando dei problemi. Riprova tra poco.</string>
+    <string name="login_with_password">Accedi con la password</string>
+    <string name="login_screen_title">Accedi</string>
+    <string name="magic_link_login">Accedi con l\'e-mail</string>
+    <string name="magic_link_request_login_dialog">Se un account esiste, abbiamo mandato un\'e-mail a %1$s contenente un link che permetterà l\'accesso.</string>
+    <string name="magic_link_request_login_dialog_title">Controlla la tua e-mail</string>
     <string name="sustainer_app_icon">Icona app sostenitore</string>
     <string name="simperium_too_many_attempts">Troppi tentativi di accesso. Riprova più tardi.</string>
     <string name="simperium_change_password">Modifica la password</string>
@@ -40,7 +58,7 @@ Language: it
     <string name="import_message_success">Dati caricati</string>
     <string name="import_error_parse">Impossibile analizzare il file</string>
     <string name="import_error_file">Impossibile leggere il file</string>
-    <string name="requesting_message">Richiesta in corso…</string>
+    <string name="requesting_message">Richiesta in corso...</string>
     <string name="error_ocurred_message">Si è verificato un errore. Riprova. Se il problema persiste, contattaci all\'indirizzo %1$s%2$s%3$s%4$s%5$s per ricevere supporto.</string>
     <string name="account_deletion_message">È stata inviata un\'e-mail a %1$s. Controlla la posta in arrivo e segui le istruzioni per confermare l\'eliminazione dell\'account.\n\nIl tuo account non verrà eliminato fino alla ricezione della conferma.</string>
     <string name="request_received">Richiesta ricevuta</string>
@@ -66,11 +84,11 @@ Language: it
     <string name="toast_email_sent">E-mail inviata</string>
     <string name="fullscreen_verify_email_button_secondary">Invia di nuovo l\'e-mail</string>
     <string name="fullscreen_verify_email_title">Verifica la tua e-mail</string>
-    <string name="fullscreen_verify_email_subtitle">Abbiamo inviato un\'e-mail di verifica a &lt;b&gt;%1$s&lt;/b&gt;. Controlla la tua casella di posta in arrivo e segui le istruzioni.</string>
+    <string name="fullscreen_verify_email_subtitle">Abbiamo inviato un\'e-mail di verifica a &lt;b>%1$s&lt;/b>. Controlla la tua casella di posta in arrivo e segui le istruzioni.</string>
     <string name="fullscreen_review_account_button_secondary">Cambia e-mail</string>
     <string name="fullscreen_review_account_button_primary">Conferma</string>
     <string name="fullscreen_review_account_title">Verifica il tuo account</string>
-    <string name="fullscreen_review_account_subtitle">Sei registrato su Simplenote con l\'e-mail &lt;b&gt;%1$s&lt;/b&gt;.&lt;br&gt;&lt;br&gt;I miglioramenti alla sicurezza dell\'account possono comportare la perdita dell\'account se non hai più accesso a questo indirizzo e-mail.</string>
+    <string name="fullscreen_review_account_subtitle">Sei registrato su Simplenote con l\'e-mail &lt;b>%1$s&lt;/b>.&lt;br>&lt;br>I miglioramenti alla sicurezza dell\'account possono comportare la perdita dell\'account se non hai più accesso a questo indirizzo e-mail.</string>
     <string name="description_warning">Attenzione</string>
     <string name="description_mail">E-mail</string>
     <string name="description_close">Chiudi</string>
@@ -111,7 +129,7 @@ Language: it
     <string name="empty">Vuota</string>
     <string name="back">Indietro</string>
     <string name="empty_notes_untagged">Nessuna nota senza tag</string>
-    <string name="unpublishing">Annullamento della pubblicazione della nota in corso…</string>
+    <string name="unpublishing">Annullamento della pubblicazione della nota in corso...</string>
     <string name="unpublish_successful">Pubblicazione della nota annullata.</string>
     <string name="web_view_error_button">Vai all\'app di visualizzazione web</string>
     <string name="web_view_error">Per visualizzare in anteprima il markdown, è necessaria l\'installazione sul dispositivo di una funzionalità di visualizzazione web.</string>
@@ -285,7 +303,7 @@ Language: it
     <string name="wpcom_log_in_error_generic">Non è stato possibile accedere con WordPress.com. Riprova.</string>
     <string name="collaborate_message">Aggiungi un\'e-mail nel campo di tag per collaborare con altri utenti.</string>
     <string name="collaborate">Collabora</string>
-    <string name="publishing">Pubblicazione della nota in corso…</string>
+    <string name="publishing">Pubblicazione della nota in corso...</string>
     <string name="unpublish">Rimuovi link pubblico</string>
     <string name="no_browser_available">\"Impossibile aprire il sito web. Nessun browser disponibile.\"</string>
     <string name="blog">Blog</string>
@@ -334,7 +352,7 @@ Language: it
     <string name="open_drawer">Apri menu</string>
     <string name="condensed_note_list">Formato lista note ridotta</string>
     <string name="rename_tag">Rinomina il tag</string>
-    <string name="new_note_list">Nuova nota…</string>
+    <string name="new_note_list">Nuova nota...</string>
     <string name="confirm_delete_tag">Sei sicuro di voler cancellare questo tag?</string>
     <string name="note_deleted">Nota eliminata.</string>
     <string name="undo">Annulla</string>
@@ -360,5 +378,5 @@ Language: it
     <string name="new_note">Nuova nota</string>
     <string name="share">Condividi</string>
     <string name="settings">Impostazioni</string>
-    <string name="tag_hint">Aggiungi tag…</string>
+    <string name="tag_hint">Aggiungi tag...</string>
 </resources>
