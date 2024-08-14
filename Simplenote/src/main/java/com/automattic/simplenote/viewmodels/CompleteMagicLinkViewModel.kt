@@ -18,6 +18,7 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Named
 
+private const val TAG = "CompleteMagicLinkViewModel"
 @HiltViewModel
 class CompleteMagicLinkViewModel @Inject constructor(
     private val magicLinkRepository: MagicLinkRepository,

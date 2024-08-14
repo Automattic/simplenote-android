@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
-const val TAG = "PasskeyViewModel"
+private const val TAG = "PasskeyViewModel"
 
 @HiltViewModel
 class PasskeyViewModel @Inject constructor(

@@ -70,6 +70,9 @@ class MagicLinkConfirmationFragment : Fragment() {
                         parentFragmentManager.popBackStack()
                     }
                 }
+                is MagicLinkUiState.Waiting -> {
+                    // no-ops
+                }
             }
         }
         return view

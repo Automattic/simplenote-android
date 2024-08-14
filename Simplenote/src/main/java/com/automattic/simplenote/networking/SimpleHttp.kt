@@ -12,7 +12,7 @@ import org.json.JSONObject
 import javax.inject.Inject
 
 private const val HTTP_SCHEME = "https"
-// TODO: Do not commit with test URL
+// TODO: Do not commit into production with test URL
 //private const val BASE_URL = "app.simplenote.com"
 private const val BASE_URL = "passkey-dev-dot-simple-note-hrd.appspot.com"
 open class SimpleHttp @Inject constructor(val client: OkHttpClient) {
