@@ -176,7 +176,7 @@
 
         <activity
             android:name=".authentication.SimplenoteSignupActivity"
-            android:theme="@style/Simperium" />
+            android:theme="@style/SignUpOverride" />
 
         <activity
             android:name="com.automattic.simplenote.StyleActivity"

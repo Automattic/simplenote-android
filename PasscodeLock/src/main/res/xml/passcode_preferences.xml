@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceCategory
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference
+        android:key="@string/pref_key_passcode_toggle"
+        android:title="@string/passcode_turn_on"
+        android:persistent="false" />
+
+    <Preference
+        android:key="@string/pref_key_change_passcode"
+        android:title="@string/passcode_change_passcode"
+        android:persistent="false" />
+
+</PreferenceCategory>
