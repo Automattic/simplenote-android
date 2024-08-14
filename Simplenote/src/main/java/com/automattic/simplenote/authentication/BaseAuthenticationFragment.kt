@@ -45,11 +45,11 @@ abstract class BaseAuthenticationFragment : Fragment() {
         signupButton = view.findViewById(R.id.button)
         signupButton?.text = actionButtonText()
 
-        emailField?.let {
+        emailField?.let { emailFieldEditText ->
             signupButton?.let { button ->
-                setButtonState(button, it.text)
-                listenToEmailChanges(it)
-                listenToActionButtonClick(button, it)
+                setButtonState(button, emailFieldEditText.text)
+                listenToEmailChanges(emailFieldEditText)
+                listenToActionButtonClick(button, emailFieldEditText)
             }
         }
     }
