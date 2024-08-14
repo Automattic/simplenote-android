@@ -20,7 +20,7 @@ import com.simperium.android.ProgressDialogFragment
 /**
  * Base class used to share logic between sign up and login, specifically related to magic links.
  */
-abstract class MagicLinkableFragment : Fragment() {
+abstract class BaseAuthenticationFragment : Fragment() {
 
     var emailField: EditText? = null
     private var signupButton: Button? = null

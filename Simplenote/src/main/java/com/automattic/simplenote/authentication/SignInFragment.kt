@@ -43,7 +43,7 @@ import java.util.UUID
 const val TAG = "SignInFragment"
 
 @AndroidEntryPoint
-class SignInFragment: MagicLinkableFragment() {
+class SignInFragment: BaseAuthenticationFragment() {
 
     val viewModel: RequestMagicLinkViewModel by viewModels()
 
