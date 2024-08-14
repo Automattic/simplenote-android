@@ -24,7 +24,7 @@ class RequestMagicLinkViewModelTest {
     @Test
     fun instantiateViewModel() = runBlockingTest {
         val viewModel = RequestMagicLinkViewModel(repository, TestCoroutineDispatcher())
-        assertEquals(null, viewModel.magicLinkRequestUiState.value)
+        assertEquals(MagicLinkRequestUiState.Waiting, viewModel.magicLinkRequestUiState.value)
     }
 
     @Test
@@ -39,8 +39,9 @@ class RequestMagicLinkViewModelTest {
             states.add(it)
         }
         viewModel.requestLogin(email)
-        assertEquals(MagicLinkRequestUiState.Loading::class.java, states[0]::class.java)
-        assertEquals(MagicLinkRequestUiState.Success(username = email), states[1])
+        assertEquals(MagicLinkRequestUiState.Waiting::class.java, states[0]::class.java)
+        assertEquals(MagicLinkRequestUiState.Loading::class.java, states[1]::class.java)
+        assertEquals(MagicLinkRequestUiState.Success(username = email), states[2])
     }
 
     @Test
@@ -55,7 +56,8 @@ class RequestMagicLinkViewModelTest {
             states.add(it)
         }
         viewModel.requestLogin(email)
-        assertEquals(MagicLinkRequestUiState.Loading::class.java, states[0]::class.java)
-        assertEquals(MagicLinkRequestUiState.Error::class.java, states[1]::class.java)
+        assertEquals(MagicLinkRequestUiState.Waiting::class.java, states[0]::class.java)
+        assertEquals(MagicLinkRequestUiState.Loading::class.java, states[1]::class.java)
+        assertEquals(MagicLinkRequestUiState.Error::class.java, states[2]::class.java)
     }
 }

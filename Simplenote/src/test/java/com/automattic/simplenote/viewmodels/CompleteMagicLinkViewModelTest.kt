@@ -1,7 +1,6 @@
 package com.automattic.simplenote.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.automattic.simplenote.Simplenote
 import com.automattic.simplenote.repositories.MagicLinkRepository
 import com.automattic.simplenote.repositories.MagicLinkResponseResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +23,6 @@ class CompleteMagicLinkViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private val repository: MagicLinkRepository = Mockito.mock(MagicLinkRepository::class.java)
-    private val app = Mockito.mock(Simplenote::class.java)
 
     @Before
     fun setup() {
@@ -33,8 +31,8 @@ class CompleteMagicLinkViewModelTest {
 
     @Test
     fun instantiateViewModel() = runBlockingTest {
-        val viewModel = CompleteMagicLinkViewModel(app, repository, TestCoroutineDispatcher())
-        assertEquals(null, viewModel.magicLinkUiState.value)
+        val viewModel = CompleteMagicLinkViewModel(repository, TestCoroutineDispatcher())
+        assertEquals(MagicLinkUiState.Waiting, viewModel.magicLinkUiState.value)
     }
 
     @Test
@@ -43,15 +41,16 @@ class CompleteMagicLinkViewModelTest {
             repository.completeLogin(AUTH_KEY_TEST, AUTH_CODE_TEST)
         ).thenReturn(MagicLinkResponseResult.MagicLinkCompleteSuccess(AUTH_KEY_TEST, AUTH_CODE_TEST))
 
-        val viewModel = CompleteMagicLinkViewModel(app, repository, TestCoroutineDispatcher())
+        val viewModel = CompleteMagicLinkViewModel(repository, TestCoroutineDispatcher())
         val states = mutableListOf<MagicLinkUiState>()
         viewModel.magicLinkUiState.observeForever {
             states.add(it)
         }
         viewModel.completeLogin(AUTH_KEY_TEST, AUTH_CODE_TEST)
 
-        assertEquals(MagicLinkUiState.Loading::class.java, states[0]::class.java)
-        assertEquals(MagicLinkUiState.Success, states[1])
+        assertEquals(MagicLinkUiState.Waiting::class.java, states[0]::class.java)
+        assertEquals(MagicLinkUiState.Loading::class.java, states[1]::class.java)
+        assertEquals(MagicLinkUiState.Success::class.java, states[2]::class.java)
     }
 
     @Test
@@ -60,13 +59,14 @@ class CompleteMagicLinkViewModelTest {
             repository.completeLogin(AUTH_KEY_TEST, AUTH_CODE_TEST)
         ).thenReturn(MagicLinkResponseResult.MagicLinkError(code = 400))
 
-        val viewModel = CompleteMagicLinkViewModel(app, repository, TestCoroutineDispatcher())
+        val viewModel = CompleteMagicLinkViewModel(repository, TestCoroutineDispatcher())
         val states = mutableListOf<MagicLinkUiState>()
         viewModel.magicLinkUiState.observeForever {
             states.add(it)
         }
         viewModel.completeLogin(AUTH_KEY_TEST, AUTH_CODE_TEST)
-        assertEquals(MagicLinkUiState.Loading::class.java, states[0]::class.java)
-        assertEquals(MagicLinkUiState.Error::class.java, states[1]::class.java)
+        assertEquals(MagicLinkUiState.Waiting::class.java, states[0]::class.java)
+        assertEquals(MagicLinkUiState.Loading::class.java, states[1]::class.java)
+        assertEquals(MagicLinkUiState.Error::class.java, states[2]::class.java)
     }
 }

@@ -434,12 +434,23 @@
 
     <string name="magic_link_request_login_dialog_title">Check your email</string>
     <string name="magic_link_request_login_dialog">If an account exists, we\'ve sent an email to %1$s containing a link that\'ll log you in.</string>
-    <string name="magic_link_login">Instantly Log In With Email</string>
+    <string name="magic_link_login">Log in with email</string>
     <string name="login_screen_title">Log In</string>
     <string name="login_with_password">Login With Password</string>
+    <string name="magic_link_general_error">We\'re having problems. Please try again soon.</string>
     <string name="magic_link_request_login_loading_message">Requesting log in link</string>
+    <string name="magic_link_request_error_message">Error requesting Magic Link</string>
+    <string name="magic_link_error_too_many_requests_message">Too many requests. Try again later.</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Log in with email failed, please enter your password.</string>
     <string name="magic_link_complete_login_loading_message">Logging In</string>
     <string name="magic_link_complete_login_error_message">Link no longer valid</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Link no longer valid</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Invalid code</string>
+    <string name="magic_link_code_hint">Code</string>
+    <string name="magic_link_enter_code_title">Enter Code</string>
+    <string name="magic_link_login_with_wordpress_or_break">Or</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Enter password</string>
+    <string name="magic_link_confirm_code_message">We\'ve sent a code to \n%1$s. The code will be valid for a few minutes.</string>
 
     <string name="add_passkey_pref_label">Add Passkey Authentication</string>
     <string name="add_passkey_collect_pass_dialog">Passkey Setup</string>

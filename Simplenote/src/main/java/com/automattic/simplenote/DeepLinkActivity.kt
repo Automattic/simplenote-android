@@ -3,12 +3,18 @@ package com.automattic.simplenote
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Base64
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.automattic.simplenote.authentication.SimplenoteAuthenticationActivity
 import com.automattic.simplenote.utils.AuthUtils
 import com.automattic.simplenote.utils.IntentUtils
 import net.openid.appauth.RedirectUriReceiverActivity
+import java.lang.IllegalArgumentException
+import java.nio.charset.StandardCharsets
+
+const val TAG = "DeepLinkActivity"
 
 class DeepLinkActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +31,7 @@ class DeepLinkActivity : AppCompatActivity() {
                 startMagicLinkConfirmation(uri)
             }
             LOGIN_SCHEME -> {
-                if (queryParamContainsData(uri.query, AUTH_KEY_QUERY) && queryParamContainsData(uri.query, AUTH_CODE_QUERY)) {
+                if (queryParamContainsData(uri.query, USERNAME_KEY_QUERY) && queryParamContainsData(uri.query, AUTH_CODE_QUERY)) {
                     startMagicLinkConfirmation(uri)
                 } else {
                     val intent = IntentUtils.maybeAliasedIntent(applicationContext)
@@ -55,19 +61,26 @@ class DeepLinkActivity : AppCompatActivity() {
             startActivity(intent)
             return
         }
-        val authKey = uri?.getQueryParameter(AUTH_KEY_QUERY)
+        val base64Username = uri?.getQueryParameter(USERNAME_KEY_QUERY)
+        var decodedUsername: String? = null
+        try {
+            decodedUsername = String(Base64.decode(base64Username, Base64.DEFAULT), StandardCharsets.UTF_8)
+        } catch (e: IllegalArgumentException) {
+            Log.e(TAG, "Problem decoding base64 username", e)
+        }
         val authCode = uri?.getQueryParameter(AUTH_CODE_QUERY)
-        if (!authKey.isNullOrBlank() && !authCode.isNullOrBlank()) {
+        if (!decodedUsername.isNullOrBlank() && !authCode.isNullOrBlank()) {
+
             val intent = Intent(this, SimplenoteAuthenticationActivity::class.java)
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_IS_MAGIC_LINK, true);
-            intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_KEY, authKey)
+            intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_KEY, decodedUsername)
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_CODE, authCode)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         } else {
             Toast.makeText(
                 this,
-                getString(R.string.magic_link_complete_login_error_message),
+                getString(R.string.magic_link_general_error),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -82,7 +95,7 @@ class DeepLinkActivity : AppCompatActivity() {
         private const val LOGIN_SCHEME = "login"
         private const val VERIFIED_WEB_SCHEME = "app.simplenote.com"
 
-        private const val AUTH_KEY_QUERY = "auth_key"
+        private const val USERNAME_KEY_QUERY = "email"
         private const val AUTH_CODE_QUERY = "auth_code"
     }
 }
