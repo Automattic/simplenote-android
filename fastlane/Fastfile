@@ -51,9 +51,12 @@ SUPPORTED_LOCALES = [
 
 GLOTPRESS_BASE_URL = 'https://translate.wordpress.com/projects'
 # URL of the GlotPress project containing the app's strings
-GLOTPRESS_APP_STRINGS_PROJECT_URL = "#{GLOTPRESS_BASE_URL}/simplenote/android".freeze
+#
+# Notice the trailing / is required.
+# Without it, GlotPress will redirect to the version with /
+GLOTPRESS_APP_STRINGS_PROJECT_URL = "#{GLOTPRESS_BASE_URL}/simplenote/android/".freeze
 # URL of the GlotPress project containing the Play Store metadata (title, keywords, release notes, …)
-GLOTPRESS_PLAYSTORE_METADATA_PROJECT_URL = "#{GLOTPRESS_APP_STRINGS_PROJECT_URL}/release-notes".freeze
+GLOTPRESS_PLAYSTORE_METADATA_PROJECT_URL = "#{GLOTPRESS_APP_STRINGS_PROJECT_URL}release-notes".freeze
 
 RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt')
 RELEASE_NOTES_PATH = File.join(METADATA_FOLDER, 'release_notes.txt')
