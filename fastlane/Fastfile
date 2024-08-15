@@ -56,7 +56,7 @@ GLOTPRESS_BASE_URL = 'https://translate.wordpress.com/projects'
 # Without it, GlotPress will redirect to the version with /
 GLOTPRESS_APP_STRINGS_PROJECT_URL = "#{GLOTPRESS_BASE_URL}/simplenote/android/".freeze
 # URL of the GlotPress project containing the Play Store metadata (title, keywords, release notes, …)
-GLOTPRESS_PLAYSTORE_METADATA_PROJECT_URL = "#{GLOTPRESS_APP_STRINGS_PROJECT_URL}release-notes".freeze
+GLOTPRESS_STORE_METADATA_PROJECT_URL = "#{GLOTPRESS_APP_STRINGS_PROJECT_URL}release-notes".freeze
 
 RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt')
 RELEASE_NOTES_PATH = File.join(METADATA_FOLDER, 'release_notes.txt')
@@ -331,7 +331,7 @@ platform :android do
   lane :check_translation_progress_release_notes do
     UI.message('Checking release notes strings translation status...')
     check_translation_progress(
-      glotpress_url: GLOTPRESS_PLAYSTORE_METADATA_PROJECT_URL,
+      glotpress_url: GLOTPRESS_STORE_METADATA_PROJECT_URL,
       abort_on_violations: false
     )
   end
@@ -440,7 +440,7 @@ platform :android do
     delete_old_changelogs(build: build_number)
     download_path = "#{Dir.pwd}/metadata/android"
     gp_downloadmetadata(
-      project_url: GLOTPRESS_PLAYSTORE_METADATA_PROJECT_URL,
+      project_url: GLOTPRESS_STORE_METADATA_PROJECT_URL,
       target_files: files,
       locales: SUPPORTED_LOCALES.map { |hsh| [hsh[:glotpress], hsh[:google_play]] },
       source_locale: 'en-US',
