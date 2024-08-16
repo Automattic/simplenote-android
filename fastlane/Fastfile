@@ -22,6 +22,7 @@ GITHUB_REPO = "#{ORGANIZATION}/#{REPO_NAME}".freeze
 DEFAULT_BRANCH = 'trunk'
 BUILDKITE_ORG = ORGANIZATION
 BUILDKITE_PIPELINE = REPO_NAME
+APP_PACKAGE_NAME = 'com.automattic.simplenote'
 
 APP_SOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'Simplenote')
 METADATA_FOLDER = File.join(APP_SOURCES_FOLDER, 'metadata')
@@ -510,7 +511,7 @@ platform :android do
       UI.message('Skipping upload to Google Play Console because on `upload_track` given.')
     else
       upload_to_play_store(
-        package_name: 'com.automattic.simplenote',
+        package_name: APP_PACKAGE_NAME,
         apk: user_friendly_output_path,
         track: upload_track,
         release_status: 'draft',
@@ -586,7 +587,7 @@ platform :android do
 
   desc 'Take screenshots in the app'
   lane :take_screenshots do
-    package = 'com.automattic.simplenote.debug'
+    package = "#{APP_PACKAGE_NAME}.debug"
 
     # Reset the app in the emulator, just to avoid possible state related
     # issues
@@ -613,7 +614,7 @@ platform :android do
       tests_apk_path: File.join(BUILD_FOLDER, 'outputs', 'apk', 'androidTest', 'debug', 'Simplenote-debug-androidTest.apk'),
       # Because the screenshot tests are together with other UI tests, we need
       # to specify to run only them and not all of the others.
-      use_tests_in_classes: 'com.automattic.simplenote.screenshots.ScreenshotTest',
+      use_tests_in_classes: "#{APP_PACKAGE_NAME}.screenshots.ScreenshotTest",
       use_timestamp_suffix: false,
       # Need to use this in order to get access to the screenshots on the
       # emulator. Also note that you might need to run on a Google API
