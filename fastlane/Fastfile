@@ -87,11 +87,11 @@ platform :android do
     new_version_final = release_version_next
     new_build_code = build_code_next
 
-    message = <<-MESSAGE
+    message = <<~MESSAGE
       Code Freeze:
-        • New release branch from #{DEFAULT_BRANCH}: #{release_branch_name(release_version: new_version_final)}
-        • Current release version and build code: #{release_version_current} (#{build_code_current}).
-        • New beta version and build code: #{new_version_with_beta} (#{new_build_code}).
+      - New release branch from #{DEFAULT_BRANCH}: #{release_branch_name(release_version: new_version_final)}
+      - Current release version and build code: #{release_version_current} (#{build_code_current}).
+      - New beta version and build code: #{new_version_with_beta} (#{new_build_code}).
     MESSAGE
     UI.important(message)
 
@@ -183,13 +183,13 @@ platform :android do
     ensure_git_status_clean
     ensure_git_branch_is_release_branch
 
-    message = <<-MESSAGE
+    message = <<~MESSAGE
       New beta release:
-      Current beta version: #{release_version_current}
-      New beta version: #{release_version_next_beta}
+      - Current beta version: #{release_version_current}
+      - New beta version: #{release_version_next_beta}
 
-      Current build code: #{build_code_current}
-      New build code: #{build_code_next}
+      - Current build code: #{build_code_current}
+      - New build code: #{build_code_next}
     MESSAGE
     UI.important(message)
 
@@ -230,12 +230,13 @@ platform :android do
     UI.user_error!("The version `#{new_version}` tag already exists!") if git_tag_exists(tag: new_version)
     UI.user_error!("Version #{previous_version} is not tagged! A hotfix branch cannot be created.") unless git_tag_exists(tag: previous_version)
 
-    message = <<-MESSAGE
-      Current release version: #{release_version_current}
-      New hotfix version: #{new_version}
+    message = <<~MESSAGE
+      Hotfix release:
+      - Current release version: #{release_version_current}
+      - New hotfix version: #{new_version}
 
-      Current build code: #{build_code_current}
-      New build code: #{version_code_new}
+      - Current build code: #{build_code_current}
+      - New build code: #{version_code_new}
 
       Branching from tag: #{previous_version}
     MESSAGE
