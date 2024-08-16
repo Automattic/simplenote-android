@@ -451,6 +451,8 @@ platform :android do
       download_path: download_path
     )
 
+    # TODO: These two can be removed once we have a lane to upload the metadata to the Google Play Store.
+    #       upload_to_play_store uses the individual changelos without needing a merged one.
     android_create_xml_release_notes(
       download_path: download_path,
       build_number: build_number.to_s,
