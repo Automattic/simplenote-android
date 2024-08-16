@@ -1,0 +1,3 @@
+2.33:
+* Vi har lagt till stöd för inloggning med magiska länkar för en lösenordsfri upplevelse.
+

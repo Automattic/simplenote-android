@@ -1,3 +1,0 @@
-2.32:
-• Uyarlanabilir uygulama simgesi eklendi
-• Sustainer paket bilgileri ve yükseltme UI'ı kaldırıldı

@@ -1,0 +1,3 @@
+2.33:
+* Suporte incluído para fazer login com links mágicos para ter uma experiência sem precisar da senha.
+

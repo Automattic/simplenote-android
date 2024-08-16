@@ -1,0 +1,3 @@
+2.33:
+* Support für die Anmeldung mit magischen Links hinzugefügt, um von einem passwortlosen Erlebnis zu profitieren.
+
