@@ -171,12 +171,11 @@
         </activity>
 
         <activity
-            android:name="com.automattic.simplenote.authentication.SimplenoteCredentialsActivity">
-        </activity>
-
-        <activity
             android:name=".authentication.SimplenoteSignupActivity"
             android:theme="@style/SignUpOverride" />
+
+        <activity android:name=".authentication.NewCredentialsActivity"
+            android:theme="@style/SignUpOverride"/>
 
         <activity
             android:name="com.automattic.simplenote.StyleActivity"
