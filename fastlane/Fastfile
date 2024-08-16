@@ -183,9 +183,8 @@ platform :android do
     ensure_git_status_clean
     ensure_git_branch_is_release_branch
 
-    android_bump_version_beta
-
     message = <<-MESSAGE
+      New beta release:
       Current beta version: #{version_name_current}
       New beta version: #{release_version_next_beta}
 
@@ -203,6 +202,9 @@ platform :android do
     )
     commit_version_bump
     UI.success("Done! New Beta Version: #{version_name_current}. New Build Code: #{build_code_current}")
+
+    download_translations
+    download_metadata_strings(version: version, build_number: build_code)
 
     UI.important('Pushing changes to remote and triggering the beta build...')
     UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
