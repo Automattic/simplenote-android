@@ -201,10 +201,11 @@ platform :android do
       version_code: build_code_next
     )
     commit_version_bump
+    # Print computed version and build to let user double-check outcome in logs
     UI.success("Done! New beta version: #{release_version_current}. New build code: #{build_code_current}")
 
     download_translations
-    download_metadata_strings(version: version, build_number: build_code)
+    download_metadata_strings
 
     UI.important('Pushing changes to remote and triggering the beta build...')
     UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
@@ -431,7 +432,7 @@ platform :android do
 
   # TODO: Drop build_number like https://github.com/wordpress-mobile/WordPress-Android/pull/21103
   desc 'Downloads translated metadata from GlotPress'
-  lane :download_metadata_strings do |version:, build_number:|
+  lane :download_metadata_strings do |version: release_version_current, build_number: build_code_current|
     values = version.split('.')
     files = {
       "release_note_#{values[0].to_s.rjust(2, '0')}#{values[1]}" => { desc: "changelogs/#{build_number}.txt", max_size: 0 },
@@ -457,7 +458,7 @@ platform :android do
     )
     add_us_release_notes(
       release_notes_path: File.join(download_path, 'release_notes.xml'),
-      version_name: options[:version]
+      version_name: version
     )
 
     # We need to explicitly call `git_add`, despite the path being passed to `git_commit` as well.
