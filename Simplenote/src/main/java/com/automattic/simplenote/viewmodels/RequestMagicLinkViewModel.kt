@@ -17,7 +17,7 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Named
 
-const val TAG = "RequestMagicLinkViewModel"
+private const val TAG = "RequestMagicLinkViewModel"
 
 @HiltViewModel
 class RequestMagicLinkViewModel @Inject constructor(

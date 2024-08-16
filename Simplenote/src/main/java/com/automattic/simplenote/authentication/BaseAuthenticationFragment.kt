@@ -20,11 +20,12 @@ import com.simperium.android.ProgressDialogFragment
 /**
  * Base class used to share logic between sign up and login, specifically related to magic links.
  */
-abstract class MagicLinkableFragment : Fragment() {
+abstract class BaseAuthenticationFragment : Fragment() {
+
+    var emailField: EditText? = null
+    private var signupButton: Button? = null
 
     private var progressDialogFragment: ProgressDialogFragment? = null
-
-    private var emailField: EditText? = null
 
     abstract fun inflateLayout(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
 
@@ -41,13 +42,15 @@ abstract class MagicLinkableFragment : Fragment() {
 
     private fun initSignupButton(view: View) {
         emailField = (view.findViewById<View>(R.id.input_email) as TextInputLayout).editText
-        val signupButton = view.findViewById<Button>(R.id.button)
-        signupButton.text = actionButtonText()
+        signupButton = view.findViewById(R.id.button)
+        signupButton?.text = actionButtonText()
 
-        emailField?.let {
-            setButtonState(signupButton, it.text)
-            listenToEmailChanges(it, signupButton)
-            listenToActionButtonClick(signupButton, it)
+        emailField?.let { emailFieldEditText ->
+            signupButton?.let { button ->
+                setButtonState(button, emailFieldEditText.text)
+                listenToEmailChanges(emailFieldEditText)
+                listenToActionButtonClick(button, emailFieldEditText)
+            }
         }
     }
 
@@ -55,14 +58,20 @@ abstract class MagicLinkableFragment : Fragment() {
         signupButton.isEnabled = isValidEmail(email)
     }
 
-    private fun isValidEmail(text: CharSequence): Boolean {
+    protected fun isValidEmail(text: CharSequence): Boolean {
         return Patterns.EMAIL_ADDRESS.matcher(text).matches()
     }
 
-    private fun listenToEmailChanges(emailEditText: EditText, signupButton: Button) {
+    protected open fun emailEntered(s: Editable, isValid: Boolean) {
+        signupButton?.let {
+            setButtonState(it, s)
+        }
+    }
+
+    private fun listenToEmailChanges(emailEditText: EditText) {
         emailEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                setButtonState(signupButton, s)
+                emailEntered(s, isValidEmail(s))
             }
 
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}

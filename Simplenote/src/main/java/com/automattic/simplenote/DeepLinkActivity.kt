@@ -67,10 +67,11 @@ class DeepLinkActivity : AppCompatActivity() {
             decodedUsername = String(Base64.decode(base64Username, Base64.DEFAULT), StandardCharsets.UTF_8)
         } catch (e: IllegalArgumentException) {
             Log.e(TAG, "Problem decoding base64 username", e)
+        } catch (e: NullPointerException) {
+            Log.e(TAG, "base64Username was null")
         }
         val authCode = uri?.getQueryParameter(AUTH_CODE_QUERY)
         if (!decodedUsername.isNullOrBlank() && !authCode.isNullOrBlank()) {
-
             val intent = Intent(this, SimplenoteAuthenticationActivity::class.java)
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_IS_MAGIC_LINK, true);
             intent.putExtra(SimplenoteAuthenticationActivity.KEY_MAGIC_LINK_AUTH_KEY, decodedUsername)

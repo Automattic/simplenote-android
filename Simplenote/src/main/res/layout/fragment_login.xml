@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/width_layout"
@@ -8,6 +8,7 @@
     android:clipToPadding="false"
     android:padding="@dimen/margin_default"
     android:background="?mainBackgroundColor"
+    android:orientation="vertical"
     tools:layout_width="match_parent">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -27,16 +28,30 @@
             android:id="@+id/email_edit_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:autofillHints="username"/>
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/passkey_action_button"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_default_quarter"
+        android:layout_marginBottom="@dimen/margin_default_quarter"
+        android:backgroundTint="@color/button_primary_disabled_selector"
+        android:minHeight="@dimen/height_button"
+        android:text="@string/passkey_link_login"
+        android:textAllCaps="true"
+        android:visibility="gone"
+        android:textColor="@android:color/white" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/button"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/input_email"
         android:layout_marginTop="@dimen/margin_default_quarter"
         android:layout_marginBottom="@dimen/margin_default_quarter"
         android:backgroundTint="@color/button_primary_disabled_selector"
@@ -52,7 +67,6 @@
         style="@style/Widget.AppCompat.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/or_row"
         android:layout_marginTop="@dimen/margin_default_quarter"
         android:layout_marginBottom="@dimen/margin_default_quarter"
         android:backgroundTint="@color/button_secondary_disabled_selector"
@@ -61,4 +75,4 @@
         android:textAllCaps="true"
         android:textColor="@android:color/white" />
 
-</RelativeLayout>
+</LinearLayout>
