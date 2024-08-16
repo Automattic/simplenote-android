@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 09:54:03+0000
+Translation-Revision-Date: 2024-08-01 15:54:04+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
-    <string name="sustainer_app_icon">Icono de aplicación Sustainer</string>
+    <string name="magic_link_confirm_code_message">Hemos enviado un código a \n%1$s. El código será válido durante unos minutos.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Introduce la contraseña</string>
+    <string name="magic_link_login_with_wordpress_or_break">O</string>
+    <string name="magic_link_enter_code_title">Introduce el código</string>
+    <string name="magic_link_code_hint">Código</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Código no válido</string>
+    <string name="magic_link_complete_login_expired_code_error_message">El enlace ya no es válido</string>
+    <string name="magic_link_complete_login_loading_message">Acceso</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">No se ha podido acceder con el correo electrónico; introduce tu contraseña.</string>
+    <string name="magic_link_error_too_many_requests_message">Demasiadas solicitudes. Inténtalo de nuevo más tarde.</string>
+    <string name="magic_link_request_error_message">Error al solicitar el enlace mágico</string>
+    <string name="magic_link_request_login_loading_message">Solicitud de enlace de acceso</string>
+    <string name="magic_link_general_error">Estamos teniendo algunos problemas. Inténtalo de nuevo pronto.</string>
+    <string name="login_with_password">Accede con la contraseña</string>
+    <string name="login_screen_title">Acceder</string>
+    <string name="magic_link_login">Accede con el correo electrónico</string>
+    <string name="magic_link_request_login_dialog">Si existe una cuenta, hemos enviado un correo electrónico a %1$s con un enlace que te permitirá acceder.</string>
+    <string name="magic_link_request_login_dialog_title">Comprueba tu correo electrónico</string>
+    <string name="sustainer_app_icon">Icono de aplicación de Sustainer</string>
     <string name="simperium_too_many_attempts">Demasiados intentos de inicio de sesión. Inténtalo de nuevo más tarde.</string>
     <string name="simperium_change_password">Cambiar contraseña</string>
     <string name="simperium_not_now">Cancelar</string>

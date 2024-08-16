@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 13:54:02+0000
+Translation-Revision-Date: 2024-07-31 15:54:09+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">We hebben een code gestuurd naar \n%1$s. De code is een paar minuten geldig.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Voer wachtwoord in</string>
+    <string name="magic_link_login_with_wordpress_or_break">Of</string>
+    <string name="magic_link_enter_code_title">Voer code in</string>
+    <string name="magic_link_code_hint">Code</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Ongeldige code</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Link is niet meer geldig</string>
+    <string name="magic_link_complete_login_loading_message">Inloggen</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Inloggen met e-mail is mislukt. Vul je wachtwoord in.</string>
+    <string name="magic_link_error_too_many_requests_message">Te veel verzoeken. Probeer het later nog eens.</string>
+    <string name="magic_link_request_error_message">Fout bij aanvragen van magische link</string>
+    <string name="magic_link_request_login_loading_message">Inloglink wordt aangevraagd</string>
+    <string name="magic_link_general_error">We ondervinden wat problemen. Probeer het later opnieuw.</string>
+    <string name="login_with_password">Inloggen met wachtwoord</string>
+    <string name="login_screen_title">Inloggen</string>
+    <string name="magic_link_login">Inloggen met e-mail</string>
+    <string name="magic_link_request_login_dialog">Als er een account bestaat, hebben we een e-mail naar %1$s gestuurd met een link waarmee je kan inloggen.</string>
+    <string name="magic_link_request_login_dialog_title">Controleer je e-mail</string>
     <string name="sustainer_app_icon">Sustainer-app-pictogram</string>
     <string name="simperium_too_many_attempts">Te veel aanmeldpogingen. Probeer het later nog eens.</string>
     <string name="simperium_change_password">Wijzig wachtwoord</string>

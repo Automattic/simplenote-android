@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 11:54:03+0000
+Translation-Revision-Date: 2024-08-01 09:54:03+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Kami telah mengirimkan kode ke \n%1$s. Kode ini valid selama beberapa menit.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Masukkan kata sandi</string>
+    <string name="magic_link_login_with_wordpress_or_break">Atau</string>
+    <string name="magic_link_enter_code_title">Masukkan Kode</string>
+    <string name="magic_link_code_hint">Kode</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Kode tidak valid</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Tautan tidak lagi valid</string>
+    <string name="magic_link_complete_login_loading_message">Sedang Login</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Login dengan email gagal, masukkan kata sandi.</string>
+    <string name="magic_link_error_too_many_requests_message">Terlalu banyak permintaan. Coba lagi nanti.</string>
+    <string name="magic_link_request_error_message">Error terjadi saat meminta Tautan Ajaib</string>
+    <string name="magic_link_request_login_loading_message">Meminta tautan login</string>
+    <string name="magic_link_general_error">Terjadi masalah. Coba lagi nanti.</string>
+    <string name="login_with_password">Login dengan Kata Sandi</string>
+    <string name="login_screen_title">Login</string>
+    <string name="magic_link_login">Login dengan email</string>
+    <string name="magic_link_request_login_dialog">Jika akun valid, Anda akan menerima tautan untuk login di %1$s.</string>
+    <string name="magic_link_request_login_dialog_title">Periksa email Anda</string>
     <string name="sustainer_app_icon">Ikon aplikasi Sustainer</string>
     <string name="simperium_too_many_attempts">Terlalu banyak upaya login. Coba lagi nanti.</string>
     <string name="simperium_change_password">Ganti Kata Sandi</string>
