@@ -388,23 +388,22 @@ platform :android do
   end
 
   desc 'Builds and updates for distribution'
-  lane :build_and_upload_beta do |options|
-    unless options[:skip_prechecks]
-      android_build_prechecks(
-        skip_confirm: options[:skip_confirm],
-        beta: true
-      )
+  lane :build_and_upload_beta do |skip_prechecks: false, create_release: true|
+    unless skip_prechecks
+      ensure_git_status_clean
+      ensure_git_branch_is_release_branch
     end
 
-    # Create the file names
-    version = android_get_release_version
+    # We want the full version name, including the rc prefix
+    version = VERSION_FILE.read_version_name
+
     build_and_upload_apk(
       version: version,
       flavor: 'Vanilla',
       upload_track: 'beta'
     )
 
-    create_gh_release(version: version) if options[:create_release]
+    create_gh_release(version: version, prerelease: true) if create_release
   end
 
   desc 'Builds and updates for distribution'
@@ -662,13 +661,15 @@ platform :android do
     )
   end
 
-  private_lane :create_gh_release do |options|
-    version = options[:version]
+  private_lane :create_gh_release do |version:, prerelease: false|
     apk_file_path = universal_apk_file_path(version)
-    create_release(repository: GITHUB_REPO,
-                   version: version['name'],
-                   release_notes_file_path: RELEASE_NOTES_PATH,
-                   release_assets: apk_file_path.to_s)
+    create_release(
+      repository: GITHUB_REPO,
+      version: version,
+      release_notes_file_path: RELEASE_NOTES_PATH,
+      prerelease: prerelease,
+      release_assets: apk_file_path.to_s
+    )
   end
 
   def universal_apk_name(version)
