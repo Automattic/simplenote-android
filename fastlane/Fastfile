@@ -380,7 +380,6 @@ platform :android do
     # [20:36:39]: fastlane finished with errors
     #
     # [!] To call another action from an action use `other_action.options` instead
-    android_build_preflight
     build_and_upload_beta(
       skip_prechecks: true,
       skip_confirm: skip_confirm,
@@ -395,7 +394,6 @@ platform :android do
         skip_confirm: options[:skip_confirm],
         beta: true
       )
-      android_build_preflight
     end
 
     # Create the file names
@@ -417,7 +415,6 @@ platform :android do
       beta: false,
       final: true
     )
-    android_build_preflight
 
     # Create the file names
     version = android_get_release_version
