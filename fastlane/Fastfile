@@ -399,7 +399,6 @@ platform :android do
 
     build_and_upload_apk(
       version: version,
-      flavor: 'Vanilla',
       upload_track: 'beta'
     )
 
@@ -419,7 +418,6 @@ platform :android do
     version = android_get_release_version
     build_and_upload_apk(
       version: version,
-      flavor: 'Vanilla',
       upload_track: 'production'
     )
 
