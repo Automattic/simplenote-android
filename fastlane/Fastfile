@@ -197,7 +197,7 @@ platform :android do
 
     UI.message 'Bumping beta version and build code...'
     VERSION_FILE.write_version(
-      version_name: beta_version_next,
+      version_name: release_version_next_beta,
       version_code: build_code_next
     )
     commit_version_bump
