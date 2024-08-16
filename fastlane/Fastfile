@@ -110,7 +110,7 @@ platform :android do
       version_code: new_build_code
     )
     commit_version_bump
-    UI.success("Done! New beta version: #{version_name_current}. New build code: #{build_code_current}.")
+    UI.success("Done! New beta version: #{release_version_current}. New build code: #{build_code_current}.")
 
     extract_release_notes_for_version(
       version: new_version_with_beta,
@@ -185,7 +185,7 @@ platform :android do
 
     message = <<-MESSAGE
       New beta release:
-      Current beta version: #{version_name_current}
+      Current beta version: #{release_version_current}
       New beta version: #{release_version_next_beta}
 
       Current build code: #{build_code_current}
@@ -201,7 +201,7 @@ platform :android do
       version_code: build_code_next
     )
     commit_version_bump
-    UI.success("Done! New Beta Version: #{version_name_current}. New Build Code: #{build_code_current}")
+    UI.success("Done! New beta version: #{release_version_current}. New build code: #{build_code_current}")
 
     download_translations
     download_metadata_strings(version: version, build_number: build_code)
