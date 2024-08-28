@@ -111,7 +111,7 @@ dependencies {
     // Fastlane screengrab for screenshots automation
     androidTestImplementation 'tools.fastlane:screengrab:2.0.0'
     // Automattic and WordPress dependencies
-    implementation 'com.automattic:simperium:250-6690beb1dd6a31d06426dd56b19a3f41359d1ee5'
+    implementation 'com.automattic:simperium:v1.3.1'
     implementation('com.github.Automattic:Automattic-Tracks-Android:2.1.0') {
         // Tracks lib is referring to an unavailable build of okhttp
         exclude group: 'com.squareup.okhttp3'
