@@ -253,7 +253,7 @@ GEM
     options (2.3.2)
     optparse (0.5.0)
     os (1.1.4)
-    parallel (1.26.2)
+    parallel (1.26.3)
     parser (3.3.4.2)
       ast (~> 2.4.1)
       racc
@@ -274,7 +274,7 @@ GEM
       trailblazer-option (>= 0.1.1, < 0.2.0)
       uber (< 0.2.0)
     retriable (3.1.2)
-    rexml (3.3.5)
+    rexml (3.3.6)
       strscan
     rouge (2.0.7)
     rubocop (1.65.1)
@@ -288,7 +288,7 @@ GEM
       rubocop-ast (>= 1.31.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 3.0)
-    rubocop-ast (1.32.0)
+    rubocop-ast (1.32.1)
       parser (>= 3.3.1.0)
     ruby-progressbar (1.13.0)
     ruby2_keywords (0.0.5)
