@@ -258,6 +258,7 @@ platform :android do
       version_code: version_code_new
     )
     commit_version_bump
+    # Print computed version and build to let user double-check outcome in logs
     UI.success("Done! New release version: #{release_version_current}. New build code: #{build_code_current}.")
 
     UI.important('Pushing new hotfix branch to remote...')
@@ -303,6 +304,7 @@ platform :android do
 
     version = release_version_current
     build_code = build_code_current
+    # Print computed version and build to let user double-check outcome in logs
     UI.success("Done! New release version: #{version}. New build code: #{build_code}.")
 
     download_metadata_strings(version: version, build_number: build_code)
@@ -311,15 +313,20 @@ platform :android do
       repository: GITHUB_REPO,
       branch: release_branch_name
     )
-    set_milestone_frozen_marker(
-      repository: GITHUB_REPO,
-      milestone: version,
-      freeze: false
-    )
-    close_milestone(
-      repository: GITHUB_REPO,
-      milestone: version
-    )
+
+    begin
+      set_milestone_frozen_marker(
+        repository: GITHUB_REPO,
+        milestone: version,
+        freeze: false
+      )
+      close_milestone(
+        repository: GITHUB_REPO,
+        milestone: version
+      )
+    rescue StandardError => e
+      report_milestone_error(error_title: "Error in milestone finalization process for `#{version}`: #{e.message}")
+    end
   end
 
   lane :check_translation_progress_all do
@@ -730,7 +737,7 @@ end
 def commit_version_bump
   git_commit(
     path: VERSION_PROPERTIES_PATH,
-    message: 'Bump version name and code',
+    message: 'Bump version name and build code',
     allow_nothing_to_commit: false
   )
 end
@@ -747,3 +754,15 @@ def ensure_git_branch_is_release_branch!
 end
 
 RELEASE_BRANCH_ROOT = 'release/'
+
+def report_milestone_error(error_title:)
+  error_message = <<-MESSAGE
+    #{error_title}
+    - If this is not the first time you are running the release task (e.g. retrying because it failed on first attempt), the milestone might have already been closed and this error is expected.
+    - Otherwise, please investigate the error.
+  MESSAGE
+
+  UI.error(error_message)
+
+  buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
+end
