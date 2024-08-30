@@ -450,4 +450,5 @@
     <string name="magic_link_login_with_wordpress_or_break">Or</string>
     <string name="magic_link_confirm_code_enter_pass_label">Enter password</string>
     <string name="magic_link_confirm_code_message">We\'ve sent a code to \n%1$s. The code will be valid for a few minutes.</string>
+    <string name="login_with_password_message">Enter the password for the account %1$s</string>
 </resources>

@@ -156,10 +156,11 @@ class SignInFragment: MagicLinkableFragment() {
     companion object {
         fun showLoginWithPassword(activity: Activity?, username: String?) {
             activity?.let { act ->
-                val intent = Intent(act, SimplenoteCredentialsActivity::class.java)
+                val intent = Intent(act, NewCredentialsActivity::class.java)
                 intent.putExtra("EXTRA_IS_LOGIN", true)
                 if (!username.isNullOrBlank()) {
                     intent.putExtra(Intent.EXTRA_EMAIL, username)
+                    intent.putExtra(NewCredentialsActivity.PREF_HIDE_EMAIL_FIELD, true)
                 }
                 activity.startActivity(intent)
                 act.finish()

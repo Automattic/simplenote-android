@@ -361,44 +361,6 @@ platform :android do
 
   desc 'Builds and updates for distribution'
   lane :build_pre_releases do |skip_confirm: false, create_release: true|
-    # android_build_prechecks(
-    #   skip_confirm: skip_confirm,
-    #   alpha: false,
-    #   beta: true,
-    #   final: false
-    # )
-    #
-    # ^ Disabled because fails with the following (regardless of the values of skip_confirm)
-    #
-    # [20:36:39]: -------------------------------------
-    # [20:36:39]: --- Step: android_build_prechecks ---
-    # [20:36:39]: -------------------------------------
-    # [20:36:39]: $ git symbolic-ref -q HEAD
-    # [20:36:39]: ▸ refs/heads/release/2.33
-    # [20:36:39]: DEPRECATED: The PROJECT_ROOT_FOLDER environment variable and config item are deprecated and will be removed in a future version of the Release Toolkit...
-    # [20:36:39]: DEPRECATED: The PROJECT_NAME environment variable and config item are deprecated and will be removed in a future version of the Release Toolkit...
-    # [20:36:39]: Building version 2.33-rc-1(167) (for upload to Beta Channel)
-    #
-    # [20:36:39]: Unknown method 'options'
-    # +-----------------------------------------------+
-    # |                 Lane Context                  |
-    # +------------------+----------------------------+
-    # | DEFAULT_PLATFORM | android                    |
-    # | PLATFORM_NAME    | android                    |
-    # | LANE_NAME        | android build_pre_releases |
-    # +------------------+----------------------------+
-    # [20:36:39]: Called from Fastfile at line 286
-    # [20:36:39]: ```
-    # [20:36:39]:     284:	  desc 'Builds and updates for distribution'
-    # [20:36:39]:     285:	  lane :build_pre_releases do |skip_confirm: false, create_release: true|
-    # [20:36:39]:  => 286:	    android_build_prechecks(
-    # [20:36:39]:     287:	      skip_confirm: skip_confirm,
-    # [20:36:39]:     288:	      alpha: false,
-    # [20:36:39]: ```
-    # [20:36:39]: To call another action from an action use `other_action.options` instead
-    # [20:36:39]: fastlane finished with errors
-    #
-    # [!] To call another action from an action use `other_action.options` instead
     build_and_upload_beta(
       skip_prechecks: true,
       skip_confirm: skip_confirm,
