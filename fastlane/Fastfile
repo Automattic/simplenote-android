@@ -184,7 +184,7 @@ platform :android do
   desc 'Updates a release branch for a new beta release'
   lane :new_beta_release do |skip_confirm: false|
     ensure_git_status_clean
-    ensure_git_branch_is_release_branch
+    ensure_git_branch_is_release_branch!
 
     message = <<~MESSAGE
       New beta release:
@@ -269,7 +269,7 @@ platform :android do
   desc 'Finalizes a hotfix release by tagging the build'
   lane :finalize_hotfix_release do |skip_confirm: false|
     ensure_git_status_clean
-    ensure_git_branch_is_release_branch
+    ensure_git_branch_is_release_branch!
 
     hotfix_version = release_version_current
 
@@ -284,7 +284,7 @@ platform :android do
     UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix(version_properties_path: VERSION_PROPERTIES_PATH)
 
     ensure_git_status_clean
-    ensure_git_branch_is_release_branch
+    ensure_git_branch_is_release_branch!
 
     UI.important("Finalizing release: #{release_version_current}")
     UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
@@ -394,7 +394,7 @@ platform :android do
   lane :build_and_upload_beta do |skip_prechecks: false, create_release: true|
     unless skip_prechecks
       ensure_git_status_clean
-      ensure_git_branch_is_release_branch
+      ensure_git_branch_is_release_branch!
     end
 
     # We want the full version name, including the rc prefix
@@ -739,8 +739,10 @@ def release_branch_name(release_version: release_version_current)
   "#{RELEASE_BRANCH_ROOT}#{release_version}"
 end
 
-def ensure_git_branch_is_release_branch
-  # Verify that the current branch is a release branch. Notice that `ensure_git_branch` expects a RegEx parameter
+def ensure_git_branch_is_release_branch!
+  # Verify that the current branch is a release branch.
+  # Notice that `ensure_git_branch` expects a RegEx parameter.
+  # Also, ensure_git_branch will fail the lane if the branch doesn't match, hence the ! in the method name.
   ensure_git_branch(branch: "^#{RELEASE_BRANCH_ROOT}")
 end
 
