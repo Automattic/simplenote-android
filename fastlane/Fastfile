@@ -302,12 +302,21 @@ platform :android do
     )
     commit_version_bump
 
+    # Print computed version and build to let user double-check outcome in logs
     version = release_version_current
     build_code = build_code_current
-    # Print computed version and build to let user double-check outcome in logs
-    UI.success("Done! New release version: #{version}. New build code: #{build_code}.")
+    UI.success("Done! Final release version: #{version}. Final build code: #{build_code}.")
 
     download_metadata_strings(version: version, build_number: build_code)
+
+    UI.important('Will push changes to remote and trigger the release build.')
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    push_to_git_remote(tags: false)
+
+    build_and_upload_release(create_release: true, skip_confirm: skip_confirm)
+
+    create_release_backmerge_pr(version_to_merge: version, next_version: release_version_next)
 
     remove_branch_protection(
       repository: GITHUB_REPO,
@@ -416,9 +425,9 @@ platform :android do
   end
 
   desc 'Builds and updates for distribution'
-  lane :build_and_upload_release do |options|
+  lane :build_and_upload_release do |create_release:, skip_confirm: false|
     android_build_prechecks(
-      skip_confirm: options[:skip_confirm],
+      skip_confirm: skip_confirm,
       alpha: false,
       beta: false,
       final: true
@@ -431,7 +440,7 @@ platform :android do
       upload_track: 'production'
     )
 
-    create_gh_release(version: version) if options[:create_release]
+    create_gh_release(version: version) if create_release
   end
 
   # TODO: Drop build_number like https://github.com/wordpress-mobile/WordPress-Android/pull/21103
@@ -754,6 +763,25 @@ def ensure_git_branch_is_release_branch!
 end
 
 RELEASE_BRANCH_ROOT = 'release/'
+
+def create_release_backmerge_pr(version_to_merge:, next_version:)
+  create_release_backmerge_pull_request(
+    repository: GITHUB_REPO,
+    source_branch: release_branch_name(release_version: version_to_merge),
+    labels: ['Releases'],
+    milestone_title: next_version
+  )
+rescue StandardError => e
+  error_message = <<-MESSAGE
+    Error creating backmerge pull request: #{e.message}
+    If this is not the first time you are running the release task, the backmerge PR for the version `#{version_to_merge}` might have already been previously created.
+    Please close any previous backmerge PR for `#{version_to_merge}`, delete the previous merge branch, then run the release task again.
+  MESSAGE
+
+  buildkite_annotate(style: 'error', context: 'error-creating-backmerge', message: error_message) if is_ci
+
+  UI.user_error!(error_message)
+end
 
 def report_milestone_error(error_title:)
   error_message = <<-MESSAGE
