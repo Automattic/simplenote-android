@@ -4,5 +4,7 @@ source 'https://rubygems.org'
 
 gem 'danger-dangermattic', '~> 1.0'
 gem 'fastlane', '~> 2.219'
-# gem 'fastlane-plugin-wpmreleasetoolkit', '~> 9.1'
-gem 'fastlane-plugin-wpmreleasetoolkit', git: 'git@github.com:wordpress-mobile/release-toolkit', branch: 'mokagio/breaking-remove-deprecated-actions'
+# This comment avoids typing to switch to a development version for testing.
+#
+# gem 'fastlane-plugin-wpmreleasetoolkit', git: 'https://github.com/wordpress-mobile/release-toolkit', ref: ''
+gem 'fastlane-plugin-wpmreleasetoolkit', '~> 11.1'
