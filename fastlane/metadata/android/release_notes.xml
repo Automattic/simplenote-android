@@ -1,75 +1,85 @@
 <ar>
-2.32:
-• تمت إضافة أيقونة التطبيق القابلة للمواءمة
- • تمت إزالة معلومات خطة Sustainer وترقية واجهة المستخدم
+2.33:
+* تمت إضافة دعم تسجيل الدخول باستخدام روابط سحرية للحصول على تجربة من دون كلمة مرور.
+
 </ar>
 <de-DE>
-2.32:
-• Adaptives App-Icon hinzugefügt
-• Informationen zum Unterstützer-Tarif und aktualisierte Benutzeroberfläche entfernt
+2.33:
+* Support für die Anmeldung mit magischen Links hinzugefügt, um von einem passwortlosen Erlebnis zu profitieren.
+
 </de-DE>
 <es-ES>
-2.32:
-• Se ha añadido un icono de aplicación adaptable
-• Se ha eliminado la información del plan Sustainer y la actualización de la interfaz de usuario
+2.33:
+* Se ha añadido la posibilidad de acceder con enlaces mágicos para una experiencia sin contraseña.
+
 </es-ES>
 <fr-FR>
-2.32 :
-• Ajout d’une icône d’application adaptative
-• Suppression des informations sur le plan Sustainer et mise à niveau de l’UI
+2.33 :
+* Ajout de la prise en charge de la connexion par lien magique pour une expérience sans mot de passe.
+
 </fr-FR>
+<iw-IL>
+2.33:
+* הוספנו תמיכה להתחברות באמצעות קישורים ישירים כדי לאפשר כניסה ללא צורך בסיסמה.
+
+</iw-IL>
 <id>
-2.32:
-• Menambahkan ikon aplikasi adaptif
-• Menghapus UI informasi paket Sustainer dan upgrade
+2.33:
+* Penambahan dukungan untuk login dengan tautan ajaib untuk menghadirkan pengalaman tanpa kata sandi.
+
 </id>
 <it-IT>
-2,32:
-• Icona app adattiva aggiunta
-• Informazioni sul piano Sostenitore e UI di aggiornamento rimosse
+2.33:
+* Aggiunto supporto per l'accesso tramite link magici per un'esperienza senza password.
+
 </it-IT>
 <ja-JP>
-2.32:
-• アダプティブアプリアイコンを追加しました
-• Sustainer プランの情報を削除し、UI をアップグレードしました
+2.33:
+* マジックリンクを使用したログインのサポートが追加され、パスワードが不要になりました。
+
 </ja-JP>
 <ko-KR>
-2.32:
-• 적응형 앱 아이콘이 제거됨
-• 지지자 요금제 정보 및 업그레이드 UI가 제거됨
+2.33:
+* 비밀번호가 없는 환경을 위해 매직 링크로 로그인하는 기능이 추가되었습니다.
+
 </ko-KR>
 <nl-NL>
-2.32:
-• Adaptief app-pictogram toegevoegd
-• Informatie en upgrade-UI van het Sustainer-abonnement verwijderd
+2.33:
+* Ondersteuning voor inloggen met magische links is toegevoegd, zodat je je wachtwoord niet meer nodig hebt.
+
 </nl-NL>
 <pt-BR>
-2.32:
-• Adicionamos um ícone adaptável para o app
-• Removemos a IU de upgrade e informações sobre o plano Sustainer
+2.33:
+* Suporte incluído para fazer login com links mágicos para ter uma experiência sem precisar da senha.
+
 </pt-BR>
+<ru-RU>
+2.33:
+*Добавлена поддержка входа по волшебным ссылкам, чтобы не требовалось вводить пароль.
+
+</ru-RU>
 <sv-SE>
-2.32:
-• Vi har lagt till en adaptiv appikon
-• Vi har tagit bort Sustainer-paketinformationen och uppgraderat gränssnittet
+2.33:
+* Vi har lagt till stöd för inloggning med magiska länkar för en lösenordsfri upplevelse.
+
 </sv-SE>
 <tr-TR>
-2.32:
-• Uyarlanabilir uygulama simgesi eklendi
-• Sustainer paket bilgileri ve yükseltme UI'ı kaldırıldı
+2.33:
+* Şifresiz deneyim için sihirli bağlantılarla oturum açma desteği eklendi.
+
 </tr-TR>
 <zh-CN>
-2.32：
-• 已添加自适应应用程序图标
-• 已删除 Sustainer 套餐信息并升级用户界面
+2.33：
+* 增加了对使用免密登录链接进行登录的支持，带来免密登录体验。
+
 </zh-CN>
 <zh-TW>
-2.32：
-• 新增了自適性應用程式圖示
-• 移除了 Sustainer 方案資訊和升級 UI
+2.33:
+*已新增透過神奇連結的登入支援，帶來無密碼的體驗。
+
 </zh-TW>
 <en-US>
-2.32:
-• Added adaptive app icon
-• Removed Sustainer plan information and upgrade UI
+2.33:
+* Added support for logging in with magic links for a passwordless experience.
+
 </en-US>

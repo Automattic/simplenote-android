@@ -1,0 +1,3 @@
+2.33:
+* Penambahan dukungan untuk login dengan tautan ajaib untuk menghadirkan pengalaman tanpa kata sandi.
+

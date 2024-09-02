@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 09:54:03+0000
+Translation-Revision-Date: 2024-08-01 09:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">다음으로 코드를 보냈습니다: \n%1$s 코드는 몇 분 동안 유효합니다.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">비밀번호 입력</string>
+    <string name="magic_link_login_with_wordpress_or_break">또는</string>
+    <string name="magic_link_enter_code_title">코드 입력</string>
+    <string name="magic_link_code_hint">코드</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">유효하지 않은 코드</string>
+    <string name="magic_link_complete_login_expired_code_error_message">링크가 더 이상 유효하지 않음</string>
+    <string name="magic_link_complete_login_loading_message">로그인 중</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">이메일로 로그인하지 못했습니다. 비밀번호를 입력해 주세요.</string>
+    <string name="magic_link_error_too_many_requests_message">요청이 너무 많습니다. 나중에 다시 시도하세요.</string>
+    <string name="magic_link_request_error_message">매직 링크 요청 중 오류 발생</string>
+    <string name="magic_link_request_login_loading_message">로그인 링크 요청 중</string>
+    <string name="magic_link_general_error">문제가 발생했습니다. 잠시 후 다시 시도해 주세요.</string>
+    <string name="login_with_password">비밀번호로 로그인</string>
+    <string name="login_screen_title">로그인</string>
+    <string name="magic_link_login">이메일로 로그인</string>
+    <string name="magic_link_request_login_dialog">계정이 있다면 %1$s 주소로 로그인용 링크가 포함된 이메일이 전송되었을 것입니다.</string>
+    <string name="magic_link_request_login_dialog_title">이메일을 확인하세요</string>
     <string name="sustainer_app_icon">지지자 앱 아이콘</string>
     <string name="simperium_too_many_attempts">로그인을 너무 많이 시도했습니다. 나중에 다시 시도하세요.</string>
     <string name="simperium_change_password">비밀번호 변경</string>

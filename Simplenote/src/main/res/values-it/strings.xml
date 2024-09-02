@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 11:54:04+0000
+Translation-Revision-Date: 2024-08-01 11:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Abbiamo inviato un codice a \n%1$s. Il codice sarà valido per pochi minuti.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Inserisci password</string>
+    <string name="magic_link_login_with_wordpress_or_break">Oppure</string>
+    <string name="magic_link_enter_code_title">Inserisci codice</string>
+    <string name="magic_link_code_hint">Codice</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Codice non valido</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Link non più valido</string>
+    <string name="magic_link_complete_login_loading_message">Accesso in corso</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Accesso con e-mail non riuscito, inserisci la tua password.</string>
+    <string name="magic_link_error_too_many_requests_message">Troppe richieste. Riprova più tardi.</string>
+    <string name="magic_link_request_error_message">Errore nella richiesta del link magico</string>
+    <string name="magic_link_request_login_loading_message">Richiesta del link di accesso</string>
+    <string name="magic_link_general_error">Stiamo riscontrando dei problemi. Riprova tra poco.</string>
+    <string name="login_with_password">Accedi con la password</string>
+    <string name="login_screen_title">Accedi</string>
+    <string name="magic_link_login">Accedi con l\'e-mail</string>
+    <string name="magic_link_request_login_dialog">Se un account esiste, abbiamo mandato un\'e-mail a %1$s contenente un link che permetterà l\'accesso.</string>
+    <string name="magic_link_request_login_dialog_title">Controlla la tua e-mail</string>
     <string name="sustainer_app_icon">Icona app sostenitore</string>
     <string name="simperium_too_many_attempts">Troppi tentativi di accesso. Riprova più tardi.</string>
     <string name="simperium_change_password">Modifica la password</string>

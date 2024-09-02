@@ -1,3 +1,0 @@
-2.32 :
-• Ajout d’une icône d’application adaptative
-• Suppression des informations sur le plan Sustainer et mise à niveau de l’UI

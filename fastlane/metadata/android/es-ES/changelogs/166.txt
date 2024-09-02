@@ -1,3 +1,0 @@
-2.32:
-• Se ha añadido un icono de aplicación adaptable
-• Se ha eliminado la información del plan Sustainer y la actualización de la interfaz de usuario

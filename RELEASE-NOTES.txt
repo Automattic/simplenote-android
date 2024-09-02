@@ -5,6 +5,7 @@
 2.33
 -----
 * Added support for logging in with magic links for a passwordless experience.
+* Fix bug where devices with Android 6 and 7 were unable to login.
 
 2.32
 -----

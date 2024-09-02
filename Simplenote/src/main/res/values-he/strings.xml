@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2022-11-30 09:54:03+0000
+Translation-Revision-Date: 2024-08-01 15:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">שלחנו קוד אל \n%1$s. הקוד הזה יהיה בתוקף למשך מספר דקות.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">להזין סיסמה</string>
+    <string name="magic_link_login_with_wordpress_or_break">או</string>
+    <string name="magic_link_enter_code_title">להזין קוד</string>
+    <string name="magic_link_code_hint">קוד</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">קוד לא חוקי</string>
+    <string name="magic_link_complete_login_expired_code_error_message">הקישור כבר לא תקף</string>
+    <string name="magic_link_complete_login_loading_message">מתחבר</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">ההתחברות באמצעות האימייל נכשלה, יש להזין סיסמה.</string>
+    <string name="magic_link_error_too_many_requests_message">יותר מדי בקשות. יש לנסות שוב מאוחר יותר.</string>
+    <string name="magic_link_request_error_message">אירעה שגיאה בשליחת הבקשה לקבלת קישור ישיר</string>
+    <string name="magic_link_request_login_loading_message">נשלחת בקשה לקבלת קישור להתחברות</string>
+    <string name="magic_link_general_error">נתקלנו בכמה בעיות. יש לנסות שוב בקרוב.</string>
+    <string name="login_with_password">התחברות באמצעות סיסמה</string>
+    <string name="login_screen_title">להתחבר</string>
+    <string name="magic_link_login">התחברות באמצעות אימייל</string>
+    <string name="magic_link_request_login_dialog">אם קיים חשבון, שלחנו הודעה לאימייל ⁦%1$s⁩ עם קישור שדרכו ניתן להתחבר.</string>
+    <string name="magic_link_request_login_dialog_title">יש לבדוק אימייל</string>
+    <string name="sustainer_app_icon">סמל האפליקציה של Sustainer</string>
     <string name="simperium_too_many_attempts">מספר ניסיונות התחברות גבוה מדי. יש לנסות שוב מאוחר יותר.</string>
     <string name="simperium_change_password">לשנות סיסמה</string>
     <string name="simperium_not_now">ביטול</string>

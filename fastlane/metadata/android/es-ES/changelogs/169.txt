@@ -1,0 +1,3 @@
+2.33:
+* Se ha añadido la posibilidad de acceder con enlaces mágicos para una experiencia sin contraseña.
+

@@ -1,3 +1,0 @@
-2.32:
-• Adicionamos um ícone adaptável para o app
-• Removemos a IU de upgrade e informações sobre o plano Sustainer

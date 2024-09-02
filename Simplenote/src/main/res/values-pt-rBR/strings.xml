@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-22 16:54:02+0000
+Translation-Revision-Date: 2024-08-01 15:54:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Enviamos um código para \n%1$s. O código será válido por alguns minutos.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Digite a senha</string>
+    <string name="magic_link_login_with_wordpress_or_break">Ou</string>
+    <string name="magic_link_enter_code_title">Digite o código</string>
+    <string name="magic_link_code_hint">Código</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Código inválido</string>
+    <string name="magic_link_complete_login_expired_code_error_message">O link não é mais válido</string>
+    <string name="magic_link_complete_login_loading_message">Fazendo login</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Falha no login com o e-mail. Insira sua senha.</string>
+    <string name="magic_link_error_too_many_requests_message">Excesso de solicitações. Tente novamente mais tarde.</string>
+    <string name="magic_link_request_error_message">Erro ao solicitar o link mágico</string>
+    <string name="magic_link_request_login_loading_message">Solicitando link de login</string>
+    <string name="magic_link_general_error">Estamos com problemas. Tente novamente em alguns instantes.</string>
+    <string name="login_with_password">Login com senha</string>
+    <string name="login_screen_title">Fazer login</string>
+    <string name="magic_link_login">Login com e-mail</string>
+    <string name="magic_link_request_login_dialog">Um e-mail foi enviado para %1$s com um link de login se esse endereço está associado a uma conta.</string>
+    <string name="magic_link_request_login_dialog_title">Verifique seu e-mail</string>
     <string name="sustainer_app_icon">Ícone do aplicativo Sustainer</string>
     <string name="simperium_too_many_attempts">Muitas tentativas de login. Tente novamente mais tarde.</string>
     <string name="simperium_change_password">Alterar senha</string>
