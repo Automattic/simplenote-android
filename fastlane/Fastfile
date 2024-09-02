@@ -549,7 +549,7 @@ platform :android do
 
   desc 'Trigger a release build on Buildkite'
   lane :trigger_release_build do |branch_to_build: git_branch|
-    UI.important("There will be no release build from #{branch_to_build}.")
+    UI.important("There will be no release build triggered automatically from #{branch_to_build}.")
     UI.important('We do not yet have automated Buildkite releases in this project!')
     UI.important('You will need to build the app binary and upload it manually')
     # buildkite_trigger_build(
