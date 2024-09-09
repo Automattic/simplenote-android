@@ -86,6 +86,41 @@ platform :android do
     MESSAGE
     buildkite_annotate(context: 'code-freeze-success', style: 'success', message: message)
   end
+
+  lane :complete_code_freeze do |skip_confirm: false|
+    ensure_git_branch_is_release_branch!
+    ensure_git_status_clean
+
+    version = release_version_current
+
+    UI.important("Completing code freeze for: #{version}")
+
+    UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    update_play_store_strings
+
+    unless skip_confirm || UI.confirm('Ready to push changes to remote and trigger the beta build?')
+      UI.message("Terminating as requested. Don't forget to run the remainder of this automation manually.")
+      next
+    end
+
+    push_to_git_remote(tags: false)
+
+    trigger_beta_build(branch_to_build: release_branch_name(release_version: version))
+
+    pr_url = create_release_management_pull_request(
+      release_version: version,
+      base_branch: DEFAULT_BRANCH,
+      title: "Merge #{version} code freeze"
+    )
+
+    next unless is_ci
+
+    message = <<~MESSAGE
+      Code freeze completed successfully. Next, review and merge the [integration PR](#{pr_url}).
+    MESSAGE
+    buildkite_annotate(context: 'code-freeze-completed', style: 'success', message: message)
+  end
 end
 
 def freeze_milestone_and_move_assigned_prs_to_next_milestone(
@@ -148,4 +183,36 @@ def report_milestone_error(error_title:)
   UI.error(error_message)
 
   buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
+end
+
+def create_release_management_pull_request(release_version:, base_branch:, title:)
+  # TODO: Adopt shared EnvManager ASAP. See https://github.com/wordpress-mobile/release-toolkit/pull/578
+  # token = EnvManager.get_required_env!('GITHUB_TOKEN')
+  token = ENV.fetch('GITHUB_TOKEN', nil)
+  UI.user_error!('No GITHUB_TOKEN found in the environment.') if token.nil?
+
+  pr_url = create_pull_request(
+    api_token: token,
+    repo: GITHUB_REPO,
+    title: title,
+    head: Fastlane::Helper::GitHelper.current_git_branch,
+    base: base_branch,
+    labels: 'Releases'
+  )
+
+  # Next, set the milestone for the PR
+  #
+  # The create_pull_request action has a 'milestone' parameter, but it expects the milestone id.
+  # We don't know the id of the milestone, but we can use a different action to set it.
+  #
+  # PR URLs are in the format github.com/org/repo/pull/id
+  pr_number = File.basename(pr_url)
+  update_assigned_milestone(
+    repository: GITHUB_REPO,
+    numbers: [pr_number],
+    to_milestone: release_version
+  )
+
+  # Return the PR URL
+  pr_url
 end
