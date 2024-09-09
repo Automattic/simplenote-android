@@ -57,7 +57,7 @@ platform :android do
 
     push_to_git_remote(
       tags: false,
-      set_upstream: true
+      set_upstream: is_ci == false # only set upstream when running locally, useless in transient CI builds
     )
 
     copy_branch_protection(
