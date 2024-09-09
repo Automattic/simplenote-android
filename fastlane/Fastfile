@@ -293,7 +293,17 @@ platform :android do
       upload_track: beta ? 'beta' : 'production'
     )
 
-    create_gh_release(version: version) if create_release
+    next unless create_release
+
+    # TODO: Add step to downalod universal APK etc. once the app uses bundles
+
+    create_github_release(
+      repository: GITHUB_REPO,
+      version: version,
+      release_notes_file_path: RELEASE_NOTES_PATH,
+      prerelease: beta,
+      release_assets: GRADLE_APK_OUTPUT_PATH.to_s
+    )
   end
 
   # TODO: Drop build_number like https://github.com/wordpress-mobile/WordPress-Android/pull/21103
@@ -524,18 +534,6 @@ platform :android do
       path: strings_path,
       message: 'Update strings file for translation automation',
       allow_nothing_to_commit: true
-    )
-  end
-
-  private_lane :create_gh_release do |version:, prerelease: false|
-    # TODO: Add step to downalod universal APK etc. once the app uses bundles
-
-    create_github_release(
-      repository: GITHUB_REPO,
-      version: version,
-      release_notes_file_path: RELEASE_NOTES_PATH,
-      prerelease: prerelease,
-      release_assets: GRADLE_APK_OUTPUT_PATH.to_s
     )
   end
 
