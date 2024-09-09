@@ -1,30 +1,21 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
 ---
 
-# Nodes with values to reuse in the pipeline.
-common_params:
-  # Common plugin settings to use with the `plugins` key.
-  - &common_plugins
-    - automattic/a8c-ci-toolkit#2.13.0
-
 agents:
-  queue: "android"
+  queue: android
 
-# This is the default pipeline – it will build and test the app
 steps:
-  - label: "Gradle Wrapper Validation"
-    command: |
-      validate_gradle_wrapper
-    plugins: *common_plugins
+  - label: ":gradle: Gradle Wrapper Validation"
+    command: validate_gradle_wrapper
+    plugins: [$CI_TOOLKIT_PLUGIN]
 
-  # Wait for Gradle Wrapper to be validated before running any other jobs
   - wait
 
-  - label: "🛠 Build and Test"
+  - label: ":hammer_and_pick: Build and Test"
     command: ./gradlew --stacktrace testRelease
-    plugins: *common_plugins
+    plugins: [$CI_TOOLKIT_PLUGIN]
 
-  - label: "☢️ Danger - PR Check"
+  - label: ":radioactive_sign: Danger - PR Check"
     command: danger
     key: danger
     if: "build.pull_request.id != null"
@@ -32,13 +23,13 @@ steps:
       manual:
         permit_on_passed: true
     agents:
-      queue: "linter"
+      queue: linter
 
-  - label: "🔬 Lint"
+  - label: ":microscope: Lint"
     command: ./gradlew --stacktrace lintRelease
-    plugins: *common_plugins
+    plugins: [$CI_TOOLKIT_PLUGIN]
 
-  - label: "🛠 Prototype Build"
+  - label: ":hammer_and_pick: Prototype Build"
     command: .buildkite/commands/build-prototype.sh
-    plugins: *common_plugins
+    plugins: [$CI_TOOLKIT_PLUGIN]
     if: "build.pull_request.id != null || build.pull_request.draft"
