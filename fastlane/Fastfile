@@ -539,7 +539,7 @@ platform :android do
   private_lane :create_gh_release do |version:, prerelease: false|
     # TODO: Add step to downalod universal APK etc. once the app uses bundles
 
-    create_release(
+    create_github_release(
       repository: GITHUB_REPO,
       version: version,
       release_notes_file_path: RELEASE_NOTES_PATH,
