@@ -50,7 +50,7 @@ platform :android do
 
     update_strings_for_translation_automation
 
-    unless skip_confirm || UI.confirm('Ready to push changes to remote to let the automation configure it on GitHub?')
+    unless skip_confirm || UI.confirm("Ready to push the new #{release_branch_name} branch the remote and let the automation configure branch protection and milestone on GitHub?")
       UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.")
       next
     end
