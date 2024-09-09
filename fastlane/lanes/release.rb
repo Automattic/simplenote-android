@@ -122,6 +122,14 @@ platform :android do
     buildkite_annotate(context: 'code-freeze-completed', style: 'success', message: message)
   end
 
+  lane :trigger_beta_build do |branch_to_build:|
+    trigger_buildkite_release_build(branch: branch_to_build, beta: true)
+  end
+
+  lane :trigger_release_build do |branch_to_build:|
+    trigger_buildkite_release_build(branch: branch_to_build, beta: false)
+  end
+
   lane :create_release_on_github do |version: release_version_current, beta: true, apk_path: GRADLE_APK_OUTPUT_PATH.to_s|
     create_github_release(
       repository: GITHUB_REPO,
@@ -225,4 +233,19 @@ def create_release_management_pull_request(release_version:, base_branch:, title
 
   # Return the PR URL
   pr_url
+end
+
+def trigger_buildkite_release_build(branch:, beta:)
+  build_url = buildkite_trigger_build(
+    buildkite_organization: BUILDKITE_ORGANIZATION,
+    buildkite_pipeline: BUILDKITE_PIPELINE,
+    branch: branch,
+    environment: { BETA_RELEASE: beta },
+    pipeline_file: 'release-build.yml'
+  )
+
+  return unless is_ci
+
+  message = "This build triggered #{build_url} on <code>#{branch}</code>."
+  buildkite_annotate(style: 'info', context: 'trigger-release-build', message: message)
 end
