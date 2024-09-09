@@ -12,8 +12,9 @@ Layout/LineLength:
   Max: 180
 
 Metrics/BlockLength:
-  Exclude:
+  Exclude: &fastlane
     - fastlane/Fastfile
+    - fastlane/lanes/*.rb
 
 Style/HashSyntax:
   EnforcedShorthandSyntax: never
