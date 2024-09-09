@@ -363,7 +363,19 @@ platform :android do
   end
 
   desc 'Builds an app apk and upload it'
-  lane :build_and_upload_apk do |version: release_version_current, build_code: build_code_current, upload_track: nil|
+  lane :build_and_upload_apk do |upload_track: nil|
+    apk_path = build_for_distribution
+
+    if upload_track.nil?
+      UI.message('Skipping upload to Google Play Console because on `upload_track` given.')
+    else
+      upload_build_to_play_store(apk_path: apk_path, track: upload_track)
+    end
+
+    apk_path
+  end
+
+  lane :build_for_distribution do
     user_friendly_output_dir = File.join(PROJECT_ROOT_FOLDER, 'build')
     user_friendly_output_apk_name = "simplenote-#{version}.apk"
     user_friendly_output_path = File.join(user_friendly_output_dir, user_friendly_output_apk_name)
@@ -386,23 +398,21 @@ platform :android do
       UI.user_error!("Unable to find a build artifact at #{user_friendly_output_path}")
     end
 
-    if upload_track.nil?
-      UI.message('Skipping upload to Google Play Console because on `upload_track` given.')
-    else
-      upload_to_play_store(
-        package_name: APP_PACKAGE_NAME,
-        apk: user_friendly_output_path,
-        track: upload_track,
-        release_status: 'draft',
-        skip_upload_metadata: true,
-        skip_upload_changelogs: true,
-        skip_upload_images: true,
-        skip_upload_screenshots: true,
-        json_key: UPLOAD_TO_PLAY_STORE_JSON_KEY
-      )
-    end
-
     user_friendly_output_path
+  end
+
+  lane :upload_build_to_play_store do |apk_path:, track:|
+    upload_to_play_store(
+      package_name: APP_PACKAGE_NAME,
+      apk: apk_path,
+      track: track,
+      release_status: 'draft',
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      json_key: UPLOAD_TO_PLAY_STORE_JSON_KEY
+    )
   end
 
   desc 'Build a Prototype Build and make it available for download'
