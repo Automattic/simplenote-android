@@ -87,8 +87,8 @@ platform :android do
     buildkite_annotate(context: 'code-freeze-success', style: 'success', message: message)
   end
 
-  lane :complete_code_freeze do |skip_confirm: false|
-    ensure_git_branch_is_release_branch!
+  lane :complete_code_freeze do |skip_prechecks: false, skip_confirm: false|
+    ensure_git_branch_is_release_branch! unless skip_prechecks || is_ci
     ensure_git_status_clean
 
     version = release_version_current
