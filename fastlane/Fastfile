@@ -271,26 +271,17 @@ platform :android do
     )
   end
 
-  desc 'Builds and updates for distribution'
-  lane :build_and_upload_beta do |skip_prechecks: false, create_release: true|
-    unless skip_prechecks
-      ensure_git_status_clean
-      ensure_git_branch_is_release_branch!
-    end
-
-    # We want the full version name, including the rc prefix
-    version = VERSION_FILE.read_version_name
-
-    build_and_upload_apk(
-      version: version,
-      upload_track: 'beta'
-    )
-
-    create_gh_release(version: version, prerelease: true) if create_release
+  desc 'Builds and updates a beta for distribution'
+  lane :build_and_upload_beta do |create_release: true|
+    build_and_upload(beta: true, create_release: create_release)
   end
 
   desc 'Builds and updates for distribution'
   lane :build_and_upload_release do |create_release:|
+    build_and_upload(beta: false, create_release: create_release)
+  end
+
+  lane :build_and_upload do |beta:, create_release:|
     ensure_git_status_clean unless is_ci
     ensure_git_branch_is_release_branch!
 
@@ -299,7 +290,7 @@ platform :android do
 
     build_and_upload_apk(
       version: version,
-      upload_track: 'production'
+      upload_track: beta ? 'beta' : 'production'
     )
 
     create_gh_release(version: version) if create_release
