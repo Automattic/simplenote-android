@@ -121,6 +121,16 @@ platform :android do
     MESSAGE
     buildkite_annotate(context: 'code-freeze-completed', style: 'success', message: message)
   end
+
+  lane :create_release_on_github do |version: release_version_current, beta: true, apk_path: GRADLE_APK_OUTPUT_PATH.to_s|
+    create_github_release(
+      repository: GITHUB_REPO,
+      version: version,
+      release_notes_file_path: RELEASE_NOTES_PATH,
+      prerelease: beta,
+      release_assets: apk_path
+    )
+  end
 end
 
 def freeze_milestone_and_move_assigned_prs_to_next_milestone(
