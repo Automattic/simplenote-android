@@ -8,12 +8,18 @@ steps:
   - label: ":gradle: Gradle Wrapper Validation"
     command: validate_gradle_wrapper
     plugins: [$CI_TOOLKIT_PLUGIN]
+    notify:
+      - github_commit_status:
+          context: Gradle Wrapper Validation
 
   - wait
 
   - label: ":hammer_and_pick: Build and Test"
     command: ./gradlew --stacktrace testRelease
     plugins: [$CI_TOOLKIT_PLUGIN]
+    notify:
+      - github_commit_status:
+          context: Build and Test
 
   - label: ":radioactive_sign: Danger - PR Check"
     command: danger
@@ -24,12 +30,21 @@ steps:
         permit_on_passed: true
     agents:
       queue: linter
+    notify:
+      - github_commit_status:
+          context: Danger - PR Check
 
   - label: ":microscope: Lint"
     command: ./gradlew --stacktrace lintRelease
     plugins: [$CI_TOOLKIT_PLUGIN]
+    notify:
+      - github_commit_status:
+          context: Lint
 
   - label: ":hammer_and_pick: Prototype Build"
     command: .buildkite/commands/build-prototype.sh
     plugins: [$CI_TOOLKIT_PLUGIN]
     if: "build.pull_request.id != null || build.pull_request.draft"
+    notify:
+      - github_commit_status:
+          context: Prototype Build
