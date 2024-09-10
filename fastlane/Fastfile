@@ -40,8 +40,11 @@ GLOTPRESS_APP_STRINGS_PROJECT_URL = "#{GLOTPRESS_BASE_URL}/simplenote/android/".
 # URL of the GlotPress project containing the Play Store metadata (title, keywords, release notes, …)
 GLOTPRESS_STORE_METADATA_PROJECT_URL = "#{GLOTPRESS_APP_STRINGS_PROJECT_URL}release-notes/".freeze
 
+STORE_METADATA_SOURCE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'metadata', 'android')
+STORE_METADATA_SOURCE_DEFAULT_LOCALE = 'en-US'
+STORE_METADATA_SOURCE_DEFAULT_FOLDER = File.join(STORE_METADATA_SOURCE_FOLDER, STORE_METADATA_SOURCE_DEFAULT_LOCALE)
+RELEASE_NOTES_PATH = File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'changelogs', 'default.txt')
 RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt')
-RELEASE_NOTES_PATH = File.join(METADATA_FOLDER, 'release_notes.txt')
 
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
 
@@ -311,26 +314,6 @@ platform :android do
 
   def screenshots_directory
     File.join(Dir.pwd, 'screenshots')
-  end
-
-  private_lane :delete_old_changelogs do |options|
-    Dir.glob('./metadata/android/*/').each do |folder|
-      Dir["#{folder}changelogs/*"].each do |file|
-        File.delete(file) if Integer(File.basename(file, '.*')) < Integer(options[:build])
-      rescue StandardError
-        puts "Cannot delete file #{file}"
-      end
-    end
-  end
-
-  private_lane :add_us_release_notes do |options|
-    en_release_notes_path = File.join(METADATA_FOLDER, 'release_notes.txt')
-    File.open(options[:release_notes_path], 'a') do |f|
-      f.puts('<en-US>')
-      f.puts("#{options[:version_name]}:")
-      f.puts(File.read(en_release_notes_path))
-      f.puts('</en-US>')
-    end
   end
 
   private_lane :update_strings_for_translation_automation do

@@ -37,9 +37,10 @@ platform :android do
       package_name: APP_PACKAGE_NAME,
       apk: apk_path,
       track: track,
-      release_status: 'draft',
-      skip_upload_metadata: true,
-      skip_upload_changelogs: true,
+      rollout: beta ? '1.0' : '0.1', # Rollout to 100% for betas, start at 10% for production
+      release_status: beta ? 'completed' : 'inProgress',
+      skip_upload_metadata: beta,
+      skip_upload_changelogs: beta,
       skip_upload_images: true,
       skip_upload_screenshots: true,
       json_key: UPLOAD_TO_PLAY_STORE_JSON_KEY

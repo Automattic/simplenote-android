@@ -31,9 +31,9 @@ platform :android do
   lane :update_play_store_strings do |version: release_version_current|
     files = {
       release_note: RELEASE_NOTES_PATH,
-      play_store_promo: File.join(METADATA_FOLDER, 'short_description.txt'),
-      play_store_desc: File.join(METADATA_FOLDER, 'full_description.txt'),
-      play_store_app_title: File.join(APP_SOURCES_FOLDER, 'metadata', 'title.txt')
+      play_store_promo: File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'short_description.txt'),
+      play_store_desc: File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'full_description.txt'),
+      play_store_app_title: File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'title.txt')
     }
 
     pot_path = File.join(METADATA_FOLDER, 'PlayStoreStrings.pot')
@@ -44,9 +44,12 @@ platform :android do
       release_version: version
     )
 
-    git_add(path: pot_path)
+    deleted_files = delete_old_changelogs
+
+    paths = [pot_path, *deleted_files]
+    git_add(path: paths)
     git_commit(
-      path: pot_path,
+      path: paths,
       message: "Update `#{File.basename(pot_path)}` for #{version}",
       allow_nothing_to_commit: true
     )
@@ -73,37 +76,23 @@ platform :android do
     )
   end
 
-  # TODO: Drop build_number like https://github.com/wordpress-mobile/WordPress-Android/pull/21103
   desc 'Downloads translated metadata from GlotPress'
-  lane :download_metadata_strings do |version: release_version_current, build_number: build_code_current|
+  lane :download_metadata_strings do |version: release_version_current|
     values = version.split('.')
     files = {
-      "release_note_#{values[0].to_s.rjust(2, '0')}#{values[1]}" => { desc: "changelogs/#{build_number}.txt", max_size: 0 },
+      "release_note_#{values[0].to_s.rjust(2, '0')}#{values[1]}" => { desc: File.join('changelogs', 'default.txt'), max_size: 500 },
       play_store_promo: { desc: 'short_description.txt', max_size: 80 },
       play_store_desc: { desc: 'full_description.txt', max_size: 0 },
       play_store_app_title: { desc: 'title.txt', max_size: 50 }
     }
 
-    delete_old_changelogs(build: build_number)
-    download_path = "#{Dir.pwd}/metadata/android"
+    download_path = STORE_METADATA_SOURCE_FOLDER
     gp_downloadmetadata(
       project_url: GLOTPRESS_STORE_METADATA_PROJECT_URL,
       target_files: files,
       locales: SUPPORTED_LOCALES.map { |hsh| [hsh[:glotpress], hsh[:google_play]] },
-      source_locale: 'en-US',
+      source_locale: STORE_METADATA_SOURCE_DEFAULT_LOCALE,
       download_path: download_path
-    )
-
-    # TODO: These two can be removed once we have a lane to upload the metadata to the Google Play Store.
-    #       upload_to_play_store uses the individual changelos without needing a merged one.
-    android_create_xml_release_notes(
-      download_path: download_path,
-      build_number: build_number.to_s,
-      locales: SUPPORTED_LOCALES.to_h { |hsh| [hsh[:glotpress], hsh[:google_play]] }
-    )
-    add_us_release_notes(
-      release_notes_path: File.join(download_path, 'release_notes.xml'),
-      version_name: version
     )
 
     # We need to explicitly call `git_add`, despite the path being passed to `git_commit` as well.
@@ -128,4 +117,20 @@ platform :android do
       lint_task: 'lintRelease'
     )
   end
+end
+
+# Remove old `changelogs/default.txt` files for every locale except en-US.
+#
+# Rationale: After updating the en-US copy for a new version and sending it for
+# translation, we want to avoid having outdated translations in Git while
+# waiting for the new ones to arrive.
+#
+# @return [Array<String>] A list of file paths that were deleted.
+def delete_old_changelogs
+  obsolete_changelogs = Dir.glob(File.join(STORE_METADATA_SOURCE_FOLDER, '*', 'changelogs', 'default.txt'))
+    .reject { |file| File.basename(File.dirname(file, 2)) == STORE_METADATA_SOURCE_DEFAULT_LOCALE }
+
+  FileUtils.rm_f(obsolete_changelogs)
+
+  obsolete_changelogs
 end

@@ -37,10 +37,12 @@ platform :android do
       version_code: new_build_code
     )
     commit_version_bump
-    UI.success("Done! New beta version: #{release_version_current}. New build code: #{build_code_current}.")
+
+    new_version = release_version_current
+    UI.success("Done! New beta version: #{new_version}. New build code: #{build_code_current}.")
 
     extract_release_notes_for_version(
-      version: new_version_with_beta,
+      version: new_version,
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH,
       extracted_notes_file_path: RELEASE_NOTES_PATH
     )

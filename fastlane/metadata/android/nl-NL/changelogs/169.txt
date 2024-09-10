@@ -1,3 +1,0 @@
-2.33:
-* Ondersteuning voor inloggen met magische links is toegevoegd, zodat je je wachtwoord niet meer nodig hebt.
-
