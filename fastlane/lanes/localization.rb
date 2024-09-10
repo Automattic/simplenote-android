@@ -44,12 +44,9 @@ platform :android do
       release_version: version
     )
 
-    deleted_files = delete_old_changelogs
-
-    paths = [pot_path, *deleted_files]
-    git_add(path: paths)
+    git_add(path: pot_path)
     git_commit(
-      path: paths,
+      path: pot_path,
       message: "Update `#{File.basename(pot_path)}` for #{version}",
       allow_nothing_to_commit: true
     )

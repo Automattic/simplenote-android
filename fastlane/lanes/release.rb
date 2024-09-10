@@ -97,6 +97,7 @@ platform :android do
     UI.user_error!('Aborted by user request') unless skip_confirm || UI.confirm('Do you want to continue?')
 
     update_play_store_strings
+    delete_old_changelogs_and_commit(version: version)
 
     unless skip_confirm || UI.confirm('Ready to push changes to remote and trigger the beta build?')
       UI.message("Terminating as requested. Don't forget to run the remainder of this automation manually.")
@@ -253,5 +254,16 @@ def add_version_section_to_dev_release_notes(version:)
   android_update_release_notes(
     new_version: version,
     release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
+  )
+end
+
+def delete_old_changelogs_and_commit(version:)
+  deleted_files = delete_old_changelogs
+
+  git_add(path: deleted_files)
+  git_commit(
+    path: deleted_files,
+    message: "Delete old changelogs post #{version} code freeze",
+    allow_nothing_to_commit: true
   )
 end
