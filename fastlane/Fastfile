@@ -77,6 +77,7 @@ VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::AndroidVersionFile.new(v
 # Important: These need to be imported after all the constants have been defined because they access them.
 # A bit of a leaky abstraction but makes for lanes that are easier to write...
 import 'lanes/build.rb'
+import 'lanes/localization.rb'
 import 'lanes/release.rb'
 
 platform :android do
