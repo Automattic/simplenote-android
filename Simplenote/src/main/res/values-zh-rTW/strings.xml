@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 09:54:03+0000
+Translation-Revision-Date: 2024-08-01 15:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">我們已傳送驗證碼到 \n%1$s。 此驗證碼在幾分鐘內有效。</string>
+    <string name="magic_link_confirm_code_enter_pass_label">輸入密碼</string>
+    <string name="magic_link_login_with_wordpress_or_break">或</string>
+    <string name="magic_link_enter_code_title">輸入驗證碼</string>
+    <string name="magic_link_code_hint">驗證碼</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">無效的驗證碼</string>
+    <string name="magic_link_complete_login_expired_code_error_message">連結失效</string>
+    <string name="magic_link_complete_login_loading_message">正在登入</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">透過電子郵件登入失敗，請輸入你的密碼。</string>
+    <string name="magic_link_error_too_many_requests_message">你已提出太多要求。 請稍後再試一次。</string>
+    <string name="magic_link_request_error_message">要求神奇連結時出現錯誤</string>
+    <string name="magic_link_request_login_loading_message">正在要求登入連結</string>
+    <string name="magic_link_general_error">發生問題， 請接著再試一次。</string>
+    <string name="login_with_password">使用密碼登入</string>
+    <string name="login_screen_title">登入</string>
+    <string name="magic_link_login">透過電子郵件登入</string>
+    <string name="magic_link_request_login_dialog">若帳號存在，我們已將登入連結透過電子郵件傳送至「%1$s」。</string>
+    <string name="magic_link_request_login_dialog_title">請檢查電子郵件信箱</string>
     <string name="sustainer_app_icon">Sustainer 應用程式圖示</string>
     <string name="simperium_too_many_attempts">登入嘗試次數過多。 請稍後再試一次。</string>
     <string name="simperium_change_password">變更密碼</string>

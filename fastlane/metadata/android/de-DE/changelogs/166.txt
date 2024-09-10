@@ -1,3 +1,0 @@
-2.32:
-• Adaptives App-Icon hinzugefügt
-• Informationen zum Unterstützer-Tarif und aktualisierte Benutzeroberfläche entfernt

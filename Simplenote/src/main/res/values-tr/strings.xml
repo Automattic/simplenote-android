@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-22 12:54:02+0000
+Translation-Revision-Date: 2024-08-01 15:54:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Şuraya bir kod gönderildi: \n%1$s. Kod birkaç dakikalığına geçerli olacak.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Şifre girin</string>
+    <string name="magic_link_login_with_wordpress_or_break">Veya</string>
+    <string name="magic_link_enter_code_title">Kod Girin</string>
+    <string name="magic_link_code_hint">Kod</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Geçersiz kod</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Bağlantı artık geçerli değil</string>
+    <string name="magic_link_complete_login_loading_message">Oturum Açılıyor</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">E-postayla oturum açma başarısız oldu, lütfen şifrenizi girin.</string>
+    <string name="magic_link_error_too_many_requests_message">Çok fazla istek var. Daha sonra yeniden deneyin.</string>
+    <string name="magic_link_request_error_message">Sihirli Bağlantı istenirken hata oluştu</string>
+    <string name="magic_link_request_login_loading_message">Oturum açma bağlantısı isteniyor</string>
+    <string name="magic_link_general_error">Sorun yaşanıyor. Lütfen kısa bir süre sonra tekrar deneyin.</string>
+    <string name="login_with_password">Şifreyle Oturum Aç</string>
+    <string name="login_screen_title">Oturum Aç</string>
+    <string name="magic_link_login">E-postayla oturum aç</string>
+    <string name="magic_link_request_login_dialog">Bir hesap varsa oturumunuzu açacak bir bağlantı içeren %1$s adresine bir e-posta gönderildi.</string>
+    <string name="magic_link_request_login_dialog_title">E-postanızı kontrol edin</string>
     <string name="sustainer_app_icon">Sustainer uygulaması simgesi</string>
     <string name="simperium_too_many_attempts">Çok fazla oturum açma denemesi. Daha sonra yeniden deneyin.</string>
     <string name="simperium_change_password">Parola değiştir</string>

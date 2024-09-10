@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 11:54:05+0000
+Translation-Revision-Date: 2024-08-01 09:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Wir haben einen Code gesendet an: \n%1$s. Der Code ist einige Minuten gültig.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Passwort eingeben</string>
+    <string name="magic_link_login_with_wordpress_or_break">Oder</string>
+    <string name="magic_link_enter_code_title">Code eingeben</string>
+    <string name="magic_link_code_hint">Code</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Ungültiger Code</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Link nicht länger gültig</string>
+    <string name="magic_link_complete_login_loading_message">Du wirst angemeldet</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Die Anmeldung per E-Mail ist fehlgeschlagen, bitte gib dein Passwort ein.</string>
+    <string name="magic_link_error_too_many_requests_message">Zu viele Anfragen. Versuche es später erneut.</string>
+    <string name="magic_link_request_error_message">Fehler beim Anfordern des magischen Links</string>
+    <string name="magic_link_request_login_loading_message">Anmeldelink wird angefordert</string>
+    <string name="magic_link_general_error">Momentan gibt es ein paar Probleme. Bitte versuche es später erneut.</string>
+    <string name="login_with_password">Mit Passwort anmelden</string>
+    <string name="login_screen_title">Anmelden</string>
+    <string name="magic_link_login">Mit E-Mail-Adresse anmelden</string>
+    <string name="magic_link_request_login_dialog">Wenn ein Konto existiert, haben wir eine E-Mail mit einem Anmeldelink an %1$s gesendet.</string>
+    <string name="magic_link_request_login_dialog_title">Überprüfe deinen Posteingang</string>
     <string name="sustainer_app_icon">Unterstützer-App-Icon</string>
     <string name="simperium_too_many_attempts">Zu viele Anmeldeversuche. Versuche es später erneut.</string>
     <string name="simperium_change_password">Passwort ändern</string>

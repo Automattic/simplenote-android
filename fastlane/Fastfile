@@ -9,502 +9,224 @@ USER_ENV_FILE_PATH = File.join(Dir.home, '.simplenoteandroid-env.default')
 PROTOTYPE_BUILD_DOMAIN = 'https://d2twmm2nzpx3bg.cloudfront.net'
 
 before_all do
-  # Check that the env file exists
+  # TODO: Use EnvManager — https://github.com/wordpress-mobile/release-toolkit/pull/578
   UI.user_error!("#{USER_ENV_FILE_PATH} not found: Please copy env.example to #{USER_ENV_FILE_PATH} and fill in the values") unless is_ci || File.file?(USER_ENV_FILE_PATH)
+  Dotenv.load(USER_ENV_FILE_PATH)
 end
 
-# Constants
 PROJECT_ROOT_FOLDER = File.dirname(File.expand_path(__dir__))
-GITHUB_REPO = 'automattic/simplenote-android'
-DEFAULT_BRANCH = 'trunk'
 
-SUPPORTED_LOCALES = [
-  { glotpress: 'ar', android: 'ar', google_play: 'ar', promo_config: {} },
-  { glotpress: 'de', android: 'de', google_play: 'de-DE',  promo_config: {} },
-  { glotpress: 'es', android: 'es', google_play: 'es-ES',  promo_config: {} },
-  { glotpress: 'fr', android: 'fr', google_play: 'fr-FR',  promo_config: {} },
-  { glotpress: 'he', android: 'he', google_play: 'iw-IL',  promo_config: {} },
-  { glotpress: 'id', android: 'id', google_play: 'id', promo_config: {} },
-  { glotpress: 'it', android: 'it', google_play: 'it-IT',  promo_config: {} },
-  { glotpress: 'ja', android: 'ja', google_play: 'ja-JP',  promo_config: {} },
-  { glotpress: 'ko', android: 'ko', google_play: 'ko-KR',  promo_config: {} },
-  { glotpress: 'nl', android: 'nl', google_play: 'nl-NL',  promo_config: {} },
-  { glotpress: 'pt-br', android: 'pt-rBR', google_play: 'pt-BR', promo_config: {} },
-  { glotpress: 'ru', android: 'ru', google_play: 'ru-RU',  promo_config: {} },
-  { glotpress: 'sv', android: 'sv', google_play: 'sv-SE',  promo_config: {} },
-  { glotpress: 'tr', android: 'tr', google_play: 'tr-TR',  promo_config: {} },
-  { glotpress: 'zh-cn', android: 'zh-rCN', google_play: 'zh-CN',  promo_config: {} },
-  { glotpress: 'zh-tw', android: 'zh-rTW', google_play: 'zh-TW',  promo_config: {} }
-].freeze
+ORGANIZATION = 'automattic'
+REPO_NAME = 'simplenote-android'
+GITHUB_REPO = "#{ORGANIZATION}/#{REPO_NAME}".freeze
+DEFAULT_BRANCH = 'trunk'
+BUILDKITE_ORG = ORGANIZATION
+BUILDKITE_PIPELINE = REPO_NAME
+APP_PACKAGE_NAME = 'com.automattic.simplenote'
+
+APP_SOURCES_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'Simplenote')
+METADATA_FOLDER = File.join(APP_SOURCES_FOLDER, 'metadata')
+BUILD_FOLDER = File.join(APP_SOURCES_FOLDER, 'build')
+RES_FOLDER = File.join(APP_SOURCES_FOLDER, 'src', 'main', 'res')
+MAIN_STRINGS_PATH = File.join(RES_FOLDER, 'values', 'strings.xml')
+UPDATE_STRINGS_PATH = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'resources', 'values')
+
+GLOTPRESS_BASE_URL = 'https://translate.wordpress.com/projects'
+# URL of the GlotPress project containing the app's strings
+#
+# Notice the trailing / is required.
+# Without it, GlotPress will redirect to the version with /
+GLOTPRESS_APP_STRINGS_PROJECT_URL = "#{GLOTPRESS_BASE_URL}/simplenote/android/".freeze
+# URL of the GlotPress project containing the Play Store metadata (title, keywords, release notes, …)
+GLOTPRESS_STORE_METADATA_PROJECT_URL = "#{GLOTPRESS_APP_STRINGS_PROJECT_URL}release-notes/".freeze
+
+STORE_METADATA_SOURCE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'metadata', 'android')
+STORE_METADATA_SOURCE_DEFAULT_LOCALE = 'en-US'
+STORE_METADATA_SOURCE_DEFAULT_FOLDER = File.join(STORE_METADATA_SOURCE_FOLDER, STORE_METADATA_SOURCE_DEFAULT_LOCALE)
+RELEASE_NOTES_PATH = File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'changelogs', 'default.txt')
+RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt')
 
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
 
+GRADLE_APK_OUTPUT_PATH = File.join(BUILD_FOLDER, 'outputs', 'apk', 'release', 'Simplenote-release.apk')
+
+VERSION_PROPERTIES_PATH = File.join(PROJECT_ROOT_FOLDER, 'version.properties')
+
+VERSION_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SemanticVersionCalculator.new
+VERSION_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::RCNotationVersionFormatter.new
+BUILD_CODE_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::SimpleBuildCodeFormatter.new
+BUILD_CODE_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SimpleBuildCodeCalculator.new
+VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::AndroidVersionFile.new(version_properties_path: VERSION_PROPERTIES_PATH)
+
+# Important: These need to be imported after all the constants have been defined because they access them.
+# A bit of a leaky abstraction but makes for lanes that are easier to write...
+import 'lanes/build.rb'
+import 'lanes/localization.rb'
+import 'lanes/release.rb'
+
 platform :android do
-  ########################################################################
-  # Environment
-  ########################################################################
-  Dotenv.load(USER_ENV_FILE_PATH)
   ENV['PROJECT_ROOT_FOLDER'] = "#{File.dirname(File.expand_path(__dir__))}/"
   ENV['PROJECT_NAME'] = 'Simplenote'
   ENV['validate_translations'] = 'buildRelease'
   ENV['FL_RELEASE_TOOLKIT_DEFAULT_BRANCH'] = 'trunk'
 
-  ########################################################################
-  # Release Lanes
-  ########################################################################
-  #####################################################################################
-  # code_freeze
-  # -----------------------------------------------------------------------------------
-  # This lane executes the steps planned on code freeze
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane code_freeze [update_release_branch_version:<update flag>] [skip_confirm:<skip confirm>]
-  #
-  # Example:
-  # bundle exec fastlane code_freeze
-  # bundle exec fastlane code_freeze update_release_branch_version:false
-  # bundle exec fastlane code_freeze skip_confirm:true
-  #####################################################################################
-  desc 'Creates a new release branch from the current trunk'
-  lane :code_freeze do |options|
-    ensure_git_status_clean unless options.fetch(:skip_prechecks, false) || is_ci
-
-    Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
-
-    # android_bump_version_release
-    #
-    # The call above fails with:
-    #
-    # /path/to/proj/vendor/bundle/ruby/3.2.0/gems/fastlane-plugin-wpmreleasetoolkit-9.4.0/lib/fastlane/plugin/wpmreleasetoolkit/helper/android/android_git_helper.rb:22:
-    #   in `commit_version_bump':
-    #     [!] undefined method `git_commit' for FastlaneCore::Helper::Android::GitHelper:Module (NoMethodError)
-    #
-    # So, for the time being, we'll bump the version manually.
-    # We are in the middle of updating the tooling anyway, so this shouldn't last for long.
-    unless UI.confirm("Automatic version bump had to be disabled.\nHave you update the version and build in Simplenote/build.gradle?")
-      UI.error('Please bump the version and build then run the lane again.')
-      next
-    end
-
-    new_version = android_get_app_version
-    extract_release_notes_for_version(
-      version: new_version,
-      release_notes_file_path: File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt'),
-      extracted_notes_file_path: release_notes_path
-    )
-    android_update_release_notes(new_version: new_version)
-
-    update_strings_for_translation_automation
-
-    unless options[:skip_confirm] || UI.confirm('Ready to push changes to remote to let the automation configure it on GitHub?')
-      UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.")
-      next
-    end
-
-    push_to_git_remote(
-      tags: false,
-      set_upstream: true
-    )
-
-    android_tag_build
-
-    copy_branch_protection(
-      repository: GITHUB_REPO,
-      from_branch: DEFAULT_BRANCH,
-      to_branch: "release/#{new_version}"
-    )
-    setfrozentag(
-      repository: GITHUB_REPO,
-      milestone: new_version
-    )
-  end
-
-  #####################################################################################
-  # update_appstore_strings
-  # -----------------------------------------------------------------------------------
-  # This lane gets the data from the txt files in the Simplenote/metadata/ folder
-  # and updates the .po file that is then picked by GlotPress for translations.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # fastlane update_appstore_strings version:<version>
-  #
-  # Example:
-  # fastlane update_appstore_strings version:10.3
-  #####################################################################################
-  desc 'Updates the PlayStoreStrings.po file'
-  lane :update_appstore_strings do |options|
-    prj_folder = "#{Dir.pwd}/.."
-
-    files = {
-      release_note: File.join(prj_folder, 'Simplenote', 'metadata', 'release_notes.txt'),
-      play_store_promo: File.join(prj_folder, 'Simplenote', 'metadata', 'short_description.txt'),
-      play_store_desc: File.join(prj_folder, 'Simplenote', 'metadata', 'full_description.txt'),
-      play_store_app_title: File.join(prj_folder, 'Simplenote', 'metadata', 'title.txt')
-    }
-
-    an_update_metadata_source(
-      po_file_path: File.join(prj_folder, 'Simplenote', 'metadata', 'PlayStoreStrings.pot'),
-      source_files: files,
-      release_version: options[:version]
-    )
-  end
-
-  #####################################################################################
-  # new_beta_release
-  # -----------------------------------------------------------------------------------
-  # This lane updates the release branch for a new beta release. It will update the
-  # current release branch by default. If you want to update a different branch
-  # (i.e. hotfix branch) pass the related version with the 'base_version' param
-  # (example: base_version:10.6.1 will work on the 10.6.1 branch)
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane new_beta_release [skip_confirm:<skip confirm>] [base_version:<version>]
-  #
-  # Example:
-  # bundle exec fastlane new_beta_release
-  # bundle exec fastlane new_beta_release skip_confirm:true
-  # bundle exec fastlane new_beta_release base_version:10.6.1
-  #####################################################################################
   desc 'Updates a release branch for a new beta release'
-  lane :new_beta_release do |options|
-    android_betabuild_prechecks(options)
-    android_bump_version_beta
-    android_tag_build
+  lane :new_beta_release do |skip_confirm: false|
+    ensure_git_status_clean
+    ensure_git_branch_is_release_branch!
+
+    message = <<~MESSAGE
+      New beta release:
+      - Current beta version: #{release_version_current}
+      - New beta version: #{release_version_next_beta}
+
+      - Current build code: #{build_code_current}
+      - New build code: #{build_code_next}
+    MESSAGE
+    UI.important(message)
+
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    UI.message 'Bumping beta version and build code...'
+    VERSION_FILE.write_version(
+      version_name: release_version_next_beta,
+      version_code: build_code_next
+    )
+    commit_version_bump
+    # Print computed version and build to let user double-check outcome in logs
+    UI.success("Done! New beta version: #{release_version_current}. New build code: #{build_code_current}")
+
+    download_translations
+    download_metadata_strings
+
+    UI.important('Pushing changes to remote and triggering the beta build...')
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    push_to_git_remote(tags: false)
+
+    trigger_release_build(branch_to_build: release_branch_name)
+
+    # TODO: Switch to working branch and open back-merge PR
   end
 
-  #####################################################################################
-  # new_hotfix_release
-  # -----------------------------------------------------------------------------------
-  # This lane updates the release branch for a new hotix release.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane new_hotfix_release [skip_confirm:<skip confirm>] [version_name:<version>]
-  #
-  # Example:
-  # bundle exec fastlane new_hotfix_release version_name:10.6.1
-  # bundle exec fastlane new_hotfix_release skip_confirm:true version_name:10.6.1
-  #####################################################################################
   desc 'Creates a new hotfix branch from the given tag'
-  lane :new_hotfix_release do |options|
-    prev_ver = android_hotfix_prechecks(
-      version_name: options[:version_name],
-      skip_confirm: options[:skip_confirm]
+  lane :new_hotfix_release do |version_name:, version_code:, skip_confirm: false|
+    ensure_git_status_clean
+
+    new_version = version_name
+    version_code_new = version_code
+
+    previous_version = VERSION_FORMATTER.release_version(
+      VERSION_CALCULATOR.previous_patch_version(version: VERSION_FORMATTER.parse(new_version))
     )
-    android_bump_version_hotfix(
-      previous_version_name: prev_ver,
-      version_name: options[:version_name],
-      version_code: options[:version_code]
+
+    UI.user_error!("The version `#{new_version}` tag already exists!") if git_tag_exists(tag: new_version)
+    UI.user_error!("Version #{previous_version} is not tagged! A hotfix branch cannot be created.") unless git_tag_exists(tag: previous_version)
+
+    message = <<~MESSAGE
+      Hotfix release:
+      - Current release version: #{release_version_current}
+      - New hotfix version: #{new_version}
+
+      - Current build code: #{build_code_current}
+      - New build code: #{version_code_new}
+
+      Branching from tag: #{previous_version}
+    MESSAGE
+    UI.important(message)
+
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    UI.message('Creating hotfix branch...')
+    Fastlane::Helper::GitHelper.create_branch(release_branch_name(release_version: new_version), from: previous_version)
+    UI.success("Done! New hotfix branch is: #{git_branch}")
+
+    UI.message('Bumping hotfix version and build code...')
+    VERSION_FILE.write_version(
+      version_name: new_version,
+      version_code: version_code_new
     )
+    commit_version_bump
+    # Print computed version and build to let user double-check outcome in logs
+    UI.success("Done! New release version: #{release_version_current}. New build code: #{build_code_current}.")
+
+    UI.important('Pushing new hotfix branch to remote...')
+    push_to_git_remote(tags: false)
+
+    # TODO: Switch to working branch and open back-merge PR
   end
 
-  #####################################################################################
-  # finalize_hotfix_release
-  # -----------------------------------------------------------------------------------
-  # This lane finalizes the hotfix release.
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane finalize_hotfix_release
-  #
-  # Example:
-  # bundle exec fastlane finalize_hotfix_release
-  #####################################################################################
   desc 'Finalizes a hotfix release by tagging the build'
-  lane :finalize_hotfix_release do
-    android_tag_build(tag_alpha: false)
+  lane :finalize_hotfix_release do |skip_confirm: false|
+    ensure_git_status_clean
+    ensure_git_branch_is_release_branch!
+
+    hotfix_version = release_version_current
+
+    UI.important("Triggering hotfix build for version: #{hotfix_version}...")
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    trigger_release_build(branch_to_build: release_branch_name)
   end
 
-  #####################################################################################
-  # finalize_release
-  # -----------------------------------------------------------------------------------
-  # This lane finalize a release: updates store metadata and runs the release checks
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane finalize_release [skip_confirm:<skip confirm>]
-  #
-  # Example:
-  # bundle exec fastlane finalize_release
-  # bundle exec fastlane finalize_release skip_confirm:true
-  #####################################################################################
   desc 'Updates store metadata and runs the release checks'
-  lane :finalize_release do |options|
-    UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix
+  lane :finalize_release do |skip_confirm: false|
+    UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix(version_properties_path: VERSION_PROPERTIES_PATH)
 
-    android_finalize_prechecks(options)
+    ensure_git_status_clean
+    ensure_git_branch_is_release_branch!
+
+    UI.important("Finalizing release: #{release_version_current}")
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
     configure_apply(force: is_ci)
 
-    UI.message('Checking app strings translation status...')
-    check_translation_progress(
-      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
-      abort_on_violations: false
-    )
-    UI.message('Checking release notes strings translation status...')
-    check_translation_progress(
-      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/release-notes/',
-      abort_on_violations: false
-    )
+    check_translation_progress_all unless is_ci
+    download_translations
 
-    download_translations(options)
-    android_bump_version_final_release(build_gradle_path: 'Simplenote/build.gradle')
-
-    version = android_get_release_version(build_gradle_path: 'Simplenote/build.gradle')
-    download_metadata_strings(
-      version: version['name'],
-      build_number: version['code']
+    UI.message 'Bumping final release version and build code...'
+    VERSION_FILE.write_version(
+      version_name: release_version_current,
+      version_code: build_code_next
     )
+    commit_version_bump
 
-    # Wrap up
+    # Print computed version and build to let user double-check outcome in logs
+    version = release_version_current
+    build_code = build_code_current
+    UI.success("Done! Final release version: #{version}. Final build code: #{build_code}.")
+
+    download_metadata_strings(version: version, build_number: build_code)
+
+    UI.important('Will push changes to remote and trigger the release build.')
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    push_to_git_remote(tags: false)
+
+    build_and_upload_release(create_release: true)
+
+    create_release_backmerge_pr(version_to_merge: version, next_version: release_version_next)
+
     remove_branch_protection(
       repository: GITHUB_REPO,
-      branch: "release/#{version['name']}"
+      branch: release_branch_name
     )
-    setfrozentag(
-      repository: GITHUB_REPO,
-      milestone: version['name'],
-      freeze: false
-    )
-    close_milestone(
-      repository: GITHUB_REPO,
-      milestone: version['name']
-    )
-  end
 
-  #####################################################################################
-  # build_pre_releases
-  # -----------------------------------------------------------------------------------
-  # This lane builds the app it for both internal and external distribution
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_pre_releases [skip_confirm:<skip confirm>] [create_release:<Create release on GH> ]
-  #
-  # Example:
-  # bundle exec fastlane build_pre_releases
-  # bundle exec fastlane build_pre_releases skip_confirm:true
-  # bundle exec fastlane build_pre_releases create_release:true
-  #####################################################################################
-  desc 'Builds and updates for distribution'
-  lane :build_pre_releases do |options|
-    android_build_prechecks(
-      skip_confirm: options[:skip_confirm],
-      alpha: false,
-      beta: true,
-      final: false
-    )
-    android_build_preflight
-    build_and_upload_beta(
-      skip_prechecks: true,
-      skip_confirm: options[:skip_confirm],
-      create_release: options[:create_release]
-    )
-  end
-
-  #####################################################################################
-  # build_and_upload_beta
-  # -----------------------------------------------------------------------------------
-  # This lane builds the app it for internal testing
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_and_upload_beta [skip_confirm:<skip confirm>] [create_release:<Create release on GH> ]
-  #
-  # Example:
-  # bundle exec fastlane build_and_upload_beta
-  # bundle exec fastlane build_and_upload_beta skip_confirm:true
-  # bundle exec fastlane build_and_upload_beta create_release:true
-  #####################################################################################
-  desc 'Builds and updates for distribution'
-  lane :build_and_upload_beta do |options|
-    unless options[:skip_prechecks]
-      android_build_prechecks(
-        skip_confirm: options[:skip_confirm],
-        beta: true
+    begin
+      set_milestone_frozen_marker(
+        repository: GITHUB_REPO,
+        milestone: version,
+        freeze: false
       )
-      android_build_preflight
-    end
-
-    # Create the file names
-    version = android_get_release_version
-    build_and_upload_apk(
-      version: version,
-      flavor: 'Vanilla',
-      upload_track: 'beta'
-    )
-
-    create_gh_release(version: version) if options[:create_release]
-  end
-
-  #####################################################################################
-  # build_and_upload_release
-  # -----------------------------------------------------------------------------------
-  # This lane builds the final release of the app and uploads it
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_and_upload_release [skip_confirm:<skip confirm>] [create_release:<Create release on GH> ]
-  #
-  # Example:
-  # bundle exec fastlane build_and_upload_release
-  # bundle exec fastlane build_and_upload_release skip_confirm:true
-  # bundle exec fastlane build_and_upload_release create_release:true
-  #####################################################################################
-  desc 'Builds and updates for distribution'
-  lane :build_and_upload_release do |options|
-    android_build_prechecks(
-      skip_confirm: options[:skip_confirm],
-      alpha: false,
-      beta: false,
-      final: true
-    )
-    android_build_preflight
-
-    # Create the file names
-    version = android_get_release_version
-    build_and_upload_apk(
-      version: version,
-      flavor: 'Vanilla',
-      upload_track: 'production'
-    )
-
-    create_gh_release(version: version) if options[:create_release]
-  end
-
-  ########################################################################
-  # Helper Lanes
-  ########################################################################
-  #####################################################################################
-  # download_metadata_string
-  # -----------------------------------------------------------------------------------
-  # This lane downloads the translated metadata (release notes,
-  # app store strings, title, etc.) from GlotPress and updates the local files
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # fastlane download_metadata_string build_number:<build_number> version:<version>
-  #
-  # Example:
-  # fastlane download_metadata_string build_number:573 version:10.3
-  #####################################################################################
-  desc 'Downloads translated metadata from GlotPress'
-  lane :download_metadata_strings do |options|
-    values = options[:version].split('.')
-    files = {
-      "release_note_#{values[0].to_s.rjust(2, '0')}#{values[1]}" => { desc: "changelogs/#{options[:build_number]}.txt", max_size: 0 },
-      play_store_promo: { desc: 'short_description.txt', max_size: 80 },
-      play_store_desc: { desc: 'full_description.txt', max_size: 0 },
-      play_store_app_title: { desc: 'title.txt', max_size: 50 }
-    }
-
-    delete_old_changelogs(build: options[:build_number])
-    download_path = "#{Dir.pwd}/metadata/android"
-    gp_downloadmetadata(
-      project_url: 'https://translate.wordpress.com/projects/simplenote/android/release-notes/',
-      target_files: files,
-      locales: SUPPORTED_LOCALES.map { |hsh| [hsh[:glotpress], hsh[:google_play]] },
-      source_locale: 'en-US',
-      download_path: download_path
-    )
-
-    android_create_xml_release_notes(
-      download_path: download_path,
-      build_number: options[:build_number].to_s,
-      locales: SUPPORTED_LOCALES.to_h { |hsh| [hsh[:glotpress], hsh[:google_play]] }
-    )
-    add_us_release_notes(
-      release_notes_path: File.join(download_path, 'release_notes.xml'),
-      version_name: options[:version]
-    )
-
-    # We need to explicitly call `git_add`, despite the path being passed to `git_commit` as well.
-    # That's because we might have new files, that the commit command would otherwise miss.
-    git_add(path: download_path)
-    git_commit(
-      path: download_path,
-      message: "Update metadata translations for #{options[:version]}",
-      allow_nothing_to_commit: true
-    )
-  end
-
-  #####################################################################################
-  # download_translations
-  # -----------------------------------------------------------------------------------
-  # This lane downloads the string translations from GlotPress
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane download_translations
-  #####################################################################################
-  desc 'Download the latest app translations from GlotPress and update the strings.xml files accordingly'
-  lane :download_translations do
-    android_download_translations(
-      res_dir: File.join('Simplenote', 'src', 'main', 'res'),
-      glotpress_url: 'https://translate.wordpress.com/projects/simplenote/android/',
-      locales: SUPPORTED_LOCALES,
-      lint_task: 'lintRelease'
-    )
-  end
-
-  #####################################################################################
-  # build_and_upload_apk
-  # -----------------------------------------------------------------------------------
-  # This lane builds and uploads an app apk
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_and_upload_apk version:<version>
-  #  [updload_track:<upload_track: [production | beta]>]
-  #  [skip_confirm:<skip confirm>]
-  #####################################################################################
-  desc 'Builds an app apk and upload it'
-  lane :build_and_upload_apk do |options|
-    # Create the file names
-    version = options[:version]
-    apk_name = "simplenote-#{version['name']}.apk"
-    orign_file = 'Simplenote-release.apk'
-    output_dir = File.join('Simplenote', 'build', 'outputs', 'apk', 'release')
-    build_dir = 'build/'
-    upload_track = options[:upload_track]
-
-    # Build
-    Dir.chdir('.') do
-      UI.message('Cleaning branch...')
-      gradle(task: 'clean')
-      UI.message('Running lint...')
-      gradle(task: 'lint', build_type: 'Release')
-      UI.message("Building #{version['name']} / #{version['code']} - #{apk_name}...")
-      gradle(task: 'assemble', build_type: 'Release')
-    end
-
-    Dir.chdir('..') do
-      sh("cp -v #{output_dir}/#{orign_file} #{build_dir}#{apk_name}")
-      UI.message("Apk ready: #{apk_name}")
-    end
-
-    version = android_get_release_version
-
-    project_root = File.dirname(__dir__)
-    apk_file_path = File.join(project_root, build_dir.to_s, apk_name.to_s)
-
-    UI.error("Unable to find a build artifact at #{apk_file_path}") unless File.exist? apk_file_path
-
-    unless upload_track.blank?
-      upload_to_play_store(
-        package_name: 'com.automattic.simplenote',
-        apk: apk_file_path,
-        track: upload_track,
-        release_status: 'draft',
-        skip_upload_metadata: true,
-        skip_upload_changelogs: true,
-        skip_upload_images: true,
-        skip_upload_screenshots: true,
-        json_key: UPLOAD_TO_PLAY_STORE_JSON_KEY
+      close_milestone(
+        repository: GITHUB_REPO,
+        milestone: version
       )
+    rescue StandardError => e
+      report_milestone_error(error_title: "Error in milestone finalization process for `#{version}`: #{e.message}")
     end
-
-    apk_file_path
   end
 
-  #####################################################################################
-  # build_and_upload_prototype_build
-  # -----------------------------------------------------------------------------------
-  # Build a Prototype Build and make it available for download
-  # -----------------------------------------------------------------------------------
-  # Usage:
-  # bundle exec fastlane build_and_upload_prototype_build
-  #####################################################################################
   desc 'Build a Prototype Build and make it available for download'
   lane :build_and_upload_prototype_build do
     UI.user_error!("'BUILDKITE_ARTIFACTS_S3_BUCKET' must be defined as an environment variable.") unless ENV['BUILDKITE_ARTIFACTS_S3_BUCKET']
@@ -551,13 +273,9 @@ platform :android do
     end
   end
 
-  #####################################################################################
-  # Screenshots lanes
-  #####################################################################################
-
   desc 'Take screenshots in the app'
   lane :take_screenshots do
-    package = 'com.automattic.simplenote.debug'
+    package = "#{APP_PACKAGE_NAME}.debug"
 
     # Reset the app in the emulator, just to avoid possible state related
     # issues
@@ -580,11 +298,11 @@ platform :android do
       output_directory: screenshots_directory,
       clear_previous_screenshots: false,
       app_package_name: package,
-      app_apk_path: File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'build', 'outputs', 'apk', 'screenshots', 'Simplenote-screenshots.apk'),
-      tests_apk_path: File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'build', 'outputs', 'apk', 'androidTest', 'debug', 'Simplenote-debug-androidTest.apk'),
+      app_apk_path: File.join(BUILD_FOLDER, 'outputs', 'apk', 'screenshots', 'Simplenote-screenshots.apk'),
+      tests_apk_path: File.join(BUILD_FOLDER, 'outputs', 'apk', 'androidTest', 'debug', 'Simplenote-debug-androidTest.apk'),
       # Because the screenshot tests are together with other UI tests, we need
       # to specify to run only them and not all of the others.
-      use_tests_in_classes: 'com.automattic.simplenote.screenshots.ScreenshotTest',
+      use_tests_in_classes: "#{APP_PACKAGE_NAME}.screenshots.ScreenshotTest",
       use_timestamp_suffix: false,
       # Need to use this in order to get access to the screenshots on the
       # emulator. Also note that you might need to run on a Google API
@@ -598,65 +316,14 @@ platform :android do
     File.join(Dir.pwd, 'screenshots')
   end
 
-  #####################################################################################
-  # Private lanes
-  #####################################################################################
-  main_strings_path = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'src', 'main', 'res', 'values', 'strings.xml')
-  update_strings_path = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'resources', 'values')
-
-  private_lane :delete_old_changelogs do |options|
-    Dir.glob('./metadata/android/*/').each do |folder|
-      Dir["#{folder}changelogs/*"].each do |file|
-        File.delete(file) if Integer(File.basename(file, '.*')) < Integer(options[:build])
-      rescue StandardError
-        puts "Cannot delete file #{file}"
-      end
-    end
-  end
-
-  private_lane :add_us_release_notes do |options|
-    en_release_notes_path = File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'metadata', 'release_notes.txt')
-    File.open(options[:release_notes_path], 'a') do |f|
-      f.puts('<en-US>')
-      f.puts("#{options[:version_name]}:")
-      f.puts(File.read(en_release_notes_path))
-      f.puts('</en-US>')
-    end
-  end
-
   private_lane :update_strings_for_translation_automation do
-    sh("cd .. && mkdir -p #{update_strings_path} && cp #{main_strings_path} #{update_strings_path}")
-    strings_path = File.join(update_strings_path, 'strings.xml')
+    sh("cd .. && mkdir -p #{UPDATE_STRINGS_PATH} && cp #{MAIN_STRINGS_PATH} #{UPDATE_STRINGS_PATH}")
+    strings_path = File.join(UPDATE_STRINGS_PATH, 'strings.xml')
     git_commit(
       path: strings_path,
       message: 'Update strings file for translation automation',
       allow_nothing_to_commit: true
     )
-  end
-
-  private_lane :create_gh_release do |options|
-    version = options[:version]
-    apk_file_path = universal_apk_file_path(version)
-    create_release(repository: GITHUB_REPO,
-                   version: version['name'],
-                   release_notes_file_path: release_notes_path,
-                   release_assets: apk_file_path.to_s)
-  end
-
-  #####################################################################################
-  # Utils
-  #####################################################################################
-  def release_notes_path
-    File.join(PROJECT_ROOT_FOLDER, 'Simplenote', 'metadata', 'release_notes.txt')
-  end
-
-  def universal_apk_name(version)
-    "simplenote-#{version['name']}.apk"
-  end
-
-  def universal_apk_file_path(version)
-    project_root = File.dirname(__dir__)
-    File.join(project_root, 'build', universal_apk_name(version))
   end
 
   # This function is Buildkite-specific
@@ -675,4 +342,95 @@ platform :android do
       "#{branch}-#{commit}"
     end
   end
+end
+
+def release_version_current
+  current_version = VERSION_FORMATTER.parse(VERSION_FILE.read_version_name)
+  VERSION_FORMATTER.release_version(current_version)
+end
+
+def release_version_next
+  current_version = VERSION_FORMATTER.parse(VERSION_FILE.read_version_name)
+  release_version_next = VERSION_CALCULATOR.next_release_version(version: current_version)
+  VERSION_FORMATTER.release_version(release_version_next)
+end
+
+# Compute the version to be used by the code freeze step in the release process.
+#
+# It first increments the minor number, which also resets the build number to 0.
+# It then bumps the build number so the -rc-1 can be appended to the code freeze version.
+def release_version_for_code_freeze
+  current_version = VERSION_FORMATTER.parse(VERSION_FILE.read_version_name)
+  next_version = VERSION_CALCULATOR.next_release_version(version: current_version)
+  beta_version_first = VERSION_CALCULATOR.next_build_number(version: next_version)
+  VERSION_FORMATTER.beta_version(beta_version_first)
+end
+
+def release_version_next_beta
+  current_version = VERSION_FORMATTER.parse(VERSION_FILE.read_version_name)
+  beta_version_next = VERSION_CALCULATOR.next_build_number(version: current_version)
+  VERSION_FORMATTER.beta_version(beta_version_next)
+end
+
+def build_code_current
+  build_code_current = VERSION_FILE.read_version_code
+  BUILD_CODE_FORMATTER.build_code(build_code: build_code_current)
+end
+
+def build_code_next
+  build_code_current = VERSION_FILE.read_version_code
+  build_code_next = BUILD_CODE_CALCULATOR.next_build_code(build_code: build_code_current)
+  BUILD_CODE_FORMATTER.build_code(build_code: build_code_next)
+end
+
+def commit_version_bump
+  git_commit(
+    path: VERSION_PROPERTIES_PATH,
+    message: 'Bump version name and build code',
+    allow_nothing_to_commit: false
+  )
+end
+
+def release_branch_name(release_version: release_version_current)
+  "#{RELEASE_BRANCH_ROOT}#{release_version}"
+end
+
+def ensure_git_branch_is_release_branch!
+  # Verify that the current branch is a release branch.
+  # Notice that `ensure_git_branch` expects a RegEx parameter.
+  # Also, ensure_git_branch will fail the lane if the branch doesn't match, hence the ! in the method name.
+  ensure_git_branch(branch: "^#{RELEASE_BRANCH_ROOT}")
+end
+
+RELEASE_BRANCH_ROOT = 'release/'
+
+def create_release_backmerge_pr(version_to_merge:, next_version:)
+  create_release_backmerge_pull_request(
+    repository: GITHUB_REPO,
+    source_branch: release_branch_name(release_version: version_to_merge),
+    labels: ['Releases'],
+    milestone_title: next_version
+  )
+rescue StandardError => e
+  error_message = <<-MESSAGE
+    Error creating backmerge pull request: #{e.message}
+    If this is not the first time you are running the release task, the backmerge PR for the version `#{version_to_merge}` might have already been previously created.
+    Please close any previous backmerge PR for `#{version_to_merge}`, delete the previous merge branch, then run the release task again.
+  MESSAGE
+
+  buildkite_annotate(style: 'error', context: 'error-creating-backmerge', message: error_message) if is_ci
+
+  UI.user_error!(error_message)
+end
+
+def report_milestone_error(error_title:)
+  error_message = <<-MESSAGE
+    #{error_title}
+    - If this is not the first time you are running the release task (e.g. retrying because it failed on first attempt), the milestone might have already been closed and this error is expected.
+    - Otherwise, please investigate the error.
+  MESSAGE
+
+  UI.error(error_message)
+
+  buildkite_annotate(style: 'warning', context: 'error-with-milestone', message: error_message) if is_ci
 end

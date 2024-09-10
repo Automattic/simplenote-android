@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2022-11-29 08:54:03+0000
+Translation-Revision-Date: 2024-08-01 15:54:03+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">Код отправлен на адрес \n%1$s. Код будет действителен в течение нескольких минут.</string>
+    <string name="magic_link_confirm_code_enter_pass_label">Введите пароль</string>
+    <string name="magic_link_login_with_wordpress_or_break">или</string>
+    <string name="magic_link_enter_code_title">Введите код</string>
+    <string name="magic_link_code_hint">Код</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">Неверный код</string>
+    <string name="magic_link_complete_login_expired_code_error_message">Ссылка недействительна</string>
+    <string name="magic_link_complete_login_loading_message">Выполняется вход</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">Не удалось войти с адресом эл. почты. Введите пароль.</string>
+    <string name="magic_link_error_too_many_requests_message">Слишком много запросов. Повторите попытку позже.</string>
+    <string name="magic_link_request_error_message">Ошибка при запросе волшебной ссылки</string>
+    <string name="magic_link_request_login_loading_message">Выполняется запрос ссылки на вход</string>
+    <string name="magic_link_general_error">Произошла ошибка. Повторите попытку позже.</string>
+    <string name="login_with_password">Войти с помощью пароля</string>
+    <string name="login_screen_title">Вход</string>
+    <string name="magic_link_login">Войти с помощью эл. почты</string>
+    <string name="magic_link_request_login_dialog">Если учётная запись существует, то на адрес %1$s будет отправлено письмо со ссылкой, по которой вы сможете войти.</string>
+    <string name="magic_link_request_login_dialog_title">Проверьте электронную почту</string>
+    <string name="sustainer_app_icon">Значок приложения Sustainer</string>
     <string name="simperium_too_many_attempts">Вы пробовали войти слишком много раз. Повторите попытку позже.</string>
     <string name="simperium_change_password">Изменить пароль</string>
     <string name="simperium_not_now">Отмена</string>

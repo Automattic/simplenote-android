@@ -1,11 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-04-23 09:54:03+0000
+Translation-Revision-Date: 2024-08-01 09:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="magic_link_confirm_code_message">コードを \n に送信しました%1$s。 コードは数分間有効です。</string>
+    <string name="magic_link_confirm_code_enter_pass_label">パスワードを入力</string>
+    <string name="magic_link_login_with_wordpress_or_break">または</string>
+    <string name="magic_link_enter_code_title">コードを入力</string>
+    <string name="magic_link_code_hint">コード</string>
+    <string name="magic_link_complete_login_invalid_code_error_message">無効なコード</string>
+    <string name="magic_link_complete_login_expired_code_error_message">リンクはすでに無効です</string>
+    <string name="magic_link_complete_login_loading_message">ログイン</string>
+    <string name="magic_link_error_too_many_requests_enter_password_message">メールアドレスでのログインに失敗しました。パスワードを入力してください。</string>
+    <string name="magic_link_error_too_many_requests_message">リクエスト数が多すぎます。 後ほど、もう一度お試しください。</string>
+    <string name="magic_link_request_error_message">マジックリンクのリクエスト中にエラーが発生しました</string>
+    <string name="magic_link_request_login_loading_message">ログインリンクをリクエスト中</string>
+    <string name="magic_link_general_error">問題が発生しました。 すぐにもう一度実行してください。</string>
+    <string name="login_with_password">パスワードでログイン</string>
+    <string name="login_screen_title">ログイン</string>
+    <string name="magic_link_login">メールアドレスでログイン</string>
+    <string name="magic_link_request_login_dialog">アカウントが存在する場合は、ログインするためのリンクを記載したメールを %1$s に送信しました。</string>
+    <string name="magic_link_request_login_dialog_title">メールをご確認ください</string>
     <string name="sustainer_app_icon">Sustainer アプリアイコン</string>
     <string name="simperium_too_many_attempts">ログイン試行の回数が多すぎます。 後ほど、もう一度お試しください。</string>
     <string name="simperium_change_password">パスワードを変更</string>

@@ -59,15 +59,16 @@ class MagicLinkConfirmationFragment : Fragment() {
                 is MagicLinkUiState.Success -> {
                     completeMagicLinkViewModel.resetState()
                     hideDialogProgress()
-                    simplenote?.let {
-                        it.loginWithToken(state.email, state.token)
-                        activity?.finish()
-                    }
+                    simplenote.loginWithToken(state.email, state.token)
+                    activity?.finish()
                 }
                 is MagicLinkUiState.Error -> {
                     completeMagicLinkViewModel.resetState()
                     hideDialogProgress()
                     Toast.makeText(context, getString(state.messageRes), Toast.LENGTH_LONG).show()
+                    if (state.authError == MagicLinkAuthError.INVALID_CODE && !isRemoving) {
+                        parentFragmentManager.popBackStack()
+                    }
                 }
             }
         }

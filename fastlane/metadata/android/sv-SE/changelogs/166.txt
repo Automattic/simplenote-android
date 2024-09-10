@@ -1,3 +1,0 @@
-2.32:
-• Vi har lagt till en adaptiv appikon
-• Vi har tagit bort Sustainer-paketinformationen och uppgraderat gränssnittet
