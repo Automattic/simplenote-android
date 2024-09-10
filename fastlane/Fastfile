@@ -31,25 +31,6 @@ RES_FOLDER = File.join(APP_SOURCES_FOLDER, 'src', 'main', 'res')
 MAIN_STRINGS_PATH = File.join(RES_FOLDER, 'values', 'strings.xml')
 UPDATE_STRINGS_PATH = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'resources', 'values')
 
-SUPPORTED_LOCALES = [
-  { glotpress: 'ar', android: 'ar', google_play: 'ar', promo_config: {} },
-  { glotpress: 'de', android: 'de', google_play: 'de-DE',  promo_config: {} },
-  { glotpress: 'es', android: 'es', google_play: 'es-ES',  promo_config: {} },
-  { glotpress: 'fr', android: 'fr', google_play: 'fr-FR',  promo_config: {} },
-  { glotpress: 'he', android: 'he', google_play: 'iw-IL',  promo_config: {} },
-  { glotpress: 'id', android: 'id', google_play: 'id', promo_config: {} },
-  { glotpress: 'it', android: 'it', google_play: 'it-IT',  promo_config: {} },
-  { glotpress: 'ja', android: 'ja', google_play: 'ja-JP',  promo_config: {} },
-  { glotpress: 'ko', android: 'ko', google_play: 'ko-KR',  promo_config: {} },
-  { glotpress: 'nl', android: 'nl', google_play: 'nl-NL',  promo_config: {} },
-  { glotpress: 'pt-br', android: 'pt-rBR', google_play: 'pt-BR', promo_config: {} },
-  { glotpress: 'ru', android: 'ru', google_play: 'ru-RU',  promo_config: {} },
-  { glotpress: 'sv', android: 'sv', google_play: 'sv-SE',  promo_config: {} },
-  { glotpress: 'tr', android: 'tr', google_play: 'tr-TR',  promo_config: {} },
-  { glotpress: 'zh-cn', android: 'zh-rCN', google_play: 'zh-CN',  promo_config: {} },
-  { glotpress: 'zh-tw', android: 'zh-rTW', google_play: 'zh-TW',  promo_config: {} }
-].freeze
-
 GLOTPRESS_BASE_URL = 'https://translate.wordpress.com/projects'
 # URL of the GlotPress project containing the app's strings
 #
@@ -59,8 +40,11 @@ GLOTPRESS_APP_STRINGS_PROJECT_URL = "#{GLOTPRESS_BASE_URL}/simplenote/android/".
 # URL of the GlotPress project containing the Play Store metadata (title, keywords, release notes, …)
 GLOTPRESS_STORE_METADATA_PROJECT_URL = "#{GLOTPRESS_APP_STRINGS_PROJECT_URL}release-notes/".freeze
 
+STORE_METADATA_SOURCE_FOLDER = File.join(PROJECT_ROOT_FOLDER, 'fastlane', 'metadata', 'android')
+STORE_METADATA_SOURCE_DEFAULT_LOCALE = 'en-US'
+STORE_METADATA_SOURCE_DEFAULT_FOLDER = File.join(STORE_METADATA_SOURCE_FOLDER, STORE_METADATA_SOURCE_DEFAULT_LOCALE)
+RELEASE_NOTES_PATH = File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'changelogs', 'default.txt')
 RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt')
-RELEASE_NOTES_PATH = File.join(METADATA_FOLDER, 'release_notes.txt')
 
 UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
 
@@ -74,112 +58,17 @@ BUILD_CODE_FORMATTER = Fastlane::Wpmreleasetoolkit::Versioning::SimpleBuildCodeF
 BUILD_CODE_CALCULATOR = Fastlane::Wpmreleasetoolkit::Versioning::SimpleBuildCodeCalculator.new
 VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::AndroidVersionFile.new(version_properties_path: VERSION_PROPERTIES_PATH)
 
+# Important: These need to be imported after all the constants have been defined because they access them.
+# A bit of a leaky abstraction but makes for lanes that are easier to write...
+import 'lanes/build.rb'
+import 'lanes/localization.rb'
+import 'lanes/release.rb'
+
 platform :android do
   ENV['PROJECT_ROOT_FOLDER'] = "#{File.dirname(File.expand_path(__dir__))}/"
   ENV['PROJECT_NAME'] = 'Simplenote'
   ENV['validate_translations'] = 'buildRelease'
   ENV['FL_RELEASE_TOOLKIT_DEFAULT_BRANCH'] = 'trunk'
-
-  desc 'Creates a new release branch from the current default branch'
-  lane :code_freeze do |skip_prechecks: false, skip_confirm: false|
-    ensure_git_status_clean unless skip_prechecks || is_ci
-
-    Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
-
-    new_version_with_beta = release_version_for_code_freeze
-    new_version_final = release_version_next
-    new_build_code = build_code_next
-
-    message = <<~MESSAGE
-      Code Freeze:
-      - New release branch from #{DEFAULT_BRANCH}: #{release_branch_name(release_version: new_version_final)}
-      - Current release version and build code: #{release_version_current} (#{build_code_current}).
-      - New beta version and build code: #{new_version_with_beta} (#{new_build_code}).
-    MESSAGE
-    UI.important(message)
-
-    unless skip_confirm || UI.confirm('Do you want to continue?')
-      UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.")
-      next
-    end
-
-    UI.message 'Creating release branch...'
-    Fastlane::Helper::GitHelper.create_branch(release_branch_name(release_version: new_version_final), from: DEFAULT_BRANCH)
-    UI.success("Done! New release branch is: #{git_branch}.")
-
-    UI.message 'Bumping beta version and build code...'
-    VERSION_FILE.write_version(
-      version_name: new_version_with_beta,
-      version_code: new_build_code
-    )
-    commit_version_bump
-    UI.success("Done! New beta version: #{release_version_current}. New build code: #{build_code_current}.")
-
-    extract_release_notes_for_version(
-      version: new_version_with_beta,
-      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH,
-      extracted_notes_file_path: RELEASE_NOTES_PATH
-    )
-    android_update_release_notes(
-      new_version: new_version,
-      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
-    )
-
-    update_strings_for_translation_automation
-
-    unless skip_confirm || UI.confirm('Ready to push changes to remote to let the automation configure it on GitHub?')
-      UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.")
-      next
-    end
-
-    push_to_git_remote(
-      tags: false,
-      set_upstream: true
-    )
-
-    copy_branch_protection(
-      repository: GITHUB_REPO,
-      from_branch: DEFAULT_BRANCH,
-      to_branch: release_branch_name
-    )
-    set_milestone_frozen_marker(
-      repository: GITHUB_REPO,
-      milestone: new_version_final,
-      freeze: true
-    )
-  end
-
-  desc 'Updates the PlayStoreStrings.pot file'
-  lane :update_appstore_strings do |version: release_version_current|
-    UI.important('This has been renamed to update_play_store_strings – Here only for backwards compatibility with checklists. Will be removed soon.')
-    UI.important('Forwarding to update_play_store_strings....')
-    update_play_store_strings(version: version)
-  end
-
-  desc 'Updates the PlayStoreStrings.pot file'
-  lane :update_play_store_strings do |version: release_version_current|
-    files = {
-      release_note: RELEASE_NOTES_PATH,
-      play_store_promo: File.join(METADATA_FOLDER, 'short_description.txt'),
-      play_store_desc: File.join(METADATA_FOLDER, 'full_description.txt'),
-      play_store_app_title: File.join(APP_SOURCES_FOLDER, 'metadata', 'title.txt')
-    }
-
-    pot_path = File.join(METADATA_FOLDER, 'PlayStoreStrings.pot')
-
-    an_update_metadata_source(
-      po_file_path: pot_path,
-      source_files: files,
-      release_version: version
-    )
-
-    git_add(path: pot_path)
-    git_commit(
-      path: pot_path,
-      message: "Update `#{File.basename(pot_path)}` for #{version}",
-      allow_nothing_to_commit: true
-    )
-  end
 
   desc 'Updates a release branch for a new beta release'
   lane :new_beta_release do |skip_confirm: false|
@@ -338,169 +227,6 @@ platform :android do
     end
   end
 
-  lane :check_translation_progress_all do
-    check_translation_progress_strings
-    check_translation_progress_release_notes
-  end
-
-  lane :check_translation_progress_strings do
-    UI.message('Checking app strings translation status...')
-    check_translation_progress(
-      glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
-      abort_on_violations: false
-    )
-  end
-
-  lane :check_translation_progress_release_notes do
-    UI.message('Checking release notes strings translation status...')
-    check_translation_progress(
-      glotpress_url: GLOTPRESS_STORE_METADATA_PROJECT_URL,
-      abort_on_violations: false
-    )
-  end
-
-  desc 'Builds and updates for distribution'
-  lane :build_pre_releases do |skip_confirm: false, create_release: true|
-    build_and_upload_beta(
-      skip_prechecks: true,
-      skip_confirm: skip_confirm,
-      create_release: create_release
-    )
-  end
-
-  desc 'Builds and updates for distribution'
-  lane :build_and_upload_beta do |skip_prechecks: false, create_release: true|
-    unless skip_prechecks
-      ensure_git_status_clean
-      ensure_git_branch_is_release_branch!
-    end
-
-    # We want the full version name, including the rc prefix
-    version = VERSION_FILE.read_version_name
-
-    build_and_upload_apk(
-      version: version,
-      upload_track: 'beta'
-    )
-
-    create_gh_release(version: version, prerelease: true) if create_release
-  end
-
-  desc 'Builds and updates for distribution'
-  lane :build_and_upload_release do |create_release:|
-    ensure_git_status_clean unless is_ci
-    ensure_git_branch_is_release_branch!
-
-    # We want the full version name, including the rc prefix
-    version = VERSION_FILE.read_version_name
-
-    build_and_upload_apk(
-      version: version,
-      upload_track: 'production'
-    )
-
-    create_gh_release(version: version) if create_release
-  end
-
-  # TODO: Drop build_number like https://github.com/wordpress-mobile/WordPress-Android/pull/21103
-  desc 'Downloads translated metadata from GlotPress'
-  lane :download_metadata_strings do |version: release_version_current, build_number: build_code_current|
-    values = version.split('.')
-    files = {
-      "release_note_#{values[0].to_s.rjust(2, '0')}#{values[1]}" => { desc: "changelogs/#{build_number}.txt", max_size: 0 },
-      play_store_promo: { desc: 'short_description.txt', max_size: 80 },
-      play_store_desc: { desc: 'full_description.txt', max_size: 0 },
-      play_store_app_title: { desc: 'title.txt', max_size: 50 }
-    }
-
-    delete_old_changelogs(build: build_number)
-    download_path = "#{Dir.pwd}/metadata/android"
-    gp_downloadmetadata(
-      project_url: GLOTPRESS_STORE_METADATA_PROJECT_URL,
-      target_files: files,
-      locales: SUPPORTED_LOCALES.map { |hsh| [hsh[:glotpress], hsh[:google_play]] },
-      source_locale: 'en-US',
-      download_path: download_path
-    )
-
-    # TODO: These two can be removed once we have a lane to upload the metadata to the Google Play Store.
-    #       upload_to_play_store uses the individual changelos without needing a merged one.
-    android_create_xml_release_notes(
-      download_path: download_path,
-      build_number: build_number.to_s,
-      locales: SUPPORTED_LOCALES.to_h { |hsh| [hsh[:glotpress], hsh[:google_play]] }
-    )
-    add_us_release_notes(
-      release_notes_path: File.join(download_path, 'release_notes.xml'),
-      version_name: version
-    )
-
-    # We need to explicitly call `git_add`, despite the path being passed to `git_commit` as well.
-    # That's because we might have new files, that the commit command would otherwise miss.
-    git_add(path: download_path)
-    git_commit(
-      path: download_path,
-      message: "Update metadata translations for #{version}",
-      allow_nothing_to_commit: true
-    )
-  end
-
-  desc 'Download the latest app translations from GlotPress and update the strings.xml files accordingly'
-  lane :download_translations do
-    # android_update_release_notes requires a relative path
-    res_folder_relative_path = RES_FOLDER.delete_prefix(PROJECT_ROOT_FOLDER)
-
-    android_download_translations(
-      res_dir: res_folder_relative_path,
-      glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
-      locales: SUPPORTED_LOCALES,
-      lint_task: 'lintRelease'
-    )
-  end
-
-  desc 'Builds an app apk and upload it'
-  lane :build_and_upload_apk do |version: release_version_current, build_code: build_code_current, upload_track: nil|
-    user_friendly_output_dir = File.join(PROJECT_ROOT_FOLDER, 'build')
-    user_friendly_output_apk_name = "simplenote-#{version}.apk"
-    user_friendly_output_path = File.join(user_friendly_output_dir, user_friendly_output_apk_name)
-
-    build_type = 'Release'
-
-    UI.message('Cleaning build folder...')
-    gradle(task: 'clean')
-
-    UI.message('Linting...')
-    gradle(task: 'lint', build_type: build_type)
-
-    UI.message("Building #{version} (#{build_code}) to #{user_friendly_output_path}...")
-    gradle(task: 'assemble', build_type: build_type)
-    FileUtils.copy(GRADLE_APK_OUTPUT_PATH, user_friendly_output_path)
-
-    if File.exist? user_friendly_output_path
-      UI.success("APK ready at #{user_friendly_output_path}")
-    else
-      UI.user_error!("Unable to find a build artifact at #{user_friendly_output_path}")
-    end
-
-    if upload_track.nil?
-      UI.message('Skipping upload to Google Play Console because on `upload_track` given.')
-    else
-      upload_to_play_store(
-        package_name: APP_PACKAGE_NAME,
-        apk: user_friendly_output_path,
-        track: upload_track,
-        release_status: 'draft',
-        skip_upload_metadata: true,
-        skip_upload_changelogs: true,
-        skip_upload_images: true,
-        skip_upload_screenshots: true,
-        json_key: UPLOAD_TO_PLAY_STORE_JSON_KEY
-      )
-    end
-
-    user_friendly_output_path
-  end
-
   desc 'Build a Prototype Build and make it available for download'
   lane :build_and_upload_prototype_build do
     UI.user_error!("'BUILDKITE_ARTIFACTS_S3_BUCKET' must be defined as an environment variable.") unless ENV['BUILDKITE_ARTIFACTS_S3_BUCKET']
@@ -547,19 +273,6 @@ platform :android do
     end
   end
 
-  desc 'Trigger a release build on Buildkite'
-  lane :trigger_release_build do |branch_to_build: git_branch|
-    UI.important("There will be no release build triggered automatically from #{branch_to_build}.")
-    UI.important('We do not yet have automated Buildkite releases in this project!')
-    UI.important('You will need to build the app binary and upload it manually')
-    # buildkite_trigger_build(
-    #   buildkite_organization: BUILDKITE_ORG,
-    #   buildkite_pipeline: BUILDKITE_PIPELINE,
-    #   branch: branch_to_build,
-    #   pipeline_file: 'release-builds.yml'
-    # )
-  end
-
   desc 'Take screenshots in the app'
   lane :take_screenshots do
     package = "#{APP_PACKAGE_NAME}.debug"
@@ -603,26 +316,6 @@ platform :android do
     File.join(Dir.pwd, 'screenshots')
   end
 
-  private_lane :delete_old_changelogs do |options|
-    Dir.glob('./metadata/android/*/').each do |folder|
-      Dir["#{folder}changelogs/*"].each do |file|
-        File.delete(file) if Integer(File.basename(file, '.*')) < Integer(options[:build])
-      rescue StandardError
-        puts "Cannot delete file #{file}"
-      end
-    end
-  end
-
-  private_lane :add_us_release_notes do |options|
-    en_release_notes_path = File.join(METADATA_FOLDER, 'release_notes.txt')
-    File.open(options[:release_notes_path], 'a') do |f|
-      f.puts('<en-US>')
-      f.puts("#{options[:version_name]}:")
-      f.puts(File.read(en_release_notes_path))
-      f.puts('</en-US>')
-    end
-  end
-
   private_lane :update_strings_for_translation_automation do
     sh("cd .. && mkdir -p #{UPDATE_STRINGS_PATH} && cp #{MAIN_STRINGS_PATH} #{UPDATE_STRINGS_PATH}")
     strings_path = File.join(UPDATE_STRINGS_PATH, 'strings.xml')
@@ -630,18 +323,6 @@ platform :android do
       path: strings_path,
       message: 'Update strings file for translation automation',
       allow_nothing_to_commit: true
-    )
-  end
-
-  private_lane :create_gh_release do |version:, prerelease: false|
-    # TODO: Add step to downalod universal APK etc. once the app uses bundles
-
-    create_release(
-      repository: GITHUB_REPO,
-      version: version,
-      release_notes_file_path: RELEASE_NOTES_PATH,
-      prerelease: prerelease,
-      release_assets: GRADLE_APK_OUTPUT_PATH.to_s
     )
   end
 

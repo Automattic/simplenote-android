@@ -1,3 +1,0 @@
-2.33 :
-* Ajout de la prise en charge de la connexion par lien magique pour une expérience sans mot de passe.
-

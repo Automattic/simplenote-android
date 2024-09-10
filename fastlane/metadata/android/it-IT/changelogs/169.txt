@@ -1,3 +1,0 @@
-2.33:
-* Aggiunto supporto per l'accesso tramite link magici per un'esperienza senza password.
-
