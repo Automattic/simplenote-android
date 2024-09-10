@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
+<com.automattic.simplenote.widgets.CustomNestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_editor"
@@ -129,4 +129,4 @@
 
     </FrameLayout>
 
-</androidx.core.widget.NestedScrollView>
+</com.automattic.simplenote.widgets.CustomNestedScrollView>
