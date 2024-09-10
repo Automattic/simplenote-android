@@ -32,4 +32,17 @@ platform :android do
       allow_nothing_to_commit: true
     )
   end
+
+  desc 'Download the latest app translations from GlotPress and update the strings.xml files accordingly'
+  lane :download_translations do
+    # android_update_release_notes requires a relative path
+    res_folder_relative_path = RES_FOLDER.delete_prefix(PROJECT_ROOT_FOLDER)
+
+    android_download_translations(
+      res_dir: res_folder_relative_path,
+      glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
+      locales: SUPPORTED_LOCALES,
+      lint_task: 'lintRelease'
+    )
+  end
 end
