@@ -1,3 +1,0 @@
-2.33:
-* Şifresiz deneyim için sihirli bağlantılarla oturum açma desteği eklendi.
-

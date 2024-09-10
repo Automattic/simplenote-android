@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
+---
+
+# This pipeline is meant to be run via the Buildkite API, and is only used for release builds
+
+agents:
+  queue: android
+
+steps:
+  - label: ":gradle: Gradle Wrapper Validation"
+    command: validate_gradle_wrapper
+    priority: 1
+    plugins: [$CI_TOOLKIT_PLUGIN]
+
+  - wait
+
+  - label: ":hammer_and_pick: Build"
+    key: build
+    command: .buildkite/commands/release-build.sh
+    priority: 1
+    plugins: [$CI_TOOLKIT_PLUGIN]
+    artifact_paths: ["build/*.apk"]
+    notify:
+      - slack: "#build-and-ship"
+
+  - label: ":android: Upload to Play Store"
+    depends_on: build
+    key: upload_play_store
+    command: .buildkite/commands/release-upload.sh $BETA_RELEASE
+    priority: 1
+    plugins: [$CI_TOOLKIT_PLUGIN]
+    notify:
+      - slack: "#build-and-ship"
+
+  - label: ":github: Create GitHub relaese"
+    depends_on: upload_play_store
+    command: .buildkite/commands/release-create-on-github.sh $BETA_RELEASE
+    priority: 1
+    plugins: [$CI_TOOLKIT_PLUGIN]
+    notify:
+      - slack: "#build-and-ship"
