@@ -4,7 +4,7 @@
 
 platform :android do
   desc 'Creates a new release branch from the current default branch'
-  lane :code_freeze do |skip_prechecks: false, skip_confirm: false|
+  lane :start_code_freeze do |skip_prechecks: false, skip_confirm: false|
     ensure_git_status_clean unless skip_prechecks || is_ci
 
     Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
