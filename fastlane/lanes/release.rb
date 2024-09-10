@@ -44,10 +44,7 @@ platform :android do
       release_notes_file_path: RELEASE_NOTES_SOURCE_PATH,
       extracted_notes_file_path: RELEASE_NOTES_PATH
     )
-    android_update_release_notes(
-      new_version: new_version,
-      release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
-    )
+    add_version_section_to_dev_release_notes(version: new_version)
 
     update_strings_for_translation_automation
 
@@ -248,4 +245,11 @@ def trigger_buildkite_release_build(branch:, beta:)
 
   message = "This build triggered #{build_url} on <code>#{branch}</code>."
   buildkite_annotate(style: 'info', context: 'trigger-release-build', message: message)
+end
+
+def add_version_section_to_dev_release_notes(version:)
+  android_update_release_notes(
+    new_version: version,
+    release_notes_file_path: RELEASE_NOTES_SOURCE_PATH
+  )
 end
