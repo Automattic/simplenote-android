@@ -2,14 +2,17 @@ package com.automattic.simplenote.authentication
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
@@ -101,6 +104,17 @@ class SignInFragment: MagicLinkableFragment() {
                 "wpcc_button_press_signin_activity"
             )
         }
+        val manualLoginTextView = view.findViewById<TextView>(R.id.sign_in_login_manually)
+        val message = getString(R.string.signin_login_with_email_manually);
+        val span = StrUtils.generateClickableSpannableString(LOGIN_MANUALLY_SUBSTRING, message
+        ) {
+            val email = getEmailEditText()
+            showLoginWithPassword(activity, email?.text?.toString())
+        }
+
+        manualLoginTextView.text = span
+        manualLoginTextView.movementMethod = LinkMovementMethod.getInstance()
+        manualLoginTextView.highlightColor = Color.TRANSPARENT
         return view
     }
 
@@ -154,6 +168,8 @@ class SignInFragment: MagicLinkableFragment() {
     }
 
     companion object {
+        const val LOGIN_MANUALLY_SUBSTRING = "log in manually"
+        
         fun showLoginWithPassword(activity: Activity?, username: String?) {
             activity?.let { act ->
                 val intent = Intent(act, NewCredentialsActivity::class.java)

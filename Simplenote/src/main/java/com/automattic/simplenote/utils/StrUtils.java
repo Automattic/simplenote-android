@@ -7,8 +7,14 @@ package com.automattic.simplenote.utils;
 
 import static androidx.core.util.PatternsCompat.EMAIL_ADDRESS;
 
+import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.style.ClickableSpan;
+import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -133,5 +139,27 @@ public class StrUtils {
         }
 
         return HtmlCompat.fromHtml("<strong>" + originalString.toUpperCase() + "</strong>");
+    }
+
+    public static SpannableString generateClickableSpannableString(final String targetString, final String text, final View.OnClickListener onClickListener) {
+        final SpannableString spannableString = new SpannableString(text);
+        final int startIndex = text.indexOf(targetString);
+        if (startIndex == -1) {
+            return spannableString;
+        }
+        final int endIndex = startIndex + targetString.length();
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                onClickListener.onClick(widget);
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(false);
+            }
+        }, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
     }
 }

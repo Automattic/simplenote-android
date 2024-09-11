@@ -451,4 +451,6 @@
     <string name="magic_link_confirm_code_enter_pass_label">Enter password</string>
     <string name="magic_link_confirm_code_message">We\'ve sent a code to \n%1$s. The code will be valid for a few minutes.</string>
     <string name="login_with_password_message">Enter the password for the account %1$s</string>
+
+    <string name="signin_login_with_email_manually">We\'ll email you a code to log in, or you can log in manually.</string>
 </resources>
