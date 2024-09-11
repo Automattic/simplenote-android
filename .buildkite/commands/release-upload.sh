@@ -13,5 +13,5 @@ bundle exec fastlane run configure_apply
 
 echo "--- :android: Upload to Play Store"
 bundle exec fastlane upload_build_to_play_store \
-  apk_path:"$ARTIFACT_PATH/simplenote.apk" \
+  apk_path:"$ARTIFACT_PATH" \
   "beta:${1:-true}" # use first call param, default to true for safety
