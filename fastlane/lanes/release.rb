@@ -130,7 +130,7 @@ platform :android do
     trigger_buildkite_release_build(branch: branch_to_build, beta: false)
   end
 
-  lane :create_release_on_github do |version: release_version_current, beta: true, apk_path: GRADLE_APK_OUTPUT_PATH.to_s|
+  lane :create_release_on_github do |version: VERSION_FILE.read_version_name, beta: true, apk_path: GRADLE_APK_OUTPUT_PATH.to_s|
     create_github_release(
       repository: GITHUB_REPO,
       version: version,
