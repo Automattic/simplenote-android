@@ -83,6 +83,8 @@ class DeepLinkActivity : AppCompatActivity() {
                 getString(R.string.magic_link_general_error),
                 Toast.LENGTH_SHORT
             ).show()
+
+            SimplenoteAuthenticationActivity.startNotesActivity(applicationContext, false);
         }
     }
 

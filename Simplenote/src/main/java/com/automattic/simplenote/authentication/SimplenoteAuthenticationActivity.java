@@ -2,15 +2,17 @@ package com.automattic.simplenote.authentication;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.automattic.simplenote.R;
@@ -22,6 +24,7 @@ import com.automattic.simplenote.utils.WordPressUtils;
 import com.automattic.simplenote.viewmodels.MagicLinkUiState;
 import com.automattic.simplenote.viewmodels.CompleteMagicLinkViewModel;
 import com.simperium.android.AuthenticationActivity;
+import com.simperium.android.ProgressDialogFragment;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
@@ -50,22 +53,27 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
     @Inject
     Simplenote simplenote;
 
+    @Nullable
+    CompleteMagicLinkViewModel completeMagicLinkViewModel;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         final Intent intent = getIntent();
+        
         final boolean isMagicLink = intent.getBooleanExtra(KEY_IS_MAGIC_LINK, false);
-        if (isMagicLink) {
-            CompleteMagicLinkViewModel completeMagicLinkViewModel = new ViewModelProvider(this).get(CompleteMagicLinkViewModel.class);
+        final String authKey = intent.getStringExtra(KEY_MAGIC_LINK_AUTH_KEY);
+        final String authCode = intent.getStringExtra(KEY_MAGIC_LINK_AUTH_CODE);
+        if (isMagicLink && authKey != null && authCode != null) {
+            completeMagicLinkViewModel = new ViewModelProvider(this).get(CompleteMagicLinkViewModel.class);
             completeMagicLinkViewModel.getMagicLinkUiState().observe(this, state -> {
                 if (state instanceof MagicLinkUiState.Success) {
+                    hideDialog();
                     final MagicLinkUiState.Success stateResult = (MagicLinkUiState.Success) state;
                     simplenote.loginWithToken(stateResult.getEmail(), stateResult.getToken());
 
-                    final Intent notesIntent = IntentUtils.maybeAliasedIntent(this.getApplicationContext());
-                    notesIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION & (Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                    startActivity(notesIntent);
+                    startNotesActivity(this, false);
 
                     AnalyticsTracker.track(
                             AnalyticsTracker.Stat.USER_CONFIRMED_LOGIN_LINK,
@@ -74,14 +82,27 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
                     );
 
                     finish();
+                } else if (state instanceof  MagicLinkUiState.Loading) {
+                    showLoadingDialog(R.string.magic_link_complete_login_loading_message);
                 } else if (state instanceof MagicLinkUiState.Error) {
+                    hideDialog();
                     showDialogError(((MagicLinkUiState.Error) state).getMessageRes());
                 }
             });
-            final String authKey = intent.getStringExtra(KEY_MAGIC_LINK_AUTH_KEY);
-            final String authCode = intent.getStringExtra(KEY_MAGIC_LINK_AUTH_CODE);
             completeMagicLinkViewModel.completeLogin(authKey, authCode, false);
         }
+    }
+
+    public static void startNotesActivity(final Context context, final boolean showAnimation) {
+        final Intent notesIntent = IntentUtils.maybeAliasedIntent(context.getApplicationContext());
+        int flags;
+        if (showAnimation) {
+            flags = Intent.FLAG_ACTIVITY_NO_ANIMATION & (Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        } else {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK;
+        }
+        notesIntent.addFlags(flags);
+        context.startActivity(notesIntent);
     }
 
     @Override
@@ -192,6 +213,29 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
         }
     }
 
+    private void showLoadingDialog(@StringRes int stringRes) {
+        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(ProgressDialogFragment.TAG);
+        if (fragment == null) {
+            final ProgressDialogFragment progressDialogFragment = ProgressDialogFragment.newInstance(getString(stringRes));
+            progressDialogFragment.setStyle(DialogFragment.STYLE_NO_TITLE, R.style.Simperium);
+            progressDialogFragment.show(getSupportFragmentManager(), ProgressDialogFragment.TAG);
+        }
+    }
+
+    private void hideDialog() {
+        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(ProgressDialogFragment.TAG);
+        if (fragment != null) {
+            try {
+                final ProgressDialogFragment progressDialogFragment = (ProgressDialogFragment) fragment;
+                if (!progressDialogFragment.isHidden()) {
+                    progressDialogFragment.dismiss();
+                }
+            } catch (final ClassCastException e) {
+                Log.e(TAG, "We have a class other than ProgressDialogFragment", e);
+            }
+        }
+    }
+
     private void showDialogError(@StringRes int message) {
         if (isFinishing() || message == 0) {
             return;
@@ -199,16 +243,15 @@ public class SimplenoteAuthenticationActivity extends AuthenticationActivity {
 
         Context context = new ContextThemeWrapper(SimplenoteAuthenticationActivity.this, getTheme());
         mPendingDialog = new AlertDialog.Builder(context)
-            .setTitle(R.string.simperium_dialog_title_error)
-            .setMessage(message)
-            .setPositiveButton(android.R.string.ok, null)
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        mPendingDialog = null;
+                .setTitle(R.string.simperium_dialog_title_error)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    if (completeMagicLinkViewModel != null) {
+                        completeMagicLinkViewModel.resetState();
                     }
                 })
-            .show();
+                .setOnDismissListener(dialog -> mPendingDialog = null)
+                .show();
 
         AnalyticsTracker.track(
             AnalyticsTracker.Stat.WPCC_LOGIN_FAILED,
