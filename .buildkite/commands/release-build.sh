@@ -12,7 +12,7 @@ bundle exec fastlane build_for_distribution
 echo "--- :computer: Use deterministic APK name for next steps"
 
 OUTPUT_DIR="build"
-if [ "$(find "$OUTPUT_DIR" -name "*.apk" -maxdepth 1 | wc -l)" -gt 1 ]; then
+if [ "$(find "$OUTPUT_DIR" -maxdepth 1 -name "*.apk" | wc -l)" -gt 1 ]; then
   echo "Found more than one APK in $OUTPUT_DIR."
   exit 1
 fi
