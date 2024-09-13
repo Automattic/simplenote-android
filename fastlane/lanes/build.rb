@@ -2,6 +2,9 @@
 
 platform :android do
   lane :build_for_distribution do
+    version = VERSION_FILE.read_version_name
+    build_code = build_code_current
+
     user_friendly_output_dir = File.join(PROJECT_ROOT_FOLDER, 'build')
     user_friendly_output_apk_name = "simplenote-#{version}.apk"
     user_friendly_output_path = File.join(user_friendly_output_dir, user_friendly_output_apk_name)
