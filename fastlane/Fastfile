@@ -196,7 +196,7 @@ platform :android do
     build_code = build_code_current
     UI.success("Done! Final release version: #{version}. Final build code: #{build_code}.")
 
-    download_metadata_strings(version: version, build_number: build_code)
+    download_metadata_strings
 
     UI.important('Will push changes to remote and trigger the release build.')
     UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
