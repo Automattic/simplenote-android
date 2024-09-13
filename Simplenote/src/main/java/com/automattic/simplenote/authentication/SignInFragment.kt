@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.automattic.simplenote.R
 import com.automattic.simplenote.Simplenote
@@ -105,16 +107,19 @@ class SignInFragment: MagicLinkableFragment() {
             )
         }
         val manualLoginTextView = view.findViewById<TextView>(R.id.sign_in_login_manually)
-        val message = getString(R.string.signin_login_with_email_manually);
-        val span = StrUtils.generateClickableSpannableString(LOGIN_MANUALLY_SUBSTRING, message
-        ) {
+        context?.let {
+            val colorLink = Integer.toHexString(ContextCompat.getColor(it, R.color.text_link) and 16777215)
+            manualLoginTextView.text = Html.fromHtml(
+                String.format(
+                    getString(R.string.signin_login_with_email_manually),
+                    "<span style=\"color:#", colorLink, "\">", "</span>"
+                )
+            )
+        }
+        manualLoginTextView.setOnClickListener {
             val email = getEmailEditText()
             showLoginWithPassword(activity, email?.text?.toString())
         }
-
-        manualLoginTextView.text = span
-        manualLoginTextView.movementMethod = LinkMovementMethod.getInstance()
-        manualLoginTextView.highlightColor = Color.TRANSPARENT
         return view
     }
 
@@ -169,7 +174,7 @@ class SignInFragment: MagicLinkableFragment() {
 
     companion object {
         const val LOGIN_MANUALLY_SUBSTRING = "log in manually"
-        
+
         fun showLoginWithPassword(activity: Activity?, username: String?) {
             activity?.let { act ->
                 val intent = Intent(act, NewCredentialsActivity::class.java)
