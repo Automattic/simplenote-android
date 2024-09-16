@@ -1,10 +1,10 @@
 2.35
 -----
-
+* Updated link to the privacy policy for California users.
 
 2.34
 -----
-* Updated link to the privacy policy for California users.
+* Under the hood improvements
 
 2.33
 -----
