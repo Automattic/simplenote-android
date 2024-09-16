@@ -40,7 +40,7 @@ public class AboutFragment extends Fragment implements SpeedListener {
     private static final String SIMPLENOTE_TWITTER_HANDLE = "simplenoteapp";
     private static final String TWITTER_PROFILE_URL = "https://twitter.com/#!/";
     private static final String TWITTER_APP_URI = "twitter://user?screen_name=";
-    private static final String URL_CALIFORNIA = "https://automattic.com/privacy/#california-consumer-privacy-act-ccpa";
+    private static final String URL_CALIFORNIA = "https://automattic.com/privacy/#us-privacy-laws";
     private static final String URL_CONTRIBUTE = "https://github.com/Automattic/simplenote-android";
     private static final String URL_PRIVACY = "https://automattic.com/privacy";
     private static final String URL_TERMS = "https://simplenote.com/terms";
