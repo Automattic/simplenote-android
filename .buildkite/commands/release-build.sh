@@ -12,12 +12,12 @@ bundle exec fastlane build_for_distribution
 echo "--- :computer: Use deterministic APK name for next steps"
 
 OUTPUT_DIR="build"
-if [ "$(find "$OUTPUT_DIR/*.apk" | wc -l)" -gt 1 ]; then
+if [ "$(find "$OUTPUT_DIR" -maxdepth 1 -name "*.apk" | wc -l)" -gt 1 ]; then
   echo "Found more than one APK in $OUTPUT_DIR."
   exit 1
 fi
 
-ORIGINAL_APK_PATH=$(ls -1 "$OUTPUT_DIR/*.apk")
+ORIGINAL_APK_PATH=$(find "$OUTPUT_DIR" -name "*.apk" -maxdepth 1 | head -1)
 
 set -x
 mv "$ORIGINAL_APK_PATH" $OUTPUT_DIR/simplenote.apk
