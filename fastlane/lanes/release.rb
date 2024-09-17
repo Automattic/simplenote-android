@@ -122,6 +122,64 @@ platform :android do
     buildkite_annotate(context: 'code-freeze-completed', style: 'success', message: message)
   end
 
+  desc 'Updates store metadata and runs the release checks'
+  lane :finalize_release do |skip_confirm: false|
+    UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix(version_properties_path: VERSION_PROPERTIES_PATH)
+
+    ensure_git_status_clean
+    ensure_git_branch_is_release_branch!
+
+    UI.important("Finalizing release: #{release_version_current}")
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    configure_apply(force: is_ci)
+
+    check_translation_progress_all unless is_ci
+    download_translations
+
+    UI.message 'Bumping final release version and build code...'
+    VERSION_FILE.write_version(
+      version_name: release_version_current,
+      version_code: build_code_next
+    )
+    commit_version_bump
+
+    # Print computed version and build to let user double-check outcome in logs
+    version = release_version_current
+    build_code = build_code_current
+    UI.success("Done! Final release version: #{version}. Final build code: #{build_code}.")
+
+    download_metadata_strings
+
+    UI.important('Will push changes to remote and trigger the release build.')
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    push_to_git_remote(tags: false)
+
+    build_and_upload_release(create_release: true)
+
+    create_release_backmerge_pr(version_to_merge: version, next_version: release_version_next)
+
+    remove_branch_protection(
+      repository: GITHUB_REPO,
+      branch: release_branch_name
+    )
+
+    begin
+      set_milestone_frozen_marker(
+        repository: GITHUB_REPO,
+        milestone: version,
+        freeze: false
+      )
+      close_milestone(
+        repository: GITHUB_REPO,
+        milestone: version
+      )
+    rescue StandardError => e
+      report_milestone_error(error_title: "Error in milestone finalization process for `#{version}`: #{e.message}")
+    end
+  end
+
   lane :trigger_beta_build do |branch_to_build:|
     trigger_buildkite_release_build(branch: branch_to_build, beta: true)
   end
