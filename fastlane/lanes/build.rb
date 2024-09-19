@@ -75,7 +75,6 @@ platform :android do
     version = VERSION_FILE.read_version_name
 
     build_and_upload_apk(
-      version: version,
       upload_track: beta ? 'beta' : 'production'
     )
 
