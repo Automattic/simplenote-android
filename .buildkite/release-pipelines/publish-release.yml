@@ -6,7 +6,7 @@ steps:
     plugins: [$CI_TOOLKIT_plugin]
     command: |
       echo '--- :robot_face: Use bot for git operations'
-      source use-bot-for-git
+      source use-bot-for-git wpmobilebot
 
       echo '--- :git: Checkout Release Branch'
       .buildkite/commands/checkout-release-branch.sh
