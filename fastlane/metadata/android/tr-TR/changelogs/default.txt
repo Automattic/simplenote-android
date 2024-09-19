@@ -1,0 +1,2 @@
+2.34:
+Arka planda yapılan iyileştirmeler.

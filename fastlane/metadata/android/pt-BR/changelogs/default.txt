@@ -1,0 +1,2 @@
+2.34:
+Melhorias no sistema
