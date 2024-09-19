@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-08-01 15:54:03+0000
+Translation-Revision-Date: 2024-09-17 09:54:02+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="login_with_password_message">%1$s hesabınızın şifresini girin</string>
     <string name="magic_link_confirm_code_message">Şuraya bir kod gönderildi: \n%1$s. Kod birkaç dakikalığına geçerli olacak.</string>
     <string name="magic_link_confirm_code_enter_pass_label">Şifre girin</string>
     <string name="magic_link_login_with_wordpress_or_break">Veya</string>

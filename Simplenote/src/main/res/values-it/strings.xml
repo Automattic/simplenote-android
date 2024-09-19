@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-08-01 11:54:03+0000
+Translation-Revision-Date: 2024-09-17 15:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: it
 -->
 <resources>
+    <string name="login_with_password_message">Digita la password per l\'account %1$s</string>
     <string name="magic_link_confirm_code_message">Abbiamo inviato un codice a \n%1$s. Il codice sarà valido per pochi minuti.</string>
     <string name="magic_link_confirm_code_enter_pass_label">Inserisci password</string>
     <string name="magic_link_login_with_wordpress_or_break">Oppure</string>
@@ -372,7 +373,7 @@ Language: it
     <string name="edit_tags">Modifica i tag</string>
     <string name="characters">Caratteri</string>
     <string name="words">Parole</string>
-    <string name="font_size">Dimensione carattere</string>
+    <string name="font_size">Dimensione font</string>
     <string name="detect_links">Rileva link</string>
     <string name="account">Account</string>
     <string name="new_note">Nuova nota</string>

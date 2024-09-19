@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-08-01 15:54:03+0000
+Translation-Revision-Date: 2024-09-17 09:54:02+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="login_with_password_message">輸入 %1$s 帳號的密碼</string>
     <string name="magic_link_confirm_code_message">我們已傳送驗證碼到 \n%1$s。 此驗證碼在幾分鐘內有效。</string>
     <string name="magic_link_confirm_code_enter_pass_label">輸入密碼</string>
     <string name="magic_link_login_with_wordpress_or_break">或</string>
