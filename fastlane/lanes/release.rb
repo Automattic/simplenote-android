@@ -163,11 +163,6 @@ platform :android do
 
     UI.message('Attempting to remove release branch protection in GitHub...')
 
-    remove_branch_protection(
-      repository: GITHUB_REPO,
-      branch: release_branch_name
-    )
-
     begin
       set_milestone_frozen_marker(
         repository: GITHUB_REPO,
