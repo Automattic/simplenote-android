@@ -1,2 +1,2 @@
 2.34:
-Arka planda yapılan iyileştirmeler.
+Arka planda yapılan iyileştirmeler
