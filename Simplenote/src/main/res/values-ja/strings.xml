@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-08-01 09:54:03+0000
+Translation-Revision-Date: 2024-09-17 09:54:03+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="login_with_password_message">アカウント %1$s のパスワードを入力</string>
     <string name="magic_link_confirm_code_message">コードを \n に送信しました%1$s。 コードは数分間有効です。</string>
     <string name="magic_link_confirm_code_enter_pass_label">パスワードを入力</string>
     <string name="magic_link_login_with_wordpress_or_break">または</string>

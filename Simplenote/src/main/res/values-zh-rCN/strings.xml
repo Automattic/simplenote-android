@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-08-01 11:54:03+0000
+Translation-Revision-Date: 2024-09-18 09:54:02+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="login_with_password_message">输入账户 %1$s 的密码</string>
     <string name="magic_link_confirm_code_message">我们已向 \n 发送代码%1$s。 此代码将在几分钟后失效。</string>
     <string name="magic_link_confirm_code_enter_pass_label">输入密码</string>
     <string name="magic_link_login_with_wordpress_or_break">或</string>
