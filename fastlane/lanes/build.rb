@@ -46,12 +46,7 @@ platform :android do
       track: track,
       rollout: beta ? '1.0' : '0.1', # Rollout to 100% for betas, start at 10% for production
       release_status: beta ? 'completed' : 'inProgress',
-      # FIXME: Hardcoded to true because otherwise we get a Google API error:
-      #
-      #   Google Api Error: Invalid request - The caller does not have permission
-      #
-      # skip_upload_metadata: beta,
-      skip_upload_metadata: true,
+      skip_upload_metadata: beta,
       skip_upload_changelogs: beta,
       skip_upload_images: true,
       skip_upload_screenshots: true,
