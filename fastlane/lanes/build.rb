@@ -34,6 +34,10 @@ platform :android do
     # While transitioning between the current approach and the new one where the upload is a dedicated lane (this) support both beta flag and explicit track name.
     if track.nil?
       track = beta ? 'beta' : 'production'
+      UI.important("No track was given. Track has been computed to '#{track}' based on the beta flag value being '#{beta}'.")
+    elsif track == 'production' && beta == true
+      UI.important("Inconstistent input track = '#{track}' and beta = '#{beta}'. Will change beta to 'false'.")
+      beta = false
     end
 
     upload_to_play_store(

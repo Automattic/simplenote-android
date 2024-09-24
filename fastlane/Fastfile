@@ -46,7 +46,7 @@ STORE_METADATA_SOURCE_DEFAULT_FOLDER = File.join(STORE_METADATA_SOURCE_FOLDER, S
 RELEASE_NOTES_PATH = File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'changelogs', 'default.txt')
 RELEASE_NOTES_SOURCE_PATH = File.join(PROJECT_ROOT_FOLDER, 'RELEASE-NOTES.txt')
 
-UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(PROJECT_ROOT_FOLDER, '.configure-files', 'google-upload-credentials.json')
+UPLOAD_TO_PLAY_STORE_JSON_KEY = File.join(Dir.home, '.configure', 'simplenote-android', 'secrets', 'google-upload-credentials.json')
 
 GRADLE_APK_OUTPUT_PATH = File.join(BUILD_FOLDER, 'outputs', 'apk', 'release', 'Simplenote-release.apk')
 
