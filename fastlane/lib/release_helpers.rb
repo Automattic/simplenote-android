@@ -16,14 +16,7 @@ def create_backmerge_prs!(
       milestone_title: milestone_title
     )
   rescue StandardError => e
-    error_message = <<~MESSAGE
-      Error creating backmerge pull request(s):
-
-      #{e.message}
-
-      If this is not the first time you are running the release task, the backmerge PR(s) for the version `#{version}` might have already been previously created.
-      Please close any pre-existing backmerge PR for `#{version}`, delete the previous merge branch, then run the release task again.
-    MESSAGE
+    error_message = create_backmerge_error_message(error: e, version: version)
 
     buildkite_annotate(style: 'error', context: 'error-creating-backmerge', message: error_message) if is_ci
 
@@ -36,18 +29,35 @@ def create_backmerge_prs!(
   # - nothing changes in the current release branch since release finalization
   #
   # As a matter of fact, in the context of Simplenote Android, the above is the most likely scenario.
-  style, message = if pr_urls.empty?
-                     ['info', 'No backmerge PR was required.']
-                   else
-                     [
-                       'success', <<~MESSAGE
-                         The following backmerge PR#{pr_urls.length > 1 ? '(s) were' : ' was'} created:
-                         #{pr_urls.map { |url| "- #{url}" }.join("\n")}
-                       MESSAGE
-                     ]
-                   end
+  style = pr_urls.empty? ? 'info' : 'success'
+  message = create_backmerge_success_message(pr_urls: pr_urls)
+
   buildkite_annotate(style: style, context: 'backmerge-prs-outcome', message: message) if is_ci
+
   UI.success(message)
 
   pr_urls
+end
+
+def create_backmerge_error_message(error:, version:)
+  <<~MESSAGE
+    Error creating backmerge pull request(s):
+
+    #{error.message}
+
+    If this is not the first time you are running the release task, the backmerge PR(s) for the version `#{version}` might have already been previously created.
+    Please close any pre-existing backmerge PR for `#{version}`, delete the previous merge branch, then run the release task again.
+  MESSAGE
+end
+
+def create_backmerge_success_message(pr_urls:)
+  if pr_urls.empty?
+    'No backmerge PR was required.'
+  else
+    <<~MESSAGE
+      The following backmerge PR#{pr_urls.length > 1 ? '(s) were' : ' was'} created:
+
+      #{pr_urls.map { |url| "- #{url}" }.join("\n")}
+    MESSAGE
+  end
 end
