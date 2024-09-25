@@ -63,6 +63,7 @@ VERSION_FILE = Fastlane::Wpmreleasetoolkit::Versioning::AndroidVersionFile.new(v
 import 'lanes/build.rb'
 import 'lanes/localization.rb'
 import 'lanes/release.rb'
+import 'lib/release_helpers.rb'
 
 platform :android do
   ENV['PROJECT_ROOT_FOLDER'] = "#{File.dirname(File.expand_path(__dir__))}/"

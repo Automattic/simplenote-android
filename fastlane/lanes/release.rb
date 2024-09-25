@@ -2,8 +2,6 @@
 
 # Lanes related to the Release Process (Code Freeze, Betas, Final Build, App Store Submission…)
 
-require_relative '../lib/release_helpers'
-
 platform :android do
   desc 'Creates a new release branch from the current default branch'
   lane :start_code_freeze do |skip_prechecks: false, skip_confirm: false|
@@ -110,13 +108,7 @@ platform :android do
 
     trigger_beta_build(branch_to_build: release_branch_name(release_version: version))
 
-    pr_url = create_backmerge_pr!
-
-    message = <<~MESSAGE
-      Code freeze completed successfully. Next, review and merge the [integration PR](#{pr_url}).
-    MESSAGE
-    buildkite_annotate(context: 'code-freeze-completed', style: 'success', message: message) if is_ci
-    UI.success(message)
+    create_backmerge_prs!
   end
 
   desc 'Updates store metadata and runs the release checks'
@@ -155,13 +147,7 @@ platform :android do
 
     build_and_upload_release(create_release: true)
 
-    pr_url = create_backmerge_pr!
-
-    message = <<~MESSAGE
-      Release finalized successfully. Next, review and merge the [integration PR](#{pr_url}).
-    MESSAGE
-    buildkite_annotate(context: 'finalize-release-completed', style: 'success', message: message) if is_ci
-    UI.success(message)
+    create_backmerge_prs!
 
     UI.message('Attempting to remove release branch protection in GitHub...')
 
@@ -206,26 +192,7 @@ platform :android do
       name: version_number
     )
 
-    pr_urls = create_backmerge_prs!
-
-    # It's possible that no backmerge was created when:
-    #
-    # - there are no hotfixes in development and the next release code freeze has not been started
-    # - nothing changes in the current release branch since release finalization
-    #
-    # As a matter of fact, in the context of Simplenote Android, the above is the most likely scenario.
-    style, message = if pr_urls.empty?
-                       ['info', 'No backmerge PR was required']
-                     else
-                       [
-                         'success', <<~MESSAGE
-                           The following backmerge PR#{pr_urls.length > 1 ? '(s) were' : ' was'} created:
-                           #{pr_urls.map { |url| "- #{url}" }}
-                         MESSAGE
-                       ]
-                     end
-    buildkite_annotate(style: style, context: 'backmerge-prs-outcome', message: message) if is_ci
-    UI.success(message)
+    create_backmerge_prs!
 
     # At this point, an intermediate branch has been created by creating a backmerge PR to a hotfix or the next version release branch.
     # This allows us to safely delete the `release/*` branch.
