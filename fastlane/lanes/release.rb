@@ -147,7 +147,7 @@ platform :android do
 
     trigger_release_build(branch_to_build: release_branch_name)
 
-    # TODO: Switch to working branch and open back-merge PR
+    create_backmerge_prs!
   end
 
   desc 'Updates store metadata and runs the release checks'
