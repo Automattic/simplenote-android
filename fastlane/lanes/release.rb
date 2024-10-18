@@ -111,6 +111,45 @@ platform :android do
     create_backmerge_prs!
   end
 
+  desc 'Updates a release branch for a new beta release'
+  lane :new_beta_release do |skip_confirm: false|
+    ensure_git_status_clean
+    ensure_git_branch_is_release_branch!
+
+    message = <<~MESSAGE
+      New beta release:
+      - Current beta version: #{release_version_current}
+      - New beta version: #{release_version_next_beta}
+
+      - Current build code: #{build_code_current}
+      - New build code: #{build_code_next}
+    MESSAGE
+    UI.important(message)
+
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    UI.message 'Bumping beta version and build code...'
+    VERSION_FILE.write_version(
+      version_name: release_version_next_beta,
+      version_code: build_code_next
+    )
+    commit_version_bump
+    # Print computed version and build to let user double-check outcome in logs
+    UI.success("Done! New beta version: #{release_version_current}. New build code: #{build_code_current}")
+
+    download_translations
+    download_metadata_strings
+
+    UI.important('Pushing changes to remote and triggering the beta build...')
+    UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
+
+    push_to_git_remote(tags: false)
+
+    trigger_release_build(branch_to_build: release_branch_name)
+
+    # TODO: Switch to working branch and open back-merge PR
+  end
+
   desc 'Updates store metadata and runs the release checks'
   lane :finalize_release do |skip_confirm: false|
     UI.user_error!('Please use `finalize_hotfix_release` lane for hotfixes') if android_current_branch_is_hotfix(version_properties_path: VERSION_PROPERTIES_PATH)
