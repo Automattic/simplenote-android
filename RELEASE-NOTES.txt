@@ -1,3 +1,7 @@
+2.36
+-----
+
+
 2.35
 -----
 * Updated link to the privacy policy for California users.
