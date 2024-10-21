@@ -1,1 +1,2 @@
-Under the hood improvements
+* Updated link to the privacy policy for California users.
+
