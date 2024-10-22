@@ -1,2 +1,0 @@
-2.34:
-Mejoras en los detalles técnicos
