@@ -137,7 +137,11 @@ platform :android do
     # Print computed version and build to let user double-check outcome in logs
     UI.success("Done! New beta version: #{release_version_current}. New build code: #{build_code_current}")
 
-    download_translations
+    download_translations(
+      # skip lint in CI as a workaround to the task running in an agent that fails to download the Gradle version this project needs.
+      # The long term fix is to upgrade Gradle here.
+      run_lint: is_ci == false
+    )
     download_metadata_strings
 
     UI.important('Pushing changes to remote and triggering the beta build...')
@@ -163,7 +167,11 @@ platform :android do
     configure_apply(force: is_ci)
 
     check_translation_progress_all unless is_ci
-    download_translations
+    download_translations(
+      # skip lint in CI as a workaround to the task running in an agent that fails to download the Gradle version this project needs.
+      # The long term fix is to upgrade Gradle here.
+      run_lint: is_ci == false
+    )
 
     UI.message 'Bumping final release version and build code...'
     VERSION_FILE.write_version(
