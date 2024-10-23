@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-08-01 09:54:03+0000
+Translation-Revision-Date: 2024-09-20 09:54:16+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="login_with_password_message">계정 %1$s의 비밀번호를 입력하세요.</string>
     <string name="magic_link_confirm_code_message">다음으로 코드를 보냈습니다: \n%1$s 코드는 몇 분 동안 유효합니다.</string>
     <string name="magic_link_confirm_code_enter_pass_label">비밀번호 입력</string>
     <string name="magic_link_login_with_wordpress_or_break">또는</string>

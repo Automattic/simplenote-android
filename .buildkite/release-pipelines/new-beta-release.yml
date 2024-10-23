@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/buildkite/pipeline-schema/main/schema.json
+---
+
+steps:
+  - label: "New Beta Release"
+    plugins: [$CI_TOOLKIT_PLUGIN]
+    command: |
+      echo '--- :robot_face: Use bot for Git operations'
+      source use-bot-for-git wpmobilebot
+
+      echo '--- :git: Checkout release branch'
+      .buildkite/commands/checkout-release-branch.sh
+
+      echo '--- :ruby: Set up Ruby Tools'
+      install_gems
+
+      echo '--- :closed_lock_with_key: Access secrets'
+      bundle exec fastlane run configure_apply
+
+      echo '--- :shipit: New Beta Release'
+      bundle exec fastlane new_beta_release skip_confirm:true
+    agents:
+        queue: tumblr-metal
+    retry:
+      manual:
+        # If failed, we prefer retrying via ReleaseV2 rather than Buildkite.
+        # Rationale: ReleaseV2 is the source of truth for the process and track links to the various builds.
+        allowed: false

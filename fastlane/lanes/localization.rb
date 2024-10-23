@@ -103,7 +103,7 @@ platform :android do
   end
 
   desc 'Download the latest app translations from GlotPress and update the strings.xml files accordingly'
-  lane :download_translations do
+  lane :download_translations do |run_lint: true|
     # android_update_release_notes requires a relative path
     res_folder_relative_path = RES_FOLDER.delete_prefix(PROJECT_ROOT_FOLDER)
 
@@ -111,7 +111,7 @@ platform :android do
       res_dir: res_folder_relative_path,
       glotpress_url: GLOTPRESS_APP_STRINGS_PROJECT_URL,
       locales: SUPPORTED_LOCALES,
-      lint_task: 'lintRelease'
+      lint_task: run_lint ? 'lintRelease' : nil
     )
   end
 end

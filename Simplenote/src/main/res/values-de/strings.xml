@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-08-01 09:54:03+0000
+Translation-Revision-Date: 2024-09-19 09:54:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="login_with_password_message">Gib das Passwort für das Konto %1$s ein</string>
     <string name="magic_link_confirm_code_message">Wir haben einen Code gesendet an: \n%1$s. Der Code ist einige Minuten gültig.</string>
     <string name="magic_link_confirm_code_enter_pass_label">Passwort eingeben</string>
     <string name="magic_link_login_with_wordpress_or_break">Oder</string>
