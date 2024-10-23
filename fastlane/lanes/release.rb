@@ -149,7 +149,7 @@ platform :android do
 
     push_to_git_remote(tags: false)
 
-    trigger_release_build(branch_to_build: release_branch_name)
+    trigger_beta_build(branch_to_build: release_branch_name)
 
     create_backmerge_prs!
   end
