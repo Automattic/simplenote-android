@@ -4,7 +4,7 @@
 
 platform :android do
   desc 'Creates a new release branch from the current default branch'
-  lane :start_code_freeze do |skip_prechecks: false, skip_confirm: false|
+  lane :start_code_freeze do |version: nil, skip_prechecks: false, skip_confirm: false|
     ensure_git_status_clean unless skip_prechecks || is_ci
 
     Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
@@ -13,6 +13,12 @@ platform :android do
     new_version_final = release_version_next
     new_build_code = build_code_next
     computed_release_branch_name = release_branch_name(release_version: new_version_final)
+
+    # Validate provided version matches the calculated version
+    if version && version != new_version_final
+      UI.user_error!("Version mismatch: Provided version '#{version}' does not match calculated version '#{new_version_final}'. Please check the release scenario version matches the project version.")
+    end
+    UI.success("✓ Version validation passed: Version (#{version || new_version_final}) matches calculated version") if version
 
     message = <<~MESSAGE
       Code Freeze:
