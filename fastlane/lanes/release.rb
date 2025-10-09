@@ -10,15 +10,19 @@ platform :android do
     Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
 
     new_version_with_beta = release_version_for_code_freeze
-    new_version_final = release_version_next
+    calculated_version = release_version_next
     new_build_code = build_code_next
-    computed_release_branch_name = release_branch_name(release_version: new_version_final)
 
-    # Validate provided version matches the calculated version
-    if version && version != new_version_final
-      UI.user_error!("Version mismatch: Provided version '#{version}' does not match calculated version '#{new_version_final}'. Please check the release scenario version matches the project version.")
+    # Use provided version from release tool, or fall back to calculated version
+    release_version = version || calculated_version
+    computed_release_branch_name = release_branch_name(release_version: release_version)
+
+    # Warn if provided version differs from calculated version
+    if version && version != calculated_version
+      warning_message = "⚠️ Version mismatch: Release tool version is '#{version}' but calculated version is '#{calculated_version}'. Using '#{version}' from release tool."
+      UI.important(warning_message)
+      buildkite_annotate(style: 'warning', context: 'start-code-freeze-version-mismatch', message: warning_message) if is_ci
     end
-    UI.success("✓ Version validation passed: Version (#{version || new_version_final}) matches calculated version") if version
 
     message = <<~MESSAGE
       Code Freeze:
