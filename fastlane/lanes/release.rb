@@ -5,7 +5,8 @@
 platform :android do
   # Creates a new release branch from the current default branch
   #
-  # @param [String] version (optional) The version number for the release from the release tool. If not provided, uses the calculated version.
+  # @param [String] version (optional) The version to use for the new release version to code freeze for.
+  #                 Typically auto-provided by ReleasesV2. If nil, computes the new version based on current one.
   # @param [Boolean] skip_prechecks (default: false) If set, will skip prechecks
   # @param [Boolean] skip_confirm (default: false) If set, will skip the confirmation prompt
   #
@@ -15,16 +16,20 @@ platform :android do
     Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
 
     new_version_with_beta = release_version_for_code_freeze
-    calculated_version = release_version_next
+    computed_version = release_version_next
     new_build_code = build_code_next
 
-    # Use provided version from release tool, or fall back to calculated version
-    release_version = version || calculated_version
-    computed_release_branch_name = release_branch_name(release_version: release_version)
+    # Use provided version from release tool, or fall back to computed version
+    new_version = version || computed_version
+    computed_release_branch_name = release_branch_name(release_version: new_version)
 
-    # Warn if provided version differs from calculated version
-    if version && version != calculated_version
-      warning_message = "⚠️ Version mismatch: Release tool version is '#{version}' but calculated version is '#{calculated_version}'. Using '#{version}' from release tool."
+    # Warn if provided version differs from computed version
+    if version && version != computed_version
+      warning_message = <<~WARNING
+        ⚠️ Version mismatch: The explicitly-provided version was '#{version}' while new computed version would have been '#{computed_version}'.
+        If this is unexpected, you might want to investigate the discrepency.
+        Continuing with the explicitly-provided verison '#{version}'.
+      WARNING
       UI.important(warning_message)
       buildkite_annotate(style: 'warning', context: 'start-code-freeze-version-mismatch', message: warning_message) if is_ci
     end
@@ -52,8 +57,6 @@ platform :android do
       version_code: new_build_code
     )
     commit_version_bump
-
-    new_version = release_version_current
     UI.success("Done! New beta version: #{new_version}. New build code: #{build_code_current}.")
 
     extract_release_notes_for_version(
