@@ -215,9 +215,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
 
             private void updateTheme(Activity activity, int index) {
-                CharSequence[] entries = themePreference.getEntries();
-                themePreference.setSummary(entries[index]);
-
                 AnalyticsTracker.track(
                         AnalyticsTracker.Stat.SETTINGS_THEME_UPDATED,
                         AnalyticsTracker.CATEGORY_USER,
