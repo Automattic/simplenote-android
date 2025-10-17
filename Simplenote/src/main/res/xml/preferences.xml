@@ -41,15 +41,14 @@
         android:key="pref_key_appearance_preferences"
         android:title="@string/appearance">
 
-        <ListPreference
+        <com.automattic.simplenote.utils.SafeThemeListPreference
             android:key="pref_key_theme"
             android:defaultValue="2"
             android:entries="@array/array_theme_names"
             android:entryValues="@array/array_theme_values"
-            android:summary="%s"
             android:title="@string/theme"
             tools:summary="@string/theme_system">
-        </ListPreference>
+        </com.automattic.simplenote.utils.SafeThemeListPreference>
 
         <Preference
             android:key="pref_key_style"
