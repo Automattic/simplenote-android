@@ -30,10 +30,16 @@ public class NoteListWidgetFactory implements RemoteViewsFactory {
         mIsLight = intent.getExtras() == null || intent.getExtras().getBoolean(EXTRA_IS_LIGHT, true);
     }
 
-    @Override
-    public int getCount() {
-        return mCursor.getCount();
-    }
+	@Override
+	public int getCount() {
+		// Defensively check if the cursor is null or closed.
+		// This prevents a NullPointerException if getCount() is called before
+		// onDataSetChanged() has finished initializing the cursor.
+		if (mCursor == null || mCursor.isClosed()) {
+			return 0;
+		}
+		return mCursor.getCount();
+	}
 
     @Override
     public long getItemId(int position) {
