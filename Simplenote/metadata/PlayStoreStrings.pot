@@ -11,17 +11,17 @@ msgstr ""
 "Project-Id-Version: Release Notes & Play Store Descriptions\n"
 
 #. translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!
+msgctxt "release_note_0237"
+msgid ""
+"2.37:\n"
+"We’ve squashed some pesky bugs to make Simplenote smoother than ever! This update fixes crashes when opening Settings after upgrading to version 2.36 and issues affecting Android 16 users with the latest security patch and home screen widget. Update now for a more stable, reliable note-taking experience.\n"
+msgstr ""
+
 msgctxt "release_note_0236"
 msgid ""
 "2.36:\n"
 "Enjoy a sleeker Simplenote with improved dark mode and full edge-to-edge support on Android 15, making your notes look better than ever.\n"
 "Plus, we’ve made behind-the-scenes enhancements to keep everything running fast, smooth, and reliable.\n"
-msgstr ""
-
-msgctxt "release_note_0235"
-msgid ""
-"2.35:\n"
-"Updated privacy policy link for California users.\n"
 msgstr ""
 
 #. translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!

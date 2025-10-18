@@ -1,3 +1,0 @@
-2.36:
-Disfruta de un Simplenote más elegante con el modo oscuro mejorado y la compatibilidad completa de borde a borde en Android 15, lo que hace que tus notas se vean mejor que nunca.
-Además, hemos hecho mejoras entre bastidores para que todo funcione de forma rápida, fluida y fiable.

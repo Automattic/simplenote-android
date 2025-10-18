@@ -1,2 +1,1 @@
-Enjoy a sleeker Simplenote with improved dark mode and full edge-to-edge support on Android 15, making your notes look better than ever.
-Plus, we’ve made behind-the-scenes enhancements to keep everything running fast, smooth, and reliable.
+We’ve squashed some pesky bugs to make Simplenote smoother than ever! This update fixes crashes when opening Settings after upgrading to version 2.36 and issues affecting Android 16 users with the latest security patch and home screen widget. Update now for a more stable, reliable note-taking experience.

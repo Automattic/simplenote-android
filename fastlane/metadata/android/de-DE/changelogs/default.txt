@@ -1,3 +1,0 @@
-2.36:
-Simplenote ist jetzt noch eleganter! Du profitierst jetzt von einem verbessertem Dunkelmodus und umfassender Edge-to-Edge-Unterstützung auf Android 15, damit deine Notizen besser aussehen als je zuvor.
-Außerdem haben wir hinter den Kulissen einige Verbesserungen vorgenommen, damit alles schnell, reibungslos und zuverlässig läuft.
