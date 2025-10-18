@@ -1,6 +1,7 @@
 2.37
 -----
-
+* Fix crash when accessing settings after updating to 2.36
+* Fix crash after upgrading the system to Android 16, security patch Sept.5, and having the home screen widget installed
 
 2.36
 -----
