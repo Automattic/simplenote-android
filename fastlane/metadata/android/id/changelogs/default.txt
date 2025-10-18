@@ -1,3 +1,0 @@
-2.36:
-Nikmati Simplenote yang lebih ramping dengan mode gelap yang lebih baik dan dukungan penuh dari ujung ke ujung di Android 15, membuat catatan Anda terlihat lebih baik dari sebelumnya.
-Selain itu, kami telah melakukan peningkatan di balik layar untuk menjaga semuanya berjalan cepat, lancar, dan andal.

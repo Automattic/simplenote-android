@@ -1,3 +1,0 @@
-2.36:
-Njut av ett snyggare Simplenote med förbättrat mörkt läge och fullt stöd för kant-till-kant på Android 15, vilket gör att dina anteckningar ser bättre ut än någonsin.
-Dessutom har vi gjort förbättringar bakom kulisserna för att hålla allting snabbt, smidigt och pålitligt.

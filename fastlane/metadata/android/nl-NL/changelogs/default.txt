@@ -1,3 +1,0 @@
-2.36:
-Geniet van een strakkere Simplenote met verbeterde donkere modus en volledige rand-tot-rand ondersteuning op Android 15, waardoor je notities er beter uitzien dan ooit.
-Bovendien hebben we achter de schermen verbeteringen aangebracht om alles snel, soepel en betrouwbaar te laten werken.
