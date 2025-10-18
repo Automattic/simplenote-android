@@ -1,0 +1,1 @@
+We’ve squashed some pesky bugs to make Simplenote smoother than ever! This update fixes crashes when opening Settings after upgrading to version 2.36 and issues affecting Android 16 users with the latest security patch and home screen widget. Update now for a more stable, reliable note-taking experience.
