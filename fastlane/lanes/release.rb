@@ -88,7 +88,7 @@ platform :android do
     set_branch_protection(repository: GITHUB_REPO, branch: computed_release_branch_name, enforce_admins: false)
 
     freeze_milestone_and_move_assigned_prs_to_next_milestone(
-      milestone_to_freeze: new_version_final,
+      milestone_to_freeze: new_version,
       next_milestone: release_version_next
     )
 
