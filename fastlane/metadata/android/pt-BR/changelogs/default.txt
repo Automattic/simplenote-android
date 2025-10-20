@@ -1,0 +1,2 @@
+2.37:
+Eliminamos alguns bugs incômodos para tornar o Simplenote mais suave do que nunca! Esta atualização corrige falhas ao abrir as Configurações após a atualização para a versão 2.36 e problemas que afetam os usuários do Android 16 com o patch de segurança mais recente e o widget da tela inicial. Atualize agora para ter uma experiência de anotações mais estável e confiável.

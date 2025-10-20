@@ -1,0 +1,2 @@
+2.37:
+We hebben een paar vervelende bugs opgelost om Simplenote soepeler dan ooit te maken! Deze update verhelpt crashes bij het openen van Instellingen na het updaten naar versie 2.36 en problemen die Android 16-gebruikers met de nieuwste beveiligingspatch en het startscherm-widget beïnvloeden. Update nu voor een stabielere, betrouwbaardere notitie-ervaring.
