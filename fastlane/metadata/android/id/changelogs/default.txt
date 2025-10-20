@@ -1,0 +1,2 @@
+2.37:
+Kami telah menghilangkan beberapa bug yang mengganggu untuk membuat Simplenote lebih lancar dari sebelumnya! Pembaruan ini memperbaiki kerusakan saat membuka Pengaturan setelah meningkatkan ke versi 2.36 dan masalah yang mempengaruhi pengguna Android 16 dengan patch keamanan terbaru dan widget layar beranda. Perbarui sekarang untuk pengalaman membuat catatan yang lebih stabil dan andal.
