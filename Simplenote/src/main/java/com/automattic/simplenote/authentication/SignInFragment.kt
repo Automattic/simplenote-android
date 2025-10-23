@@ -44,6 +44,12 @@ class SignInFragment: MagicLinkableFragment() {
 
     private var authService: AuthorizationService? = null
 
+    private var manualLoginLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            activity?.finish()
+        }
+    }
+
     private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
 
         val data = result.data
@@ -118,7 +124,7 @@ class SignInFragment: MagicLinkableFragment() {
         }
         manualLoginTextView.setOnClickListener {
             val email = getEmailEditText()
-            showLoginWithPassword(activity, email?.text?.toString())
+            launchManualLogin(email?.text?.toString())
         }
         return view
     }
@@ -133,7 +139,7 @@ class SignInFragment: MagicLinkableFragment() {
                     hideDialogProgress()
                     if (state.code == 429) {
                         val email = getEmailEditText()
-                        showLoginWithPassword(activity, email?.text?.toString())
+                        launchManualLogin(email?.text?.toString())
                     }
                     Toast.makeText(context, getString(state.messageRes), Toast.LENGTH_LONG).show()
                 }
@@ -166,9 +172,20 @@ class SignInFragment: MagicLinkableFragment() {
         }
     }
 
+    private fun launchManualLogin(username: String?) {
+        val intent = Intent(requireActivity(), NewCredentialsActivity::class.java)
+        intent.putExtra("EXTRA_IS_LOGIN", true)
+        if (!username.isNullOrBlank()) {
+            intent.putExtra(Intent.EXTRA_EMAIL, username)
+            intent.putExtra(NewCredentialsActivity.PREF_HIDE_EMAIL_FIELD, true)
+        }
+        manualLoginLauncher.launch(intent)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         resultLauncher.unregister()
+        manualLoginLauncher.unregister()
         authService?.dispose()
     }
 
