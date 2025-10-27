@@ -93,8 +93,6 @@ open class NewCredentialsActivity : ThemedAppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        this.startActivity(Intent(this, SimplenoteAuthenticationActivity::class.java))
-        finish()
     }
 
     @SuppressLint("RestrictedApi")
