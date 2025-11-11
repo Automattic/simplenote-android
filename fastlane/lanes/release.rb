@@ -15,32 +15,20 @@ platform :android do
 
     Fastlane::Helper::GitHelper.checkout_and_pull(DEFAULT_BRANCH)
 
-    new_version_with_beta = release_version_for_code_freeze
-    computed_version = release_version_next
+    # If a new version is passed, use it as source of truth from now on
+    new_version = version || release_version_next
+    computed_release_branch_name = release_branch_name(release_version: new_version)
+    new_version_with_beta = release_version_for_code_freeze(version_name: new_version)
     new_build_code = build_code_next
 
-    # Use provided version from release tool, or fall back to computed version
-    new_version = version || computed_version
-    computed_release_branch_name = release_branch_name(release_version: new_version)
-
-    # Fail if provided version differs from computed version
-    if version && version != computed_version
-      error_message = <<~ERROR
-        ❌ Version mismatch detected!
-
-        The explicitly-provided version from the release tool is '#{version}' but the computed version from the codebase is '#{computed_version}'.
-
-        This mismatch must be resolved before proceeding with the code freeze. Please investigate and ensure the versions are aligned.
-      ERROR
-      buildkite_annotate(style: 'error', context: 'start-code-freeze-version-mismatch', message: error_message) if is_ci
-      UI.user_error!(error_message)
-    end
-
     message = <<~MESSAGE
+
       Code Freeze:
       - New release branch from #{DEFAULT_BRANCH}: #{computed_release_branch_name}
+
       - Current release version and build code: #{release_version_current} (#{build_code_current}).
       - New beta version and build code: #{new_version_with_beta} (#{new_build_code}).
+
     MESSAGE
     UI.important(message)
 
@@ -48,6 +36,8 @@ platform :android do
       UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.")
       next
     end
+
+    ensure_branch_does_not_exist!(computed_release_branch_name)
 
     UI.message 'Creating release branch...'
     Fastlane::Helper::GitHelper.create_branch(computed_release_branch_name)
@@ -101,7 +91,7 @@ platform :android do
 
       Next steps:
 
-      - Checkout `#{release_branch_name}` branch locally
+      - Checkout `#{computed_release_branch_name}` branch locally
       - Update the simperium dependency to a stable version if needed
       - Update the release notes that were extracted from RELEASE-NOTES.txt if appropriate
       - Finalize the code freeze
@@ -391,4 +381,15 @@ def delete_remote_git_branch!(branch_name, remote: 'origin')
   remove_branch_protection(repository: GITHUB_REPO, branch: branch_name)
 
   Git.open(Dir.pwd).push(remote, branch_name, delete: true)
+end
+
+def ensure_branch_does_not_exist!(branch_name)
+  return unless Fastlane::Helper::GitHelper.branch_exists_on_remote?(branch_name: branch_name)
+
+  error_message = "The branch `#{branch_name}` already exists. Please check first if there is an existing Pull Request that needs to be merged or closed first, " \
+                  'or delete the branch to then run again the release task.'
+
+  buildkite_annotate(style: 'error', context: 'error-checking-branch', message: error_message) if is_ci
+
+  UI.user_error!(error_message)
 end
