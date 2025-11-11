@@ -260,14 +260,17 @@ def release_version_next
   VERSION_FORMATTER.release_version(release_version_next)
 end
 
-# Compute the version to be used by the code freeze step in the release process.
+# Returns the initial beta version for a code freeze (e.g., "1.2-rc-1" for release version "1.2")
+# Increments the build number from 0 to 1 to create the first release candidate
 #
-# It first increments the minor number, which also resets the build number to 0.
-# It then bumps the build number so the -rc-1 can be appended to the code freeze version.
 def release_version_for_code_freeze(version_name: nil)
+  # Use provided version or read the current version from version.properties
   version_name ||= VERSION_FILE.read_version_name
+  # Parse the version string (e.g., "1.2") into an AppVersion object
   version = VERSION_FORMATTER.parse(version_name)
+  # Increment the build number to 1 to get the first beta version
   beta_version_first = VERSION_CALCULATOR.next_build_number(version: version)
+  # Format as beta version (e.g., "1.2-rc-1")
   VERSION_FORMATTER.beta_version(beta_version_first)
 end
 
