@@ -35,7 +35,7 @@ steps:
     notify:
       - slack: "#build-and-ship"
 
-  - label: ":github: Create GitHub relaese"
+  - label: ":github: Create GitHub release"
     depends_on: upload_play_store
     command: .buildkite/commands/release-create-on-github.sh $BETA_RELEASE
     priority: 1
