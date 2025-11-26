@@ -79,12 +79,25 @@ platform :android do
     new_version = version_name
     version_code_new = version_code
 
+    # Validate that this is a hotfix version (must have a patch component > 0)
+    parsed_version = VERSION_FORMATTER.parse(new_version)
+    UI.user_error!("Invalid hotfix version '#{new_version}'. Must include a patch number.") unless parsed_version.patch.to_i.positive?
     previous_version = VERSION_FORMATTER.release_version(
-      VERSION_CALCULATOR.previous_patch_version(version: VERSION_FORMATTER.parse(new_version))
+      VERSION_CALCULATOR.previous_patch_version(version: parsed_version)
     )
+    previous_release_branch = release_branch_name(release_version: previous_version)
 
-    UI.user_error!("The version `#{new_version}` tag already exists!") if git_tag_exists(tag: new_version)
-    UI.user_error!("Version #{previous_version} is not tagged! A hotfix branch cannot be created.") unless git_tag_exists(tag: previous_version)
+    UI.user_error!("Version '#{new_version}' already exists on the remote! Abort!") if git_tag_exists(tag: new_version, remote: true)
+
+    # Determine the base for the hotfix branch: either a tag or a release branch
+    base_ref_for_hotfix = if git_tag_exists(tag: previous_version, remote: true)
+                            previous_version
+                          elsif Fastlane::Helper::GitHelper.branch_exists_on_remote?(branch_name: previous_release_branch)
+                            UI.message("ℹ️  Tag '#{previous_version}' not found on the remote. Using release branch '#{previous_release_branch}' as the base for hotfix instead.")
+                            previous_release_branch
+                          else
+                            UI.user_error!("Neither tag '#{previous_version}' nor branch '#{previous_release_branch}' exists on the remote! A hotfix branch cannot be created.")
+                          end
 
     message = <<~MESSAGE
       Hotfix release:
@@ -94,15 +107,21 @@ platform :android do
       - Current build code: #{build_code_current}
       - New build code: #{version_code_new}
 
-      Branching from tag: #{previous_version}
+      Branching from #{base_ref_for_hotfix}
     MESSAGE
     UI.important(message)
 
     UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
 
-    UI.message('Creating hotfix branch...')
-    Fastlane::Helper::GitHelper.create_branch(release_branch_name(release_version: new_version), from: previous_version)
-    UI.success("Done! New hotfix branch is: #{git_branch}")
+    # Fetch the base ref to ensure it's available locally
+    sh('git', 'fetch', 'origin', base_ref_for_hotfix)
+
+    hotfix_branch = release_branch_name(release_version: new_version)
+    ensure_branch_does_not_exist!(hotfix_branch)
+
+    UI.message("Creating hotfix branch from '#{base_ref_for_hotfix}'...")
+    Fastlane::Helper::GitHelper.create_branch(hotfix_branch, from: base_ref_for_hotfix)
+    UI.success("Done! New hotfix branch is: '#{git_branch}'")
 
     UI.message('Bumping hotfix version and build code...')
     VERSION_FILE.write_version(
@@ -111,7 +130,7 @@ platform :android do
     )
     commit_version_bump
     # Print computed version and build to let user double-check outcome in logs
-    UI.success("Done! New release version: #{release_version_current}. New build code: #{build_code_current}.")
+    UI.success("Done! New release version: '#{release_version_current}'. New build code: '#{build_code_current}'.")
 
     UI.important('Pushing new hotfix branch to remote...')
     push_to_git_remote(tags: false)
