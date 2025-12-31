@@ -4,7 +4,7 @@
 # Variables used in this pipeline are defined in `shared-pipeline-vars`, which is `source`'d before calling `buildkite-agent pipeline upload`
 
 agents:
-    queue: tumblr-metal
+    queue: mac-metal
 
 steps:
   - label: Complete Code Freeze
