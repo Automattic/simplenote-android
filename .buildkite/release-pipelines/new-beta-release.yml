@@ -20,7 +20,7 @@ steps:
       echo '--- :shipit: New Beta Release'
       bundle exec fastlane new_beta_release skip_confirm:true
     agents:
-        queue: tumblr-metal
+        queue: mac-metal
     retry:
       manual:
         # If failed, we prefer retrying via Releases V2 rather than Buildkite.

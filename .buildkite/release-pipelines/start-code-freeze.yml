@@ -8,7 +8,7 @@ steps:
     plugins:
       - $CI_TOOLKIT_PLUGIN
     agents:
-        queue: tumblr-metal
+        queue: mac-metal
     command: |
       echo '--- :robot_face: Use bot for Git operations'
       source use-bot-for-git
