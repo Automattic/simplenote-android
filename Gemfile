@@ -8,3 +8,7 @@ gem 'fastlane', '~> 2.228'
 #
 # gem 'fastlane-plugin-wpmreleasetoolkit', git: 'https://github.com/wordpress-mobile/release-toolkit', ref: ''
 gem 'fastlane-plugin-wpmreleasetoolkit', '~> 13.8'
+
+# Security: https://github.com/lostisland/faraday/pull/1665
+# Faraday 2.0 is not compatible with Fastlane
+gem 'faraday', '~> 1.10', '>= 1.10.5'
