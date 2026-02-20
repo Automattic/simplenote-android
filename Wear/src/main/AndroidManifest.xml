@@ -10,6 +10,7 @@
         android:theme="@android:style/Theme.DeviceDefault" >
         <activity
             android:name=".CreateNoteActivity"
+            android:taskAffinity=""
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:exported="true">
             <intent-filter>
@@ -21,6 +22,7 @@
         </activity>
 
         <activity android:name="androidx.wear.activity.ConfirmationActivity"
+            android:taskAffinity=""
             android:theme="@android:style/Theme.Translucent" />
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
