@@ -8,6 +8,7 @@ This file provides guidance to coding agents when working with code in this repo
 - Treat me as an expert Android developer. Give overviews, not tutorials.
 - Always give an overview of the solution before diving into implementation (unless explicitly asked to implement right away).
 - Do not add comments for trivial logic or when the name is descriptive enough.
+- **Skills are mandatory workflows** — when a skill is triggered (via `/command` or trigger phrases), follow its SKILL.md phases strictly. NEVER skip approval gates. Present plan and STOP before writing code.
 
 ## Architecture Overview
 
@@ -148,3 +149,9 @@ PAGER=cat gh pr diff <NUMBER>
 | Skill       | Trigger phrases                                                                                  |
 |-------------|--------------------------------------------------------------------------------------------------|
 | `implement` | "implement", "fix this", "work on this", "build this", "add feature", any implementation request |
+
+### Skill execution rules (CRITICAL)
+- When a skill is triggered (via `/command` or matching trigger phrases), you MUST follow the skill's phases **sequentially and completely**
+- **NEVER skip a phase that requires user approval** — if a phase says "STOP and wait for approval", you must STOP
+- The skill's SKILL.md is your instruction set — treat each phase gate as a hard blocker, not a suggestion
+- Do NOT write production code before the plan phase is explicitly approved by the user
