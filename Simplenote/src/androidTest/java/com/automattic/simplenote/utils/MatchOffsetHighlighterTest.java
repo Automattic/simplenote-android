@@ -25,7 +25,7 @@ public class MatchOffsetHighlighterTest {
     };
 
     // Uses the offsets from a SQLite fulltext offset function call to highlight text
-    // matches are a set of 4 integers seperated by a space. The integers are
+    // matches are a set of 4 integers separated by a space. The integers are
     // 1. The column from the full text table
     // 2. The index of the term from the search
     // 3. The index of the start of the match
