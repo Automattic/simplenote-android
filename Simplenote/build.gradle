@@ -134,8 +134,6 @@ dependencies {
     // Support for androidx Fragments
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$androidxLifecycleVersion"
 
-    // Google Play Services
-    implementation 'com.google.android.gms:play-services-wearable:19.0.0'
     // Third Party
     implementation 'com.squareup.okhttp3:okhttp:5.1.0'
     implementation("org.jetbrains:markdown:0.7.3")
@@ -146,7 +144,6 @@ dependencies {
     annotationProcessor "com.google.dagger:hilt-compiler:$google_dagger"
     kapt "com.google.dagger:hilt-compiler:$google_dagger"
 
-    wearApp project(':Wear')
     implementation project(':PasscodeLock')
 }
 
