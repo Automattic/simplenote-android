@@ -1,2 +1,0 @@
-2.37:
-Hemos eliminado algunos errores molestos para que Simplenote sea más fluido que nunca. Esta actualización corrige los bloqueos al abrir Ajustes tras actualizar a la versión 2.36 y los problemas que afectaban a los usuarios de Android 16 con el último parche de seguridad y el widget de la pantalla de inicio. Actualiza ahora para disfrutar de una experiencia más estable y fiable a la hora de tomar notas.

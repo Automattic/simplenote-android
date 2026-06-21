@@ -1,2 +1,0 @@
-2.37:
-Simplenote'u her zamankinden daha sorunsuz hale getirmek için bazı sinir bozucu hataları giderdik! Bu güncelleme, 2.36 sürümüne yükselttikten sonra Ayarlar'ı açarken yaşanan çökmeleri ve en son güvenlik yamasına ve ana ekran widget'ına sahip Android 16 kullanıcılarını etkileyen sorunları gideriyor. Daha kararlı ve güvenilir bir not alma deneyimi için şimdi güncelleyin.

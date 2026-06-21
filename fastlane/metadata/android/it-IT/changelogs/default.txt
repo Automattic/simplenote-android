@@ -1,2 +1,0 @@
-2.37:
-Abbiamo eliminato alcuni fastidiosi bug per rendere Simplenote più fluido che mai! Questo aggiornamento risolve i crash all'apertura delle Impostazioni dopo l'aggiornamento alla versione 2.36 e i problemi che affliggono gli utenti di Android 16 con l'ultima patch di sicurezza e il widget della schermata iniziale. Aggiorna ora per un'esperienza di scrittura di appunti più stabile e affidabile.
