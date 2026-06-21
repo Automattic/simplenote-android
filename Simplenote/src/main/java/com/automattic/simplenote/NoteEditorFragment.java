@@ -21,6 +21,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -117,6 +118,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public static final String ARG_PREVIEW_ENABLED = "preview_enabled";
 
     private static final String STATE_NOTE_ID = "state_note_id";
+    // DODROID-884: the content EditText no longer saves its own instance state (it would
+    // overflow binder for large notes), so we persist just the cursor position ourselves.
+    private static final String STATE_CURSOR_POSITION = "state_cursor_position";
+    private static final String STATE_CONTENT_HAS_FOCUS = "state_content_has_focus";
     private static final int AUTOSAVE_DELAY_MILLIS = 2000;
     private static final int MAX_REVISIONS = 30;
     private static final int PUBLISH_TIMEOUT = 20000;
@@ -136,6 +141,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private CursorAdapter mLinkAutocompleteAdapter;
     private CursorAdapter mTagAutocompleteAdapter;
     private boolean mIsLoadingNote;
+    // DODROID-884: cursor position/focus to restore after activity recreation; -1 = none
+    private int mRestoreCursorPosition = -1;
+    private boolean mRestoreContentFocus;
     private boolean mIsMarkdownEnabled;
     private boolean mIsPreviewEnabled;
     private ActionMode mActionMode;
@@ -427,6 +435,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_note_editor, container, false);
         mContentEditText = mRootView.findViewById(R.id.note_content);
+        // DODROID-884: don't persist the (potentially huge) note body in saved instance
+        // state — it overflows the binder transaction limit on activityStopped. The content
+        // is restored from Simperium (mNote.getContent()) on resume, so view-state text is
+        // redundant.
+        mContentEditText.setSaveEnabled(false);
+        // DODROID-884: stop feeding the body to ContentCapture, which on Pixel devices
+        // overflows the on-device "Play Protect" service (com.google.android.odad) for
+        // large notes.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            mContentEditText.setImportantForContentCapture(View.IMPORTANT_FOR_CONTENT_CAPTURE_NO);
+        }
+        if (savedInstanceState != null) {
+            mRestoreCursorPosition = savedInstanceState.getInt(STATE_CURSOR_POSITION, -1);
+            mRestoreContentFocus = savedInstanceState.getBoolean(STATE_CONTENT_HAS_FOCUS, false);
+        }
         mContentEditText.addOnSelectionChangedListener(this);
         mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
@@ -713,6 +736,12 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote != null) {
             outState.putString(STATE_NOTE_ID, mNote.getSimperiumKey());
+        }
+
+        // DODROID-884: persist the cursor position/focus the EditText no longer saves itself.
+        if (mContentEditText != null) {
+            outState.putInt(STATE_CURSOR_POSITION, mContentEditText.getSelectionStart());
+            outState.putBoolean(STATE_CONTENT_HAS_FOCUS, mContentEditText.hasFocus());
         }
     }
 
@@ -1049,6 +1078,16 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             mContentEditText.setText(mNote.getContent());
             // Set the scroll position after the note's content has been rendered
             mRootView.post(this::setScroll);
+
+            // DODROID-884: restore the cursor position persisted across activity recreation,
+            // since the EditText no longer saves its own instance state.
+            if (mRestoreCursorPosition >= 0) {
+                if (mRestoreContentFocus) {
+                    mContentEditText.requestFocus();
+                }
+                mContentEditText.setSelection(Math.min(mRestoreCursorPosition, mContentEditText.length()));
+                mRestoreCursorPosition = -1;
+            }
 
             if (isNoteUpdate) {
                 // Update markdown and preview flags from updated note.
