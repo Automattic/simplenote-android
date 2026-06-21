@@ -1,2 +1,0 @@
-2.37:
-Vi har fixat några irriterande buggar för att göra Simplenote smidigare än någonsin! Den här uppdateringen åtgärdar krascher när du öppnar Inställningar efter uppgradering till version 2.36 och problem som påverkar Android 16-användare med den senaste säkerhetspatchen och widgeten för startskärmen. Uppdatera nu för en mer stabil och pålitlig anteckningsupplevelse.

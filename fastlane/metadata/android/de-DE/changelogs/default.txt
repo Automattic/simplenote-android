@@ -1,2 +1,0 @@
-2.37:
-Wir haben einige lästige Bugs beseitigt, damit Simplenote noch reibungsloser funktioniert als je zuvor! Dieses Update behebt Abstürze beim Öffnen der Einstellungen nach dem Upgrade auf Version 2.36 und Probleme, die Android 16-Nutzer mit dem neuesten Sicherheitspatch und dem Homescreen-Widget betreffen. Aktualisiere jetzt und erhalte ein stabileres und zuverlässigeres Notizen-Erlebnis.
