@@ -1,1 +1,1 @@
-Fixed an error that could appear when editing very large notes.
+We've improved note editing reliability by fixing an issue that could cause an error when working with very large notes, making it easier to capture and update your content without interruption.
