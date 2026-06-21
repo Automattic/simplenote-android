@@ -1,3 +1,7 @@
+2.39
+-----
+
+
 2.38
 -----
 * Fixed back button navigation during manual login to return to the login screen instead of the home screen [#1751](https://github.com/Automattic/simplenote-android/issues/1751)
