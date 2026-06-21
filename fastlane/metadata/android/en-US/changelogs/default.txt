@@ -1,1 +1,1 @@
-* Fixed back button navigation during manual login to return to the login screen instead of the home screen [#1751](https://github.com/Automattic/simplenote-android/issues/1751)
+We've improved note editing reliability by fixing an issue that could cause an error when working with very large notes, making it easier to capture and update your content without interruption.
