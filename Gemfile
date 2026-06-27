@@ -17,3 +17,13 @@ gem 'faraday', '~> 1.10'
 # Drop once `fastlane-plugin-wpmreleasetoolkit` moves to >= 14.4.1, whose
 # gemspec carries this floor transitively.
 gem 'nokogiri', '~> 1.19'
+
+# To avoid errors like:
+#
+# SSL_connect returned=1 errno=0 peeraddr=3.5.132.155:443 state=error: certificate verify failed (unable to get certificate CRL)
+#
+# See:
+#
+# - https://github.com/ruby/openssl/issues/949
+# - https://linear.app/a8c/issue/AINFRA-2538/upgrade-simplenote-release-tooling-to-at-least-address-ruby-ssl-issue
+gem 'openssl', '~> 4.0'
