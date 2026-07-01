@@ -7,7 +7,7 @@ gem 'fastlane', '~> 2.236'
 # This comment avoids typing to switch to a development version for testing.
 #
 # gem 'fastlane-plugin-wpmreleasetoolkit', git: 'https://github.com/wordpress-mobile/release-toolkit', ref: ''
-gem 'fastlane-plugin-wpmreleasetoolkit', '~> 13.8'
+gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.9'
 
 # Security: https://github.com/lostisland/faraday/pull/1665
 # Faraday 2.0 is not compatible with Fastlane
