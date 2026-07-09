@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'danger-dangermattic', '~> 1.3'
+gem 'danger-dangermattic', '~> 1.4'
 gem 'fastlane', '~> 2.237'
 # This comment avoids typing to switch to a development version for testing.
 #
