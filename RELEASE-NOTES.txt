@@ -1,5 +1,6 @@
 2.39
 -----
+* Fixed the note share sheet missing installed apps (e.g. Gmail, WhatsApp) by launching the system share sheet [#1578](https://github.com/Automattic/simplenote-android/issues/1578)
 
 2.38
 -----
