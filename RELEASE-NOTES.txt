@@ -1,5 +1,6 @@
 2.39
 -----
+* Unlocked all styles, including the pure-black AMOLED style, for everyone now that Simplenote Sustainer is discontinued [#1771](https://github.com/Automattic/simplenote-android/issues/1771) [#1661](https://github.com/Automattic/simplenote-android/issues/1661)
 
 2.38
 -----
