@@ -74,7 +74,7 @@ android {
 sentry {
     org = "a8c"
     projectName = "simplenote-android"
-    authToken = System.getenv("SENTRY_AUTH_TOKEN")
+    authToken = providers.environmentVariable("SENTRY_AUTH_TOKEN").orNull
 }
 
 buildscript {
