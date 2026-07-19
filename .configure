@@ -9,11 +9,6 @@
       "encrypt": true
     },
     {
-      "file": "android/simplenote/sentry.properties",
-      "destination": "sentry.properties",
-      "encrypt": true
-    },
-    {
       "file": "android/automattic.jks",
       "destination": ".configure-files/release.jks",
       "encrypt": true
