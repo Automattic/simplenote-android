@@ -1,4 +1,3 @@
 ---
 BUNDLE_PATH: "vendor/bundle"
-BUNDLE_SPECIFIC_PLATFORM: "false"
 BUNDLE_FORCE_RUBY_PLATFORM: "true"
