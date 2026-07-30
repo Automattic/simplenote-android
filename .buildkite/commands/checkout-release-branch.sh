@@ -10,3 +10,6 @@ fi
 BRANCH_NAME="release/${RELEASE_VERSION}"
 git fetch origin "$BRANCH_NAME"
 git checkout "$BRANCH_NAME"
+# Buildkite can reuse a working copy where "$BRANCH_NAME" was left at an older commit by a previous job,
+# so realign it on the remote. `reset --hard` rather than `git pull`, to avoid merging if the two diverged.
+git reset --hard "origin/$BRANCH_NAME"
