@@ -17,12 +17,15 @@ import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.View;
+import android.graphics.Canvas;
+import android.text.InputType;
+import android.text.Layout;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.AdapterView;
+import android.widget.MultiAutoCompleteTextView;
 
 import androidx.annotation.DrawableRes;
-import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -42,7 +45,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
+public class SimplenoteEditText extends MultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
     private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
     private static final Pattern INTERNOTE_LINK_PATTERN_FULL = Pattern.compile("(?s)(.)*(\\[)" + INTERNOTE_LINK_PATTERN_EDIT);
     private static final int CHECKBOX_LENGTH = 2; // one ClickableSpan character + one space character
@@ -53,32 +56,34 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
     @Override
     public boolean enoughToFilter() {
-        String substringCursor = getText().toString().substring(getSelectionEnd());
+        int end = getSelectionEnd();
+        if (end < 0) {
+            return false;
+        }
+
+        if (mTokenizer == null) {
+            return false;
+        }
+
+        Editable text = getText();
+        if (text == null || text.length() == 0) {
+            return false;
+        }
+
+        // Local Cursor Windowing O(1) optimization: inspect max 200 chars around cursor instead of full text toString()
+        int windowEnd = Math.min(text.length(), end + 200);
+        CharSequence substringCursor = text.subSequence(end, windowEnd);
         Matcher matcherEdit = INTERNOTE_LINK_PATTERN_EDIT.matcher(substringCursor);
 
         // When an internote link title is being edited, don't show an autocomplete popup.
         if (matcherEdit.lookingAt()) {
-            String substringEdit = substringCursor.substring(0, matcherEdit.end());
+            String substringEdit = substringCursor.subSequence(0, matcherEdit.end()).toString();
             Matcher matcherFull = INTERNOTE_LINK_PATTERN_FULL.matcher(substringEdit);
 
             if (!matcherFull.lookingAt()) {
                 return false;
             }
         }
-
-        Editable text = getText();
-        int end = getSelectionEnd();
-
-        if (end < 0) {
-            return false;
-        }
-
-		// solves a crash after updating dependencies in which this method
-	    // gets called in super() instantiation before the mTokenizer variable
-	    // is instantiated
-	    if (mTokenizer == null) {
-			return false;
-		}
 
         int start = mTokenizer.findTokenStart(text, end);
         return start > 0 && end - start >= 1;
@@ -115,6 +120,29 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         setOnItemClickListener(this);
         setTokenizer(mTokenizer);
         setThreshold(1);
+
+        // Performance Optimization Stack
+        setIncludeFontPadding(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setElegantTextHeight(false);
+        }
+        setInputType(getInputType() | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+        setLayerType(View.LAYER_TYPE_HARDWARE, null);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE);
+            setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NONE);
+        }
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        long t0 = System.nanoTime();
+        super.onDraw(canvas);
+        double durationMs = (System.nanoTime() - t0) / 1_000_000.0;
+        int cursorOffset = getSelectionEnd();
+        int totalLength = (getText() != null) ? getText().length() : 0;
+        android.util.Log.d("SIMPLENOTE_PERF", "SimplenoteEditText.onDraw End | duration=" + String.format("%.3f", durationMs) + " ms | cursorOffset=" + cursorOffset + " | totalLength=" + totalLength);
     }
 
     private boolean shouldOverridePredictiveTextBehavior() {

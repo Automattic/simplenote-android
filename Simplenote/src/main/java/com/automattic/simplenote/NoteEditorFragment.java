@@ -83,6 +83,7 @@ import com.automattic.simplenote.utils.SpaceTokenizer;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView;
 import com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView.OnTagAddedListener;
 import com.automattic.simplenote.utils.TextHighlighter;
+import com.automattic.simplenote.utils.ViewportSpanWindowingManager;
 import com.automattic.simplenote.utils.SystemBarUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.utils.WidgetUtils;
@@ -457,6 +458,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(requireContext()));
         mContentEditText.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mContentEditText.setAdapter(mLinkAutocompleteAdapter);
+        ViewportSpanWindowingManager windowingManager = new ViewportSpanWindowingManager(mContentEditText, 50);
+        mContentEditText.getViewTreeObserver().addOnScrollChangedListener(windowingManager::updateViewportSpans);
         mTagInput = mRootView.findViewById(R.id.tag_input);
         mTagInput.setBucketTag(((Simplenote) requireActivity().getApplication()).getTagsBucket());
         mTagInput.setDropDownBackgroundResource(R.drawable.bg_list_popup);
