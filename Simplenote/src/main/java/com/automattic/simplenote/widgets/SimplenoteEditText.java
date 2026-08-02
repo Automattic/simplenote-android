@@ -416,7 +416,29 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
 
 
     public void processChecklists() {
-        if (getText().length() == 0 || getContext() == null) {
+        if (getText() == null || getText().length() == 0 || getContext() == null) {
+            return;
+        }
+        processChecklists(0, getText().length());
+    }
+
+    public void processChecklists(int start, int count) {
+        if (getText() == null || getText().length() == 0 || getContext() == null) {
+            return;
+        }
+
+        Editable editable = getText();
+        int safeStart = Math.max(0, Math.min(start, editable.length()));
+        int safeEnd = Math.max(0, Math.min(start + count, editable.length()));
+
+        String textStr = editable.toString();
+        int paraStart = textStr.lastIndexOf('\n', safeStart - 1);
+        paraStart = (paraStart == -1) ? 0 : paraStart + 1;
+        int paraEnd = textStr.indexOf('\n', safeEnd);
+        paraEnd = (paraEnd == -1) ? editable.length() : paraEnd;
+
+        CharSequence editWindow = editable.subSequence(paraStart, paraEnd);
+        if (!editWindow.toString().contains("[")) {
             return;
         }
 
