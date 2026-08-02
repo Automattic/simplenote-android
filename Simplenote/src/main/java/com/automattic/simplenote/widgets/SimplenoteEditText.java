@@ -16,7 +16,11 @@ import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.widget.OverScroller;
 import android.graphics.Canvas;
 import android.text.InputType;
 import android.text.Layout;
@@ -53,6 +57,21 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
     private LinkTokenizer mTokenizer;
     private final List<OnSelectionChangedListener> listeners;
     private OnCheckboxToggledListener mOnCheckboxToggledListener;
+
+    private OverScroller mScroller;
+    private VelocityTracker mVelocityTracker;
+    private int mMinimumVelocity;
+    private int mMaximumVelocity;
+
+    private final Runnable mFlingRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mScroller != null && mScroller.computeScrollOffset()) {
+                scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+                postOnAnimation(this);
+            }
+        }
+    };
 
     @Override
     public boolean enoughToFilter() {
@@ -133,6 +152,55 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
             setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE);
             setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NONE);
         }
+
+        // Native OverScroller Fling Initialization
+        mScroller = new OverScroller(getContext());
+        ViewConfiguration configuration = ViewConfiguration.get(getContext());
+        mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
+        mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mVelocityTracker == null) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
+        mVelocityTracker.addMovement(event);
+
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                if (mScroller != null && !mScroller.isFinished()) {
+                    mScroller.forceFinished(true);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
+                int initialVelocityY = (int) mVelocityTracker.getYVelocity();
+                if (Math.abs(initialVelocityY) > mMinimumVelocity) {
+                    Layout layout = getLayout();
+                    int maxScrollY = Math.max(0, layout != null ? layout.getHeight() - (getHeight() - getTotalPaddingTop() - getTotalPaddingBottom()) : 0);
+                    mScroller.fling(
+                        getScrollX(), getScrollY(),
+                        0, -initialVelocityY,
+                        0, 0,
+                        0, maxScrollY
+                    );
+                    postOnAnimation(mFlingRunnable);
+                }
+                if (mVelocityTracker != null) {
+                    mVelocityTracker.recycle();
+                    mVelocityTracker = null;
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                if (mVelocityTracker != null) {
+                    mVelocityTracker.recycle();
+                    mVelocityTracker = null;
+                }
+                break;
+        }
+
+        return super.onTouchEvent(event);
     }
 
     @Override
