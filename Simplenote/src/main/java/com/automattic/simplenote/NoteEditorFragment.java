@@ -486,7 +486,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             if (mMarkdown.getVisibility() == View.VISIBLE) {
                                 new Handler().postDelayed(
                                         () -> {
-                                            if (mNote != null && mNote.getSimperiumKey() != null) {
+                                            if (mNote != null && mNote.getSimperiumKey() != null && mRootView instanceof NestedScrollView) {
                                                 ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
                                             }
                                         },
