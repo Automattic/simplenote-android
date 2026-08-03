@@ -19,7 +19,7 @@ class ViewportSpanWindowingManager(
         val scrollY = editText.scrollY
         val height = editText.height
 
-        if (height <= 0) return
+        if (height <= 0 || layout.lineCount == 0) return
 
         val firstVisibleLine = layout.getLineForVertical(scrollY)
         val lastVisibleLine = layout.getLineForVertical(scrollY + height)
