@@ -204,6 +204,15 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
     }
 
     @Override
+    protected void onDetachedFromWindow() {
+        removeCallbacks(mFlingRunnable);
+        if (mScroller != null) {
+            mScroller.forceFinished(true);
+        }
+        super.onDetachedFromWindow();
+    }
+
+    @Override
     protected void onDraw(Canvas canvas) {
         long t0 = System.nanoTime();
         super.onDraw(canvas);
