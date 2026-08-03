@@ -1231,8 +1231,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             return;
         }
 
-        String textStr = editable.toString();
-        int newLinePosition = textStr.indexOf('\n');
+        int newLinePosition = TextUtils.indexOf(editable, '\n');
 
         if (newLinePosition == 0) {
             return;
