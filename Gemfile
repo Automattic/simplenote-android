@@ -13,11 +13,6 @@ gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.11'
 # Faraday 2.0 is not compatible with Fastlane
 gem 'faraday', '~> 1.10'
 
-# Pinned to pull in the fix for GHSA-c4rq-3m3g-8wgx (CSS selector ReDoS).
-# Drop once `fastlane-plugin-wpmreleasetoolkit` moves to >= 14.4.1, whose
-# gemspec carries this floor transitively.
-gem 'nokogiri', '~> 1.19'
-
 # To avoid errors like:
 #
 # SSL_connect returned=1 errno=0 peeraddr=3.5.132.155:443 state=error: certificate verify failed (unable to get certificate CRL)
