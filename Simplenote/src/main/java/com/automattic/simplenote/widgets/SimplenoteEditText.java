@@ -212,16 +212,6 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
         super.onDetachedFromWindow();
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        long t0 = System.nanoTime();
-        super.onDraw(canvas);
-        double durationMs = (System.nanoTime() - t0) / 1_000_000.0;
-        int cursorOffset = getSelectionEnd();
-        int totalLength = (getText() != null) ? getText().length() : 0;
-        android.util.Log.d("SIMPLENOTE_PERF", "SimplenoteEditText.onDraw End | duration=" + String.format("%.3f", durationMs) + " ms | cursorOffset=" + cursorOffset + " | totalLength=" + totalLength);
-    }
-
     private boolean shouldOverridePredictiveTextBehavior() {
         String currentKeyboard = Settings.Secure.getString(
                 getContext().getContentResolver(),
