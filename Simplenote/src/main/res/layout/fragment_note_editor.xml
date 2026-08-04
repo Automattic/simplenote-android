@@ -28,7 +28,7 @@
                 android:background="@null"
                 android:fontFamily="?attr/styleFontFamily"
                 android:gravity="top"
-                android:inputType="textMultiLine|textCapSentences|textNoSuggestions"
+                android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
                 android:layout_height="match_parent"
                 android:layout_width="match_parent"
                 android:maxLength="999999999"
