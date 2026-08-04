@@ -455,6 +455,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
         mContentEditText.setOnFocusChangeListener(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mContentEditText.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                if (mNote != null && mNote.getSimperiumKey() != null) {
+                    mPreferences.edit().putInt(mNote.getSimperiumKey(), scrollY).apply();
+                }
+            });
+        }
         mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(requireContext()));
         mContentEditText.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mContentEditText.setAdapter(mLinkAutocompleteAdapter);
@@ -486,8 +493,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                             if (mMarkdown.getVisibility() == View.VISIBLE) {
                                 new Handler().postDelayed(
                                         () -> {
-                                            if (mNote != null && mNote.getSimperiumKey() != null && mRootView instanceof NestedScrollView) {
-                                                ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
+                                            if (mNote != null && mNote.getSimperiumKey() != null) {
+                                                mContentEditText.scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
                                             }
                                         },
                                     requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
@@ -644,7 +651,9 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     public void removeScrollListener() {
-        mRootView.setOnScrollChangeListener(null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mContentEditText.setOnScrollChangeListener(null);
+        }
     }
 
     public void scrollToMatch(int location) {
