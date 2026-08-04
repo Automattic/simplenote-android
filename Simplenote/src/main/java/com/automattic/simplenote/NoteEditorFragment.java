@@ -632,18 +632,10 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             Layout layout = mContentEditText.getLayout();
             if (layout != null) {
                 int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
-                if (mRootView instanceof NestedScrollView) {
-                    ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
-                } else {
-                    mContentEditText.scrollTo(0, lineTop);
-                }
+                mContentEditText.scrollTo(0, lineTop);
             }
         } else if (mNote != null && mNote.getSimperiumKey() != null) {
-            if (mRootView instanceof NestedScrollView) {
-                ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
-            } else {
-                mContentEditText.scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
-            }
+            mContentEditText.scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
         }
     }
 

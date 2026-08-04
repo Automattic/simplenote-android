@@ -145,7 +145,6 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setElegantTextHeight(false);
         }
-        setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE);
