@@ -29,16 +29,29 @@ platform :android do
 
   desc 'Updates the PlayStoreStrings.pot file'
   lane :update_play_store_strings do |version: release_version_current|
+    # <key in the .pot file> => <path to the .txt file>, or a { path:, comment: } hash to carry a translator comment
     files = {
-      release_note: RELEASE_NOTES_PATH,
-      play_store_promo: File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'short_description.txt'),
-      play_store_desc: File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'full_description.txt'),
-      play_store_app_title: File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'title.txt')
+      release_note: {
+        path: RELEASE_NOTES_PATH,
+        comment: 'translators: Release notes for this version to be displayed in the Play Store. Limit to 500 characters including spaces and commas!'
+      },
+      play_store_promo: {
+        path: File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'short_description.txt'),
+        comment: 'translators: Short description of the app to be displayed in the Play Store. Limit to 80 characters including spaces and commas!'
+      },
+      play_store_desc: {
+        path: File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'full_description.txt'),
+        comment: 'translators: Multi-paragraph text used to display in the Play Store.'
+      },
+      play_store_app_title: {
+        path: File.join(STORE_METADATA_SOURCE_DEFAULT_FOLDER, 'title.txt'),
+        comment: 'translators: Title to be displayed in the Play Store. Limit to 50 characters including spaces and commas!'
+      }
     }
 
     pot_path = File.join(METADATA_FOLDER, 'PlayStoreStrings.pot')
 
-    an_update_metadata_source(
+    gp_update_metadata_source(
       po_file_path: pot_path,
       source_files: files,
       release_version: version
