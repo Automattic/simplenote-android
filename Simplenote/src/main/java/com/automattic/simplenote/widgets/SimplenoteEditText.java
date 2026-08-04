@@ -159,6 +159,13 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
     }
 
+    private void recycleVelocityTracker() {
+        if (mVelocityTracker != null) {
+            mVelocityTracker.recycle();
+            mVelocityTracker = null;
+        }
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (mVelocityTracker == null) {
@@ -175,7 +182,7 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
             case MotionEvent.ACTION_UP:
                 mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
                 int initialVelocityY = (int) mVelocityTracker.getYVelocity();
-                if (Math.abs(initialVelocityY) > mMinimumVelocity) {
+                if (!hasSelection() && Math.abs(initialVelocityY) > mMinimumVelocity) {
                     Layout layout = getLayout();
                     int maxScrollY = Math.max(0, layout != null ? layout.getHeight() - (getHeight() - getTotalPaddingTop() - getTotalPaddingBottom()) : 0);
                     mScroller.fling(
@@ -186,16 +193,10 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
                     );
                     postOnAnimation(mFlingRunnable);
                 }
-                if (mVelocityTracker != null) {
-                    mVelocityTracker.recycle();
-                    mVelocityTracker = null;
-                }
+                recycleVelocityTracker();
                 break;
             case MotionEvent.ACTION_CANCEL:
-                if (mVelocityTracker != null) {
-                    mVelocityTracker.recycle();
-                    mVelocityTracker = null;
-                }
+                recycleVelocityTracker();
                 break;
         }
 
@@ -208,6 +209,7 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
         if (mScroller != null) {
             mScroller.forceFinished(true);
         }
+        recycleVelocityTracker();
         super.onDetachedFromWindow();
     }
 
