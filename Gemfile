@@ -3,15 +3,11 @@
 source 'https://rubygems.org'
 
 gem 'danger-dangermattic', '~> 1.4'
-gem 'fastlane', '~> 2.237'
+gem 'fastlane', '~> 2.238'
 # This comment avoids typing to switch to a development version for testing.
 #
 # gem 'fastlane-plugin-wpmreleasetoolkit', git: 'https://github.com/wordpress-mobile/release-toolkit', ref: ''
 gem 'fastlane-plugin-wpmreleasetoolkit', '~> 14.11'
-
-# Security: https://github.com/lostisland/faraday/pull/1665
-# Faraday 2.0 is not compatible with Fastlane
-gem 'faraday', '~> 2.14'
 
 # To avoid errors like:
 #
