@@ -24,7 +24,7 @@ class CollaboratorsViewModel @Inject constructor(
 
     private lateinit var noteId: String
 
-    private var jobTagsFlow: Job? = null
+    private var jobCollaborators: Job? = null
 
     fun loadCollaborators(noteId: String) {
         this.noteId = noteId
@@ -33,12 +33,12 @@ class CollaboratorsViewModel @Inject constructor(
         }
     }
 
-    private suspend fun updateUiState(noteId: String) {
-        when (val result = collaboratorsRepository.getCollaborators(noteId)) {
+    private suspend fun updateUiState(noteId: String, searchUpdate: Boolean = false, searchQuery: String? = null) {
+        when (val result = collaboratorsRepository.getCollaborators(noteId, searchQuery)) {
             is CollaboratorsActionResult.CollaboratorsList ->
                 _uiState.value = when (result.collaborators.isEmpty()) {
-                    true -> UiState.EmptyCollaborators
-                    false -> UiState.CollaboratorsList(result.collaborators)
+                    true -> UiState.EmptyCollaborators(allCollaboratorsRemoved = searchQuery.isNullOrEmpty(), searchUpdate)
+                    false -> UiState.CollaboratorsList(result.collaborators, searchUpdate, searchQuery)
                 }
             is CollaboratorsActionResult.NoteDeleted -> _uiState.value = UiState.NoteDeleted
             is CollaboratorsActionResult.NoteInTrash -> _uiState.value = UiState.NoteInTrash
@@ -46,7 +46,7 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     fun startListeningChanges() {
-        jobTagsFlow = viewModelScope.launch {
+        jobCollaborators = viewModelScope.launch {
             collaboratorsRepository.collaboratorsChanged(noteId).collect {
                 updateUiState(noteId)
             }
@@ -54,7 +54,7 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     fun stopListeningChanges() {
-        jobTagsFlow?.cancel()
+        jobCollaborators?.cancel()
     }
 
     fun clickAddCollaborator() {
@@ -77,12 +77,24 @@ class CollaboratorsViewModel @Inject constructor(
         _event.value = Event.CloseCollaboratorsEvent
     }
 
+    fun closeSearch() {
+        viewModelScope.launch {
+            updateUiState(noteId, searchUpdate = false)
+        }
+    }
+
+    fun search(searchQuery: String) {
+        viewModelScope.launch {
+            updateUiState(noteId, searchUpdate = true, searchQuery)
+        }
+    }
+
     fun removeCollaborator(collaborator: String) {
         viewModelScope.launch {
             when (val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)) {
                 is CollaboratorsActionResult.CollaboratorsList -> {
                     _uiState.value = when (result.collaborators.isEmpty()) {
-                        true -> UiState.EmptyCollaborators
+                        true -> UiState.EmptyCollaborators(allCollaboratorsRemoved = true)
                         false -> UiState.CollaboratorsList(result.collaborators)
                     }
 
@@ -102,8 +114,8 @@ class CollaboratorsViewModel @Inject constructor(
     sealed class UiState {
         object NoteInTrash : UiState()
         object NoteDeleted : UiState()
-        object EmptyCollaborators : UiState()
-        data class CollaboratorsList(val collaborators: List<String>) : UiState()
+        data class EmptyCollaborators(val allCollaboratorsRemoved: Boolean, val searchUpdate: Boolean = false) : UiState()
+        data class CollaboratorsList(val collaborators: List<String>, val searchUpdate: Boolean = false, val searchQuery: String? = null) : UiState()
     }
 
     sealed class Event {
