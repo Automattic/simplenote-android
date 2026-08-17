@@ -54,7 +54,7 @@
             android:key="pref_key_style"
             android:summary="%s"
             android:title="@string/style"
-            app:isPreferenceVisible="false"
+            app:isPreferenceVisible="true"
             tools:summary="@string/style_classic">
         </Preference>
 
