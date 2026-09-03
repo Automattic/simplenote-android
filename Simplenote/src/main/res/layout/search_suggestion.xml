@@ -39,7 +39,7 @@
 
     <ImageButton
         android:id="@+id/suggestion_delete"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:background="?attr/actionBarItemBackground"
         android:contentDescription="@string/description_delete_item"
         android:focusable="false"
         android:focusableInTouchMode="false"
