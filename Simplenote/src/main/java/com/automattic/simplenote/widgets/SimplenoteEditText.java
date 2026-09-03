@@ -16,13 +16,20 @@ import android.text.Spanned;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.widget.OverScroller;
+import android.graphics.Canvas;
+import android.text.InputType;
+import android.text.Layout;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.AdapterView;
+import android.widget.MultiAutoCompleteTextView;
 
 import androidx.annotation.DrawableRes;
-import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 
 import com.automattic.simplenote.R;
 import com.automattic.simplenote.analytics.AnalyticsTracker;
@@ -42,7 +49,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
+public class SimplenoteEditText extends MultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
     private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
     private static final Pattern INTERNOTE_LINK_PATTERN_FULL = Pattern.compile("(?s)(.)*(\\[)" + INTERNOTE_LINK_PATTERN_EDIT);
     private static final int CHECKBOX_LENGTH = 2; // one ClickableSpan character + one space character
@@ -51,34 +58,51 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
     private final List<OnSelectionChangedListener> listeners;
     private OnCheckboxToggledListener mOnCheckboxToggledListener;
 
+    private OverScroller mScroller;
+    private VelocityTracker mVelocityTracker;
+    private int mMinimumVelocity;
+    private int mMaximumVelocity;
+
+    private final Runnable mFlingRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (mScroller != null && mScroller.computeScrollOffset()) {
+                scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
+                postOnAnimation(this);
+            }
+        }
+    };
+
     @Override
     public boolean enoughToFilter() {
-        String substringCursor = getText().toString().substring(getSelectionEnd());
+        int end = getSelectionEnd();
+        if (end < 0) {
+            return false;
+        }
+
+        if (mTokenizer == null) {
+            return false;
+        }
+
+        Editable text = getText();
+        if (text == null || text.length() == 0) {
+            return false;
+        }
+
+        // Local Cursor Windowing O(1) optimization: inspect max 200 chars around cursor instead of full text toString()
+        int windowEnd = Math.min(text.length(), end + 200);
+        CharSequence substringCursor = text.subSequence(end, windowEnd);
         Matcher matcherEdit = INTERNOTE_LINK_PATTERN_EDIT.matcher(substringCursor);
 
         // When an internote link title is being edited, don't show an autocomplete popup.
         if (matcherEdit.lookingAt()) {
-            String substringEdit = substringCursor.substring(0, matcherEdit.end());
+            String substringEdit = substringCursor.subSequence(0, matcherEdit.end()).toString();
             Matcher matcherFull = INTERNOTE_LINK_PATTERN_FULL.matcher(substringEdit);
 
             if (!matcherFull.lookingAt()) {
                 return false;
             }
         }
-
-        Editable text = getText();
-        int end = getSelectionEnd();
-
-        if (end < 0) {
-            return false;
-        }
-
-		// solves a crash after updating dependencies in which this method
-	    // gets called in super() instantiation before the mTokenizer variable
-	    // is instantiated
-	    if (mTokenizer == null) {
-			return false;
-		}
 
         int start = mTokenizer.findTokenStart(text, end);
         return start > 0 && end - start >= 1;
@@ -115,6 +139,77 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         setOnItemClickListener(this);
         setTokenizer(mTokenizer);
         setThreshold(1);
+
+        // Performance Optimization Stack
+        setIncludeFontPadding(false);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setElegantTextHeight(false);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            setBreakStrategy(Layout.BREAK_STRATEGY_SIMPLE);
+            setHyphenationFrequency(Layout.HYPHENATION_FREQUENCY_NONE);
+        }
+
+        // Native OverScroller Fling Initialization
+        mScroller = new OverScroller(getContext());
+        ViewConfiguration configuration = ViewConfiguration.get(getContext());
+        mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
+        mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
+    }
+
+    private void recycleVelocityTracker() {
+        if (mVelocityTracker != null) {
+            mVelocityTracker.recycle();
+            mVelocityTracker = null;
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mVelocityTracker == null) {
+            mVelocityTracker = VelocityTracker.obtain();
+        }
+        mVelocityTracker.addMovement(event);
+
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                if (mScroller != null && !mScroller.isFinished()) {
+                    mScroller.forceFinished(true);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
+                int initialVelocityY = (int) mVelocityTracker.getYVelocity();
+                if (!hasSelection() && Math.abs(initialVelocityY) > mMinimumVelocity) {
+                    Layout layout = getLayout();
+                    int maxScrollY = Math.max(0, layout != null ? layout.getHeight() - (getHeight() - getTotalPaddingTop() - getTotalPaddingBottom()) : 0);
+                    mScroller.fling(
+                        getScrollX(), getScrollY(),
+                        0, -initialVelocityY,
+                        0, 0,
+                        0, maxScrollY
+                    );
+                    postOnAnimation(mFlingRunnable);
+                }
+                recycleVelocityTracker();
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                recycleVelocityTracker();
+                break;
+        }
+
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        removeCallbacks(mFlingRunnable);
+        if (mScroller != null) {
+            mScroller.forceFinished(true);
+        }
+        recycleVelocityTracker();
+        super.onDetachedFromWindow();
     }
 
     private boolean shouldOverridePredictiveTextBehavior() {
@@ -388,7 +483,29 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
 
     public void processChecklists() {
-        if (getText().length() == 0 || getContext() == null) {
+        if (getText() == null || getText().length() == 0 || getContext() == null) {
+            return;
+        }
+        processChecklists(0, getText().length());
+    }
+
+    public void processChecklists(int start, int count) {
+        if (getText() == null || getText().length() == 0 || getContext() == null) {
+            return;
+        }
+
+        Editable editable = getText();
+        int safeStart = Math.max(0, Math.min(start, editable.length()));
+        int safeEnd = Math.max(0, Math.min(start + count, editable.length()));
+
+        String textStr = editable.toString();
+        int paraStart = textStr.lastIndexOf('\n', safeStart - 1);
+        paraStart = (paraStart == -1) ? 0 : paraStart + 1;
+        int paraEnd = textStr.indexOf('\n', safeEnd);
+        paraEnd = (paraEnd == -1) ? editable.length() : paraEnd;
+
+        CharSequence editWindow = editable.subSequence(paraStart, paraEnd);
+        if (!editWindow.toString().contains("[")) {
             return;
         }
 

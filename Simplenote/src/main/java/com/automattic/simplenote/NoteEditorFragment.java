@@ -454,6 +454,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
         mContentEditText.setOnFocusChangeListener(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mContentEditText.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+                if (mNote != null && mNote.getSimperiumKey() != null) {
+                    mPreferences.edit().putInt(mNote.getSimperiumKey(), scrollY).apply();
+                }
+            });
+        }
         mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(requireContext()));
         mContentEditText.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mContentEditText.setAdapter(mLinkAutocompleteAdapter);
@@ -484,7 +491,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 new Handler().postDelayed(
                                         () -> {
                                             if (mNote != null && mNote.getSimperiumKey() != null) {
-                                                ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
+                                                mContentEditText.scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
                                             }
                                         },
                                     requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
@@ -625,31 +632,31 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             Layout layout = mContentEditText.getLayout();
             if (layout != null) {
                 int lineTop = layout.getLineTop(layout.getLineForOffset(matchLocation));
-                ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
+                mContentEditText.scrollTo(0, lineTop);
             }
         } else if (mNote != null && mNote.getSimperiumKey() != null) {
-            ((NestedScrollView) mRootView).scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
-            mRootView.setOnScrollChangeListener(
-                    (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                        if (mNote == null) {
-                            return;
-                        }
-                        mPreferences.edit().putInt(mNote.getSimperiumKey(), scrollY).apply();
-                    }
-            );
+            mContentEditText.scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
         }
     }
 
     public void removeScrollListener() {
-        mRootView.setOnScrollChangeListener(null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mContentEditText.setOnScrollChangeListener(null);
+        }
     }
 
     public void scrollToMatch(int location) {
         if (isAdded()) {
             // Calculate how far to scroll to bring the match into view
             Layout layout = mContentEditText.getLayout();
-            int lineTop = layout.getLineTop(layout.getLineForOffset(location));
-            ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
+            if (layout != null) {
+                int lineTop = layout.getLineTop(layout.getLineForOffset(location));
+                if (mRootView instanceof NestedScrollView) {
+                    ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
+                } else {
+                    mContentEditText.scrollTo(0, lineTop);
+                }
+            }
         }
     }
 
@@ -1184,7 +1191,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     public void afterTextChanged(Editable editable) {
         attemptAutoList(editable);
         setTitleSpan(editable);
-        mContentEditText.fixLineSpacing();
     }
 
     @Override
@@ -1207,7 +1213,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         // Temporarily remove the text watcher as we process checklists to prevent callback looping
         mContentEditText.removeTextChangedListener(this);
-        mContentEditText.processChecklists();
+        mContentEditText.processChecklists(start, count);
         mContentEditText.addTextChangedListener(this);
     }
 
@@ -1219,19 +1225,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
      * spans are removed when {@link MetricAffectingSpan} is removed.
      */
     private void setTitleSpan(Editable editable) {
-        for (MetricAffectingSpan span : editable.getSpans(0, editable.length(), MetricAffectingSpan.class)) {
-            if (span instanceof RelativeSizeSpan || span instanceof StyleSpan) {
-                editable.removeSpan(span);
-            }
+        if (editable == null || editable.length() == 0) {
+            return;
         }
 
-        int newLinePosition = getNoteContentString().indexOf("\n");
+        int newLinePosition = TextUtils.indexOf(editable, '\n');
 
         if (newLinePosition == 0) {
             return;
         }
 
         int titleEndPosition = (newLinePosition > 0) ? newLinePosition : editable.length();
+        int scanEnd = Math.min(editable.length(), titleEndPosition + 1);
+
+        for (MetricAffectingSpan span : editable.getSpans(0, scanEnd, MetricAffectingSpan.class)) {
+            if (span instanceof RelativeSizeSpan || span instanceof StyleSpan) {
+                editable.removeSpan(span);
+            }
+        }
+
         editable.setSpan(new RelativeSizeSpan(1.3f), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
         editable.setSpan(new StyleSpan(Typeface.BOLD), 0, titleEndPosition, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
     }

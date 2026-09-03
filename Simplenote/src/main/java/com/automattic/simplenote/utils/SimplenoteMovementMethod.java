@@ -60,6 +60,6 @@ public class SimplenoteMovementMethod extends ArrowKeyMovementMethod {
             return true;
         }
 
-        return false;
+        return super.onTouchEvent(textView, buffer, event);
     }
 }
