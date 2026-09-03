@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import com.automattic.simplenote.BuildConfig
 import com.automattic.simplenote.R
 import com.automattic.simplenote.ThemedAppCompatActivity
 import com.automattic.simplenote.utils.AccountNetworkUtils
@@ -108,6 +109,13 @@ open class NewCredentialsActivity : ThemedAppCompatActivity() {
 
         if (this.intent.extras != null && this.intent.hasExtra("EXTRA_IS_LOGIN")) {
             this.isLogin = this.intent.getBooleanExtra("EXTRA_IS_LOGIN", false)
+        }
+
+        if (BuildConfig.DEBUG && isLogin) {
+            inputEmail = findViewById<View>(R.id.input_email) as TextInputLayout
+            inputEmail?.editText?.setText(BuildConfig.LOGIN_EMAIL)
+            inputPassword = findViewById<View>(R.id.input_password) as TextInputLayout
+            inputPassword?.editText?.setText(BuildConfig.LOGIN_PASSWORD)
         }
 
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
