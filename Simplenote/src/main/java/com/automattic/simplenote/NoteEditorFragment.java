@@ -57,6 +57,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ShareCompat;
 import androidx.core.view.MenuCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -172,6 +174,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mCss;
     private WebView mMarkdown;
     private boolean mIsPaused;
+    private boolean mWasKeyboardVisible;
     private boolean mIsFromWidget;
 
     private NoteEditorViewModel viewModel;
@@ -467,6 +470,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagPadding = mRootView.findViewById(R.id.tag_padding);
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
         mPlaceholderView = mRootView.findViewById(R.id.placeholder);
+        releaseContentFocusWhenKeyboardHides();
 
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
@@ -1288,6 +1292,30 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         hideToolbarForLandscapeEditing();
+    }
+
+    /**
+     * Clears focus from the content field whenever the keyboard is dismissed.
+     *
+     * A predictive back gesture hides the keyboard at the system level without sending a key event
+     * to the view hierarchy, so SimplenoteEditText.onKeyPreIme() never runs and focus is never
+     * released. Landscape editing then leaves the toolbar and the markdown tabs hidden, because
+     * hideToolbarForLandscapeEditing() only restores them on a focus change. Watching the IME inset
+     * catches every way the keyboard can go away, not just the key event.
+     */
+    private void releaseContentFocusWhenKeyboardHides() {
+        ViewCompat.setOnApplyWindowInsetsListener(mRootView, (view, windowInsets) -> {
+            boolean isKeyboardVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime());
+
+            // Only react to the keyboard going away, otherwise focusing the field would clear the
+            // focus it has just been given, before the keyboard has had a chance to appear.
+            if (mWasKeyboardVisible && !isKeyboardVisible && mContentEditText.hasFocus()) {
+                mContentEditText.clearFocus();
+            }
+
+            mWasKeyboardVisible = isKeyboardVisible;
+            return windowInsets;
+        });
     }
 
     void hideToolbarForLandscapeEditing() {
