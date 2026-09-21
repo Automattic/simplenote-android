@@ -15,8 +15,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.graphics.Insets;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import androidx.core.os.CancellationSignal;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 public abstract class AbstractPasscodeKeyboardActivity extends Activity {
     public static final String KEY_MESSAGE = "message";
@@ -29,6 +34,35 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
     protected FingerprintManagerCompat mFingerprintManager;
     protected CancellationSignal mCancel;
 
+    /**
+     * Edge-to-edge is enforced from Android 16 (targetSdk 36) with no opt-out. These are fullscreen
+     * passcode screens without a toolbar, so the system bar insets are added on top of the layout's
+     * own padding to keep the prompt and the keypad clear of the status and navigation bars. The
+     * root keeps drawing its background behind the bars.
+     */
+    private void setUpEdgeToEdge() {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(
+            getWindow(),
+            getWindow().getDecorView()
+        );
+        controller.setAppearanceLightStatusBars(false);
+        controller.setAppearanceLightNavigationBars(false);
+
+        View root = findViewById(R.id.passcode_root);
+        final int left = root.getPaddingLeft();
+        final int top = root.getPaddingTop();
+        final int right = root.getPaddingRight();
+        final int bottom = root.getPaddingBottom();
+
+        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
+            Insets bars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            view.setPadding(left + bars.left, top + bars.top, right + bars.right, bottom + bars.bottom);
+            return windowInsets;
+        });
+    }
+
 	@SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +73,8 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
         }
 
         setContentView(R.layout.app_passcode_keyboard);
+
+        setUpEdgeToEdge();
 
         topMessage = (TextView) findViewById(R.id.passcodelock_prompt);
 

@@ -2,12 +2,32 @@ package org.wordpress.passcodelock;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
+import android.window.OnBackInvokedDispatcher;
 
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import androidx.core.os.CancellationSignal;
 
 public class PasscodeUnlockActivity extends AbstractPasscodeKeyboardActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // From Android 13 back is delivered through OnBackInvokedDispatcher rather than
+        // onBackPressed(), and targetSdk 36 enables that by default. This is a plain Activity, so
+        // there is no androidx OnBackPressedDispatcher to fall back on and the platform callback
+        // has to be registered directly. Without it, back would dismiss the lock screen without
+        // locking. onBackPressed() below still covers devices older than Android 13.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+                OnBackInvokedDispatcher.PRIORITY_DEFAULT,
+                this::lockAndGoHome
+            );
+        }
+    }
+
 	@SuppressLint("RestrictedApi")
     @Override
     public void onResume() {
@@ -21,8 +41,13 @@ public class PasscodeUnlockActivity extends AbstractPasscodeKeyboardActivity {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onBackPressed() {
+        lockAndGoHome();
+    }
+
+    private void lockAndGoHome() {
         getAppLock().forcePasswordLock();
         Intent i = new Intent();
         i.setAction(Intent.ACTION_MAIN);

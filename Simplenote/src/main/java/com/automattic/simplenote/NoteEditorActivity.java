@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -98,7 +99,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    handleBackPressed();
+                    getOnBackPressedDispatcher().onBackPressed();
                 }
             });
         }
@@ -240,29 +241,25 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             toolbar,
             findViewById(R.id.pager)
         );
+
+        mReturnToNoteListOnBack.setEnabled(isTaskRoot());
+        getOnBackPressedDispatcher().addCallback(this, mReturnToNoteListOnBack);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-	    handleBackPressed();
-    }
-
-    private void handleBackPressed() {
-        AppLog.add(Type.ACTION, "Tapped back button in navigation bar (NoteEditorActivity)");
-        if (isTaskRoot()) {
-            // The editor can be the task root when it comes from an action on a widget
-            // In these cases, instead of going to the home screen, the notes activity
-            // is started
+    // The editor can be the task root when it comes from an action on a widget. In these cases,
+    // instead of going to the home screen, the notes activity is started. Only enabled when the
+    // editor is the task root; otherwise the default back behaviour applies.
+    private final OnBackPressedCallback mReturnToNoteListOnBack = new OnBackPressedCallback(false) {
+        @Override
+        public void handleOnBackPressed() {
+            AppLog.add(Type.ACTION, "Tapped back button in navigation bar (NoteEditorActivity)");
             Intent intent = IntentUtils.maybeAliasedIntent(getApplicationContext());
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
 
             finish();
-        } else {
-	        getOnBackPressedDispatcher().onBackPressed();
         }
-    }
+    };
 
     @Override
     protected void onPause() {

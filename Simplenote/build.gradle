@@ -41,7 +41,7 @@ android {
         versionCode versionProperties.getProperty("versionCode").toInteger()
 
         minSdkVersion 23
-        targetSdkVersion 35
+        targetSdkVersion 36
 
         buildConfigField "String", "SENTRY_DSN", "\"https://89e443ca3fd84e588d1809cfbfcc40f4@sentry.io/1455558\""
     }
