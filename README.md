@@ -20,7 +20,7 @@ sdk.dir=/Applications/Android Studio.app/sdk
 ./gradlew Simplenote:installDebug
 ```
 
-* Create a new account in order to use a development build. Logging in with an existing Simplenote account won't work. Use the account for **testing purposes only** as all note data will be periodically cleared out on the server.
+* Set up credentials before your first build — see [Setup Credentials](#setup-credentials) below. A fresh clone builds against the placeholder Simperium app in `Simplenote/gradle.properties-example`, and logging in with a real Simplenote account against it fails with "Invalid username or password" even though the same credentials work on the web.
 
 _Note: Simplenote API features such as sharing and publishing will not work with development builds._
 
@@ -40,13 +40,35 @@ To run the test suite, execute the following `gradle` command:
 
 ## Setup Credentials
 
-Simplenote is powered by the [Simperium Sync'ing protocol](https://www.simperium.com). We distribute **testing credentials** that help us authenticate your application, and verify that the API calls being made are valid. Once the Simperium account is created, you can register an app and access the APP ID and necessary API keys.
+Simplenote is powered by the [Simperium Sync'ing protocol](https://www.simperium.com). The app authenticates against a specific Simperium application, identified by the `simperiumAppId` and `simperiumAppKey` fields in `Simplenote/gradle.properties`.
 
-**⚠️ Please note → We're not accepting any new Simperium accounts at this time.**
+That file is gitignored. If it does not exist, the `copyGradlePropertiesIfMissing` task in `Simplenote/build.gradle` creates it automatically from `Simplenote/gradle.properties-example`, which contains a **placeholder Simperium app**. A build using those placeholder values cannot authenticate any real Simplenote account — login fails with "Invalid username or password" even for credentials that work at [app.simplenote.com](https://app.simplenote.com). If login is failing unexpectedly, check `BuildConfig.SIMPERIUM_APP_ID` before investigating anything else.
 
-After you've created your own Simperium application, you can edit the fields `simperiumAppId` and `simperiumAppKey` in the file `Simplenote/gradle.properties`. 
+### Automattic contributors
 
-This will allow you to compile and run the app on a device or a simulator. Please note that this will only work the Simperium account credentials, no other Simplenote account will work.
+Install the real credentials with:
+
+```shell
+bundle install
+bundle exec fastlane run configure_apply
+```
+
+This requires access to the internal secrets store. It overwrites `Simplenote/gradle.properties` with the production values, and also populates `wpcomClientId`, which the "Log in with WordPress.com" button needs.
+
+**Run this before your first build.** Once a build has created the placeholder `Simplenote/gradle.properties`, `configure_apply` detects a pre-existing file that differs from the encrypted one and stops to ask whether you want to see a diff — which fails outright in a non-interactive shell such as CI or an agent session. If you have already built, delete the placeholder first:
+
+```shell
+rm Simplenote/gradle.properties
+bundle exec fastlane run configure_apply
+```
+
+Deleting it is safe as long as it is still identical to `Simplenote/gradle.properties-example`; verify with `diff` if unsure.
+
+### External contributors
+
+Registering your own Simperium application would let you build and run the app, but **Simperium is not accepting new accounts at this time**, so this path is currently closed. Contributions that do not require signing in are still very welcome — see the [Contributing Guide](CONTRIBUTING.md).
+
+Note that the in-app signup screen does not create an account in your own Simperium application. It posts to the production endpoint at `app.simplenote.com/account/request-signup` and sends a confirmation email, so the resulting account lives in production Simperium and will not work with a development build.
 
 _Note: Simplenote API features such as sharing and publishing will not work with development builds._
 
