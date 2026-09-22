@@ -534,7 +534,6 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         };
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
-        getOnBackPressedDispatcher().addCallback(this, mCloseDrawerOnBack);
     }
 
     private void filterListBySelectedTag() {
@@ -1454,6 +1453,9 @@ public class NotesActivity extends ThemedAppCompatActivity implements NoteListFr
         mDrawerToggle.syncState();
         // onDrawerOpened() does not fire for a drawer restored as open, so sync the callback too.
         mCloseDrawerOnBack.setEnabled(mDrawerLayout.isDrawerOpen(GravityCompat.START));
+        // Registered here, after the fragments are attached, so an open drawer still wins over any
+        // back-stack callback they add. The dispatcher gives precedence to whatever is added last.
+        getOnBackPressedDispatcher().addCallback(this, mCloseDrawerOnBack);
     }
 
     @Override

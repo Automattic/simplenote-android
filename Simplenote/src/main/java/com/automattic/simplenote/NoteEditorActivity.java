@@ -99,6 +99,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    AppLog.add(Type.ACTION, "Tapped back button in navigation bar (NoteEditorActivity)");
                     getOnBackPressedDispatcher().onBackPressed();
                 }
             });
@@ -252,7 +253,7 @@ public class NoteEditorActivity extends ThemedAppCompatActivity {
     private final OnBackPressedCallback mReturnToNoteListOnBack = new OnBackPressedCallback(false) {
         @Override
         public void handleOnBackPressed() {
-            AppLog.add(Type.ACTION, "Tapped back button in navigation bar (NoteEditorActivity)");
+            AppLog.add(Type.ACTION, "Returned to note list instead of home (NoteEditorActivity)");
             Intent intent = IntentUtils.maybeAliasedIntent(getApplicationContext());
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

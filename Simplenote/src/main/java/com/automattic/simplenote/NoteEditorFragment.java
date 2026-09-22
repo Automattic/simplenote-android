@@ -174,7 +174,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mCss;
     private WebView mMarkdown;
     private boolean mIsPaused;
-    private boolean mWasKeyboardVisible;
+    private boolean mIsKeyboardVisible;
     private boolean mIsFromWidget;
 
     private NoteEditorViewModel viewModel;
@@ -470,7 +470,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagPadding = mRootView.findViewById(R.id.tag_padding);
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
         mPlaceholderView = mRootView.findViewById(R.id.placeholder);
-        releaseContentFocusWhenKeyboardHides();
+        trackKeyboardVisibility();
 
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
@@ -1295,25 +1295,25 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     /**
-     * Clears focus from the content field whenever the keyboard is dismissed.
+     * Keeps the landscape editing chrome in step with the keyboard.
      *
-     * A predictive back gesture hides the keyboard at the system level without sending a key event
-     * to the view hierarchy, so SimplenoteEditText.onKeyPreIme() never runs and focus is never
-     * released. Landscape editing then leaves the toolbar and the markdown tabs hidden, because
-     * hideToolbarForLandscapeEditing() only restores them on a focus change. Watching the IME inset
-     * catches every way the keyboard can go away, not just the key event.
+     * The toolbar and the markdown tabs are hidden to make room for the keyboard, so keyboard
+     * visibility is what they should follow. Focus alone is not enough: a predictive back gesture
+     * hides the keyboard at the system level without sending a key event to the view hierarchy, so
+     * SimplenoteEditText.onKeyPreIme() never runs, the content field keeps focus, and the chrome
+     * would stay hidden with no way to bring it back.
      */
-    private void releaseContentFocusWhenKeyboardHides() {
+    private void trackKeyboardVisibility() {
+        mIsKeyboardVisible = false;
+
         ViewCompat.setOnApplyWindowInsetsListener(mRootView, (view, windowInsets) -> {
             boolean isKeyboardVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime());
 
-            // Only react to the keyboard going away, otherwise focusing the field would clear the
-            // focus it has just been given, before the keyboard has had a chance to appear.
-            if (mWasKeyboardVisible && !isKeyboardVisible && mContentEditText.hasFocus()) {
-                mContentEditText.clearFocus();
+            if (isKeyboardVisible != mIsKeyboardVisible) {
+                mIsKeyboardVisible = isKeyboardVisible;
+                hideToolbarForLandscapeEditing();
             }
 
-            mWasKeyboardVisible = isKeyboardVisible;
             return windowInsets;
         });
     }
@@ -1327,6 +1327,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         int displayMode = getResources().getConfiguration().orientation;
 
         if (mContentEditText.hasFocus() &&
+                mIsKeyboardVisible &&
                 displayMode == Configuration.ORIENTATION_LANDSCAPE &&
                 !activity.isPreviewTabSelected()) {
             if (mNote.isMarkdownEnabled()) {

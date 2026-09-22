@@ -151,7 +151,7 @@ public class FullScreenDialogFragment extends DialogFragment {
             new OnBackPressedCallback(true) {
                 @Override
                 public void handleOnBackPressed() {
-                    onDismissClicked();
+                    onBackPressed();
                 }
             }
         );

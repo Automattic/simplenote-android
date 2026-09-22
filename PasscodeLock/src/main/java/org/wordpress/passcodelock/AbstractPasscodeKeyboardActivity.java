@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.Insets;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import androidx.core.os.CancellationSignal;
@@ -43,21 +45,28 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
     private void setUpEdgeToEdge() {
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
 
+        View root = findViewById(R.id.passcode_root);
+
+        // The system bars draw over the lock screen background, so pick the icon colour that stays
+        // legible against it rather than assuming a dark background.
+        boolean isLightBackground = ColorUtils.calculateLuminance(
+            ContextCompat.getColor(this, R.color.passcodelock_background)) > 0.5;
         WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(
             getWindow(),
             getWindow().getDecorView()
         );
-        controller.setAppearanceLightStatusBars(false);
-        controller.setAppearanceLightNavigationBars(false);
+        controller.setAppearanceLightStatusBars(isLightBackground);
+        controller.setAppearanceLightNavigationBars(isLightBackground);
 
-        View root = findViewById(R.id.passcode_root);
         final int left = root.getPaddingLeft();
         final int top = root.getPaddingTop();
         final int right = root.getPaddingRight();
         final int bottom = root.getPaddingBottom();
 
         ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
-            Insets bars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
+            // Rotation is allowed on large screens, where a side cutout can land beside the keypad.
+            Insets bars = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
             view.setPadding(left + bars.left, top + bars.top, right + bars.right, bottom + bars.bottom);
             return windowInsets;
         });

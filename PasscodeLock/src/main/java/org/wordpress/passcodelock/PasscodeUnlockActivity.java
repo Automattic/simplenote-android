@@ -15,11 +15,15 @@ public class PasscodeUnlockActivity extends AbstractPasscodeKeyboardActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // From Android 13 back is delivered through OnBackInvokedDispatcher rather than
-        // onBackPressed(), and targetSdk 36 enables that by default. This is a plain Activity, so
-        // there is no androidx OnBackPressedDispatcher to fall back on and the platform callback
-        // has to be registered directly. Without it, back would dismiss the lock screen without
-        // locking. onBackPressed() below still covers devices older than Android 13.
+        // Where the platform routes back through OnBackInvokedDispatcher instead of
+        // onBackPressed(), the callback has to be registered directly: this is a plain Activity, so
+        // there is no androidx OnBackPressedDispatcher to fall back on. Without it, back would
+        // dismiss the lock screen without locking.
+        //
+        // registerOnBackInvokedCallback exists from Android 13, but the platform only consults it
+        // when the dispatcher is enabled for the app, which depends on the OS version and the
+        // manifest. onBackPressed() below is therefore still the live path on every device where it
+        // is not — do not remove it as redundant without checking the behaviour on those versions.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
                 OnBackInvokedDispatcher.PRIORITY_DEFAULT,
