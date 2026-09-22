@@ -57,6 +57,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ShareCompat;
 import androidx.core.view.MenuCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -172,6 +174,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private String mCss;
     private WebView mMarkdown;
     private boolean mIsPaused;
+    private boolean mIsKeyboardVisible;
     private boolean mIsFromWidget;
 
     private NoteEditorViewModel viewModel;
@@ -467,6 +470,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mTagPadding = mRootView.findViewById(R.id.tag_padding);
         mHighlighter = new MatchOffsetHighlighter(mMatchHighlighter, mContentEditText);
         mPlaceholderView = mRootView.findViewById(R.id.placeholder);
+        trackKeyboardVisibility();
 
         if (DisplayUtils.isLargeScreenLandscape(getActivity()) && mNote == null) {
             mPlaceholderView.setVisibility(View.VISIBLE);
@@ -1290,6 +1294,30 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         hideToolbarForLandscapeEditing();
     }
 
+    /**
+     * Keeps the landscape editing chrome in step with the keyboard.
+     *
+     * The toolbar and the markdown tabs are hidden to make room for the keyboard, so keyboard
+     * visibility is what they should follow. Focus alone is not enough: a predictive back gesture
+     * hides the keyboard at the system level without sending a key event to the view hierarchy, so
+     * SimplenoteEditText.onKeyPreIme() never runs, the content field keeps focus, and the chrome
+     * would stay hidden with no way to bring it back.
+     */
+    private void trackKeyboardVisibility() {
+        mIsKeyboardVisible = false;
+
+        ViewCompat.setOnApplyWindowInsetsListener(mRootView, (view, windowInsets) -> {
+            boolean isKeyboardVisible = windowInsets.isVisible(WindowInsetsCompat.Type.ime());
+
+            if (isKeyboardVisible != mIsKeyboardVisible) {
+                mIsKeyboardVisible = isKeyboardVisible;
+                hideToolbarForLandscapeEditing();
+            }
+
+            return windowInsets;
+        });
+    }
+
     void hideToolbarForLandscapeEditing() {
         if (getActivity() == null || !(getActivity() instanceof NoteEditorActivity) || mNote == null) {
             return;
@@ -1299,6 +1327,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         int displayMode = getResources().getConfiguration().orientation;
 
         if (mContentEditText.hasFocus() &&
+                mIsKeyboardVisible &&
                 displayMode == Configuration.ORIENTATION_LANDSCAPE &&
                 !activity.isPreviewTabSelected()) {
             if (mNote.isMarkdownEnabled()) {

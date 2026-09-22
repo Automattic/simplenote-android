@@ -14,6 +14,8 @@ import android.view.Window;
 
 import androidx.annotation.DimenRes;
 import androidx.annotation.IdRes;
+import androidx.activity.ComponentDialog;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
@@ -143,12 +145,16 @@ public class FullScreenDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         initBuilderArguments();
 
-        Dialog dialog = new Dialog(requireContext(), getTheme()) {
-            @Override
-            public void onBackPressed() {
-                onDismissClicked();
+        ComponentDialog dialog = new ComponentDialog(requireContext(), getTheme());
+        dialog.getOnBackPressedDispatcher().addCallback(
+            dialog,
+            new OnBackPressedCallback(true) {
+                @Override
+                public void handleOnBackPressed() {
+                    onBackPressed();
+                }
             }
-        };
+        );
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         return dialog;

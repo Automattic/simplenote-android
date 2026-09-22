@@ -91,10 +91,6 @@ open class NewCredentialsActivity : ThemedAppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-    }
-
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -284,7 +280,7 @@ open class NewCredentialsActivity : ThemedAppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
-            this.onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
             return true
         } else {
             return super.onOptionsItemSelected(item)

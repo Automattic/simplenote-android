@@ -1,15 +1,12 @@
 package org.wordpress.passcodelock;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import androidx.core.os.CancellationSignal;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 
 public class PasscodeManagePasswordActivity extends AbstractPasscodeKeyboardActivity {
     public static final String  KEY_TYPE = "type";
@@ -20,23 +17,6 @@ public class PasscodeManagePasswordActivity extends AbstractPasscodeKeyboardActi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        // Setup edge-to-edge display for Android 15+ compatibility
-        // This is a fullscreen passcode activity without toolbar
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-            WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-            
-            WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(
-                getWindow(), 
-                getWindow().getDecorView()
-            );
-            
-            if (controller != null) {
-                // Dark status bar appearance for the passcode screen background
-                controller.setAppearanceLightStatusBars(false);
-                controller.setAppearanceLightNavigationBars(false);
-            }
-        }
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
