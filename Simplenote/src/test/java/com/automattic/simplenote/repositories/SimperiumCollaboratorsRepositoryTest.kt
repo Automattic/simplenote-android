@@ -34,7 +34,7 @@ class SimperiumCollaboratorsRepositoryTest {
     private val noteId = "key1"
     private val note = Note(noteId).apply {
         content = "Hello World"
-        tags = listOf("tag1", "tag2", "test@emil.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
+        tags = listOf("tag1", "tag2", "test@email.com", "name@example.co.jp", "name@test", "あいうえお@example.com")
         bucket = mockBucket
     }
 
@@ -73,7 +73,7 @@ class SimperiumCollaboratorsRepositoryTest {
 
     @Test
     fun getCollaboratorsShouldReturnJustEmails() = runTest {
-        val expected = CollaboratorsActionResult.CollaboratorsList(listOf("test@emil.com", "name@example.co.jp"))
+        val expected = CollaboratorsActionResult.CollaboratorsList(listOf("test@email.com", "name@example.co.jp"))
         val result = collaboratorsRepository.getCollaborators(noteId)
 
         assertEquals(expected, result)
@@ -105,7 +105,7 @@ class SimperiumCollaboratorsRepositoryTest {
 
         val result = collaboratorsRepository.addCollaborator(noteId, collaborator)
 
-        val newCollaborators = listOf("test@emil.com", "name@example.co.jp", collaborator)
+        val newCollaborators = listOf("test@email.com", "name@example.co.jp", collaborator)
         val expected = CollaboratorsActionResult.CollaboratorsList(newCollaborators)
         assertEquals(expected, result)
     }
@@ -138,7 +138,7 @@ class SimperiumCollaboratorsRepositoryTest {
 
         val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)
 
-        val newCollaborators = listOf("test@emil.com")
+        val newCollaborators = listOf("test@email.com")
         val expected = CollaboratorsActionResult.CollaboratorsList(newCollaborators)
         assertEquals(expected, result)
     }

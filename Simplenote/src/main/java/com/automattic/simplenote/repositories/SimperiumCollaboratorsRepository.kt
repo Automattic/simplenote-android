@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -32,14 +33,20 @@ class SimperiumCollaboratorsRepository @Inject constructor(
     }
 
     /**
-     * Return a list of collaborators (email addresses as tags) if the note for the given simperiumKey ([noteId]) is
-     * not in the trash and has not been deleted
+     * Get list of collaborators (email addresses as tags) for given [noteId] which is not deleted, not trashed, and
+     * contains given (optional) [query].
+     *
+     * @param noteId [String] Simperium key of note to retrieve collaborators from
+     * @param query  [String] (optional) to filter list of collaborators with
+     *
+     * @return [List]<[String]> of collaborators for [noteId] containing [query]
      */
     override suspend fun getCollaborators(
-        noteId: String
+        noteId: String,
+        query: String?
     ) = when (val result = getNote(noteId)) {
         is Either.Left -> result.l
-        is Either.Right -> CollaboratorsActionResult.CollaboratorsList(filterCollaborators(result.r))
+        is Either.Right -> CollaboratorsActionResult.CollaboratorsList(filterCollaborators(result.r, query))
     }
 
     override suspend fun addCollaborator(
@@ -106,6 +113,11 @@ class SimperiumCollaboratorsRepository @Inject constructor(
         }
     }
 
+    private fun filterCollaborators(note: Note) = note.tags.filter { tag ->
+        isValidCollaborator(tag)
+    }
 
-    private fun filterCollaborators(note: Note) = note.tags.filter { tag -> isValidCollaborator(tag) }
+    private fun filterCollaborators(note: Note, query: String?) = note.tags.filter { tag ->
+        isValidCollaborator(tag) && tag.lowercase(Locale.ROOT).contains(query?.lowercase(Locale.ROOT) ?: "")
+    }
 }
