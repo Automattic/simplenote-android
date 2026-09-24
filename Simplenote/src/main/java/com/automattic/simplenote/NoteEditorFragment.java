@@ -57,7 +57,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
 import androidx.core.app.ShareCompat;
 import androidx.core.view.MenuCompat;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -643,11 +642,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
             Layout layout = mContentEditText.getLayout();
             if (layout != null) {
                 int lineTop = layout.getLineTop(layout.getLineForOffset(location));
-                if (mRootView instanceof NestedScrollView) {
-                    ((NestedScrollView) mRootView).smoothScrollTo(0, lineTop);
-                } else {
-                    mContentEditText.scrollTo(0, lineTop);
-                }
+                mContentEditText.scrollTo(0, lineTop);
             }
         }
     }

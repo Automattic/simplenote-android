@@ -1,145 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/note_editor"
-    android:fillViewport="true"
+    android:animateLayoutChanges="true"
     android:layout_height="match_parent"
     android:layout_weight="3"
-    android:layout_width="match_parent"
-    android:scrollbars="vertical">
+    android:layout_width="match_parent">
 
-    <FrameLayout
-        android:animateLayoutChanges="true"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
+    <LinearLayout
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/padding_extra_large"
+        android:paddingStart="@dimen/padding_extra_large">
 
-        <LinearLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:paddingEnd="@dimen/padding_extra_large"
-            android:paddingStart="@dimen/padding_extra_large">
+        <FrameLayout
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_width="match_parent">
 
-            <androidx.core.widget.NestedScrollView
-                android:fillViewport="true"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_width="match_parent">
-
-                <com.automattic.simplenote.widgets.SimplenoteEditText
-                    android:id="@+id/note_content"
-                    android:background="@null"
-                    android:fontFamily="?attr/styleFontFamily"
-                    android:gravity="top"
-                    android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:lineSpacingExtra="@dimen/line_spacing"
-                    android:lineSpacingMultiplier="1.0"
-                    android:maxLength="999999999"
-                    android:nextFocusDown="@id/tag_input"
-                    android:nextFocusForward="@id/tag_input"
-                    android:paddingBottom="@dimen/padding_extra_extra_large"
-                    android:paddingTop="@dimen/padding_extra_extra_large"
-                    android:scrollHorizontally="false"
-                    android:textColor="?attr/noteEditorTextColor"
-                    android:textColorLink="?attr/colorAccent"
-                    tools:context=".NoteEditorFragment"/>
-
-            </androidx.core.widget.NestedScrollView>
-
-            <HorizontalScrollView
-                android:id="@+id/horizontal_scroll_view"
-                android:clipToPadding="false"
-                android:fillViewport="true"
-                android:layout_height="wrap_content"
+            <com.automattic.simplenote.widgets.SimplenoteEditText
+                android:id="@+id/note_content"
+                android:background="@null"
+                android:fontFamily="?attr/styleFontFamily"
+                android:gravity="top"
+                android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+                android:layout_height="match_parent"
                 android:layout_width="match_parent"
-                android:overScrollMode="never"
-                android:scrollbars="none">
+                android:maxLength="999999999"
+                android:nextFocusDown="@id/tag_input"
+                android:nextFocusForward="@id/tag_input"
+                android:paddingBottom="@dimen/padding_extra_extra_large"
+                android:paddingTop="@dimen/padding_extra_extra_large"
+                android:scrollHorizontally="false"
+                android:scrollbars="vertical"
+                android:textColor="?attr/noteEditorTextColor"
+                android:textColorLink="?attr/colorAccent"
+                android:imeOptions="flagNoExtractUi"
+                tools:context=".NoteEditorFragment"/>
 
-                <LinearLayout
+        </FrameLayout>
+
+        <HorizontalScrollView
+            android:id="@+id/horizontal_scroll_view"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/tag_chips"
+                    android:clipToPadding="false"
+                    android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:orientation="horizontal">
+                    android:paddingBottom="@dimen/padding_small"
+                    android:paddingTop="@dimen/padding_small"
+                    android:visibility="gone"/>
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/tag_chips"
-                        android:clipToPadding="false"
-                        android:layout_gravity="center_vertical"
-                        android:layout_height="wrap_content"
-                        android:layout_width="wrap_content"
-                        android:paddingBottom="@dimen/padding_small"
-                        android:paddingTop="@dimen/padding_small"
-                        android:visibility="gone"/>
+                <View
+                    android:id="@+id/tag_padding"
+                    android:layout_height="match_parent"
+                    android:layout_width="@dimen/padding_small"/>
 
-                    <View
-                        android:id="@+id/tag_padding"
-                        android:layout_height="match_parent"
-                        android:layout_width="@dimen/padding_small"/>
+                <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
+                    android:id="@+id/tag_input"
+                    android:background="?attr/mainBackgroundColor"
+                    android:completionThreshold="1"
+                    android:dropDownAnchor="@id/horizontal_scroll_view"
+                    android:hint="@string/tag_hint"
+                    android:inputType="textNoSuggestions"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:longClickable="false"
+                    android:minHeight="@dimen/tag_input_height"
+                    android:nextFocusForward="@+id/note_content"
+                    android:nextFocusLeft="@id/tag_input"
+                    android:nextFocusUp="@id/note_editor"
+                    android:textColor="?attr/noteEditorTextColor"
+                    android:textColorHint="?attr/hintTextColor"
+                    android:textSize="@dimen/text_tag"/>
 
-                    <com.automattic.simplenote.utils.TagsMultiAutoCompleteTextView
-                        android:id="@+id/tag_input"
-                        android:background="?attr/mainBackgroundColor"
-                        android:completionThreshold="1"
-                        android:dropDownAnchor="@id/horizontal_scroll_view"
-                        android:hint="@string/tag_hint"
-                        android:inputType="textNoSuggestions"
-                        android:layout_height="wrap_content"
-                        android:layout_width="match_parent"
-                        android:longClickable="false"
-                        android:minHeight="@dimen/tag_input_height"
-                        android:nextFocusForward="@+id/note_content"
-                        android:nextFocusLeft="@id/tag_input"
-                        android:nextFocusUp="@id/note_editor"
-                        android:textColor="?attr/noteEditorTextColor"
-                        android:textColorHint="?attr/hintTextColor"
-                        android:textSize="@dimen/text_tag"/>
+            </LinearLayout>
 
-                </LinearLayout>
+        </HorizontalScrollView>
 
-            </HorizontalScrollView>
+    </LinearLayout>
 
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/placeholder"
+        android:background="?attr/mainBackgroundColor"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/placeholder"
-            android:background="?attr/mainBackgroundColor"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:visibility="gone">
+        <ImageView
+            android:contentDescription="@string/logo"
+            android:layout_height="@dimen/logo_empty"
+            android:layout_width="@dimen/logo_empty"
+            android:src="@drawable/ic_simplenote_24dp"
+            app:tint="?attr/emptyImageColor">
+        </ImageView>
 
-            <ImageView
-                android:contentDescription="@string/logo"
-                android:layout_height="@dimen/logo_empty"
-                android:layout_width="@dimen/logo_empty"
-                android:src="@drawable/ic_simplenote_24dp"
-                app:tint="?attr/emptyImageColor">
-            </ImageView>
+    </LinearLayout>
 
-        </LinearLayout>
+    <ViewStub
+        android:id="@+id/stub_error"
+        android:layout="@layout/fragment_note_error"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    </ViewStub>
 
-        <ViewStub
-            android:id="@+id/stub_error"
-            android:layout="@layout/fragment_note_error"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
-        </ViewStub>
+    <ViewStub
+        android:id="@+id/stub_webview"
+        android:layout="@layout/fragment_note_webview"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+    </ViewStub>
 
-        <ViewStub
-            android:id="@+id/stub_webview"
-            android:layout="@layout/fragment_note_webview"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
-        </ViewStub>
-
-    </FrameLayout>
-
-</androidx.core.widget.NestedScrollView>
+</FrameLayout>
