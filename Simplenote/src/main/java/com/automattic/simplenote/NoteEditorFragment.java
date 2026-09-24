@@ -1221,27 +1221,37 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     /**
      * Set the note title to be a larger size and bold style.
-     *
-     * Remove all existing spans before applying spans or performance issues will occur.  Since both
-     * {@link RelativeSizeSpan} and {@link StyleSpan} inherit from {@link MetricAffectingSpan}, all
-     * spans are removed when {@link MetricAffectingSpan} is removed.
      */
-    private void setTitleSpan(Editable editable) {
+    /* package */ static void setTitleSpan(Editable editable) {
         if (editable == null || editable.length() == 0) {
             return;
+        }
+
+        RelativeSizeSpan[] titleSpans = editable.getSpans(0, editable.length(), RelativeSizeSpan.class);
+        int maxSpanEnd = 0;
+        for (RelativeSizeSpan span : titleSpans) {
+            maxSpanEnd = Math.max(maxSpanEnd, editable.getSpanEnd(span));
+            editable.removeSpan(span);
         }
 
         int newLinePosition = TextUtils.indexOf(editable, '\n');
 
         if (newLinePosition == 0) {
+            StyleSpan[] styleSpans = editable.getSpans(0, maxSpanEnd, StyleSpan.class);
+            for (StyleSpan span : styleSpans) {
+                if (span.getStyle() == Typeface.BOLD) {
+                    editable.removeSpan(span);
+                }
+            }
             return;
         }
 
         int titleEndPosition = (newLinePosition > 0) ? newLinePosition : editable.length();
-        int scanEnd = Math.min(editable.length(), titleEndPosition + 1);
+        int cleanEnd = Math.max(titleEndPosition, maxSpanEnd);
 
-        for (MetricAffectingSpan span : editable.getSpans(0, scanEnd, MetricAffectingSpan.class)) {
-            if (span instanceof RelativeSizeSpan || span instanceof StyleSpan) {
+        StyleSpan[] styleSpans = editable.getSpans(0, cleanEnd, StyleSpan.class);
+        for (StyleSpan span : styleSpans) {
+            if (span.getStyle() == Typeface.BOLD) {
                 editable.removeSpan(span);
             }
         }
