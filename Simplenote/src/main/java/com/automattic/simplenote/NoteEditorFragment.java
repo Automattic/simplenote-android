@@ -173,6 +173,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     private WebView mMarkdown;
     private boolean mIsPaused;
     private boolean mIsFromWidget;
+    private SaveNoteTask mSaveNoteTask;
 
     private NoteEditorViewModel viewModel;
 
@@ -454,13 +455,6 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         mContentEditText.setOnCheckboxToggledListener(this);
         mContentEditText.setMovementMethod(SimplenoteMovementMethod.getInstance());
         mContentEditText.setOnFocusChangeListener(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mContentEditText.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-                if (mNote != null && mNote.getSimperiumKey() != null) {
-                    mPreferences.edit().putInt(mNote.getSimperiumKey(), scrollY).apply();
-                }
-            });
-        }
         mContentEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, PrefUtils.getFontSize(requireContext()));
         mContentEditText.setDropDownBackgroundResource(R.drawable.bg_list_popup);
         mContentEditText.setAdapter(mLinkAutocompleteAdapter);
@@ -640,9 +634,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
     }
 
     public void removeScrollListener() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mContentEditText.setOnScrollChangeListener(null);
-        }
+        // No-op to preserve interface contract for NotesActivity
     }
 
     public void scrollToMatch(int location) {
@@ -725,8 +717,21 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         }
 
         mHighlighter.stop();
+        saveScrollPosition();
         saveNote();
         AppLog.add(Type.SCREEN, "Paused (NoteEditorFragment)");
+    }
+
+    @Override
+    public void onDestroyView() {
+        saveScrollPosition();
+        super.onDestroyView();
+    }
+
+    /* package */ void saveScrollPosition() {
+        if (mNote != null && mNote.getSimperiumKey() != null && mContentEditText != null && mPreferences != null) {
+            mPreferences.edit().putInt(mNote.getSimperiumKey(), mContentEditText.getScrollY()).apply();
+        }
     }
 
     @Override
@@ -1068,11 +1073,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
         mPlaceholderView.setVisibility(View.GONE);
         mMatchOffsets = matchOffsets;
+        saveScrollPosition();
         saveNote();
         new LoadNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteID);
     }
 
-    private void updateNote(Note updatedNote) {
+    /* package */ void updateNote(Note updatedNote) {
+        saveScrollPosition();
         // update note if network change arrived
         mNote = updatedNote;
         refreshContent(true);
@@ -1267,7 +1274,8 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 " / Characters: " + NoteUtils.getCharactersCount(mNote.getContent()) +
                 " / Words: " + NoteUtils.getWordCount(mNote.getContent()) + ")"
         );
-        new SaveNoteTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        mSaveNoteTask = new SaveNoteTask(this);
+        mSaveNoteTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
     public boolean isPlaceholderVisible() {
@@ -1960,6 +1968,28 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                 viewModel.removeTag(tagName, mNote);
             });
             mTagChips.addView(chip);
+        }
+    }
+
+    /* package */ void setNoteForTest(Note note) {
+        mNote = note;
+    }
+
+    /* package */ void setContentEditTextForTest(SimplenoteEditText editText) {
+        mContentEditText = editText;
+    }
+
+    /* package */ void setPreferencesForTest(SharedPreferences preferences) {
+        mPreferences = preferences;
+    }
+
+    /* package */ void cancelPendingSavesForTest() {
+        if (mAutoSaveHandler != null) {
+            mAutoSaveHandler.removeCallbacksAndMessages(null);
+        }
+        if (mSaveNoteTask != null) {
+            mSaveNoteTask.cancel(true);
+            mSaveNoteTask = null;
         }
     }
 }
