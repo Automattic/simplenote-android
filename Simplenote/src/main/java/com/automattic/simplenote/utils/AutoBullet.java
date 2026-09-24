@@ -20,37 +20,37 @@ public class AutoBullet {
             return;
         }
 
+        if (editable.charAt(newCursorPosition - 1) != '\n') {
+            return;
+        }
+
         String noteContent = editable.toString();
-        String prevChar = noteContent.substring(newCursorPosition - 1, newCursorPosition);
+        int prevParagraphEnd = newCursorPosition - 1;
+        int prevParagraphStart = noteContent.lastIndexOf(STR_LINE_BREAK, prevParagraphEnd - 1);
+        prevParagraphStart++; // ++ because we don't actually include the previous linebreak
+        String prevParagraph = noteContent.substring(prevParagraphStart, prevParagraphEnd);
+        BulletMetadata metadata = extractBulletMetadata(prevParagraph);
+        // See if there's a CheckableSpan in the previous line
+        CheckableSpan[] checkableSpans = editable.getSpans(prevParagraphStart, prevParagraphEnd, CheckableSpan.class);
 
-        if (prevChar.equals(STR_LINE_BREAK)) {
-            int prevParagraphEnd = newCursorPosition - 1;
-            int prevParagraphStart = noteContent.lastIndexOf(STR_LINE_BREAK, prevParagraphEnd - 1);
-            prevParagraphStart++; // ++ because we don't actually include the previous linebreak
-            String prevParagraph = noteContent.substring(prevParagraphStart, prevParagraphEnd);
-            BulletMetadata metadata = extractBulletMetadata(prevParagraph);
-            // See if there's a CheckableSpan in the previous line
-            CheckableSpan[] checkableSpans = editable.getSpans(prevParagraphStart, prevParagraphEnd, CheckableSpan.class);
-
-            if (checkableSpans.length > 0) {
-                if (prevParagraph.trim().equalsIgnoreCase(String.valueOf(CHAR_NO_BREAK_SPACE))) {
-                    // Empty checklist item, remove and place cursor at start of line
-                    editable.replace(prevParagraphStart, newCursorPosition, "");
-                } else {
-                    // We can add a new checkbox!
-                    String leadingWhitespace = metadata.leadingWhitespace != null ? metadata.leadingWhitespace : "";
-                    editable.insert(newCursorPosition, leadingWhitespace + ChecklistUtils.UNCHECKED_MARKDOWN + STR_SPACE);
-                }
-
-                return;
+        if (checkableSpans.length > 0) {
+            if (prevParagraph.trim().equalsIgnoreCase(String.valueOf(CHAR_NO_BREAK_SPACE))) {
+                // Empty checklist item, remove and place cursor at start of line
+                editable.replace(prevParagraphStart, newCursorPosition, "");
+            } else {
+                // We can add a new checkbox!
+                String leadingWhitespace = metadata.leadingWhitespace != null ? metadata.leadingWhitespace : "";
+                editable.insert(newCursorPosition, leadingWhitespace + ChecklistUtils.UNCHECKED_MARKDOWN + STR_SPACE);
             }
 
-            if (metadata.isBullet) {
-                if (!metadata.isEmptyBullet) {
-                    editable.insert(newCursorPosition, buildBullet(metadata));
-                } else {
-                    editable.replace(prevParagraphStart, newCursorPosition, "");
-                }
+            return;
+        }
+
+        if (metadata.isBullet) {
+            if (!metadata.isEmptyBullet) {
+                editable.insert(newCursorPosition, buildBullet(metadata));
+            } else {
+                editable.replace(prevParagraphStart, newCursorPosition, "");
             }
         }
     }
