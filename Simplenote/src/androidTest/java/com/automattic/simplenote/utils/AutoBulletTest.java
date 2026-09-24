@@ -303,4 +303,49 @@ public class AutoBulletTest {
 
         assertThat(editable.toString(), is(target));
     }
+
+    @Test
+    public void testAutoBulletCursorOutOfBounds() {
+        String source = "- item\n";
+        Editable editable = buildEditable(source);
+        // newCursorPosition beyond editable.length()
+        AutoBullet.apply(editable, 0, 100);
+        assertThat(editable.toString(), is(source));
+    }
+
+    @Test
+    public void testAutoBulletCursorAtStart() {
+        String source = "- item\n";
+        Editable editable = buildEditable(source);
+        AutoBullet.apply(editable, 0, 0);
+        assertThat(editable.toString(), is(source));
+    }
+
+    @Test
+    public void testAutoBulletCursorMovedBackwards() {
+        String source = "- item\n";
+        Editable editable = buildEditable(source);
+        AutoBullet.apply(editable, 5, 3);
+        assertThat(editable.toString(), is(source));
+    }
+
+    @Test
+    public void testAutoBulletInPlaceScanLargeBuffer() {
+        StringBuilder largeText = new StringBuilder();
+        for (int i = 0; i < 2000; i++) {
+            largeText.append("Line ").append(i).append(" with some text\n");
+        }
+        largeText.append("- Item in list\n");
+
+        AllocationTrackingSpannableStringBuilder trackingBuilder = new AllocationTrackingSpannableStringBuilder(largeText.toString());
+        int oldPos = trackingBuilder.length() - 1;
+        int newPos = trackingBuilder.length();
+
+        trackingBuilder.setTrackingEnabled(true);
+        AutoBullet.apply(trackingBuilder, oldPos, newPos);
+        trackingBuilder.setTrackingEnabled(false);
+
+        assertThat(trackingBuilder.getAllocationCount(), is(0));
+        assertThat(trackingBuilder.toString().endsWith("- Item in list\n- "), is(true));
+    }
 }

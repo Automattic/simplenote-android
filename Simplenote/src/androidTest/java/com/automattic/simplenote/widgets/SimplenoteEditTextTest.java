@@ -2,6 +2,7 @@ package com.automattic.simplenote.widgets;
 
 import android.content.Context;
 import android.os.SystemClock;
+import android.text.Editable;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import android.widget.MultiAutoCompleteTextView;
@@ -11,10 +12,13 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.runner.AndroidJUnit4;
 import androidx.test.filters.SmallTest;
 
+import com.automattic.simplenote.utils.AllocationTrackingSpannableStringBuilder;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -190,5 +194,32 @@ public class SimplenoteEditTextTest {
         assertFalse("isFlingInterrupt must be reset on detached", mEditText.isFlingInterrupt());
         assertFalse("VelocityTracker must be recycled on detached", mEditText.isVelocityTrackerActive());
         assertTrue("Scroller must be finished on detached", scroller.isFinished());
+    }
+
+    @Test
+    public void testProcessChecklistsInPlaceBounds() {
+        final AllocationTrackingSpannableStringBuilder[] trackingHolder = new AllocationTrackingSpannableStringBuilder[1];
+
+        mEditText.setEditableFactory(new Editable.Factory() {
+            @Override
+            public Editable newEditable(CharSequence source) {
+                AllocationTrackingSpannableStringBuilder builder = new AllocationTrackingSpannableStringBuilder(source);
+                trackingHolder[0] = builder;
+                return builder;
+            }
+        });
+
+        mEditText.setText("- [ ] Item 1\n- [ ] Item 2\nRegular line 3\n");
+        AllocationTrackingSpannableStringBuilder builder = trackingHolder[0];
+
+        builder.resetAllocationCount();
+        builder.setTrackingEnabled(true);
+
+        // Process line 3 (regular text line without checklist markers)
+        mEditText.processChecklists(26, 14);
+
+        builder.setTrackingEnabled(false);
+        assertEquals("processChecklists must not invoke full-text toString() on hot path",
+                0, builder.getAllocationCount());
     }
 }

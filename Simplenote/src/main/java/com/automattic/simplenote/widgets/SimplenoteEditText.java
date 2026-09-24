@@ -13,6 +13,7 @@ import android.text.Editable;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -539,16 +540,19 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
 
         Editable editable = getText();
         int safeStart = Math.max(0, Math.min(start, editable.length()));
-        int safeEnd = Math.max(0, Math.min(start + count, editable.length()));
+        int safeEnd = Math.max(safeStart, Math.min(start + Math.max(0, count), editable.length()));
 
-        String textStr = editable.toString();
-        int paraStart = textStr.lastIndexOf('\n', safeStart - 1);
-        paraStart = (paraStart == -1) ? 0 : paraStart + 1;
-        int paraEnd = textStr.indexOf('\n', safeEnd);
-        paraEnd = (paraEnd == -1) ? editable.length() : paraEnd;
+        int paraStart = 0;
+        for (int i = safeStart - 1; i >= 0; i--) {
+            if (editable.charAt(i) == '\n') {
+                paraStart = i + 1;
+                break;
+            }
+        }
+        int nextNewline = TextUtils.indexOf(editable, '\n', safeEnd);
+        int paraEnd = (nextNewline == -1) ? editable.length() : nextNewline;
 
-        CharSequence editWindow = editable.subSequence(paraStart, paraEnd);
-        if (!editWindow.toString().contains("[")) {
+        if (TextUtils.indexOf(editable, '[', paraStart, paraEnd) == -1) {
             return;
         }
 
