@@ -51,9 +51,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SimplenoteEditText extends MultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
-    private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
+    private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^\\n\\]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
     private static final Pattern INTERNOTE_LINK_PATTERN_FULL = Pattern.compile("(?s)(.)*(\\[)" + INTERNOTE_LINK_PATTERN_EDIT);
     private static final int CHECKBOX_LENGTH = 2; // one ClickableSpan character + one space character
+    private static final int MAX_SAFE_LINE_WINDOW = 2048;
 
     private LinkTokenizer mTokenizer;
     private final List<OnSelectionChangedListener> listeners;
@@ -81,7 +82,12 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
     @Override
     public boolean enoughToFilter() {
         int end = getSelectionEnd();
-        if (end < 0) {
+        Editable text = getText();
+        if (text == null || text.length() == 0) {
+            return false;
+        }
+
+        if (end < 0 || end > text.length()) {
             return false;
         }
 
@@ -89,13 +95,10 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
             return false;
         }
 
-        Editable text = getText();
-        if (text == null || text.length() == 0) {
-            return false;
-        }
-
-        // Local Cursor Windowing O(1) optimization: inspect max 200 chars around cursor instead of full text toString()
-        int windowEnd = Math.min(text.length(), end + 200);
+        // Local Cursor Windowing O(1) optimization: inspect max safe window within current line
+        int nextNewline = TextUtils.indexOf(text, '\n', end);
+        int maxLineEnd = nextNewline >= 0 ? nextNewline : text.length();
+        int windowEnd = Math.min(maxLineEnd, end + MAX_SAFE_LINE_WINDOW);
         CharSequence substringCursor = text.subSequence(end, windowEnd);
         Matcher matcherEdit = INTERNOTE_LINK_PATTERN_EDIT.matcher(substringCursor);
 

@@ -197,6 +197,24 @@ public class SimplenoteEditTextTest {
     }
 
     @Test
+    public void testEnoughToFilterScaleInvariant() {
+        StringBuilder longTitle = new StringBuilder("[");
+        for (int i = 0; i < 300; i++) {
+            longTitle.append("a");
+        }
+        longTitle.append("](simplenote://note/1234567890abcdef)\nNext line text");
+        mEditText.setText(longTitle.toString());
+
+        // Set cursor inside the link title (>200 chars)
+        mEditText.setSelection(150);
+        assertFalse("enoughToFilter should return false when editing internote link title", mEditText.enoughToFilter());
+
+        // Test out of bounds cursor
+        mEditText.setSelection(0);
+        assertFalse(mEditText.enoughToFilter());
+    }
+
+    @Test
     public void testProcessChecklistsInPlaceBounds() {
         final AllocationTrackingSpannableStringBuilder[] trackingHolder = new AllocationTrackingSpannableStringBuilder[1];
 
