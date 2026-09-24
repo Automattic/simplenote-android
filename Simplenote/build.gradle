@@ -43,6 +43,8 @@ android {
         minSdkVersion 23
         targetSdkVersion 35
 
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         buildConfigField "String", "SENTRY_DSN", "\"https://89e443ca3fd84e588d1809cfbfcc40f4@sentry.io/1455558\""
     }
 
@@ -117,6 +119,7 @@ dependencies {
 
     // Fastlane screengrab for screenshots automation
     androidTestImplementation "tools.fastlane:screengrab:$screengrabVersion"
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.3.0'
     // Automattic and WordPress dependencies
     implementation 'com.automattic:simperium:v1.4.0'
     implementation "com.automattic:Automattic-Tracks-Android:$automatticTracksVersion"

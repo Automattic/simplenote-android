@@ -62,6 +62,10 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
     private VelocityTracker mVelocityTracker;
     private int mMinimumVelocity;
     private int mMaximumVelocity;
+    private int mTouchSlop;
+    private boolean mIsFlingInterrupt;
+    private float mDownX;
+    private float mDownY;
 
     private final Runnable mFlingRunnable = new Runnable() {
         @Override
@@ -156,6 +160,7 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
         ViewConfiguration configuration = ViewConfiguration.get(getContext());
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
+        mTouchSlop = configuration.getScaledTouchSlop();
     }
 
     private void recycleVelocityTracker() {
@@ -174,11 +179,43 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
+                mDownX = event.getX();
+                mDownY = event.getY();
                 if (mScroller != null && !mScroller.isFinished()) {
                     mScroller.forceFinished(true);
+                    removeCallbacks(mFlingRunnable);
+                    mIsFlingInterrupt = true;
+                    return true;
+                } else {
+                    mIsFlingInterrupt = false;
+                }
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+            case MotionEvent.ACTION_POINTER_UP:
+                if (mIsFlingInterrupt) {
+                    return true;
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mIsFlingInterrupt) {
+                    float dist = (float) Math.hypot(event.getX() - mDownX, event.getY() - mDownY);
+                    if (dist <= mTouchSlop) {
+                        return true;
+                    } else {
+                        mIsFlingInterrupt = false;
+                        MotionEvent downEvent = MotionEvent.obtain(event.getDownTime(), event.getEventTime(), MotionEvent.ACTION_DOWN, mDownX, mDownY, 0);
+                        super.onTouchEvent(downEvent);
+                        downEvent.recycle();
+                        return super.onTouchEvent(event);
+                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                if (mIsFlingInterrupt) {
+                    mIsFlingInterrupt = false;
+                    recycleVelocityTracker();
+                    return true;
+                }
                 mVelocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
                 int initialVelocityY = (int) mVelocityTracker.getYVelocity();
                 if (!hasSelection() && Math.abs(initialVelocityY) > mMinimumVelocity) {
@@ -195,6 +232,11 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
                 recycleVelocityTracker();
                 break;
             case MotionEvent.ACTION_CANCEL:
+                if (mIsFlingInterrupt) {
+                    mIsFlingInterrupt = false;
+                    recycleVelocityTracker();
+                    return true;
+                }
                 recycleVelocityTracker();
                 break;
         }
@@ -209,6 +251,7 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
             mScroller.forceFinished(true);
         }
         recycleVelocityTracker();
+        mIsFlingInterrupt = false;
         super.onDetachedFromWindow();
     }
 
@@ -531,5 +574,21 @@ public class SimplenoteEditText extends MultiAutoCompleteTextView implements Ada
 
     public void setOnCheckboxToggledListener(OnCheckboxToggledListener listener) {
         mOnCheckboxToggledListener = listener;
+    }
+
+    /* package */ boolean isFlingInterrupt() {
+        return mIsFlingInterrupt;
+    }
+
+    /* package */ void setScrollerForTest(OverScroller scroller) {
+        mScroller = scroller;
+    }
+
+    /* package */ OverScroller getScroller() {
+        return mScroller;
+    }
+
+    /* package */ boolean isVelocityTrackerActive() {
+        return mVelocityTracker != null;
     }
 }
