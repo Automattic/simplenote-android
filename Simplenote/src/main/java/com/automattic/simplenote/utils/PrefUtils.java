@@ -168,7 +168,7 @@ public class PrefUtils {
     }
 
     public static boolean isPremium(Context context) {
-        return getPrefs(context).getBoolean(PREF_PREMIUM, false);
+        return getPrefs(context).getBoolean(PREF_PREMIUM, true);
     }
 
     public static void setIsPremium(Context context, boolean isPremium) {
