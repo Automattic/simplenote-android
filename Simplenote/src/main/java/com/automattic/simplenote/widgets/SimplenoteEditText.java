@@ -24,7 +24,6 @@ import android.view.ViewConfiguration;
 import android.widget.OverScroller;
 import android.graphics.Canvas;
 import android.text.InputType;
-import android.text.Layout;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.AdapterView;

@@ -484,7 +484,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
                                 new Handler().postDelayed(
                                         () -> {
                                             if (mNote != null && mNote.getSimperiumKey() != null) {
-                                                mContentEditText.scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
+                                                view.scrollTo(0, mPreferences.getInt(mNote.getSimperiumKey(), 0));
                                             }
                                         },
                                     requireContext().getResources().getInteger(android.R.integer.config_mediumAnimTime)
