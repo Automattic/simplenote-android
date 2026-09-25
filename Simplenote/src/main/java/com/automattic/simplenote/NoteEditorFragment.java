@@ -1411,6 +1411,13 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
         dismissBottomSheet(mShareBottomSheet);
     }
 
+    @Override
+    public void onShareOtherClicked() {
+        if (mNote != null) {
+            showShare(mNote.getContent());
+        }
+    }
+
     /**
      * History bottom sheet listeners
      */
