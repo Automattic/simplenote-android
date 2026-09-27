@@ -313,4 +313,20 @@ class CollaboratorsViewModelTest {
 
         assertEquals(UiState.EmptyCollaborators(allCollaboratorsRemoved = false, searchUpdate = true), viewModel.uiState.value)
     }
+
+    @Test
+    fun collaboratorsChangedDuringSearchShouldKeepFilteredList() = runTest {
+        viewModel.loadCollaborators(noteId)
+
+        val filteredList = listOf(collaboratorFoo)
+        val searchQuery = collaboratorFoo.substringBefore("@")
+        mockCollaboratorsRepository.stub {
+            onBlocking { getCollaborators(noteId, searchQuery) }.doReturn(CollaboratorsActionResult.CollaboratorsList(filteredList))
+            onBlocking { collaboratorsChanged(noteId) }.doReturn(flow { emit(true) })
+        }
+        viewModel.search(searchQuery)
+        viewModel.startListeningChanges()
+
+        assertEquals(UiState.CollaboratorsList(filteredList, false, searchQuery), viewModel.uiState.value)
+    }
 }
