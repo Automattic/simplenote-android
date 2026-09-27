@@ -119,12 +119,10 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        viewModel.uiState.observe(this@CollaboratorsActivity, { uiState ->
-            menu?.findItem(R.id.menu_search)?.isVisible = when (uiState) {
-                is EmptyCollaborators -> !uiState.allCollaboratorsRemoved && !uiState.searchUpdate
-                else -> true
-            }
-        })
+        menu?.findItem(R.id.menu_search)?.isVisible = when (val uiState = viewModel.uiState.value) {
+            is EmptyCollaborators -> !uiState.allCollaboratorsRemoved
+            else -> true
+        }
 
         return super.onPrepareOptionsMenu(menu)
     }
