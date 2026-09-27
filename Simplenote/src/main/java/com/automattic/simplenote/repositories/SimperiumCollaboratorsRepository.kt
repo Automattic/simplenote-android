@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
-import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -113,11 +112,7 @@ class SimperiumCollaboratorsRepository @Inject constructor(
         }
     }
 
-    private fun filterCollaborators(note: Note) = note.tags.filter { tag ->
-        isValidCollaborator(tag)
-    }
-
-    private fun filterCollaborators(note: Note, query: String?) = note.tags.filter { tag ->
-        isValidCollaborator(tag) && tag.lowercase(Locale.ROOT).contains(query?.lowercase(Locale.ROOT) ?: "")
+    private fun filterCollaborators(note: Note, query: String? = null) = note.tags.filter { tag ->
+        isValidCollaborator(tag) && tag.contains(query ?: "", ignoreCase = true)
     }
 }
