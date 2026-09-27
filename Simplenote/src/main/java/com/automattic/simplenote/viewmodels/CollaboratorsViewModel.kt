@@ -98,9 +98,13 @@ class CollaboratorsViewModel @Inject constructor(
         viewModelScope.launch {
             when (val result = collaboratorsRepository.removeCollaborator(noteId, collaborator)) {
                 is CollaboratorsActionResult.CollaboratorsList -> {
-                    _uiState.value = when (result.collaborators.isEmpty()) {
-                        true -> UiState.EmptyCollaborators(allCollaboratorsRemoved = true)
-                        false -> UiState.CollaboratorsList(result.collaborators)
+                    when {
+                        result.collaborators.isEmpty() -> {
+                            searchQuery = null
+                            _uiState.value = UiState.EmptyCollaborators(allCollaboratorsRemoved = true)
+                        }
+                        searchQuery.isNullOrEmpty() -> _uiState.value = UiState.CollaboratorsList(result.collaborators)
+                        else -> updateUiState(noteId)
                     }
 
                     AnalyticsTracker.track(

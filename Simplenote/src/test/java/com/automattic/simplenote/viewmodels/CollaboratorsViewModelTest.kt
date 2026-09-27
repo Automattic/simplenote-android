@@ -266,10 +266,11 @@ class CollaboratorsViewModelTest {
         viewModel.search(searchQuery)
         mockCollaboratorsRepository.stub {
             onBlocking { removeCollaborator(noteId, collaboratorFoo) }.doReturn(CollaboratorsActionResult.CollaboratorsList(returnedList))
+            onBlocking { getCollaborators(noteId, searchQuery) }.doReturn(CollaboratorsActionResult.CollaboratorsList(returnedList))
         }
         viewModel.removeCollaborator(collaboratorFoo)
 
-        assertEquals(UiState.CollaboratorsList(returnedList), viewModel.uiState.value)
+        assertEquals(UiState.CollaboratorsList(returnedList, false, searchQuery), viewModel.uiState.value)
     }
 
     @Test
