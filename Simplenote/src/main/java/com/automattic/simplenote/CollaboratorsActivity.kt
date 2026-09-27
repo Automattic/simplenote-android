@@ -238,11 +238,14 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     private fun ActivityCollaboratorsBinding.handleEmptyCollaborators(allCollaboratorsRemoved: Boolean, searchUpdate: Boolean) {
         showEmptyView()
         (collaboratorsList.adapter as CollaboratorsAdapter).submitList(emptyList()) {
+            if (searchUpdate) {
+                collaboratorsList.scrollToPosition(0)
+            }
+
             if (allCollaboratorsRemoved) {
                 invalidateOptionsMenu()
                 setEmptyViewDefault()
-            } else if (searchUpdate) {
-                collaboratorsList.scrollToPosition(0)
+            } else {
                 setEmptyViewSearch()
             }
         }
