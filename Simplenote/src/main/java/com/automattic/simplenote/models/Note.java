@@ -36,6 +36,7 @@ import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_
 
 public class Note extends BucketObject {
 
+    private static final Pattern MARKDOWN_HEADER_PATTERN = Pattern.compile("^#{1,6}\\s+");
     public static final String BUCKET_NAME = "note";
     public static final String MARKDOWN_TAG = "markdown";
     public static final String PINNED_TAG = "pinned";
@@ -244,6 +245,14 @@ public class Note extends BucketObject {
             mTitle = content;
             mContentPreview = content;
         }
+
+        if (isMarkdownEnabled()) {
+            mTitle = stripLeadingMarkdownHeading(mTitle);
+        }
+    }
+
+    private static String stripLeadingMarkdownHeading(String title) {
+        return MARKDOWN_HEADER_PATTERN.matcher(title).replaceFirst("");
     }
 
     public String getTitle() {
