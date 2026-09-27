@@ -26,14 +26,17 @@ class CollaboratorsViewModel @Inject constructor(
 
     private var jobCollaborators: Job? = null
 
+    private var searchQuery: String? = null
+
     fun loadCollaborators(noteId: String) {
         this.noteId = noteId
+        searchQuery = null
         viewModelScope.launch {
             updateUiState(noteId)
         }
     }
 
-    private suspend fun updateUiState(noteId: String, searchUpdate: Boolean = false, searchQuery: String? = null) {
+    private suspend fun updateUiState(noteId: String, searchUpdate: Boolean = false) {
         when (val result = collaboratorsRepository.getCollaborators(noteId, searchQuery)) {
             is CollaboratorsActionResult.CollaboratorsList ->
                 _uiState.value = when (result.collaborators.isEmpty()) {
@@ -78,14 +81,16 @@ class CollaboratorsViewModel @Inject constructor(
     }
 
     fun closeSearch() {
+        searchQuery = null
         viewModelScope.launch {
             updateUiState(noteId, searchUpdate = false)
         }
     }
 
     fun search(searchQuery: String) {
+        this.searchQuery = searchQuery
         viewModelScope.launch {
-            updateUiState(noteId, searchUpdate = true, searchQuery)
+            updateUiState(noteId, searchUpdate = true)
         }
     }
 
