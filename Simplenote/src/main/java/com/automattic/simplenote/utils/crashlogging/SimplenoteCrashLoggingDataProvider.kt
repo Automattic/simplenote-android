@@ -45,6 +45,10 @@ class SimplenoteCrashLoggingDataProvider @Inject constructor(
         get() = PerformanceMonitoringConfig.Disabled
 
     override fun crashLoggingEnabled(): Boolean {
+        if (BuildConfig.DEBUG) {
+            return false
+        }
+
         return Simplenote.analyticsIsEnabled()
     }
 

@@ -6,6 +6,8 @@
 agents:
     queue: mac-metal
 
+priority: 1
+
 steps:
   - label: Complete Code Freeze
     key: complete_code_freeze
@@ -14,8 +16,7 @@ steps:
       echo '--- :robot_face: Use bot for Git operations'
       source use-bot-for-git
 
-      echo '--- :git: Checkout release branch'
-      .buildkite/commands/checkout-release-branch.sh
+      checkout_release_branch
 
       echo '--- :ruby: Set up Ruby Tools'
       install_gems

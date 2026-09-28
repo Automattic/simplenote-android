@@ -15,8 +15,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.ColorUtils;
+import androidx.core.graphics.Insets;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 import androidx.core.os.CancellationSignal;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 public abstract class AbstractPasscodeKeyboardActivity extends Activity {
     public static final String KEY_MESSAGE = "message";
@@ -29,6 +36,42 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
     protected FingerprintManagerCompat mFingerprintManager;
     protected CancellationSignal mCancel;
 
+    /**
+     * Edge-to-edge is enforced from Android 16 (targetSdk 36) with no opt-out. These are fullscreen
+     * passcode screens without a toolbar, so the system bar insets are added on top of the layout's
+     * own padding to keep the prompt and the keypad clear of the status and navigation bars. The
+     * root keeps drawing its background behind the bars.
+     */
+    private void setUpEdgeToEdge() {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        View root = findViewById(R.id.passcode_root);
+
+        // The system bars draw over the lock screen background, so pick the icon colour that stays
+        // legible against it rather than assuming a dark background.
+        boolean isLightBackground = ColorUtils.calculateLuminance(
+            ContextCompat.getColor(this, R.color.passcodelock_background)) > 0.5;
+        WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(
+            getWindow(),
+            getWindow().getDecorView()
+        );
+        controller.setAppearanceLightStatusBars(isLightBackground);
+        controller.setAppearanceLightNavigationBars(isLightBackground);
+
+        final int left = root.getPaddingLeft();
+        final int top = root.getPaddingTop();
+        final int right = root.getPaddingRight();
+        final int bottom = root.getPaddingBottom();
+
+        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
+            // Rotation is allowed on large screens, where a side cutout can land beside the keypad.
+            Insets bars = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+            view.setPadding(left + bars.left, top + bars.top, right + bars.right, bottom + bars.bottom);
+            return windowInsets;
+        });
+    }
+
 	@SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +82,8 @@ public abstract class AbstractPasscodeKeyboardActivity extends Activity {
         }
 
         setContentView(R.layout.app_passcode_keyboard);
+
+        setUpEdgeToEdge();
 
         topMessage = (TextView) findViewById(R.id.passcodelock_prompt);
 

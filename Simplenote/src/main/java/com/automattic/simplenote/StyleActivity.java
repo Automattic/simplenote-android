@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.PrefUtils;
+import com.automattic.simplenote.utils.SystemBarUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
 import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 
@@ -50,7 +51,8 @@ public class StyleActivity extends ThemedAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_style);
 
-        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         SpannableString title = new SpannableString(getString(R.string.style));
 
         if (getSupportActionBar() != null) {
@@ -73,6 +75,8 @@ public class StyleActivity extends ThemedAppCompatActivity {
         if (getIntent().hasExtra(EXTRA_SCROLL)) {
             mLayoutManager.onRestoreInstanceState(getIntent().getParcelableExtra(EXTRA_SCROLL));
         }
+
+        SystemBarUtils.setupEdgeToEdgeWithAutoTheming(this, findViewById(R.id.main_parent_view), toolbar, list);
     }
 
     /**
