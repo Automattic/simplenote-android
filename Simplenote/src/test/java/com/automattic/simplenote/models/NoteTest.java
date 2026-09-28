@@ -63,6 +63,48 @@ public class NoteTest {
     }
 
     @Test
+    public void testParseTitleAndPreviewStripsMarkdownHeadingLevelOne() {
+        mNote.setMarkdownEnabled(true);
+        mNote.setContent("# Heading\nbody text");
+        assertEquals(mNote.getTitle(), "Heading");
+    }
+
+    @Test
+    public void testParseTitleAndPreviewStripsMarkdownHeadingWithMultipleSpaces() {
+        mNote.setMarkdownEnabled(true);
+        mNote.setContent("#   Heading\nbody text");
+        assertEquals(mNote.getTitle(), "Heading");
+    }
+
+    @Test
+    public void testParseTitleAndPreviewStripsMarkdownHeadingLevelSix() {
+        mNote.setMarkdownEnabled(true);
+        mNote.setContent("###### Heading\nbody text");
+        assertEquals(mNote.getTitle(), "Heading");
+    }
+
+    @Test
+    public void testParseTitleAndPreviewKeepsMarkdownHeadingLevelSevenUnstripped() {
+        mNote.setMarkdownEnabled(true);
+        mNote.setContent("####### Heading\nbody text");
+        assertEquals(mNote.getTitle(), "####### Heading");
+    }
+
+    @Test
+    public void testParseTitleAndPreviewKeepsHashtagWhenMarkdownDisabled() {
+        mNote.setMarkdownEnabled(false);
+        mNote.setContent("# Heading\nbody text");
+        assertEquals(mNote.getTitle(), "# Heading");
+    }
+
+    @Test
+    public void testParseTitleAndPreviewKeepsHashtagWithoutSpace() {
+        mNote.setMarkdownEnabled(true);
+        mNote.setContent("#Heading\nbody text");
+        assertEquals(mNote.getTitle(), "#Heading");
+    }
+
+    @Test
     public void testNoteDoesHaveTag() {
         Tag tag = new Tag("tag");
         tag.setName("Tag");
