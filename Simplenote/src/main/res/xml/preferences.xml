@@ -110,14 +110,6 @@
         android:title="@string/account">
 
         <Preference
-            android:key="pref_key_membership"
-            android:title="@string/membership"
-            app:isPreferenceVisible="false"
-            tools:layout="@layout/preference_button"
-            tools:summary="@string/membership_free">
-        </Preference>
-
-        <Preference
             android:key="pref_key_authenticate"
             tools:title="@string/log_out">
         </Preference>

@@ -60,8 +60,6 @@
     <dimen name="header_height">48dp</dimen>
     <dimen name="icon_empty">72dp</dimen>
     <dimen name="icon_fullscreen">72dp</dimen>
-    <dimen name="icon_locked">48dp</dimen>
-    <dimen name="icon_locked_half">24dp</dimen>
     <dimen name="icon_status">16dp</dimen>
     <dimen name="key_height">32dp</dimen>
     <dimen name="key_width">28dp</dimen>

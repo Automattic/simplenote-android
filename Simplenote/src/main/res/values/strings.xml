@@ -87,10 +87,6 @@
     <string name="previous">Previous</string>
     <string name="next">Next</string>
     <string name="of">of</string>
-    <string name="membership">Membership</string>
-    <string name="membership_free">Free</string>
-    <string name="membership_free_upgrade">Upgrade</string>
-    <string name="membership_premium">Premium</string>
     <string name="references">Referenced In</string>
     <string name="references_one">%1$d Reference, Last modified %2$s</string>
     <string name="references_other">%1$d References, Last modified %2$s</string>
@@ -181,9 +177,6 @@
     <string name="style_black">Black</string>
     <string name="style_classic">Classic</string>
     <string name="style_default">Default</string>
-    <string name="style_dialog_locked_button_positive">Upgrade</string>
-    <string name="style_dialog_locked_message">To use this style, you must have a premium membership.</string>
-    <string name="style_dialog_locked_title">Premium Style</string>
     <string name="style_matrix">Matrix</string>
     <string name="style_mono">Mono</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
@@ -291,7 +284,6 @@
     <string name="description_close">Close</string>
     <string name="description_delete_item">Delete item</string>
     <string name="description_down">Down</string>
-    <string name="description_locked">Locked</string>
     <string name="description_mail">Mail</string>
     <string name="description_sort">Sort</string>
     <string name="description_up">Up</string>

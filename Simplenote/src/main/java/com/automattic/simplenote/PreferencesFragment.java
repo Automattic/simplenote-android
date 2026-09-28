@@ -74,8 +74,6 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class PreferencesFragment extends PreferenceFragmentCompat implements User.StatusChangeListener, Simperium.OnUserCreatedListener {
-    public static final String WEB_APP_URL = "https://app.simplenote.com";
-
     private static final int REQUEST_EXPORT_DATA = 9001;
     private static final int REQUEST_EXPORT_UNSYNCED = 9002;
     private static final int REQUEST_IMPORT_DATA = 9003;
@@ -224,11 +222,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
         });
 
         final Preference stylePreference = findPreference("pref_key_style");
-        stylePreference.setSummary(
-            PrefUtils.isPremium(requireContext()) ?
-                PrefUtils.getStyleNameFromIndexSelected(requireContext()) :
-                PrefUtils.getStyleNameDefault(requireContext())
-        );
+        stylePreference.setSummary(PrefUtils.getStyleNameFromIndexSelected(requireContext()));
         stylePreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -250,23 +244,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat implements Use
             }
         } catch (BucketObjectMissingException e) {
             sustainerIconPreference.setVisible(false);
-        }
-
-        final Preference membershipPreference = findPreference("pref_key_membership");
-        membershipPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                ((PreferencesActivity) requireActivity()).openBrowserForMembership(getView());
-                return true;
-            }
-        });
-
-        if (PrefUtils.isPremium(requireContext())) {
-            membershipPreference.setLayoutResource(R.layout.preference_default);
-            membershipPreference.setSummary(R.string.membership_premium);
-        } else {
-            membershipPreference.setLayoutResource(R.layout.preference_button);
-            membershipPreference.setSummary(R.string.membership_free);
         }
 
         final ListPreference sortPreference = findPreference(PrefUtils.PREF_SORT_ORDER);

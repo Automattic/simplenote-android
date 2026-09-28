@@ -1,6 +1,5 @@
 package com.automattic.simplenote;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -9,19 +8,15 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.PrefUtils;
 import com.automattic.simplenote.utils.SystemBarUtils;
 import com.automattic.simplenote.utils.ThemeUtils;
@@ -30,7 +25,6 @@ import com.automattic.simplenote.widgets.EmptyViewRecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.automattic.simplenote.PreferencesFragment.WEB_APP_URL;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_ARRAY;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_BLACK;
 import static com.automattic.simplenote.utils.ThemeUtils.STYLE_CLASSIC;
@@ -44,7 +38,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
     private static final String EXTRA_SCROLL = "EXTRA_SCROLL";
 
     private LinearLayoutManager mLayoutManager;
-    private boolean mIsPremium;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +53,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        mIsPremium = PrefUtils.isPremium(StyleActivity.this);
         List<String> styles = new ArrayList<>(STYLE_ARRAY.length);
 
         for (int i = 0; i < STYLE_ARRAY.length; i++) {
@@ -92,34 +84,13 @@ public class StyleActivity extends ThemedAppCompatActivity {
         finish();
     }
 
-    private void showDialogLocked() {
-        new AlertDialog.Builder(new ContextThemeWrapper(StyleActivity.this, R.style.Dialog))
-            .setTitle(R.string.style_dialog_locked_title)
-            .setMessage(R.string.style_dialog_locked_message)
-            .setNegativeButton(R.string.cancel, null)
-            .setPositiveButton(
-                R.string.style_dialog_locked_button_positive,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        try {
-                            BrowserUtils.launchBrowserOrShowError(StyleActivity.this, WEB_APP_URL);
-                        } catch (Exception e) {
-                            Toast.makeText(StyleActivity.this, R.string.no_browser_available, Toast.LENGTH_LONG).show();
-                        }
-                    }
-                }
-            )
-            .show();
-    }
-
     private class StyleAdapter extends RecyclerView.Adapter<StyleAdapter.StyleHolder> {
         private ArrayList<String> mStyles;
         private int mSelectedPosition;
 
         public StyleAdapter(List<String> styles) {
             this.mStyles = new ArrayList<>(styles);
-            mSelectedPosition = mIsPremium ? PrefUtils.getStyleIndexSelected(StyleActivity.this) : STYLE_DEFAULT;
+            mSelectedPosition = PrefUtils.getStyleIndexSelected(StyleActivity.this);
         }
 
         @Override
@@ -135,7 +106,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final StyleHolder holder, final int position) {
             String style = mStyles.get(position);
-            holder.mLocked.setVisibility(mIsPremium || position == STYLE_DEFAULT ? View.GONE : View.VISIBLE);
             holder.mTitle.setText(style);
             holder.mContent.setText(Html.fromHtml(String.format(
                 getResources().getString(R.string.style_preview),
@@ -154,14 +124,10 @@ public class StyleActivity extends ThemedAppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mIsPremium) {
-                            notifyItemChanged(mSelectedPosition);
-                            mSelectedPosition = holder.getAdapterPosition();
-                            notifyItemChanged(mSelectedPosition);
-                            PrefUtils.setStyleIndex(StyleActivity.this, holder.getAdapterPosition());
-                        } else if (holder.mLocked.getVisibility() == View.VISIBLE) {
-                            showDialogLocked();
-                        }
+                        notifyItemChanged(mSelectedPosition);
+                        mSelectedPosition = holder.getAdapterPosition();
+                        notifyItemChanged(mSelectedPosition);
+                        PrefUtils.setStyleIndex(StyleActivity.this, holder.getAdapterPosition());
                     }
                 }
             );
@@ -245,7 +211,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
         }
 
         class StyleHolder extends RecyclerView.ViewHolder {
-            private ImageView mLocked;
             private TextView mContent;
             private TextView mTitle;
             private View mView;
@@ -253,7 +218,6 @@ public class StyleActivity extends ThemedAppCompatActivity {
             StyleHolder(View view) {
                 super(view);
                 mView = view;
-                mLocked = view.findViewById(R.id.preview_locked);
                 mTitle = view.findViewById(R.id.preview_title);
                 mContent = view.findViewById(R.id.preview_content);
             }
