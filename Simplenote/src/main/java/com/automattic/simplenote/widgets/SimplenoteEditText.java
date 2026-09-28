@@ -111,6 +111,7 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
     }
 
     private void setLinkTokenizer() {
+        setEmojiCompatEnabled(false);
         mTokenizer = new LinkTokenizer();
         setOnItemClickListener(this);
         setTokenizer(mTokenizer);
