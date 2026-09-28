@@ -1,5 +1,6 @@
 2.39
 -----
+* Fixed autocorrect not being applied in the editor on Samsung devices [#1840](https://github.com/Automattic/simplenote-android/pull/1840)
 
 2.38
 -----
