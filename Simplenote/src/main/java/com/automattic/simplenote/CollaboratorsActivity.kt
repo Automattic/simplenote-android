@@ -35,6 +35,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class CollaboratorsActivity : ThemedAppCompatActivity() {
     private val viewModel: CollaboratorsViewModel by viewModels()
 
+    private var searchMenuItem: MenuItem? = null
+
     companion object {
         const val NOTE_ID_ARG = "note_id"
         const val DIALOG_TAG = "dialog_tag"
@@ -75,6 +77,7 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         menuInflater.inflate(R.menu.collaborators_list, menu)
         DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.toolbarIconColor)
         val searchMenuItem = menu.findItem(R.id.menu_search)
+        this.searchMenuItem = searchMenuItem
         val searchView = searchMenuItem.actionView as SearchView
         val searchEditFrame = searchView.findViewById<LinearLayout>(R.id.search_edit_frame)
         (searchEditFrame.layoutParams as LinearLayout.LayoutParams).leftMargin = 0
@@ -119,12 +122,16 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-        menu?.findItem(R.id.menu_search)?.isVisible = when (val uiState = viewModel.uiState.value) {
+        updateSearchVisibility(viewModel.uiState.value)
+
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    private fun updateSearchVisibility(uiState: CollaboratorsViewModel.UiState?) {
+        searchMenuItem?.isVisible = when (uiState) {
             is EmptyCollaborators -> !uiState.allCollaboratorsRemoved
             else -> true
         }
-
-        return super.onPrepareOptionsMenu(menu)
     }
 
     override fun onResume() {
@@ -173,6 +180,8 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
 
     private fun ActivityCollaboratorsBinding.setObservers() {
         viewModel.uiState.observe(this@CollaboratorsActivity, { uiState ->
+            updateSearchVisibility(uiState)
+
             when (uiState) {
                 is EmptyCollaborators -> {
                     handleEmptyCollaborators(uiState.allCollaboratorsRemoved, uiState.searchUpdate)
