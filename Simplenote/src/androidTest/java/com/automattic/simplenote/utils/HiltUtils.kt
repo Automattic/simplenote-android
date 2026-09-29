@@ -6,6 +6,11 @@ import androidx.annotation.StyleRes
 import androidx.fragment.app.DialogFragment
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.RootMatchers.isDialog
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import com.automattic.simplenote.HiltTestActivity
 import com.automattic.simplenote.R
 
@@ -40,6 +45,10 @@ inline fun <reified T : DialogFragment> launchDialogFragmentInHiltContainer(
         val fragment: DialogFragment = instantiate()
         fragment.show(activity.supportFragmentManager.beginTransaction(), "dialog_tag")
     }
+
+    // Wait until the dialog window has focus. Otherwise the next onView() call can pick the activity
+    // window as its root and fail with RootViewWithoutFocusException.
+    onView(isRoot()).inRoot(isDialog()).check(matches(isDisplayed()))
 
     return activityScenario
 }

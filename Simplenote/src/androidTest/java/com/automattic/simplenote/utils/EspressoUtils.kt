@@ -1,12 +1,15 @@
 package com.automattic.simplenote.utils
 
 import android.content.res.Resources
+import android.os.SystemClock
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.recyclerview.widget.RecyclerView
+import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.CoreMatchers.`is`
@@ -119,4 +122,26 @@ fun withItemCount(expectedCount: Int): RecyclerViewItemCountAssertion {
 
 fun withItemCount(matcher: Matcher<Int>): RecyclerViewItemCountAssertion {
     return RecyclerViewItemCountAssertion(matcher)
+}
+
+private const val ITEM_COUNT_TIMEOUT_MS = 5000L
+private const val ITEM_COUNT_POLL_INTERVAL_MS = 50L
+
+/**
+ * Waits until the RecyclerView with [recyclerViewId] has [expectedCount] items.
+ *
+ * Use it after an action that updates the list from a background thread, for example a search that runs on a
+ * coroutine dispatcher. Espresso does not wait for these threads.
+ */
+fun waitForItemCount(recyclerViewId: Int, expectedCount: Int) {
+    val deadline = SystemClock.uptimeMillis() + ITEM_COUNT_TIMEOUT_MS
+    while (true) {
+        try {
+            onView(withId(recyclerViewId)).check(withItemCount(expectedCount))
+            return
+        } catch (e: AssertionError) {
+            if (SystemClock.uptimeMillis() >= deadline) throw e
+            SystemClock.sleep(ITEM_COUNT_POLL_INTERVAL_MS)
+        }
+    }
 }
