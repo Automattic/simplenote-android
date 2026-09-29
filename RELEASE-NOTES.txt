@@ -3,6 +3,7 @@
 * Unlocked all styles, including the pure-black AMOLED style, for everyone now that Simplenote Sustainer is discontinued [#1771](https://github.com/Automattic/simplenote-android/issues/1771) [#1661](https://github.com/Automattic/simplenote-android/issues/1661)
 * Added search to the Collaborators screen [#1764](https://github.com/Automattic/simplenote-android/pull/1764)
 * Improved typing responsiveness when editing very large notes [#1857](https://github.com/Automattic/simplenote-android/pull/1857)
+* Updated the app for Android 16, including support for the predictive back gesture [#1873](https://github.com/Automattic/simplenote-android/pull/1873)
 * Fixed autocorrect not being applied in the editor on Samsung devices [#1841](https://github.com/Automattic/simplenote-android/pull/1841)
 * Fixed the History and Share sheets not opening again after being closed, and appearing unexpectedly when returning to the note [#1765](https://github.com/Automattic/simplenote-android/issues/1765)
 
