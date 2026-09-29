@@ -2,12 +2,12 @@ package com.automattic.simplenote.utils
 
 import android.content.res.Resources
 import android.view.View
-import android.view.WindowManager
+import android.view.accessibility.AccessibilityEvent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.Root
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
+import androidx.test.platform.app.InstrumentationRegistry
 import com.google.android.material.textfield.TextInputLayout
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Description
@@ -82,27 +82,24 @@ class RecyclerViewMatcher(private val recyclerViewId: Int) {
 
 fun withRecyclerView(recyclerViewId: Int): RecyclerViewMatcher = RecyclerViewMatcher(recyclerViewId)
 
-fun isToast(): Matcher<Root> {
-    return object : TypeSafeMatcher<Root>() {
-        override fun matchesSafely(root: Root): Boolean {
-            val type = root.windowLayoutParams.get().type
-            // TYPE_APPLICATION_OVERLAY hangs the test
-            if (type == WindowManager.LayoutParams.TYPE_TOAST) {
-                val windowToken = root.decorView.windowToken
-                val appToken = root.decorView.applicationWindowToken
-                if (windowToken === appToken) {
-                    // windowToken == appToken means this window isn't contained by any other windows.
-                    // if it was a window for an activity, it would have TYPE_BASE_APPLICATION.
-                    return true
-                }
-            }
-            return false
-        }
+private const val TOAST_TIMEOUT_MS = 5000L
 
-        override fun describeTo(description: Description) {
-
-        }
-    }
+/**
+ * Runs [action] and fails with a [java.util.concurrent.TimeoutException] if it does not show a toast with [text].
+ *
+ * Since API 30, the system UI draws text toasts outside of the app window hierarchy, so Espresso root
+ * matchers cannot find them. The toast still sends an accessibility event, which [android.app.UiAutomation]
+ * receives.
+ */
+fun assertToastShown(text: String, action: () -> Unit) {
+    InstrumentationRegistry.getInstrumentation().uiAutomation.executeAndWaitForEvent(
+        { action() },
+        { event ->
+            event.eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED &&
+                event.text.any { it.toString() == text }
+        },
+        TOAST_TIMEOUT_MS
+    )
 }
 
 class RecyclerViewItemCountAssertion(private val matcher: Matcher<Int>) : ViewAssertion {

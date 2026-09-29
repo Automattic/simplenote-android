@@ -17,7 +17,7 @@ import com.automattic.simplenote.R
 import com.automattic.simplenote.TagsActivity
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
-import com.automattic.simplenote.utils.isToast
+import com.automattic.simplenote.utils.assertToastShown
 import com.automattic.simplenote.utils.withItemCount
 import com.automattic.simplenote.utils.withRecyclerView
 import org.hamcrest.CoreMatchers
@@ -167,9 +167,10 @@ class TagsActivityTest : BaseUITest() {
     fun longTabOnAddTagShouldShowToast() {
         ActivityScenario.launch(TagsActivity::class.java)
 
-        onView(withId(R.id.button_add)).perform(longClick())
         val addTagTitle = getResourceString(R.string.add_tag)
-        onView(withText(addTagTitle)).inRoot(isToast()).check(matches(isDisplayed()))
+        assertToastShown(addTagTitle) {
+            onView(withId(R.id.button_add)).perform(longClick())
+        }
     }
 
     @Test
