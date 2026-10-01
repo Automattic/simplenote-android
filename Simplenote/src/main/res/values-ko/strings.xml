@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-24 09:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:33:57+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ko_KR
 -->
 <resources>
+    <string name="no_collaborators_search">공동 작업자를 찾을 수 없음</string>
+    <string name="search_collaborators_hint">공동 작업자 검색</string>
+    <string name="search_collaborators">공동 작업자 검색</string>
     <string name="signin_login_with_email_manually">이메일을 통해 받으신 코드로 로그인할 수 있으며, %1$s%2$s%3$s수동으로 로그인%4$s할 수 있습니다.</string>
     <string name="login_with_password_message">계정 %1$s의 비밀번호를 입력하세요.</string>
     <string name="magic_link_confirm_code_message">다음으로 코드를 보냈습니다: \n%1$s 코드는 몇 분 동안 유효합니다.</string>
@@ -98,15 +101,11 @@ Language: ko_KR
     <string name="dialog_tag_conflict_title">태그 충돌</string>
     <string name="dialog_tag_conflict_message">\"%1$s\" 태그가 이미 존재합니다. \"%2$s\" 태그를 \"%3$s\" 태그에 병합하시겠어요?</string>
     <string name="dialog_tag_conflict_button_positive">병합</string>
-    <string name="description_locked">잠금</string>
     <string name="style_sepia">Sepia</string>
     <string name="style_publication">공개</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">모노</string>
     <string name="style_matrix">행렬</string>
-    <string name="style_dialog_locked_title">프리미엄 스타일</string>
-    <string name="style_dialog_locked_message">이 스타일을 사용하려면 프리미엄 멤버십이 있어야 합니다.</string>
-    <string name="style_dialog_locked_button_positive">업그레이드</string>
     <string name="style_default">기본</string>
     <string name="style_classic">클래식</string>
     <string name="style_black">검정</string>
@@ -118,10 +117,6 @@ Language: ko_KR
     <string name="dialog_tag_error_message">태그를 추가하는 중 오류가 발생했습니다. 다시 시도해 주세요. 문제가 계속되는 경우 %1$s%2$s%3$s%4$s%5$s에 문의하여 도움을 요청하세요.</string>
     <string name="add_tag">태그 추가</string>
     <string name="empty_tags_hint">메모에 태그를 추가하면 여기에 태그가 표시됩니다.</string>
-    <string name="membership_premium">프리미엄</string>
-    <string name="membership_free_upgrade">업그레이드</string>
-    <string name="membership_free">무료</string>
-    <string name="membership">멤버십</string>
     <string name="synced">동기화됨</string>
     <string name="delete_dialog_title">영구적으로 삭제하기</string>
     <string name="delete_dialog_message">이 메모를 영구적으로 삭제하시겠어요? 이 작업은 되돌릴 수 없습니다.</string>

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-23 14:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:31:37+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_CN
 -->
 <resources>
+    <string name="no_collaborators_search">未找到协作者</string>
+    <string name="search_collaborators_hint">搜索协作者</string>
+    <string name="search_collaborators">搜索协作者</string>
     <string name="signin_login_with_email_manually">我们将通过电子邮件向您发送登录代码，您也可以%1$s%2$s%3$s手动登录%4$s。</string>
     <string name="login_with_password_message">输入账户 %1$s 的密码</string>
     <string name="magic_link_confirm_code_message">我们已向 \n 发送代码%1$s。 此代码将在几分钟后失效。</string>
@@ -98,15 +101,11 @@ Language: zh_CN
     <string name="dialog_tag_conflict_title">标签冲突</string>
     <string name="dialog_tag_conflict_message">标签“%1$s”已存在。 是否希望将“%2$s”合并到“%3$s”标签中？</string>
     <string name="dialog_tag_conflict_button_positive">合并</string>
-    <string name="description_locked">已锁定</string>
     <string name="style_sepia">棕褐色</string>
     <string name="style_publication">发布内容</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">莫努</string>
     <string name="style_matrix">矩阵</string>
-    <string name="style_dialog_locked_title">高级样式</string>
-    <string name="style_dialog_locked_message">要使用此样式，您必须具有高级版成员资格。</string>
-    <string name="style_dialog_locked_button_positive">升级</string>
     <string name="style_default">默认</string>
     <string name="style_classic">经典</string>
     <string name="style_black">黑色</string>
@@ -118,10 +117,6 @@ Language: zh_CN
     <string name="dialog_tag_error_message">添加标签时出错。 请重试。 如果问题仍然存在，请通过 %1$s%2$s%3$s%4$s%5$s 联系我们，我们会竭诚相助。</string>
     <string name="add_tag">添加标签</string>
     <string name="empty_tags_hint">向笔记添加标签后，标签即会在此处显示。</string>
-    <string name="membership_premium">付费</string>
-    <string name="membership_free_upgrade">升级</string>
-    <string name="membership_free">免费</string>
-    <string name="membership">成员资格</string>
     <string name="synced">已同步</string>
     <string name="delete_dialog_title">永久删除</string>
     <string name="delete_dialog_message">是否要永久删除此笔记？ 此操作无法撤消。</string>

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-23 14:45:22+0000
+Translation-Revision-Date: 2026-10-01 09:39:41+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: he_IL
 -->
 <resources>
+    <string name="no_collaborators_search">לא נמצאו שותפי עריכה</string>
+    <string name="search_collaborators_hint">לחפש שותפי עריכה</string>
+    <string name="search_collaborators">לחפש שותפי עריכה</string>
     <string name="signin_login_with_email_manually">נשלח לך אימייל עם קוד להתחברות, או שניתן %1$s%2$s%3$sלהתחבר באופן ידני%4$s.</string>
     <string name="login_with_password_message">יש להזין את הסיסמה לחשבון ⁦%1$s⁩</string>
     <string name="magic_link_confirm_code_message">שלחנו קוד אל \n%1$s. הקוד הזה יהיה בתוקף למשך מספר דקות.</string>
@@ -35,7 +38,7 @@ Language: he_IL
     <string name="no_collaborators">אין שותפי עריכה</string>
     <string name="collaborators_note_trashed">הפתק הועבר לפח. אין אפשרות לערוך שותפי עריכה בפתקים שהועברו לפח.</string>
     <string name="collaborators_note_deleted">הפתק נמחק. אין אפשרות לערוך שותפי עריכה בפתקים שנמחקו.</string>
-    <string name="collaborator_is_current_user">אין לך אפשרות להוסיף את עצמך בתוך שותף עריכה</string>
+    <string name="collaborator_is_current_user">אין לך אפשרות להוסיף את עצמך בתור שותף עריכה</string>
     <string name="invalid_collaborator">נא להזין כתובת אימייל תקפה</string>
     <string name="accept">אישור</string>
     <string name="email_address">כתובת אימייל</string>
@@ -98,15 +101,11 @@ Language: he_IL
     <string name="dialog_tag_conflict_title">התנגשות תגיות</string>
     <string name="dialog_tag_conflict_message">התגית \'⁦%1$s⁩\' כבר קיימת. האם ברצונך למזג את \'⁦%2$s⁩\' עם התגית \'⁦%3$s⁩\'?</string>
     <string name="dialog_tag_conflict_button_positive">למזג</string>
-    <string name="description_locked">נעול</string>
     <string name="style_sepia">ספיה</string>
     <string name="style_publication">פרסום</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">מונו</string>
     <string name="style_matrix">מטריקס</string>
-    <string name="style_dialog_locked_title">סגנון פרימיום</string>
-    <string name="style_dialog_locked_message">כדי להשתמש בסגנון זה, עליך להירשם לחברות פרימיום.</string>
-    <string name="style_dialog_locked_button_positive">לשדרג</string>
     <string name="style_default">ברירת מחדל</string>
     <string name="style_classic">קלאסי</string>
     <string name="style_black">שחור</string>
@@ -118,10 +117,6 @@ Language: he_IL
     <string name="dialog_tag_error_message">אירעה שגיאה בהוספת התגית. יש לנסות שוב. אם הבעיה ממשיכה, ניתן ליצור איתנו קשר בכתובת ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ לעזרה.</string>
     <string name="add_tag">להוסיף תגית</string>
     <string name="empty_tags_hint">לאחר שהוספת את התגיות לפתקים, התגיות שלך יופיעו כאן.</string>
-    <string name="membership_premium">פרימיום</string>
-    <string name="membership_free_upgrade">לשדרג</string>
-    <string name="membership_free">חינם</string>
-    <string name="membership">חברות</string>
     <string name="synced">מסונכרן</string>
     <string name="delete_dialog_title">למחוק לצמיתות</string>
     <string name="delete_dialog_message">האם ברצונך למחוק לצמיתות את הפתק הזה? לא ניתן לבטל פעולה זו.</string>
