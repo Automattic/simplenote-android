@@ -1,0 +1,2 @@
+2.39:
+Todos los estilos, incluido el estilo negro puro para pantallas AMOLED, ya están disponibles para todos. Ahora puedes buscar colaboradores, y escribir en notas muy largas es más rápido. También hemos actualizado la aplicación para Android 16, que ahora es compatible con el gesto Atrás predictivo, y hemos corregido el autocorrector en dispositivos Samsung y varios problemas en los paneles Historial y Compartir.

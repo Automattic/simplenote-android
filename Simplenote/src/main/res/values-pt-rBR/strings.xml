@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-23 14:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:34:03+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: pt_BR
 -->
 <resources>
+    <string name="no_collaborators_search">Nenhum colaborador encontrado</string>
+    <string name="search_collaborators_hint">Pesquisar colaboradores</string>
+    <string name="search_collaborators">Pesquisar colaboradores</string>
     <string name="signin_login_with_email_manually">Enviaremos o código de login por e-mail. Se preferir, %1$s%2$s%3$sfaça login manualmente%4$s.</string>
     <string name="login_with_password_message">Digite a senha da conta %1$s</string>
     <string name="magic_link_confirm_code_message">Enviamos um código para \n%1$s. O código será válido por alguns minutos.</string>
@@ -98,15 +101,11 @@ Language: pt_BR
     <string name="dialog_tag_conflict_title">Conflito de tags</string>
     <string name="dialog_tag_conflict_message">A tag \"%1$s\" já existe. Você gostaria de mesclar as tags \"%2$s\" e \"%3$s\"?</string>
     <string name="dialog_tag_conflict_button_positive">Mesclar</string>
-    <string name="description_locked">Bloqueada</string>
     <string name="style_sepia">Sépia</string>
     <string name="style_publication">Publicação</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">Mono</string>
     <string name="style_matrix">Matriz</string>
-    <string name="style_dialog_locked_title">Estilo premium</string>
-    <string name="style_dialog_locked_message">Para usar esse estilo, você deve ter uma associação premium.</string>
-    <string name="style_dialog_locked_button_positive">Fazer upgrade</string>
     <string name="style_default">Padrão</string>
     <string name="style_classic">Clássico</string>
     <string name="style_black">Preto</string>
@@ -118,10 +117,6 @@ Language: pt_BR
     <string name="dialog_tag_error_message">Ocorreu um erro ao adicionar a tag. Tente novamente. Se o problema continuar, entre em contato conosco em %1$s%2$s%3$s%4$s%5$s para obter ajuda.</string>
     <string name="add_tag">Adicionar tag</string>
     <string name="empty_tags_hint">Quando você adicionar tags às suas anotações, as tags aparecerão aqui.</string>
-    <string name="membership_premium">Premium</string>
-    <string name="membership_free_upgrade">Fazer upgrade</string>
-    <string name="membership_free">Gratuita</string>
-    <string name="membership">Associação</string>
     <string name="synced">Sincronizada</string>
     <string name="delete_dialog_title">Excluir permanentemente</string>
     <string name="delete_dialog_message">Deseja excluir essa anotação de forma permanente? Essa ação não pode ser desfeita.</string>

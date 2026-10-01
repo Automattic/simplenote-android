@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-24 11:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:32:39+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: de
 -->
 <resources>
+    <string name="no_collaborators_search">Keine Mitarbeiter gefunden</string>
+    <string name="search_collaborators_hint">Mitarbeiter durchsuchen</string>
+    <string name="search_collaborators">Mitarbeiter durchsuchen</string>
     <string name="signin_login_with_email_manually">Wir senden dir eine E-Mail mit einem Anmelde-Code. Alternativ kannst du dich auch %1$s%2$s%3$smanuell anmelden%4$s.</string>
     <string name="login_with_password_message">Gib das Passwort für das Konto %1$s ein</string>
     <string name="magic_link_confirm_code_message">Wir haben einen Code gesendet an: \n%1$s. Der Code ist einige Minuten gültig.</string>
@@ -98,15 +101,11 @@ Language: de
     <string name="dialog_tag_conflict_title">Schlagwortkonflikt</string>
     <string name="dialog_tag_conflict_message">Das Schlagwort „%1$s“ existiert bereits. Möchtest du „%2$s“ mit dem Schlagwort „%3$s“ zusammenführen?</string>
     <string name="dialog_tag_conflict_button_positive">Zusammenführen</string>
-    <string name="description_locked">Gesperrt</string>
     <string name="style_sepia">Sepia</string>
     <string name="style_publication">Veröffentlichung</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">Mono</string>
     <string name="style_matrix">Matrix</string>
-    <string name="style_dialog_locked_title">Premium-Stil</string>
-    <string name="style_dialog_locked_message">Um diesen Stil zu verwenden, benötigst du eine Premium-Mitgliedschaft.</string>
-    <string name="style_dialog_locked_button_positive">Upgrade</string>
     <string name="style_default">Standard</string>
     <string name="style_classic">Classic</string>
     <string name="style_black">Schwarz</string>
@@ -118,10 +117,6 @@ Language: de
     <string name="dialog_tag_error_message">Beim Hinzufügen des Schlagworts ist ein Fehler aufgetreten. Bitte versuche es erneut. Sollte das Problem weiterhin bestehen, kontaktiere uns unter %1$s%2$s%3$s%4$s%5$s, um Unterstützung zu erhalten.</string>
     <string name="add_tag">Schlagwort hinzufügen</string>
     <string name="empty_tags_hint">Sobald du zu deinen Notizen Schlagwörter hinzufügst, werden deine Schlagwörter hier angezeigt.</string>
-    <string name="membership_premium">Premium</string>
-    <string name="membership_free_upgrade">Upgrade</string>
-    <string name="membership_free">Kostenlos</string>
-    <string name="membership">Mitgliedschaft</string>
     <string name="synced">Synchronisiert</string>
     <string name="delete_dialog_title">Unwiderruflich löschen</string>
     <string name="delete_dialog_message">Möchtest du diese Notiz endgültig löschen? Diese Aktion kann nicht rückgängig gemacht werden.</string>

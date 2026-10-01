@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-25 09:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:39:07+0000
 Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;
 Generator: GlotPress/2.4.0-alpha
 Language: ar
 -->
 <resources>
+    <string name="no_collaborators_search">لم يتم العثور على متعاونين</string>
+    <string name="search_collaborators_hint">البحث عن المتعاونين</string>
+    <string name="search_collaborators">البحث عن المتعاونين</string>
     <string name="signin_login_with_email_manually">سنرسل إليك كودًا عبر البريد الإلكتروني لتسجيل الدخول، أو يمكنك ⁦%1$s⁩%2$s⁦%3$s⁩تسجيل الدخول يدويًا⁦%4$s⁩.</string>
     <string name="login_with_password_message">إدخال كلمة المرور الخاصة بالحساب ⁦%1$s⁩</string>
     <string name="magic_link_confirm_code_message">لقد أرسلنا كودًا إلى \n%1$s. سيكون هذا الكود صالحًا لبضع دقائق.</string>
@@ -41,8 +44,8 @@ Language: ar
     <string name="email_address">البريد الإلكتروني</string>
     <string name="remove_collaborator_message">هل تريد بالتأكيد إزالة هذا المتعاون؟</string>
     <string name="remove">إزالة</string>
-    <string name="collaborators">المشاركون</string>
-    <string name="remove_collaborator">إزالة المتعاونين</string>
+    <string name="collaborators">المتعاونون</string>
+    <string name="remove_collaborator">إزالة المتعاون</string>
     <string name="loading_collaborators">جاري التحميل…</string>
     <string name="add_email_collaborator_message">أضف عنوان بريد إلكترونيًا لمشاركة هذه الملحوظة مع شخص ما، بعدها يمكنك إجراء تغييرات عليها. عند إضافة متعاون، سيتم إخطاره برسالة عبر البريد الإلكتروني.</string>
     <string name="add_collaborator">إضافة متعاون</string>
@@ -98,15 +101,11 @@ Language: ar
     <string name="dialog_tag_conflict_title">وسم الصراع</string>
     <string name="dialog_tag_conflict_message">الوسم \"⁦%1$s⁩\" موجود بالفعل. هل ترغب في دمج \"⁦%2$s⁩\" في وسم \"⁦%3$s⁩\"؟</string>
     <string name="dialog_tag_conflict_button_positive">دمج</string>
-    <string name="description_locked">مؤمن</string>
     <string name="style_sepia">بني</string>
     <string name="style_publication">النشر</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">مونو</string>
     <string name="style_matrix">ماتريكس</string>
-    <string name="style_dialog_locked_title">أسلوب مميَّز</string>
-    <string name="style_dialog_locked_message">لاستخدام هذا الأسلوب، يجب أن يكون لديك عضوية مميَّزة.</string>
-    <string name="style_dialog_locked_button_positive">ترقية</string>
     <string name="style_default">الافتراضي</string>
     <string name="style_classic">تقليدي</string>
     <string name="style_black">أسود</string>
@@ -118,10 +117,6 @@ Language: ar
     <string name="dialog_tag_error_message">حدث خطأ في أثناء إضافة الوسم. يُرجى المحاولة مرة أخرى. إذا استمرت المشكلة، فاتصل بنا على ⁦%1$s⁩%2$s%3$s%4$s⁦%5$s⁩ للحصول على المساعدة.</string>
     <string name="add_tag">إضافة وسم</string>
     <string name="empty_tags_hint">بمجرد أن تقوم بإضافة الوسوم إلى ملاحظاتك، ستظهر وسومك هنا.</string>
-    <string name="membership_premium">الإصدار المميز</string>
-    <string name="membership_free_upgrade">ترقية</string>
-    <string name="membership_free">مجانًا</string>
-    <string name="membership">العضوية</string>
     <string name="synced">متزامن</string>
     <string name="delete_dialog_title">حذف بشكل دائم</string>
     <string name="delete_dialog_message">هل تريد حذف هذه الملاحظة نهائيًا؟ لا يمكن التراجع عن هذه العملية.</string>

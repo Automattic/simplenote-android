@@ -1,0 +1,2 @@
+2.39:
+Alle stijlen, inclusief de puur zwarte AMOLED-stijl, zijn nu voor iedereen beschikbaar. Je kunt nu samenwerkers zoeken en typen in zeer grote notities gaat sneller. We hebben de app ook bijgewerkt voor Android 16 met ondersteuning voor het voorspellende teruggebaar, en we hebben de autocorrectie op Samsung-apparaten en problemen met de panelen Geschiedenis en Delen opgelost.
