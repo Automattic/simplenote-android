@@ -1,0 +1,2 @@
+2.39:
+Tous les styles, y compris le style noir pur pour écrans AMOLED, sont désormais accessibles à tous. Vous pouvez maintenant rechercher vos collaborateurs, et la saisie dans les très longues notes est plus rapide. Nous avons également mis à jour l’application pour Android 16 avec la prise en charge du geste Retour prédictif, et résolu des problèmes de correction automatique sur les appareils Samsung ainsi que dans les volets Historique et Partager.
