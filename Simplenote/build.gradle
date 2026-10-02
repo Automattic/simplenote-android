@@ -43,6 +43,10 @@ android {
         minSdkVersion 23
         targetSdkVersion 36
 
+        testInstrumentationRunner 'com.automattic.simplenote.SimplenoteAppRunner'
+        // ScreenshotTest logs in to a real account. The fastlane take_screenshots lane runs it separately.
+        testInstrumentationRunnerArgument 'notClass', 'com.automattic.simplenote.screenshots.ScreenshotTest'
+
         buildConfigField "String", "SENTRY_DSN", "\"https://89e443ca3fd84e588d1809cfbfcc40f4@sentry.io/1455558\""
     }
 
@@ -97,15 +101,9 @@ dependencies {
     androidTestImplementation 'androidx.annotation:annotation:1.9.1'
     androidTestImplementation 'androidx.test:runner:1.7.0'
     androidTestImplementation 'androidx.test:rules:1.7.0'
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.7.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.7.0'
-    androidTestImplementation('androidx.test.espresso:espresso-contrib:3.7.0') {
-        // Necessary to avoid version conflicts
-        exclude group: 'androidx', module: 'appcompat'
-        exclude group: 'androidx', module: 'support-v4'
-        exclude group: 'androidx', module: 'support-annotations'
-        exclude module: 'recyclerview-v7'
-    }
     // Infrastructure to test fragments
     testImplementation "androidx.arch.core:core-testing:2.2.0"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2"
