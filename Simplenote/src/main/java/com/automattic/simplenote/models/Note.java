@@ -247,7 +247,12 @@ public class Note extends BucketObject {
         }
 
         if (isMarkdownEnabled()) {
+            boolean isPreviewSameAsTitle = mContentPreview.equals(mTitle);
             mTitle = stripLeadingMarkdownHeading(mTitle);
+
+            if (isPreviewSameAsTitle) {
+                mContentPreview = mTitle;
+            }
         }
     }
 
