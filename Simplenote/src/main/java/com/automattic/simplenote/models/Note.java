@@ -35,8 +35,7 @@ import java.util.regex.Pattern;
 import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class Note extends BucketObject {
-
-    private static final Pattern MARKDOWN_HEADER_PATTERN = Pattern.compile("^#{1,6}\\s+");
+    
     public static final String BUCKET_NAME = "note";
     public static final String MARKDOWN_TAG = "markdown";
     public static final String PINNED_TAG = "pinned";
@@ -63,6 +62,7 @@ public class Note extends BucketObject {
     public static final String PUBLISH_URL = "http://simp.ly/p/";
     static public final String[] FULL_TEXT_INDEXES = new String[]{
             Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY};
+    private static final Pattern MARKDOWN_HEADING_PATTERN = Pattern.compile("^#{1,6}\\s+");
     private static final String BLANK_CONTENT = "";
     private static final String SPACE = " ";
     private static final int MAX_PREVIEW_CHARS = 300;
@@ -257,7 +257,7 @@ public class Note extends BucketObject {
     }
 
     private static String stripLeadingMarkdownHeading(String title) {
-        return MARKDOWN_HEADER_PATTERN.matcher(title).replaceFirst("");
+        return MARKDOWN_HEADING_PATTERN.matcher(title).replaceFirst("");
     }
 
     public String getTitle() {
