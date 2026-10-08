@@ -62,6 +62,7 @@ public class Note extends BucketObject {
     public static final String PUBLISH_URL = "http://simp.ly/p/";
     static public final String[] FULL_TEXT_INDEXES = new String[]{
             Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY};
+    public static final int MAX_TITLE_LINE_CHARS = 200;
     private static final Pattern MARKDOWN_HEADING_PATTERN = Pattern.compile("^#{1,6}\\s+");
     private static final String BLANK_CONTENT = "";
     private static final String SPACE = " ";
@@ -232,7 +233,7 @@ public class Note extends BucketObject {
         }
 
         int firstNewLinePosition = content.indexOf(NEW_LINE);
-        if (firstNewLinePosition > -1 && firstNewLinePosition < 200) {
+        if (firstNewLinePosition > -1 && firstNewLinePosition < MAX_TITLE_LINE_CHARS) {
             mTitle = content.substring(0, firstNewLinePosition).trim();
 
             if (firstNewLinePosition < content.length()) {

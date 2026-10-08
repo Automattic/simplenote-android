@@ -369,11 +369,15 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
 
             String postStatus = mDraftCheckbox.isChecked() ? "draft" : "publish";
 
+            // Split the note into a title (first line) and a body (everything after it)
             String title = "";
             String content = mNote.getContent();
-            if (!mNote.getTitle().equals(mNote.getContent())) {
-                title = mNote.getTitle();
-                content = content.substring(title.length());
+
+            String trimmedContent = content.trim();
+            int firstNewLinePosition = trimmedContent.indexOf(Note.NEW_LINE);
+            if (firstNewLinePosition > -1 && firstNewLinePosition < Note.MAX_TITLE_LINE_CHARS) {
+                title = trimmedContent.substring(0, firstNewLinePosition).trim();
+                content = trimmedContent.substring(firstNewLinePosition);
 
                 // Get rid of the #'s in front of markdown note titles
                 if (mNote.isMarkdownEnabled()) {
