@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class Note extends BucketObject {
-    
     public static final String BUCKET_NAME = "note";
     public static final String MARKDOWN_TAG = "markdown";
     public static final String PINNED_TAG = "pinned";
@@ -491,6 +490,9 @@ public class Note extends BucketObject {
         } else {
             removeSystemTag(MARKDOWN_TAG);
         }
+
+        mTitle = null;
+        mContentPreview = null;
     }
 
     public boolean isPinned() {
