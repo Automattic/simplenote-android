@@ -105,6 +105,24 @@ public class NoteTest {
     }
 
     @Test
+    public void testParseTitleAndPreviewStripsMarkdownHeadingFromSingleLineNote() {
+        mNote.setMarkdownEnabled(true);
+        mNote.setContent("# Heading");
+        assertEquals(mNote.getTitle(), "Heading");
+        assertEquals(mNote.getContentPreview(), "Heading");
+    }
+
+    @Test
+    public void testParseTitleAndPreviewUpdatesWhenMarkdownEnabledAfterTitleRead() {
+        mNote.setMarkdownEnabled(false);
+        mNote.setContent("# Heading\nbody text");
+        assertEquals(mNote.getTitle(), "# Heading");
+
+        mNote.setMarkdownEnabled(true);
+        assertEquals(mNote.getTitle(), "Heading");
+    }
+
+    @Test
     public void testNoteDoesHaveTag() {
         Tag tag = new Tag("tag");
         tag.setName("Tag");
