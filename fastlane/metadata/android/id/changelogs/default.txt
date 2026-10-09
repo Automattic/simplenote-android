@@ -1,0 +1,2 @@
+2.39:
+Semua gaya, termasuk gaya AMOLED hitam pekat, kini tersedia untuk semua orang. Kini Anda dapat mencari kolaborator, dan mengetik di catatan yang sangat besar menjadi lebih cepat. Kami juga memperbarui aplikasi untuk Android 16 dengan dukungan gestur kembali prediktif, serta memperbaiki koreksi otomatis di perangkat Samsung dan masalah pada panel Riwayat dan Bagikan.

@@ -17,7 +17,8 @@ import com.automattic.simplenote.R
 import com.automattic.simplenote.TagsActivity
 import com.automattic.simplenote.models.Note
 import com.automattic.simplenote.models.Tag
-import com.automattic.simplenote.utils.isToast
+import com.automattic.simplenote.utils.assertToastShown
+import com.automattic.simplenote.utils.waitForItemCount
 import com.automattic.simplenote.utils.withItemCount
 import com.automattic.simplenote.utils.withRecyclerView
 import org.hamcrest.CoreMatchers
@@ -69,6 +70,7 @@ class TagsActivityTest : BaseUITest() {
 
         // All tags starting with tag should be shown
         val filteredTagsFirstPhrase = testData.tags.filter { it.tag.name.startsWith(firstSearchPhrase) }
+        waitForItemCount(R.id.list, filteredTagsFirstPhrase.count())
         filteredTagsFirstPhrase.forEachIndexed { index, tagAndCounter ->
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
                 .check(matches(withText(tagAndCounter.tag.name)))
@@ -76,21 +78,18 @@ class TagsActivityTest : BaseUITest() {
                 .check(matches(withText(tagAndCounter.counter)))
         }
 
-        onView(withId(R.id.list)).check(withItemCount(filteredTagsFirstPhrase.count()))
-
         // Type in the second search phrase
         onView(isAssignableFrom(EditText::class.java)).perform(replaceText(secondSearchPhrase))
 
         // Jus the tag other should be shown
         val filteredTagsSecondPhrase = testData.tags.filter { it.tag.name.startsWith(secondSearchPhrase) }
+        waitForItemCount(R.id.list, filteredTagsSecondPhrase.count())
         filteredTagsSecondPhrase.forEachIndexed { index, tagAndCounter ->
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
                 .check(matches(withText(tagAndCounter.tag.name)))
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
                 .check(matches(withText(tagAndCounter.counter)))
         }
-
-        onView(withId(R.id.list)).check(withItemCount(filteredTagsSecondPhrase.count()))
 
         onView(withId(R.id.empty)).check(matches(not(isDisplayed())))
     }
@@ -109,15 +108,13 @@ class TagsActivityTest : BaseUITest() {
 
         // All tags starting with tag should be shown
         val filteredTags = testData.tags.filter { it.tag.name.startsWith(firstSearchPhrase) }
+        waitForItemCount(R.id.list, filteredTags.count())
         filteredTags.forEachIndexed { index, tagAndCounter ->
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_name))
                 .check(matches(withText(tagAndCounter.tag.name)))
             onView(withRecyclerView(R.id.list).atPositionOnView(index, R.id.tag_count))
                 .check(matches(withText(tagAndCounter.counter)))
         }
-
-        onView(withId(R.id.list)).check(withItemCount(filteredTags.count()))
-
 
         // Change the state of the activity to CREATED which calls onPause and onStop
         activityScenario.moveToState(Lifecycle.State.CREATED)
@@ -167,9 +164,10 @@ class TagsActivityTest : BaseUITest() {
     fun longTabOnAddTagShouldShowToast() {
         ActivityScenario.launch(TagsActivity::class.java)
 
-        onView(withId(R.id.button_add)).perform(longClick())
         val addTagTitle = getResourceString(R.string.add_tag)
-        onView(withText(addTagTitle)).inRoot(isToast()).check(matches(isDisplayed()))
+        assertToastShown(addTagTitle) {
+            onView(withId(R.id.button_add)).perform(longClick())
+        }
     }
 
     @Test

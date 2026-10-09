@@ -4,20 +4,27 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.view.HapticFeedbackConstants
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.automattic.simplenote.databinding.ActivityCollaboratorsBinding
 import com.automattic.simplenote.utils.CollaboratorsAdapter
 import com.automattic.simplenote.utils.CollaboratorsAdapter.CollaboratorDataItem.*
 import com.automattic.simplenote.utils.DisplayUtils
+import com.automattic.simplenote.utils.DrawableUtils
+import com.automattic.simplenote.utils.HtmlCompat
 import com.automattic.simplenote.utils.IntentUtils
 import com.automattic.simplenote.utils.SystemBarUtils
+import com.automattic.simplenote.utils.getColorStr
 import com.automattic.simplenote.utils.toast
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel
 import com.automattic.simplenote.viewmodels.CollaboratorsViewModel.Event
@@ -27,6 +34,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CollaboratorsActivity : ThemedAppCompatActivity() {
     private val viewModel: CollaboratorsViewModel by viewModels()
+
+    private var searchMenuItem: MenuItem? = null
 
     companion object {
         const val NOTE_ID_ARG = "note_id"
@@ -62,12 +71,67 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        super.onCreateOptionsMenu(menu)
+
+        menuInflater.inflate(R.menu.collaborators_list, menu)
+        DrawableUtils.tintMenuWithAttribute(this, menu, R.attr.toolbarIconColor)
+        val searchMenuItem = menu.findItem(R.id.menu_search)
+        this.searchMenuItem = searchMenuItem
+        val searchView = searchMenuItem.actionView as SearchView
+        val searchEditFrame = searchView.findViewById<LinearLayout>(R.id.search_edit_frame)
+        (searchEditFrame.layoutParams as LinearLayout.LayoutParams).leftMargin = 0
+
+        val hintHexColor = getColorStr(R.color.text_title_disabled)
+        searchView.queryHint = HtmlCompat.fromHtml(String.format(
+            "<font color=\"%s\">%s</font>",
+            hintHexColor,
+            getString(R.string.search_collaborators_hint)
+        ))
+
+        searchView.setOnQueryTextListener(
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(query: String): Boolean {
+                    if (searchMenuItem.isActionViewExpanded) {
+                        viewModel.search(query)
+                    }
+
+                    return true
+                }
+
+                override fun onQueryTextSubmit(queryText: String): Boolean {
+                    return true
+                }
+            }
+        )
+
+        searchView.setOnCloseListener {
+            viewModel.closeSearch()
+            false
+        }
+
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) {
             viewModel.close()
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        updateSearchVisibility(viewModel.uiState.value)
+
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    private fun updateSearchVisibility(uiState: CollaboratorsViewModel.UiState?) {
+        searchMenuItem?.isVisible = when (uiState) {
+            is EmptyCollaborators -> !uiState.allCollaboratorsRemoved
+            else -> true
+        }
     }
 
     override fun onResume() {
@@ -116,9 +180,15 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
 
     private fun ActivityCollaboratorsBinding.setObservers() {
         viewModel.uiState.observe(this@CollaboratorsActivity, { uiState ->
+            updateSearchVisibility(uiState)
+
             when (uiState) {
-                is EmptyCollaborators -> handleEmptyCollaborators()
-                is CollaboratorsList -> handleCollaboratorsList(uiState.collaborators)
+                is EmptyCollaborators -> {
+                    handleEmptyCollaborators(uiState.allCollaboratorsRemoved, uiState.searchUpdate)
+                }
+                is CollaboratorsList -> {
+                    handleCollaboratorsList(uiState.collaborators, uiState.searchUpdate, uiState.searchQuery)
+                }
                 is NoteDeleted -> {
                     toast(R.string.collaborators_note_deleted, Toast.LENGTH_LONG)
                     navigateToNotesList()
@@ -156,15 +226,36 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         toast(R.string.remove_collaborator)
     }
 
-    private fun ActivityCollaboratorsBinding.handleCollaboratorsList(collaborators: List<String>) {
+    private fun ActivityCollaboratorsBinding.handleCollaboratorsList(collaborators: List<String>, searchUpdate: Boolean, searchQuery: String?) {
         hideEmptyView()
         val items = listOf(HeaderItem) + collaborators.map { CollaboratorItem(it) }
-        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(items)
+        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(items) {
+            if (searchUpdate) {
+                collaboratorsList.scrollToPosition(0)
+
+                if (searchQuery != null) {
+                    setEmptyViewSearch()
+                } else {
+                    setEmptyViewDefault()
+                }
+            }
+        }
     }
 
-    private fun ActivityCollaboratorsBinding.handleEmptyCollaborators() {
+    private fun ActivityCollaboratorsBinding.handleEmptyCollaborators(allCollaboratorsRemoved: Boolean, searchUpdate: Boolean) {
         showEmptyView()
-        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(emptyList())
+        (collaboratorsList.adapter as CollaboratorsAdapter).submitList(emptyList()) {
+            if (searchUpdate) {
+                collaboratorsList.scrollToPosition(0)
+            }
+
+            if (allCollaboratorsRemoved) {
+                invalidateOptionsMenu()
+                setEmptyViewDefault()
+            } else {
+                setEmptyViewSearch()
+            }
+        }
     }
 
     private fun ActivityCollaboratorsBinding.hideEmptyView() {
@@ -177,6 +268,53 @@ class CollaboratorsActivity : ThemedAppCompatActivity() {
         empty.image.visibility = View.VISIBLE
         empty.title.visibility = View.VISIBLE
         empty.message.visibility = View.VISIBLE
+    }
+
+    private fun ActivityCollaboratorsBinding.setEmptyListImage(@DrawableRes image: Int) {
+        if (image != -1) {
+            empty.image.visibility = View.VISIBLE
+            empty.image.setImageResource(image)
+        } else {
+            empty.image.visibility = View.GONE
+        }
+    }
+
+    private fun ActivityCollaboratorsBinding.setEmptyListMessage(message: String?) {
+        message?.let {
+            empty.message.text = it
+        }
+    }
+
+    private fun ActivityCollaboratorsBinding.setEmptyListTitle(title: String?) {
+        title?.let {
+            empty.title.text = it
+        }
+    }
+
+    private fun ActivityCollaboratorsBinding.setEmptyViewDefault() {
+        if (DisplayUtils.isLandscape(this@CollaboratorsActivity) &&
+            !DisplayUtils.isLargeScreen(this@CollaboratorsActivity)
+        ) {
+            setEmptyListImage(-1)
+        } else {
+            setEmptyListImage(R.drawable.ic_collaborate_24dp)
+        }
+
+        setEmptyListMessage(getString(R.string.add_email_collaborator_message))
+        setEmptyListTitle(getString(R.string.no_collaborators))
+    }
+
+    private fun ActivityCollaboratorsBinding.setEmptyViewSearch() {
+        if (DisplayUtils.isLandscape(this@CollaboratorsActivity) &&
+            !DisplayUtils.isLargeScreen(this@CollaboratorsActivity)
+        ) {
+            setEmptyListImage(-1)
+        } else {
+            setEmptyListImage(R.drawable.ic_search_24dp)
+        }
+
+        setEmptyListMessage("")
+        setEmptyListTitle(getString(R.string.no_collaborators_search))
     }
 
     private fun showAddCollaboratorFragment(event: Event.AddCollaboratorEvent) {

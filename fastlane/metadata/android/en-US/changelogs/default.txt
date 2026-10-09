@@ -1,1 +1,1 @@
-We've improved note editing reliability by fixing an issue that could cause an error when working with very large notes, making it easier to capture and update your content without interruption.
+All styles, including the pure-black AMOLED style, are now available to everyone. You can now search your collaborators, and typing in very large notes is faster. We also updated the app for Android 16 with support for the predictive back gesture, and fixed autocorrect on Samsung devices and issues with the History and Share sheets.

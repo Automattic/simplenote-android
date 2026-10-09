@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -56,6 +57,8 @@ public class SimplenoteSignupActivity extends ThemedAppCompatActivity {
             mToolbar,
             findViewById(R.id.fragment_container)
         );
+
+        getOnBackPressedDispatcher().addCallback(this, mReturnToAuthOnBack);
     }
 
     private void initContainer(final boolean isSignUp) {
@@ -106,23 +109,27 @@ public class SimplenoteSignupActivity extends ThemedAppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() ==  android.R.id.home) {
-            onBackPressed();
+            getOnBackPressedDispatcher().onBackPressed();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(SIGNUP_FRAGMENT_TAG);
-        if (fragment instanceof MagicLinkConfirmationFragment) {
-            // Old logic doesn't expect a backstack of fragments. This is to fit magic links only.
-            super.onBackPressed();
-            return;
+    private final OnBackPressedCallback mReturnToAuthOnBack = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(SIGNUP_FRAGMENT_TAG);
+            if (fragment instanceof MagicLinkConfirmationFragment) {
+                // Old logic doesn't expect a backstack of fragments. This is to fit magic links only.
+                setEnabled(false);
+                getOnBackPressedDispatcher().onBackPressed();
+                setEnabled(true);
+                return;
+            }
+            // This is weird. But see SimplenoteCredentialsActivity for why this is necessary.
+            startActivity(new Intent(SimplenoteSignupActivity.this, SimplenoteAuthenticationActivity.class));
+            finish();
         }
-        // This is weird. But see SimplenoteCredentialsActivity for why this is necessary.
-        startActivity(new Intent(this, SimplenoteAuthenticationActivity.class));
-        finish();
-    }
+    };
 }

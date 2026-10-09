@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-24 15:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:39:45+0000
 Plural-Forms: nplurals=2; plural=(n > 1);
 Generator: GlotPress/2.4.0-alpha
 Language: tr
 -->
 <resources>
+    <string name="no_collaborators_search">Çalışma arkadaşı bulunamadı</string>
+    <string name="search_collaborators_hint">Çalışma arkadaşlarını ara</string>
+    <string name="search_collaborators">Çalışma Arkadaşlarını Ara</string>
     <string name="signin_login_with_email_manually">Oturum açmanız için size e-postayla bir kod göndereceğiz veya %1$s%2$s%3$smanuel olarak oturum açabilirsiniz%4$s.</string>
     <string name="login_with_password_message">%1$s hesabınızın şifresini girin</string>
     <string name="magic_link_confirm_code_message">Şuraya bir kod gönderildi: \n%1$s. Kod birkaç dakikalığına geçerli olacak.</string>
@@ -32,7 +35,7 @@ Language: tr
     <string name="simperium_not_now">İptal</string>
     <string name="simperium_compromised_password_message">Bu şifre, hesabınızı ileri düzeyde tehlikeye atma riskine sokan bir veri ihlalinde ortaya çıktı. Verilerinizi korumak için tekrar oturum açmadan önce şifrenizi güncellemeniz gerekir.</string>
     <string name="simperium_compromised_password">Güvenliği İhlal Edilmiş Şifre</string>
-    <string name="no_collaborators">Çalışma Arkadaşı yok</string>
+    <string name="no_collaborators">Çalışma Arkadaşı Yok</string>
     <string name="collaborators_note_trashed">Not çöpe atıldı. Çöp kutusundaki bir notta bulunan çalışma arkadaşlarını düzenleyemezsiniz.</string>
     <string name="collaborators_note_deleted">Not silindi. Silinmiş bir nottaki çalışma arkadaşlarını düzenleyemezsiniz.</string>
     <string name="collaborator_is_current_user">Kendinizi çalışma arkadaşı olarak ekleyemezsiniz</string>
@@ -98,15 +101,11 @@ Language: tr
     <string name="dialog_tag_conflict_title">Etiket Çakışması</string>
     <string name="dialog_tag_conflict_message">\"%1$s\" etiketi zaten var. \"%2$s\" öğesini \"%3$s\" etiketiyle birleştirmek ister misiniz?</string>
     <string name="dialog_tag_conflict_button_positive">Birleştir</string>
-    <string name="description_locked">Kilitli</string>
     <string name="style_sepia">Sepya</string>
     <string name="style_publication">Yayın </string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">Mono</string>
     <string name="style_matrix">Matris</string>
-    <string name="style_dialog_locked_title">Premium Stil</string>
-    <string name="style_dialog_locked_message">Bu stili kullanmak için premium üyeliğiniz olmalıdır.</string>
-    <string name="style_dialog_locked_button_positive">Yükselt</string>
     <string name="style_default">Varsayılan</string>
     <string name="style_classic">Klasik</string>
     <string name="style_black">Siyah</string>
@@ -118,10 +117,6 @@ Language: tr
     <string name="dialog_tag_error_message">Etiketi eklerken bir hata oluştu. Lütfen tekrar deneyin. Sorun devam ederse yardım için %1$s%2$s%3$s%4$s%5$s adresinden bize ulaşın.</string>
     <string name="add_tag">Etiket ekle</string>
     <string name="empty_tags_hint">Notlarınıza eklediğiniz etiketler burada görünür.</string>
-    <string name="membership_premium">Premium</string>
-    <string name="membership_free_upgrade">Yükselt</string>
-    <string name="membership_free">Ücretsiz</string>
-    <string name="membership">Üyelik</string>
     <string name="synced">Eşitlendi</string>
     <string name="delete_dialog_title">Kalıcı olarak sil</string>
     <string name="delete_dialog_message">Bu notu kalıcı olarak silmek istiyor musunuz? Bu eylem geri alınamaz.</string>

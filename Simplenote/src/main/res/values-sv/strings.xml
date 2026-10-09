@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-23 12:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:40:03+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: sv_SE
 -->
 <resources>
+    <string name="no_collaborators_search">Inga medarbetare hittades</string>
+    <string name="search_collaborators_hint">Sök medarbetare</string>
+    <string name="search_collaborators">Sök medarbetare</string>
     <string name="signin_login_with_email_manually">Vi skickar en kod till dig via e-post för att logga in, eller så kan du %1$s%2$s%3$slogga in manuellt%4$s.</string>
     <string name="login_with_password_message">Ange lösenordet för kontot %1$s</string>
     <string name="magic_link_confirm_code_message">Vi har skickat en kod till \n%1$s. Koden kommer vara giltig i några minuter.</string>
@@ -33,8 +36,8 @@ Language: sv_SE
     <string name="simperium_compromised_password_message">Det här lösenordet har dykt upp i ett dataintrång, vilket innebär att ditt konto löper hög risk att komprometteras. För att skydda dina data behöver du uppdatera ditt lösenord innan du kan logga in igen.</string>
     <string name="simperium_compromised_password">Komprometterat lösenord</string>
     <string name="no_collaborators">Inga medarbetare</string>
-    <string name="collaborators_note_trashed">Anteckningen har tagits bort. Du kan inte redigera redigerare för en anteckning som har tagits bort.</string>
-    <string name="collaborators_note_deleted">Anteckningen har tagits bort. Du kan inte redigera redigerare för en anteckning som har tagits bort.</string>
+    <string name="collaborators_note_trashed">Anteckningen har tagits bort. Du kan inte redigera medarbetare för en anteckning som ligger i papperskorgen.</string>
+    <string name="collaborators_note_deleted">Anteckningen har tagits bort. Du kan inte redigera medarbetare för en anteckning som har tagits bort.</string>
     <string name="collaborator_is_current_user">Du kan inte lägga till dig själv som medarbetare</string>
     <string name="invalid_collaborator">Ange en giltig e-postadress</string>
     <string name="accept">Acceptera</string>
@@ -44,12 +47,12 @@ Language: sv_SE
     <string name="collaborators">Medarbetare</string>
     <string name="remove_collaborator">Ta bort medarbetare</string>
     <string name="loading_collaborators">Laddar in …</string>
-    <string name="add_email_collaborator_message">Lägg till en e-postadress för att dela denna anteckning med någon, så att ni båda kan göra ändringar i den. När du lägger till en redigerare meddelas redigeraren via e-post.</string>
+    <string name="add_email_collaborator_message">Lägg till en e-postadress för att dela denna anteckning med någon, så att ni båda kan göra ändringar i den. När du lägger till en medarbetare meddelas medarbetaren via e-post.</string>
     <string name="add_collaborator">Lägg till medarbetare</string>
     <string name="note_shared">Anteckningen har delats</string>
     <string name="shared_with">Delad med</string>
     <string name="tag_error_collaborator">Etiketter kan inte vara e-postmeddelanden</string>
-    <string name="tag_added_as_collaborator">%1$s har lagts till som redigerare.</string>
+    <string name="tag_added_as_collaborator">%1$s har lagts till som medarbetare.</string>
     <string name="invalid_tag">Ogiltig etikett</string>
     <string name="simperium_okay">Okej</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
@@ -98,15 +101,11 @@ Language: sv_SE
     <string name="dialog_tag_conflict_title">Etikettkonflikt</string>
     <string name="dialog_tag_conflict_message">Etiketten %1$s finns redan. Vill du slå samman %2$s med etiketten %3$s?</string>
     <string name="dialog_tag_conflict_button_positive">Slå samman</string>
-    <string name="description_locked">Låst</string>
     <string name="style_sepia">Sepia</string>
     <string name="style_publication">Publicering</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">Mono</string>
     <string name="style_matrix">Matrix</string>
-    <string name="style_dialog_locked_title">Premiumstil</string>
-    <string name="style_dialog_locked_message">Du måste ha premiummedlemskap för att använda den här stilen.</string>
-    <string name="style_dialog_locked_button_positive">Uppgradera</string>
     <string name="style_default">Standard</string>
     <string name="style_classic">Klassisk</string>
     <string name="style_black">Svart</string>
@@ -118,10 +117,6 @@ Language: sv_SE
     <string name="dialog_tag_error_message">Ett fel uppstod när etiketten lades till. Var vänlig försök igen. Kontakta oss på %1$s%2$s%3$s%4$s%5$s om problemet kvarstår.</string>
     <string name="add_tag">Lägg till etikett</string>
     <string name="empty_tags_hint">När du lägger till etiketter till dina anteckning kommer de visas här.</string>
-    <string name="membership_premium">Premium</string>
-    <string name="membership_free_upgrade">Uppgradera</string>
-    <string name="membership_free">Gratis</string>
-    <string name="membership">Medlemskap</string>
     <string name="synced">Synkroniserad</string>
     <string name="delete_dialog_title">Ta bort permanent</string>
     <string name="delete_dialog_message">Vill du ta bort den här anteckningen permanent? Denna åtgärd kan inte ångras.</string>

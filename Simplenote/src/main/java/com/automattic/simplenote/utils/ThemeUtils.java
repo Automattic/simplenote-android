@@ -166,26 +166,22 @@ public class ThemeUtils {
     }
 
     public static int getStyle(Context context) {
-        if (PrefUtils.getStyleNameFromIndexSelected(context).isEmpty() || !PrefUtils.isPremium(context)) {
-            return R.style.Style_Default;
-        } else {
-            switch (PrefUtils.getStyleIndexSelected(context)) {
-                case STYLE_BLACK:
-                    return R.style.Style_Black;
-                case STYLE_CLASSIC:
-                    return R.style.Style_Classic;
-                case STYLE_MATRIX:
-                    return R.style.Style_Matrix;
-                case STYLE_MONO:
-                    return R.style.Style_Mono;
-                case STYLE_PUBLICATION:
-                    return R.style.Style_Publication;
-                case STYLE_SEPIA:
-                    return R.style.Style_Sepia;
-                case STYLE_DEFAULT:
-                default:
-                    return R.style.Style_Default;
-            }
+        switch (PrefUtils.getStyleIndexSelected(context)) {
+            case STYLE_BLACK:
+                return R.style.Style_Black;
+            case STYLE_CLASSIC:
+                return R.style.Style_Classic;
+            case STYLE_MATRIX:
+                return R.style.Style_Matrix;
+            case STYLE_MONO:
+                return R.style.Style_Mono;
+            case STYLE_PUBLICATION:
+                return R.style.Style_Publication;
+            case STYLE_SEPIA:
+                return R.style.Style_Sepia;
+            case STYLE_DEFAULT:
+            default:
+                return R.style.Style_Default;
         }
     }
 }

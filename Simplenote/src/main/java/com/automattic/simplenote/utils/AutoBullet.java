@@ -16,18 +16,21 @@ public class AutoBullet {
     private static final String STR_SPACE = " ";
 
     public static void apply(Editable editable, int oldCursorPosition, int newCursorPosition) {
-        if (!isValidCursorIncrement(oldCursorPosition, newCursorPosition)) {
+        if (!isValidCursorIncrement(editable, oldCursorPosition, newCursorPosition)) {
             return;
         }
 
-        String noteContent = editable.toString();
-        String prevChar = noteContent.substring(newCursorPosition - 1, newCursorPosition);
-
-        if (prevChar.equals(STR_LINE_BREAK)) {
+        char prevChar = editable.charAt(newCursorPosition - 1);
+        if (prevChar == '\n') {
             int prevParagraphEnd = newCursorPosition - 1;
-            int prevParagraphStart = noteContent.lastIndexOf(STR_LINE_BREAK, prevParagraphEnd - 1);
-            prevParagraphStart++; // ++ because we don't actually include the previous linebreak
-            String prevParagraph = noteContent.substring(prevParagraphStart, prevParagraphEnd);
+            int prevParagraphStart = 0;
+            for (int i = prevParagraphEnd - 1; i >= 0; i--) {
+                if (editable.charAt(i) == '\n') {
+                    prevParagraphStart = i + 1;
+                    break;
+                }
+            }
+            String prevParagraph = editable.subSequence(prevParagraphStart, prevParagraphEnd).toString();
             BulletMetadata metadata = extractBulletMetadata(prevParagraph);
             // See if there's a CheckableSpan in the previous line
             CheckableSpan[] checkableSpans = editable.getSpans(prevParagraphStart, prevParagraphEnd, CheckableSpan.class);
@@ -55,8 +58,8 @@ public class AutoBullet {
         }
     }
 
-    private static boolean isValidCursorIncrement(int oldCursorPosition, int newCursorPosition) {
-        return newCursorPosition > 0 && newCursorPosition > oldCursorPosition;
+    private static boolean isValidCursorIncrement(Editable editable, int oldCursorPosition, int newCursorPosition) {
+        return editable != null && newCursorPosition > 0 && newCursorPosition <= editable.length() && newCursorPosition > oldCursorPosition;
     }
 
     private static String buildBullet(BulletMetadata metadata) {

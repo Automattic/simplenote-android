@@ -16,13 +16,19 @@ android {
 
     defaultConfig {
         minSdk 23
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+// This module has no instrumented tests. Its unused test APK also fails the duplicate class check,
+// because it gets mixed Kotlin stdlib versions from transitive dependencies.
+androidComponents {
+    beforeVariants(selector().all()) { variantBuilder ->
+        variantBuilder.androidTest.enable = false
     }
 }
 
