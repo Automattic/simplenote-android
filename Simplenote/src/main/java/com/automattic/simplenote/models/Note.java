@@ -59,10 +59,11 @@ public class Note extends BucketObject {
     public static final String MATCHED_TITLE_INDEX_NAME = "matchedTitle";
     public static final String MATCHED_CONTENT_INDEX_NAME = "matchedContent";
     public static final String PUBLISH_URL = "http://simp.ly/p/";
-    static public final String[] FULL_TEXT_INDEXES = new String[]{
+    public static final String[] FULL_TEXT_INDEXES = new String[]{
             Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY};
     public static final int MAX_TITLE_LINE_CHARS = 200;
-    private static final Pattern MARKDOWN_HEADING_PATTERN = Pattern.compile("^#{1,6}\\s+");
+    private static final Pattern MARKDOWN_HEADING_OPENING_PATTERN = Pattern.compile("^ {0,3}#{1,6}[ \\t]+");
+    private static final Pattern MARKDOWN_HEADING_CLOSING_PATTERN = Pattern.compile("(?:^|[ \\t]+)#+\\z");
     private static final String BLANK_CONTENT = "";
     private static final String SPACE = " ";
     private static final int MAX_PREVIEW_CHARS = 300;
@@ -248,7 +249,7 @@ public class Note extends BucketObject {
 
         if (isMarkdownEnabled()) {
             boolean isPreviewSameAsTitle = mContentPreview.equals(mTitle);
-            mTitle = stripLeadingMarkdownHeading(mTitle);
+            mTitle = stripMarkdownHeading(mTitle);
 
             if (isPreviewSameAsTitle) {
                 mContentPreview = mTitle;
@@ -256,8 +257,24 @@ public class Note extends BucketObject {
         }
     }
 
-    private static String stripLeadingMarkdownHeading(String title) {
-        return MARKDOWN_HEADING_PATTERN.matcher(title).replaceFirst("");
+    /**
+     * Removes the opening and closing marks of an ATX heading.
+     * Returns the line unchanged if it is not a heading, or if the heading has no text.
+     * 
+     * @param line the leading line of text in a note
+     * @return the heading text without marks, or the original line if unchanged 
+     */
+    @NonNull
+    public static String stripMarkdownHeading(@NonNull String line) {
+        Matcher openingMatcher = MARKDOWN_HEADING_OPENING_PATTERN.matcher(line);
+
+        if (!openingMatcher.find()) {
+            return line;
+        }
+
+        String headingText = line.substring(openingMatcher.end()).trim();
+        headingText = MARKDOWN_HEADING_CLOSING_PATTERN.matcher(headingText).replaceFirst("");
+        return headingText.isEmpty() ? line : headingText;
     }
 
     public String getTitle() {
