@@ -1681,7 +1681,7 @@ public class NoteEditorFragment extends Fragment implements Bucket.Listener<Note
 
     private void showShare(String text) {
         startActivity(
-            ShareCompat.IntentBuilder.from(requireActivity())
+            new ShareCompat.IntentBuilder(requireActivity())
                 .setText(text)
                 .setType("text/plain")
                 .createChooserIntent()
