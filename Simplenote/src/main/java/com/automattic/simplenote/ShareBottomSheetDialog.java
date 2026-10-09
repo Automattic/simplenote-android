@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.automattic.simplenote.models.Note;
 import com.automattic.simplenote.utils.NetworkUtils;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class ShareBottomSheetDialog extends BottomSheetDialogBase {
     public static final String TAG = ShareBottomSheetDialog.class.getSimpleName();
@@ -38,6 +41,16 @@ public class ShareBottomSheetDialog extends BottomSheetDialogBase {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
                     mListener.onShareDismissed();
+                }
+            });
+
+            // Expand fully so the default peek height does not clip the action labels in landscape.
+            getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
+                @Override
+                public void onShow(DialogInterface dialogInterface) {
+                    BottomSheetBehavior<FrameLayout> behavior = ((BottomSheetDialog) dialogInterface).getBehavior();
+                    behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    behavior.setSkipCollapsed(true);
                 }
             });
 
