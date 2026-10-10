@@ -123,6 +123,45 @@ public class NoteTest {
     }
 
     @Test
+    public void testParseTitleAndPreviewStripsClosingHashes() {
+        mNote.setMarkdownEnabled(true);
+        mNote.setContent("# Heading #\nbody text");
+        assertEquals(mNote.getTitle(), "Heading");
+    }
+
+    @Test
+    public void testParseTitleAndPreviewStripsClosingHashesLevelTwo() {
+        mNote.setMarkdownEnabled(true);
+        mNote.setContent("## Heading ##\nbody text");
+        assertEquals(mNote.getTitle(), "Heading");
+    }
+
+    @Test
+    public void testParseTitleAndPreviewKeepsHashWithoutPrecedingSpace() {
+        mNote.setMarkdownEnabled(true);
+        mNote.setContent("# C#\nbody text");
+        assertEquals(mNote.getTitle(), "C#");
+    }
+
+    @Test
+    public void testGetContentAfterTitleLineReturnsBodyAfterTitle() {
+        mNote.setContent("# Heading\nbody text");
+        assertEquals(mNote.getContentAfterTitleLine(), "\nbody text");
+    }
+
+    @Test
+    public void testGetContentAfterTitleLineReturnsEmptyForSingleLineNote() {
+        mNote.setContent("# Heading");
+        assertEquals(mNote.getContentAfterTitleLine(), "");
+    }
+
+    @Test
+    public void testGetContentAfterTitleLineKeepsRepeatedTitleTextInBody() {
+        mNote.setContent("# Todo\n- Todo item");
+        assertEquals(mNote.getContentAfterTitleLine(), "\n- Todo item");
+    }
+
+    @Test
     public void testNoteDoesHaveTag() {
         Tag tag = new Tag("tag");
         tag.setName("Tag");
