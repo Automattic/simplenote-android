@@ -146,11 +146,12 @@ public class NoteWidgetLight extends AppWidgetProvider {
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     PendingIntent pendingIntent = PendingIntent.getActivity(context, appWidgetId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-                    // Remove title from content
+                    // Body is everything after the title line; title text is never searched for
                     String title = updatedNote.getTitle();
-                    String contentWithoutTitle = updatedNote.getContent().replace(title, "");
-                    int indexOfNewline = contentWithoutTitle.indexOf("\n") + 1;
-                    String content = contentWithoutTitle.substring(indexOfNewline < contentWithoutTitle.length() ? indexOfNewline : 0);
+                    String content = updatedNote.getContentAfterTitleLine();
+                    if (content.startsWith(Note.NEW_LINE)) {
+                        content = content.substring(1);
+                    }
 
                     // Set widget content
                     views.setOnClickPendingIntent(R.id.widget_layout, pendingIntent);
