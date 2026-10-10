@@ -232,8 +232,8 @@ public class Note extends BucketObject {
             content = content.substring(0, MAX_PREVIEW_CHARS - 1);
         }
 
-        int firstNewLinePosition = content.indexOf(NEW_LINE);
-        if (firstNewLinePosition > -1 && firstNewLinePosition < MAX_TITLE_LINE_CHARS) {
+        int firstNewLinePosition = findTitleLineEnd(content);
+        if (firstNewLinePosition > -1) {
             mTitle = content.substring(0, firstNewLinePosition).trim();
 
             if (firstNewLinePosition < content.length()) {
@@ -255,6 +255,38 @@ public class Note extends BucketObject {
                 mContentPreview = mTitle;
             }
         }
+    }
+
+    /**
+     * Finds where the title line ends in a trimmed note content
+     * A note has a separate title line only if a newline appears within
+     * {@link #MAX_TITLE_LINE_CHARS} characters.
+     * 
+     * @param trimmedContent the note content with leading and trailing whitespace removed
+     * @return the index of the newline that ends the title line, or -1 if there's none
+     */
+    public static int findTitleLineEnd(@NonNull String trimmedContent) {
+        int firstNewLinePosition = trimmedContent.indexOf(NEW_LINE);
+        return (firstNewLinePosition > -1 && firstNewLinePosition < MAX_TITLE_LINE_CHARS) ? firstNewLinePosition : -1;
+    }
+
+    /**
+     * Returns the note content that comes after the title line, so callers can show
+     * the body without searching for the title text.
+     * Returns "" when there is no second line.
+     * 
+     * @return the content after newline that ends the title
+     */
+    @NonNull
+    public String getContentAfterTitleLine() {
+        String trimmedContent = getContent().trim();
+        int titleLineEnd = findTitleLineEnd(trimmedContent);
+
+        if (titleLineEnd == -1) {
+            return BLANK_CONTENT;
+        }
+
+        return trimmedContent.substring(titleLineEnd);
     }
 
     /**
