@@ -374,14 +374,19 @@ public class WordPressDialogFragment extends AppCompatDialogFragment {
             String content = mNote.getContent();
 
             String trimmedContent = content.trim();
-            int firstNewLinePosition = trimmedContent.indexOf(Note.NEW_LINE);
-            if (firstNewLinePosition > -1 && firstNewLinePosition < Note.MAX_TITLE_LINE_CHARS) {
+            int firstNewLinePosition = Note.findTitleLineEnd(trimmedContent);
+
+            // Single-line notes have no body-after-title (helper returns ""), but a
+            // WordPress post still needs its full text as body - unlike widgets,
+            // which correctly render an empty body. So the helper is only assigned
+            // inside the branch; the fallback below stays full content + empty title.
+            if (firstNewLinePosition > -1) {
                 title = trimmedContent.substring(0, firstNewLinePosition).trim();
-                content = trimmedContent.substring(firstNewLinePosition);
+                content = mNote.getContentAfterTitleLine();
 
                 // Get rid of the #'s in front of markdown note titles
                 if (mNote.isMarkdownEnabled()) {
-                    title = title.replaceFirst("^(#{1,6}[\\s]?)", "");
+                    title = Note.stripMarkdownHeading(title);
                 }
             }
 
