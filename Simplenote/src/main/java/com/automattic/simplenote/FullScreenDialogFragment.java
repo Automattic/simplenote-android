@@ -194,6 +194,11 @@ public class FullScreenDialogFragment extends DialogFragment {
 
     @Override
     public void dismiss() {
+        // Already detached, e.g. after an earlier dismiss(). DialogFragment ignores this too.
+        if (getActivity() == null) {
+            return;
+        }
+
         // If isStateSaved() is true, it means that the application is not in the foreground, thus, we cannot
         // dismiss the dialog because it would cause an IllegalStateException
         if (isStateSaved()) {
