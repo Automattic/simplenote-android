@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-23 14:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:32:12+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: fr
 -->
 <resources>
+    <string name="no_collaborators_search">Aucun collaborateur trouvé</string>
+    <string name="search_collaborators_hint">Rechercher des collaborateurs</string>
+    <string name="search_collaborators">Rechercher des collaborateurs</string>
     <string name="signin_login_with_email_manually">Nous vous enverrons par e-mail un code pour vous connecter, ou vous pouvez %1$s%2$s%3$svous connecter manuellement%4$s.</string>
     <string name="login_with_password_message">Saisir le mot de passe associé au compte %1$s</string>
     <string name="magic_link_confirm_code_message">Nous avons envoyé un code à \n%1$s. Ce code sera valide pendant quelques minutes.</string>
@@ -98,15 +101,11 @@ Language: fr
     <string name="dialog_tag_conflict_title">Conflit d’étiquettes</string>
     <string name="dialog_tag_conflict_message">L’étiquette « %1$s » existe déjà. Voulez-vous fusionner « %2$s » dans l’étiquette « %3$s » ?</string>
     <string name="dialog_tag_conflict_button_positive">Fusionner</string>
-    <string name="description_locked">Verrouillé</string>
     <string name="style_sepia">Sépia</string>
     <string name="style_publication">Publication</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">Mono</string>
     <string name="style_matrix">Matrice</string>
-    <string name="style_dialog_locked_title">Style Premium</string>
-    <string name="style_dialog_locked_message">Pour utiliser ce style, vous devez avoir une adhésion Premium.</string>
-    <string name="style_dialog_locked_button_positive">Mise à niveau</string>
     <string name="style_default">Valeur par défaut</string>
     <string name="style_classic">Classique</string>
     <string name="style_black">Noir</string>
@@ -118,10 +117,6 @@ Language: fr
     <string name="dialog_tag_error_message">Une erreur est survenue lors de l’ajout de l’étiquette. Veuillez réessayer. Si le problème persiste, contactez-nous au %1$s%2$s%3$s%4$s%5$s pour obtenir de l’aide.</string>
     <string name="add_tag">Ajouter le mot-clé</string>
     <string name="empty_tags_hint">Lorsque vous ajoutez des étiquettes à vos notes, vos étiquettes apparaissent ici.</string>
-    <string name="membership_premium">Premium</string>
-    <string name="membership_free_upgrade">Mise à niveau</string>
-    <string name="membership_free">Gratuit</string>
-    <string name="membership">Inscription</string>
     <string name="synced">Synchronisé</string>
     <string name="delete_dialog_title">Supprimer définitivement</string>
     <string name="delete_dialog_message">Voulez-vous supprimer définitivement cette note ? Cette action ne peut pas être annulée.</string>

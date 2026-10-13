@@ -10,9 +10,9 @@ interface CollaboratorsRepository {
     fun isValidCollaborator(collaborator: String): Boolean
 
     /**
-     * Get a list of collaborators for a given [noteId].
+     * Get list of collaborators for given [noteId] and {optional} [query].
      */
-    suspend fun getCollaborators(noteId: String): CollaboratorsActionResult
+    suspend fun getCollaborators(noteId: String, query: String? = null): CollaboratorsActionResult
 
     suspend fun addCollaborator(noteId: String, collaborator: String): CollaboratorsActionResult
 

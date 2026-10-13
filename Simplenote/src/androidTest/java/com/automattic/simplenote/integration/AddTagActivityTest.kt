@@ -75,17 +75,17 @@ class AddTagActivityTest : BaseUITest() {
     fun addTagWithSpace() {
         assertEquals(tagsBucket.count(), 0)
 
-        val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
+        ActivityScenario.launchActivityForResult(AddTagActivity::class.java).use { activityScenario ->
+            onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
-        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
+            onView(withId(R.id.tag_input)).perform(replaceText("tag 3"))
+            onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
-        onView(withId(R.id.tag_input)).perform(replaceText("tag 3"))
-        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
-
-        val spaceMessage = getResourceString(R.string.tag_error_spaces)
-        onView(withId(R.id.tag_layout)).check(matches(hasTextInputLayoutErrorText(spaceMessage)))
-        onView(withId(R.id.button_negative)).perform(click())
-        assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))
+            val spaceMessage = getResourceString(R.string.tag_error_spaces)
+            onView(withId(R.id.tag_layout)).check(matches(hasTextInputLayoutErrorText(spaceMessage)))
+            onView(withId(R.id.button_negative)).perform(click())
+            assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))
+        }
 
         assertEquals(tagsBucket.count(), 0)
     }
@@ -94,21 +94,20 @@ class AddTagActivityTest : BaseUITest() {
     fun addTagEmpty() {
         assertEquals(tagsBucket.count(), 0)
 
-        val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
+        ActivityScenario.launchActivityForResult(AddTagActivity::class.java).use { activityScenario ->
+            onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
-        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
+            onView(withId(R.id.tag_input)).perform(replaceText("tag1"))
+            onView(withId(R.id.button_positive)).check(matches(isEnabled()))
 
-        onView(withId(R.id.tag_input)).perform(replaceText("tag1"))
-        onView(withId(R.id.button_positive)).check(matches(isEnabled()))
+            onView(withId(R.id.tag_input)).perform(replaceText(""))
+            onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
-        onView(withId(R.id.tag_input)).perform(replaceText(""))
-        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
-
-        val spaceMessage = getResourceString(R.string.tag_error_empty)
-        onView(withId(R.id.tag_layout)).check(matches(hasTextInputLayoutErrorText(spaceMessage)))
-        onView(withId(R.id.button_negative)).perform(click())
-        assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))
-
+            val spaceMessage = getResourceString(R.string.tag_error_empty)
+            onView(withId(R.id.tag_layout)).check(matches(hasTextInputLayoutErrorText(spaceMessage)))
+            onView(withId(R.id.button_negative)).perform(click())
+            assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))
+        }
 
         assertEquals(tagsBucket.count(), 0)
     }
@@ -117,15 +116,15 @@ class AddTagActivityTest : BaseUITest() {
     fun addTagCancel() {
         assertEquals(tagsBucket.count(), 0)
 
-        val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
+        ActivityScenario.launchActivityForResult(AddTagActivity::class.java).use { activityScenario ->
+            onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
-        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
+            onView(withId(R.id.tag_input)).perform(replaceText("tag"))
+            onView(withId(R.id.button_positive)).check(matches(isEnabled()))
+            onView(withId(R.id.button_negative)).perform(click())
 
-        onView(withId(R.id.tag_input)).perform(replaceText("tag"))
-        onView(withId(R.id.button_positive)).check(matches(isEnabled()))
-        onView(withId(R.id.button_negative)).perform(click())
-
-        assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))
+            assertThat(activityScenario.result, hasResultCode(Activity.RESULT_CANCELED))
+        }
 
         assertEquals(tagsBucket.count(), 0)
     }
@@ -135,14 +134,14 @@ class AddTagActivityTest : BaseUITest() {
         createTag("tag5")
         assertEquals(tagsBucket.count(), 1)
 
-        val activityScenario = ActivityScenario.launch(AddTagActivity::class.java)
+        ActivityScenario.launchActivityForResult(AddTagActivity::class.java).use { activityScenario ->
+            onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
 
-        onView(withId(R.id.button_positive)).check(matches(not(isEnabled())))
-
-        onView(withId(R.id.tag_input)).perform(replaceText("tag6"))
-        onView(withId(R.id.button_positive)).check(matches(isEnabled()))
-        onView(withId(R.id.button_positive)).perform(click())
-        assertThat(activityScenario.result, hasResultCode(Activity.RESULT_OK))
+            onView(withId(R.id.tag_input)).perform(replaceText("tag6"))
+            onView(withId(R.id.button_positive)).check(matches(isEnabled()))
+            onView(withId(R.id.button_positive)).perform(click())
+            assertThat(activityScenario.result, hasResultCode(Activity.RESULT_OK))
+        }
 
         assertEquals(tagsBucket.count(), 2)
     }

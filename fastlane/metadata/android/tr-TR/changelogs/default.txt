@@ -1,0 +1,2 @@
+2.39:
+Saf siyah AMOLED stili dahil tüm stiller artık herkes tarafından kullanılabilir. Çalışma arkadaşlarınız arasında arama yapabilir ve çok büyük notlara daha hızlı yazabilirsiniz. Ayrıca uygulamayı Android 16 için güncelledik ve tahmine dayalı geri hareketi desteği ekledik. Samsung cihazlarda otomatik düzeltmeyi ve Geçmiş ile Paylaş panellerindeki sorunları düzelttik.

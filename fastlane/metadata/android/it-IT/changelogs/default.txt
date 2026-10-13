@@ -1,0 +1,2 @@
+2.39:
+Tutti gli stili, incluso lo stile nero puro per schermi AMOLED, sono ora disponibili per tutti. Ora puoi cercare i collaboratori e la digitazione nelle note molto lunghe è più veloce. Abbiamo inoltre aggiornato l'app per Android 16 con il supporto del gesto Indietro predittivo e risolto alcuni problemi della correzione automatica sui dispositivi Samsung e dei pannelli Cronologia e Condividi.

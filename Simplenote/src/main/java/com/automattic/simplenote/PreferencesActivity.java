@@ -1,21 +1,17 @@
 package com.automattic.simplenote;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.Preference;
 
-import com.automattic.simplenote.utils.BrowserUtils;
 import com.automattic.simplenote.utils.SystemBarUtils;
 
 import org.wordpress.passcodelock.PasscodePreferenceFragment;
 import org.wordpress.passcodelock.PasscodePreferenceFragmentCompat;
 
-import static com.automattic.simplenote.PreferencesFragment.WEB_APP_URL;
 import static com.automattic.simplenote.utils.DisplayUtils.disableScreenshotsIfLocked;
 
 import dagger.hilt.android.AndroidEntryPoint;
@@ -87,13 +83,5 @@ public class PreferencesActivity extends ThemedAppCompatActivity {
     protected void onResume() {
         super.onResume();
         disableScreenshotsIfLocked(this);
-    }
-
-    public void openBrowserForMembership(View view) {
-        try {
-            BrowserUtils.launchBrowserOrShowError(PreferencesActivity.this, WEB_APP_URL);
-        } catch (Exception e) {
-            Toast.makeText(PreferencesActivity.this, R.string.no_browser_available, Toast.LENGTH_LONG).show();
-        }
     }
 }

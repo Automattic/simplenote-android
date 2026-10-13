@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-24 11:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:32:05+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: nl
 -->
 <resources>
+    <string name="no_collaborators_search">Geen samenwerkers gevonden</string>
+    <string name="search_collaborators_hint">Samenwerkers zoeken</string>
+    <string name="search_collaborators">Samenwerkers zoeken</string>
     <string name="signin_login_with_email_manually">We sturen je via e-mail een code die je kan gebruiken om in te loggen, of je kan %1$s%2$s%3$shandmatig inloggen%4$s.</string>
     <string name="login_with_password_message">Voer het wachtwoord van het account %1$s in</string>
     <string name="magic_link_confirm_code_message">We hebben een code gestuurd naar \n%1$s. De code is een paar minuten geldig.</string>
@@ -98,15 +101,11 @@ Language: nl
     <string name="dialog_tag_conflict_title">Tag-conflict</string>
     <string name="dialog_tag_conflict_message">De tag \'%1$s\' bestaat al. Wil je \'%2$s\' samenvoegen in de tag \'%3$s\'?</string>
     <string name="dialog_tag_conflict_button_positive">Samenvoegen</string>
-    <string name="description_locked">Vergrendeld</string>
     <string name="style_sepia">Sepia</string>
     <string name="style_publication">Publicatie</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">Mono</string>
     <string name="style_matrix">Matrix</string>
-    <string name="style_dialog_locked_title">Premium stijl</string>
-    <string name="style_dialog_locked_message">Om deze stijl te kunnen gebruiken, heb je een premium abonnement nodig.</string>
-    <string name="style_dialog_locked_button_positive">Upgraden</string>
     <string name="style_default">Standaard</string>
     <string name="style_classic">Klassiek</string>
     <string name="style_black">Zwart</string>
@@ -118,10 +117,6 @@ Language: nl
     <string name="dialog_tag_error_message">Fout opgetreden bij het toevoegen van de tag. Probeer het opnieuw. Neem contact met ons op via %1$s%2$s%3$s%4$s%5$s voor hulp als het probleem niet is opgelost.</string>
     <string name="add_tag">Tag toevoegen</string>
     <string name="empty_tags_hint">Zodra je tags toevoegt aan je notities, worden je tags hier weergegeven.</string>
-    <string name="membership_premium">Premium</string>
-    <string name="membership_free_upgrade">Upgraden</string>
-    <string name="membership_free">Gratis</string>
-    <string name="membership">Lidmaatschap</string>
     <string name="synced">Gesynchroniseerd</string>
     <string name="delete_dialog_title">Permanent verwijderen</string>
     <string name="delete_dialog_message">Wil je deze notitie permanent verwijderen? Deze actie kan niet ongedaan worden gemaakt.</string>

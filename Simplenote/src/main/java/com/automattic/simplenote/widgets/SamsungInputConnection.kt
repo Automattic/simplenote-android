@@ -73,6 +73,34 @@ class SamsungInputConnection(
         return baseInputConnection.setComposingText(text, newCursorPosition)
     }
 
+    /**
+     * The protective branch in [commitText] exists only to keep checklist spans ([CheckableSpan]) from being
+     * corrupted when the Samsung keyboard replaces editor content. If the region the keyboard is about to edit
+     * (the composing region, or the current selection if there is none) contains no checklist span, there is
+     * nothing to protect, so we let the keyboard apply its normal autocorrect/suggestion behavior instead of
+     * suppressing it.
+     */
+    private fun editedRegionHasCheckableSpan(): Boolean {
+        val editable = editable
+        var start = getComposingSpanStart(editable)
+        var end = getComposingSpanEnd(editable)
+
+        if (start == -1 || end == -1) {
+            start = Selection.getSelectionStart(editable)
+            end = Selection.getSelectionEnd(editable)
+        }
+
+        if (start < 0) start = 0
+        if (end < 0) end = 0
+        if (end < start) {
+            val tmp = start
+            start = end
+            end = tmp
+        }
+
+        return editable.getSpans(start, end, CheckableSpan::class.java).isNotEmpty()
+    }
+
     override fun commitText(text: CharSequence?, newCursorPosition: Int): Boolean {
         val incomingTextHasSuggestions = text is Spanned &&
                 text.getSpans(0, text.length, SuggestionSpan::class.java).isNotEmpty()
@@ -81,7 +109,11 @@ class SamsungInputConnection(
         // but CheckableSpan spans are finicky, and tend to get messed when content of the editor is replaced.
         // In this method we do everything replaceText method of EditableInputConnection does, apart from actually
         // replacing text. Instead we copy the suggestions from incoming text into editor directly.
-        if (incomingTextHasSuggestions) {
+        //
+        // We only take this path when the edited region actually contains a checklist span; for plain text there
+        // is nothing to protect, so we fall through to the keyboard's normal autocorrect/suggestion handling
+        // instead of swallowing the correction (which previously broke autocorrect on every note).
+        if (incomingTextHasSuggestions && editedRegionHasCheckableSpan()) {
             AppLog.add(
                 AppLog.Type.EDITOR,
                 "Detected spellchecker trying to commit partial text with suggestions"

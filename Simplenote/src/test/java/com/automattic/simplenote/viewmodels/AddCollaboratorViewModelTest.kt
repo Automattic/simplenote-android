@@ -54,7 +54,7 @@ class AddCollaboratorViewModelTest {
 
     @Test
     fun addValidCollaboratorShouldTriggerAddedEvent() = runTest {
-        viewModel.addCollaborator(noteId,"test@emil.com")
+        viewModel.addCollaborator(noteId,"test@email.com")
 
         assertEquals(AddCollaboratorViewModel.Event.CollaboratorAdded, viewModel.event.value)
     }
@@ -70,7 +70,7 @@ class AddCollaboratorViewModelTest {
     fun addValidCollaboratorToNoteInTrashShouldTriggerNoteInTrash() = runTest {
         note.isDeleted = true
 
-        viewModel.addCollaborator(noteId, "test@emil.com")
+        viewModel.addCollaborator(noteId, "test@email.com")
 
         assertEquals(AddCollaboratorViewModel.Event.NoteInTrash, viewModel.event.value)
     }
@@ -79,7 +79,7 @@ class AddCollaboratorViewModelTest {
     fun addValidCollaboratorToNoteDeletedShouldTriggerNoteDeleted() = runTest {
         whenever(notesBucket.get(any())).thenThrow(BucketObjectMissingException())
 
-        viewModel.addCollaborator(noteId, "test@emil.com")
+        viewModel.addCollaborator(noteId, "test@email.com")
 
         assertEquals(AddCollaboratorViewModel.Event.NoteDeleted, viewModel.event.value)
     }

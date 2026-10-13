@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-24 15:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:25:12+0000
 Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);
 Generator: GlotPress/2.4.0-alpha
 Language: ru
 -->
 <resources>
+    <string name="no_collaborators_search">Соавторы не найдены</string>
+    <string name="search_collaborators_hint">Поиск соавторов</string>
+    <string name="search_collaborators">Поиск соавторов</string>
     <string name="signin_login_with_email_manually">Мы пришлём вам код для входа по электронной почте, а кроме того, вы можете %1$s%2$s%3$sвыполнить вход вручную%4$s.</string>
     <string name="login_with_password_message">Введите пароль для учётной записи %1$s</string>
     <string name="magic_link_confirm_code_message">Код отправлен на адрес \n%1$s. Код будет действителен в течение нескольких минут.</string>
@@ -41,7 +44,7 @@ Language: ru
     <string name="email_address">Адрес электронной почты</string>
     <string name="remove_collaborator_message">Вы уверены, что хотите удалить этого соавтора?</string>
     <string name="remove">Удалить</string>
-    <string name="collaborators">Партнёры</string>
+    <string name="collaborators">Соавторы</string>
     <string name="remove_collaborator">Удалить соавтора</string>
     <string name="loading_collaborators">Загрузка…</string>
     <string name="add_email_collaborator_message">Введите адрес электронной почты, чтобы добавить соавтора заметки. Он тоже сможет её изменять. Соавтор получит уведомление.</string>
@@ -98,15 +101,11 @@ Language: ru
     <string name="dialog_tag_conflict_title">Конфликт меток</string>
     <string name="dialog_tag_conflict_message">Метка \"%1$s\" уже существует. Объединить \"%2$s\" с меткой \"%3$s\"?</string>
     <string name="dialog_tag_conflict_button_positive">Объединить</string>
-    <string name="description_locked">Заблокирован</string>
     <string name="style_sepia">Сепия</string>
     <string name="style_publication">Публикация</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">Моно</string>
     <string name="style_matrix">Матрица</string>
-    <string name="style_dialog_locked_title">Стиль Premium</string>
-    <string name="style_dialog_locked_message">Этот стиль доступен только владельцам тарифного плана Premium.</string>
-    <string name="style_dialog_locked_button_positive">Улучшить</string>
     <string name="style_default">По умолчанию</string>
     <string name="style_classic">Классический</string>
     <string name="style_black">Чёрный</string>
@@ -118,10 +117,6 @@ Language: ru
     <string name="dialog_tag_error_message">При добавлении метки произошла ошибка. Повторите попытку. Если это не поможет решить проблему, свяжитесь с нами: %1$s%2$s%3$s%4$s%5$s.</string>
     <string name="add_tag">Добавьте метку</string>
     <string name="empty_tags_hint">Метки, добавляемые к заметкам, будут отображаться здесь.</string>
-    <string name="membership_premium">Премиум</string>
-    <string name="membership_free_upgrade">Улучшить</string>
-    <string name="membership_free">Бесплатно</string>
-    <string name="membership">Членство</string>
     <string name="synced">Синхронизировано</string>
     <string name="delete_dialog_title">Удалить навсегда</string>
     <string name="delete_dialog_message">Удалить эту заметку навсегда? Это действие нельзя отменить.</string>

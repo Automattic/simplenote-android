@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-24 09:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:56:11+0000
 Plural-Forms: nplurals=2; plural=n != 1;
 Generator: GlotPress/2.4.0-alpha
 Language: es
 -->
 <resources>
+    <string name="no_collaborators_search">No se han encontrado colaboradores</string>
+    <string name="search_collaborators_hint">Buscar colaboradores</string>
+    <string name="search_collaborators">Buscar colaboradores</string>
     <string name="signin_login_with_email_manually">Te enviaremos por correo electrónico un código para iniciar sesión; también puedes %1$s%2$s%3$shacerlo manualmente%4$s.</string>
     <string name="login_with_password_message">Introduce la contraseña de la cuenta %1$s</string>
     <string name="magic_link_confirm_code_message">Hemos enviado un código a \n%1$s. El código será válido durante unos minutos.</string>
@@ -98,15 +101,11 @@ Language: es
     <string name="dialog_tag_conflict_title">Conflicto de etiquetas</string>
     <string name="dialog_tag_conflict_message">La etiqueta \"%1$s\" ya existe. ¿Quieres fusionar \"%2$s\" con la etiqueta \"%3$s\"?</string>
     <string name="dialog_tag_conflict_button_positive">Fusionar</string>
-    <string name="description_locked">Bloqueado</string>
     <string name="style_sepia">Sepia</string>
     <string name="style_publication">Publicación</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">Mono</string>
     <string name="style_matrix">Matriz</string>
-    <string name="style_dialog_locked_title">Estilo Premium</string>
-    <string name="style_dialog_locked_message">Para utilizar este estilo, debes tener una suscripción Premium.</string>
-    <string name="style_dialog_locked_button_positive">Actualizar</string>
     <string name="style_default">Por defecto</string>
     <string name="style_classic">Clásico</string>
     <string name="style_black">Negro</string>
@@ -118,10 +117,6 @@ Language: es
     <string name="dialog_tag_error_message">Se ha producido un error al añadir la etiqueta. Inténtalo de nuevo. Si el problema persiste, ponte en contacto con nosotros a través de %1$s%2$s%3$s%4$s%5$s y te ayudaremos.</string>
     <string name="add_tag">Añadir etiqueta</string>
     <string name="empty_tags_hint">Cuando añadas etiquetas a tus notas, las etiquetas aparecerán aquí.</string>
-    <string name="membership_premium">Premium</string>
-    <string name="membership_free_upgrade">Actualizar</string>
-    <string name="membership_free">Gratis</string>
-    <string name="membership">Miembros</string>
     <string name="synced">Sincronizado</string>
     <string name="delete_dialog_title">Borrar permanentemente</string>
     <string name="delete_dialog_message">¿Quieres borrar esta nota de forma permanente? Esta acción no se puede deshacer.</string>
@@ -177,15 +172,15 @@ Language: es
     <string name="item_action_toggle_list_error">Selecciona una nota para activar/desactivar la lista</string>
     <string name="item_action_toggle_list">Activar/Desactivar lista</string>
     <string name="item_action_toggle_checklist_error">Selecciona una nota para activar/desactivar la lista de verificación</string>
-    <string name="item_action_toggle_checklist_edit_error">Selecciona Editar pestaña para activar/desactivar la lista de verificación</string>
+    <string name="item_action_toggle_checklist_edit_error">Selecciona la pestaña Editar para activar/desactivar la lista de verificación</string>
     <string name="item_action_show_share_error">Selecciona una nota para mostrar las opciones para compartir</string>
-    <string name="item_action_show_share_edit_error">Selecciona Editar pestaña para mostrar las opciones para compartir</string>
+    <string name="item_action_show_share_edit_error">Selecciona la pestaña Editar para mostrar las opciones para compartir</string>
     <string name="item_action_show_share">Mostrar opciones para compartir</string>
     <string name="item_action_show_information_error">Selecciona una nota para mostrar información</string>
-    <string name="item_action_show_information_edit_error">Selecciona Editar pestaña para mostrar información</string>
+    <string name="item_action_show_information_edit_error">Selecciona la pestaña Editar para mostrar la información</string>
     <string name="item_action_show_information">Mostrar información</string>
     <string name="item_action_show_history_error">Selecciona una nota para mostrar el historial</string>
-    <string name="item_action_show_history_edit_error">Selecciona Editar pestaña para mostrar el historial</string>
+    <string name="item_action_show_history_edit_error">Selecciona la pestaña Editar para mostrar el historial</string>
     <string name="item_action_show_history">Mostrar historial</string>
     <string name="item_action_open_search">Abrir búsqueda</string>
     <string name="action">Acción</string>
@@ -219,7 +214,7 @@ Language: es
     <string name="more_options">Más opciones</string>
     <string name="list_show">Mostrar lista</string>
     <string name="list_hide">Ocultar lista</string>
-    <string name="toggle_pin">Activar Anclar en la parte superior</string>
+    <string name="toggle_pin">Activar/desactivar Anclar en la parte superior</string>
     <string name="search_tags_hint">Buscar etiquetas</string>
     <string name="search_tags">Buscar etiquetas</string>
     <string name="copy_link">Copiar enlace</string>
@@ -282,7 +277,7 @@ Language: es
     <string name="wordpress_post_link">Compartir entrada de WordPress</string>
     <string name="reconnect_to_wordpress">Conecta de nuevo con WordPress.com.</string>
     <string name="network_error_message">Se ha producido un error de red. Inténtalo de nuevo.</string>
-    <string name="select_site">Elige un sitio y comienza a publicar.</string>
+    <string name="select_site">Elige un sitio en el que publicar.</string>
     <string name="post_to_wordpress">Publicar en WordPress</string>
     <string name="untitled_site">Sitio sin título</string>
     <string name="connect_with_wordpress">Conectar</string>

@@ -1,0 +1,2 @@
+2.39:
+Alla stilar, inklusive den helsvarta AMOLED-stilen, är nu tillgängliga för alla. Du kan nu söka bland dina medarbetare, och det går snabbare att skriva i mycket stora anteckningar. Vi har också uppdaterat appen för Android 16 med stöd för prediktiv bakåtgest och åtgärdat autokorrigering på Samsung-enheter samt problem med panelerna Historik och Dela.

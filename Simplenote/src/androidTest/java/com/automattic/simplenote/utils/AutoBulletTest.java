@@ -278,10 +278,11 @@ public class AutoBulletTest {
         assertThat(editable.toString(), is(target));
     }
 
+    // An empty nested bullet is removed, not outdented, the same as in the iOS and macOS apps.
     @Test
     public void testEmptySecondLevelBullet() {
         String source = "- first\n - second\n - \n";
-        String target = "- first\n - second\n- ";
+        String target = "- first\n - second\n";
         int oldPos = source.length() - 1;
         int newPos = source.length();
 

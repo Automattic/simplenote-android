@@ -51,20 +51,6 @@
                 android:textColor="@color/style_preview_default_content">
             </com.automattic.simplenote.widgets.RobotoRegularTextView>
 
-            <ImageView
-                android:id="@+id/preview_locked"
-                android:background="@drawable/bg_style_locked"
-                android:contentDescription="@string/description_locked"
-                android:layout_centerInParent="true"
-                android:layout_height="@dimen/icon_locked"
-                android:layout_width="@dimen/icon_locked"
-                android:padding="@dimen/padding_medium"
-                android:src="@drawable/ic_lock_24dp"
-                app:tint="@color/style_locked_icon"
-                android:visibility="gone"
-                tools:visibility="visible">
-            </ImageView>
-
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

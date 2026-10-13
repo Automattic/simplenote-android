@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-24 09:54:02+0000
+Translation-Revision-Date: 2026-10-01 09:40:25+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: ja_JP
 -->
 <resources>
+    <string name="no_collaborators_search">共同編集者が見つかりません</string>
+    <string name="search_collaborators_hint">共同編集者を検索</string>
+    <string name="search_collaborators">共同編集者を検索</string>
     <string name="signin_login_with_email_manually">ログインするためのコードをメールでお送りします。または、%1$s%2$s%3$s手動でログイン%4$sすることもできます。</string>
     <string name="login_with_password_message">アカウント %1$s のパスワードを入力</string>
     <string name="magic_link_confirm_code_message">コードを \n に送信しました%1$s。 コードは数分間有効です。</string>
@@ -49,7 +52,7 @@ Language: ja_JP
     <string name="note_shared">ノートを共有しました</string>
     <string name="shared_with">共有した相手</string>
     <string name="tag_error_collaborator">タグはメールにはできません</string>
-    <string name="tag_added_as_collaborator">%1$s さんをコラボレーターとして追加しました。</string>
+    <string name="tag_added_as_collaborator">%1$s さんを共同編集者として追加しました。</string>
     <string name="invalid_tag">無効なタグ</string>
     <string name="simperium_okay">OK</string>
     <string name="simperium_account_verification_url">https://app.simplenote.com/account/verify-email/%1$s</string>
@@ -98,15 +101,11 @@ Language: ja_JP
     <string name="dialog_tag_conflict_title">タグの競合</string>
     <string name="dialog_tag_conflict_message">タグ「%1$s」はすでに存在しています。 「%2$s」を「%3$s」タグにマージしますか ?</string>
     <string name="dialog_tag_conflict_button_positive">マージ</string>
-    <string name="description_locked">ロック中</string>
     <string name="style_sepia">セピア</string>
     <string name="style_publication">公表</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">モノ</string>
     <string name="style_matrix">表</string>
-    <string name="style_dialog_locked_title">プレミアムスタイル</string>
-    <string name="style_dialog_locked_message">このスタイルを使用するには、プレミアムメンバーシップが必要です。</string>
-    <string name="style_dialog_locked_button_positive">アップグレード</string>
     <string name="style_default">デフォルト</string>
     <string name="style_classic">クラシック</string>
     <string name="style_black">黒</string>
@@ -118,10 +117,6 @@ Language: ja_JP
     <string name="dialog_tag_error_message">タグの追加中にエラーが発生しました。 もう一度お試しください。 問題が解決しない場合は、%1$s%2$s%3$s%4$s%5$s までお問い合わせください。</string>
     <string name="add_tag">タグを追加</string>
     <string name="empty_tags_hint">メモにタグを追加すると、タグがこちらに表示されます。</string>
-    <string name="membership_premium">プレミアム</string>
-    <string name="membership_free_upgrade">アップグレード</string>
-    <string name="membership_free">無料</string>
-    <string name="membership">メンバーシップ</string>
     <string name="synced">同期済み</string>
     <string name="delete_dialog_title">完全に削除する</string>
     <string name="delete_dialog_message">このメモを完全に削除しますか ? この操作を取り消すことはできません。</string>
@@ -220,7 +215,7 @@ Language: ja_JP
     <string name="list_show">リストを表示</string>
     <string name="list_hide">リストを非表示</string>
     <string name="toggle_pin">「上部に固定」に切り替える</string>
-    <string name="search_tags_hint">検索タグ</string>
+    <string name="search_tags_hint">タグを検索</string>
     <string name="search_tags">タグを検索</string>
     <string name="copy_link">リンクをコピー</string>
     <string name="modified">更新日</string>

@@ -13,6 +13,7 @@ import android.text.Editable;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ImageSpan;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
@@ -46,6 +47,7 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
     private static final Pattern INTERNOTE_LINK_PATTERN_EDIT = Pattern.compile("([^]]*)(]\\(" + SIMPLENOTE_LINK_PREFIX + SIMPLENOTE_LINK_ID + "\\))");
     private static final Pattern INTERNOTE_LINK_PATTERN_FULL = Pattern.compile("(?s)(.)*(\\[)" + INTERNOTE_LINK_PATTERN_EDIT);
     private static final int CHECKBOX_LENGTH = 2; // one ClickableSpan character + one space character
+    private static final int MAX_SAFE_LINE_WINDOW = 2048;
 
     private LinkTokenizer mTokenizer;
     private final List<OnSelectionChangedListener> listeners;
@@ -53,32 +55,35 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
     @Override
     public boolean enoughToFilter() {
-        String substringCursor = getText().toString().substring(getSelectionEnd());
+        Editable text = getText();
+        if (text == null || text.length() == 0) {
+            return false;
+        }
+
+        int end = getSelectionEnd();
+        if (end < 0 || end > text.length()) {
+            return false;
+        }
+
+        if (mTokenizer == null) {
+            return false;
+        }
+
+        int nextNewline = TextUtils.indexOf(text, '\n', end);
+        int maxLineEnd = nextNewline >= 0 ? nextNewline : text.length();
+        int windowEnd = Math.min(maxLineEnd, end + MAX_SAFE_LINE_WINDOW);
+        CharSequence substringCursor = text.subSequence(end, windowEnd);
         Matcher matcherEdit = INTERNOTE_LINK_PATTERN_EDIT.matcher(substringCursor);
 
         // When an internote link title is being edited, don't show an autocomplete popup.
         if (matcherEdit.lookingAt()) {
-            String substringEdit = substringCursor.substring(0, matcherEdit.end());
+            CharSequence substringEdit = substringCursor.subSequence(0, matcherEdit.end());
             Matcher matcherFull = INTERNOTE_LINK_PATTERN_FULL.matcher(substringEdit);
 
             if (!matcherFull.lookingAt()) {
                 return false;
             }
         }
-
-        Editable text = getText();
-        int end = getSelectionEnd();
-
-        if (end < 0) {
-            return false;
-        }
-
-		// solves a crash after updating dependencies in which this method
-	    // gets called in super() instantiation before the mTokenizer variable
-	    // is instantiated
-	    if (mTokenizer == null) {
-			return false;
-		}
 
         int start = mTokenizer.findTokenStart(text, end);
         return start > 0 && end - start >= 1;
@@ -111,6 +116,7 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
     }
 
     private void setLinkTokenizer() {
+        setEmojiCompatEnabled(false);
         mTokenizer = new LinkTokenizer();
         setOnItemClickListener(this);
         setTokenizer(mTokenizer);
@@ -388,7 +394,32 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
 
     public void processChecklists() {
-        if (getText().length() == 0 || getContext() == null) {
+        if (getText() == null || getText().length() == 0 || getContext() == null) {
+            return;
+        }
+        processChecklists(0, getText().length());
+    }
+
+    public void processChecklists(int start, int count) {
+        if (getText() == null || getText().length() == 0 || getContext() == null) {
+            return;
+        }
+
+        Editable editable = getText();
+        int safeStart = Math.max(0, Math.min(start, editable.length()));
+        int safeEnd = Math.max(safeStart, Math.min(start + Math.max(0, count), editable.length()));
+
+        int paraStart = 0;
+        for (int i = safeStart - 1; i >= 0; i--) {
+            if (editable.charAt(i) == '\n') {
+                paraStart = i + 1;
+                break;
+            }
+        }
+        int nextNewline = TextUtils.indexOf(editable, '\n', safeEnd);
+        int paraEnd = (nextNewline == -1) ? editable.length() : nextNewline;
+
+        if (TextUtils.indexOf(editable, '[', paraStart, paraEnd) == -1) {
             return;
         }
 

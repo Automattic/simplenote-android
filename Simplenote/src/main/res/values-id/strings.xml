@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-24 09:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:32:52+0000
 Plural-Forms: nplurals=2; plural=n > 1;
 Generator: GlotPress/2.4.0-alpha
 Language: id
 -->
 <resources>
+    <string name="no_collaborators_search">Tidak ada kolaborator yang ditemukan</string>
+    <string name="search_collaborators_hint">Cari kolaborator</string>
+    <string name="search_collaborators">Cari Kolaborator</string>
     <string name="signin_login_with_email_manually">Kami akan mengirimkan email berisi kode untuk %1$s%2$s%3$slogin atau Anda dapat login secara manual%4$s.</string>
     <string name="login_with_password_message">Masukkan kata sandi untuk akun %1$s</string>
     <string name="magic_link_confirm_code_message">Kami telah mengirimkan kode ke \n%1$s. Kode ini valid selama beberapa menit.</string>
@@ -98,15 +101,11 @@ Language: id
     <string name="dialog_tag_conflict_title">Konflik Tag</string>
     <string name="dialog_tag_conflict_message">Tag \"%1$s\" sudah ada. Apakah Anda ingin menggabungkan tag \"%2$s\" dengan tag \"%3$s\"?</string>
     <string name="dialog_tag_conflict_button_positive">Gabungkan</string>
-    <string name="description_locked">Terkunci</string>
     <string name="style_sepia">Sepia</string>
     <string name="style_publication">Publikasi</string>
     <string name="style_preview">![Image](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">Mono</string>
     <string name="style_matrix">Matriks</string>
-    <string name="style_dialog_locked_title">Gaya Premium</string>
-    <string name="style_dialog_locked_message">Untuk menggunakan gaya ini, Anda harus memiliki keanggotaan premium.</string>
-    <string name="style_dialog_locked_button_positive">Lakukan upgrade</string>
     <string name="style_default">Asal</string>
     <string name="style_classic">Klasik</string>
     <string name="style_black">Hitam</string>
@@ -118,10 +117,6 @@ Language: id
     <string name="dialog_tag_error_message">Terjadi kesalahan saat menambahkan tag. Harap coba lagi. Jika masalah berlanjut, hubungi kami di %1$s%2$s%3$s%4$s%5$s untuk mendapatkan bantuan.</string>
     <string name="add_tag">Tambahkan Tag</string>
     <string name="empty_tags_hint">Setelah Anda menambahkan tag ke catatan, tag akan muncul di sini.</string>
-    <string name="membership_premium">Premium</string>
-    <string name="membership_free_upgrade">Lakukan upgrade</string>
-    <string name="membership_free">Gratis</string>
-    <string name="membership">Keanggotaan</string>
     <string name="synced">Disinkronkan</string>
     <string name="delete_dialog_title">Hapus Permanen</string>
     <string name="delete_dialog_message">Anda yakin ingin menghapus catatan ini secara permanen? Tindakan ini tidak dapat dibatalkan.</string>

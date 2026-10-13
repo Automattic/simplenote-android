@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-Translation-Revision-Date: 2024-10-24 09:54:03+0000
+Translation-Revision-Date: 2026-10-01 09:39:38+0000
 Plural-Forms: nplurals=1; plural=0;
 Generator: GlotPress/2.4.0-alpha
 Language: zh_TW
 -->
 <resources>
+    <string name="no_collaborators_search">找不到共同作業者</string>
+    <string name="search_collaborators_hint">搜尋共同作業者</string>
+    <string name="search_collaborators">搜尋共同作業者</string>
     <string name="signin_login_with_email_manually">我們會透過電子郵件傳送登入代碼給你，你也可以%1$s%2$s%3$s手動登入%4$s。</string>
     <string name="login_with_password_message">輸入 %1$s 帳號的密碼</string>
     <string name="magic_link_confirm_code_message">我們已傳送驗證碼到 \n%1$s。 此驗證碼在幾分鐘內有效。</string>
@@ -41,7 +44,7 @@ Language: zh_TW
     <string name="email_address">電子郵件地址</string>
     <string name="remove_collaborator_message">確定要移除此共同作業者？</string>
     <string name="remove">移除</string>
-    <string name="collaborators">協作者</string>
+    <string name="collaborators">共同作業者</string>
     <string name="remove_collaborator">移除共同作業者</string>
     <string name="loading_collaborators">載入中…</string>
     <string name="add_email_collaborator_message">新增電子郵件地址，將此筆記與他人共用。這樣雙方都能變更筆記內容。 新增共同作業者時，他們將收到電子郵件通知。</string>
@@ -98,15 +101,11 @@ Language: zh_TW
     <string name="dialog_tag_conflict_title">標籤不一致</string>
     <string name="dialog_tag_conflict_message">「%1$s」標籤已經存在。 是否要將「%2$s」合併到「%3$s」標籤？</string>
     <string name="dialog_tag_conflict_button_positive">合併</string>
-    <string name="description_locked">已鎖定</string>
     <string name="style_sepia">Sepia</string>
     <string name="style_publication">發佈</string>
     <string name="style_preview">![圖片](%1$s%2$s%3$shttps://img_url.com/jpg%4$s) Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur varius, ante eget lobortis mollis, felis leo maximus dolor, at mattis purus turpis et mi. Morbi a sapien turpis.</string>
     <string name="style_mono">Mono</string>
     <string name="style_matrix">Matrix</string>
-    <string name="style_dialog_locked_title">進階版樣式</string>
-    <string name="style_dialog_locked_message">如要使用此樣式，你必須擁有進階版會員資格。</string>
-    <string name="style_dialog_locked_button_positive">升級</string>
     <string name="style_default">預設</string>
     <string name="style_classic">傳統</string>
     <string name="style_black">黑色</string>
@@ -118,10 +117,6 @@ Language: zh_TW
     <string name="dialog_tag_error_message">新增標籤時發生錯誤。 請再試一次。 如果問題持續發生，請聯絡我們尋求協助：%1$s%2$s%3$s%4$s%5$s。</string>
     <string name="add_tag">新增標籤</string>
     <string name="empty_tags_hint">為筆記新增標籤後，你的標籤會顯示在這裡。</string>
-    <string name="membership_premium">進階版</string>
-    <string name="membership_free_upgrade">升級</string>
-    <string name="membership_free">免費</string>
-    <string name="membership">會員資格</string>
     <string name="synced">已同步</string>
     <string name="delete_dialog_title">永久刪除</string>
     <string name="delete_dialog_message">是否要永久刪除這個筆記？ 此動作無法復原。</string>

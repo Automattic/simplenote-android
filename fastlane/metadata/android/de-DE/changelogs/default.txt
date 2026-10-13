@@ -1,0 +1,2 @@
+2.39:
+Alle Stile, einschließlich des tiefschwarzen AMOLED-Stils, sind jetzt für alle verfügbar. Du kannst jetzt deine Mitarbeiter durchsuchen, und das Tippen in sehr großen Notizen geht schneller. Außerdem ist die App jetzt für Android 16 aktualisiert und unterstützt die vorhersagende Zurück-Geste. Wir haben die Autokorrektur auf Samsung-Geräten sowie Probleme mit den Fenstern „Verlauf“ und „Teilen“ behoben.
