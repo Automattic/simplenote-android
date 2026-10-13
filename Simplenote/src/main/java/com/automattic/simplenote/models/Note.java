@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 import static com.automattic.simplenote.utils.SimplenoteLinkify.SIMPLENOTE_LINK_PREFIX;
 
 public class Note extends BucketObject {
-
     public static final String BUCKET_NAME = "note";
     public static final String MARKDOWN_TAG = "markdown";
     public static final String PINNED_TAG = "pinned";
@@ -60,8 +59,11 @@ public class Note extends BucketObject {
     public static final String MATCHED_TITLE_INDEX_NAME = "matchedTitle";
     public static final String MATCHED_CONTENT_INDEX_NAME = "matchedContent";
     public static final String PUBLISH_URL = "http://simp.ly/p/";
-    static public final String[] FULL_TEXT_INDEXES = new String[]{
+    public static final String[] FULL_TEXT_INDEXES = new String[]{
             Note.TITLE_INDEX_NAME, Note.CONTENT_PROPERTY};
+    public static final int MAX_TITLE_LINE_CHARS = 200;
+    private static final Pattern MARKDOWN_HEADING_OPENING_PATTERN = Pattern.compile("^ {0,3}#{1,6}[ \\t]+");
+    private static final Pattern MARKDOWN_HEADING_CLOSING_PATTERN = Pattern.compile("(?:^|[ \\t]+)#+\\z");
     private static final String BLANK_CONTENT = "";
     private static final String SPACE = " ";
     private static final int MAX_PREVIEW_CHARS = 300;
@@ -230,8 +232,8 @@ public class Note extends BucketObject {
             content = content.substring(0, MAX_PREVIEW_CHARS - 1);
         }
 
-        int firstNewLinePosition = content.indexOf(NEW_LINE);
-        if (firstNewLinePosition > -1 && firstNewLinePosition < 200) {
+        int firstNewLinePosition = findTitleLineEnd(content);
+        if (firstNewLinePosition > -1) {
             mTitle = content.substring(0, firstNewLinePosition).trim();
 
             if (firstNewLinePosition < content.length()) {
@@ -244,6 +246,67 @@ public class Note extends BucketObject {
             mTitle = content;
             mContentPreview = content;
         }
+
+        if (isMarkdownEnabled()) {
+            boolean isPreviewSameAsTitle = mContentPreview.equals(mTitle);
+            mTitle = stripMarkdownHeading(mTitle);
+
+            if (isPreviewSameAsTitle) {
+                mContentPreview = mTitle;
+            }
+        }
+    }
+
+    /**
+     * Finds where the title line ends in a trimmed note content
+     * A note has a separate title line only if a newline appears within
+     * {@link #MAX_TITLE_LINE_CHARS} characters.
+     * 
+     * @param trimmedContent the note content with leading and trailing whitespace removed
+     * @return the index of the newline that ends the title line, or -1 if there's none
+     */
+    public static int findTitleLineEnd(@NonNull String trimmedContent) {
+        int firstNewLinePosition = trimmedContent.indexOf(NEW_LINE);
+        return (firstNewLinePosition > -1 && firstNewLinePosition < MAX_TITLE_LINE_CHARS) ? firstNewLinePosition : -1;
+    }
+
+    /**
+     * Returns the note content that comes after the title line, so callers can show
+     * the body without searching for the title text.
+     * Returns "" when there is no second line.
+     * 
+     * @return the content after newline that ends the title
+     */
+    @NonNull
+    public String getContentAfterTitleLine() {
+        String trimmedContent = getContent().trim();
+        int titleLineEnd = findTitleLineEnd(trimmedContent);
+
+        if (titleLineEnd == -1) {
+            return BLANK_CONTENT;
+        }
+
+        return trimmedContent.substring(titleLineEnd);
+    }
+
+    /**
+     * Removes the opening and closing marks of an ATX heading.
+     * Returns the line unchanged if it is not a heading, or if the heading has no text.
+     * 
+     * @param line the leading line of text in a note
+     * @return the heading text without marks, or the original line if unchanged 
+     */
+    @NonNull
+    public static String stripMarkdownHeading(@NonNull String line) {
+        Matcher openingMatcher = MARKDOWN_HEADING_OPENING_PATTERN.matcher(line);
+
+        if (!openingMatcher.find()) {
+            return line;
+        }
+
+        String headingText = line.substring(openingMatcher.end()).trim();
+        headingText = MARKDOWN_HEADING_CLOSING_PATTERN.matcher(headingText).replaceFirst("");
+        return headingText.isEmpty() ? line : headingText;
     }
 
     public String getTitle() {
@@ -476,6 +539,9 @@ public class Note extends BucketObject {
         } else {
             removeSystemTag(MARKDOWN_TAG);
         }
+
+        mTitle = null;
+        mContentPreview = null;
     }
 
     public boolean isPinned() {
