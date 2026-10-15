@@ -42,10 +42,19 @@ steps:
       - github_commit_status:
           context: Lint
 
-  - label: ":hammer_and_pick: Prototype Build"
-    command: .buildkite/commands/build-prototype.sh
-    plugins: [$CI_TOOLKIT_PLUGIN]
-    if: "build.pull_request.id != null || build.pull_request.draft"
-    notify:
-      - github_commit_status:
-          context: Prototype Build
+  # On demand, so that an agent doesn't build a prototype for every push to a PR.
+  # The group keeps the input from blocking the steps that follow it.
+  - group: ":hammer_and_pick: Prototype Build"
+    steps:
+      - input: "Deploy Prototype Build?"
+        prompt: "Share a Prototype Build via Firebase App Distribution?"
+        key: prototype_triggered
+        if: "build.pull_request.id != null || build.pull_request.draft"
+      - label: ":hammer_and_pick: Prototype Build"
+        depends_on: prototype_triggered
+        command: .buildkite/commands/build-prototype.sh
+        plugins: [$CI_TOOLKIT_PLUGIN]
+        if: "build.pull_request.id != null || build.pull_request.draft"
+        notify:
+          - github_commit_status:
+              context: Prototype Build
