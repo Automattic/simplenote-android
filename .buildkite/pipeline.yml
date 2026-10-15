@@ -44,6 +44,8 @@ steps:
 
   # On demand, so that an agent doesn't build a prototype for every push to a PR.
   # The group keeps the input from blocking the steps that follow it.
+  # No `github_commit_status` here: it would post "pending" while the step waits for the input,
+  # and leave that check pending on every PR where nobody asks for a prototype.
   - group: ":hammer_and_pick: Prototype Build"
     steps:
       - input: "Deploy Prototype Build?"
@@ -55,6 +57,3 @@ steps:
         command: .buildkite/commands/build-prototype.sh
         plugins: [$CI_TOOLKIT_PLUGIN]
         if: "build.pull_request.id != null || build.pull_request.draft"
-        notify:
-          - github_commit_status:
-              context: Prototype Build
