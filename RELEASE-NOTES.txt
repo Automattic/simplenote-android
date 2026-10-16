@@ -2,6 +2,7 @@
 -----
 * Fixed the note share sheet missing installed apps (e.g. Gmail, WhatsApp) by launching the system share sheet [#1578](https://github.com/Automattic/simplenote-android/issues/1578)
 * Fixed markdown headings showing their "#" marker in the note list title [#1878](https://github.com/Automattic/simplenote-android/issues/1878)
+* Fixed a crash when using the back gesture after closing the account verification screen on Android 16 and later [#1897](https://github.com/Automattic/simplenote-android/issues/1897)
 
 2.39
 -----
