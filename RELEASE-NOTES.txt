@@ -2,6 +2,7 @@
 -----
 * Fixed the note share sheet missing installed apps (e.g. Gmail, WhatsApp) by launching the system share sheet [#1578](https://github.com/Automattic/simplenote-android/issues/1578)
 * Fixed markdown headings showing their "#" marker in the note list title [#1878](https://github.com/Automattic/simplenote-android/issues/1878)
+* Fixed an issue with the display of double line breaks in Markdown notes. [#1877](https://github.com/Automattic/simplenote-android/issues/1877)
 
 2.39
 -----
