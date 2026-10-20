@@ -70,7 +70,9 @@ class DeepLinkActivity : AppCompatActivity() {
         val base64Username = uri?.getQueryParameter(USERNAME_KEY_QUERY)
         var decodedUsername: String? = null
         try {
-            decodedUsername = String(Base64.decode(base64Username, Base64.DEFAULT), StandardCharsets.UTF_8)
+            decodedUsername = base64Username?.let {
+                String(Base64.decode(it, Base64.DEFAULT), StandardCharsets.UTF_8)
+            }
         } catch (e: IllegalArgumentException) {
             Log.e(TAG, "Problem decoding base64 username", e)
         }
