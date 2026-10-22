@@ -1,7 +1,5 @@
 package com.automattic.simplenote
 
-import android.content.ComponentName
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +7,11 @@ import android.view.ViewGroup
 import androidx.activity.BackEventCompat
 import androidx.fragment.app.Fragment
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.filters.MediumTest
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.automattic.simplenote.FullScreenDialogFragment.FullScreenDialogContent
 import com.automattic.simplenote.FullScreenDialogFragment.FullScreenDialogController
+import com.automattic.simplenote.utils.launchHiltTestActivity
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -33,23 +31,12 @@ import org.junit.runner.RunWith
 class FullScreenDialogFragmentTest {
     private lateinit var scenario: ActivityScenario<HiltTestActivity>
     private lateinit var dialog: FullScreenDialogFragment
+    private var dismissCount = 0
 
     @Before
     fun setup() {
-        val intent = Intent.makeMainActivity(
-            ComponentName(ApplicationProvider.getApplicationContext(), HiltTestActivity::class.java)
-        ).putExtra(
-            "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY",
-            R.style.Base_Theme_Simplestyle
-        )
-        scenario = ActivityScenario.launch(intent)
-
-        onActivity { activity ->
-            dialog = FullScreenDialogFragment.Builder(activity)
-                .setContent(TestContentFragment::class.java, null)
-                .build()
-            dialog.show(activity.supportFragmentManager, FullScreenDialogFragment.TAG)
-        }
+        scenario = launchHiltTestActivity()
+        onActivity { activity -> dialog = showDialog(activity) }
     }
 
     @After
@@ -65,6 +52,47 @@ class FullScreenDialogFragmentTest {
         }
 
         onActivity { activity ->
+            assertFalse(dialog.isAdded)
+            assertEquals(0, activity.supportFragmentManager.backStackEntryCount)
+            assertEquals(1, dismissCount)
+        }
+    }
+
+    @Test
+    fun dismissOfLowerDialogRemovesBothStackedDialogs() {
+        lateinit var upperDialog: FullScreenDialogFragment
+        onActivity { activity -> upperDialog = showDialog(activity) }
+
+        onActivity { dialog.dismiss() }
+
+        onActivity { activity ->
+            assertFalse(dialog.isAdded)
+            assertFalse(upperDialog.isAdded)
+            assertEquals(0, activity.supportFragmentManager.backStackEntryCount)
+        }
+    }
+
+    @Test
+    fun dismissDuringCancelledBackGestureRemovesDialog() {
+        onActivity { activity -> activity.onBackPressedDispatcher.dispatchOnBackStarted(backEvent()) }
+        onActivity { dialog.dismiss() }
+        onActivity { activity -> activity.onBackPressedDispatcher.dispatchOnBackCancelled() }
+
+        onActivity { activity ->
+            assertFalse(dialog.isAdded)
+            assertEquals(0, activity.supportFragmentManager.backStackEntryCount)
+        }
+    }
+
+    @Test
+    fun dismissDuringCompletedBackGestureRemovesDialog() {
+        onActivity { activity -> activity.onBackPressedDispatcher.dispatchOnBackStarted(backEvent()) }
+        onActivity { dialog.dismiss() }
+
+        // Assert in the same block: the gesture continues to the activity, which can then stop.
+        onActivity { activity ->
+            activity.onBackPressedDispatcher.onBackPressed()
+            activity.supportFragmentManager.executePendingTransactions()
             assertFalse(dialog.isAdded)
             assertEquals(0, activity.supportFragmentManager.backStackEntryCount)
         }
@@ -125,6 +153,15 @@ class FullScreenDialogFragmentTest {
             assertFalse(dialog.isAdded)
             assertEquals(0, activity.supportFragmentManager.backStackEntryCount)
         }
+    }
+
+    private fun showDialog(activity: HiltTestActivity): FullScreenDialogFragment {
+        val newDialog = FullScreenDialogFragment.Builder(activity)
+            .setContent(TestContentFragment::class.java, null)
+            .setOnDismissListener { dismissCount++ }
+            .build()
+        newDialog.show(activity.supportFragmentManager, FullScreenDialogFragment.TAG)
+        return newDialog
     }
 
     private fun onActivity(action: (HiltTestActivity) -> Unit) {
