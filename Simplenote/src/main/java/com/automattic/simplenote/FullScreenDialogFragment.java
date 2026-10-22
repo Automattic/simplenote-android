@@ -152,8 +152,6 @@ public class FullScreenDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        initBuilderArguments();
-
         ComponentDialog dialog = new ComponentDialog(requireContext(), getTheme());
         dialog.getOnBackPressedDispatcher().addCallback(
             dialog,
@@ -172,8 +170,6 @@ public class FullScreenDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initBuilderArguments();
-
         if (mHideActivityBar) {
             hideActivityBar();
         }
