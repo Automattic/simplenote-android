@@ -30,17 +30,7 @@ inline fun <reified T : DialogFragment> launchDialogFragmentInHiltContainer(
     @StyleRes themeResId: Int = R.style.Base_Theme_Simplestyle,
     crossinline instantiate: () -> T
 ): ActivityScenario<HiltTestActivity> {
-    val startActivityIntent = Intent.makeMainActivity(
-        ComponentName(
-            ApplicationProvider.getApplicationContext(),
-            HiltTestActivity::class.java
-        )
-    ).putExtra(
-        "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY",
-        themeResId
-    )
-
-    val activityScenario: ActivityScenario<HiltTestActivity> = ActivityScenario.launch(startActivityIntent)
+    val activityScenario = launchHiltTestActivity(themeResId)
     activityScenario.onActivity { activity ->
         val fragment: DialogFragment = instantiate()
         fragment.show(activity.supportFragmentManager.beginTransaction(), "dialog_tag")
@@ -51,4 +41,20 @@ inline fun <reified T : DialogFragment> launchDialogFragmentInHiltContainer(
     onView(isRoot()).inRoot(isDialog()).check(matches(isDisplayed()))
 
     return activityScenario
+}
+
+fun launchHiltTestActivity(
+    @StyleRes themeResId: Int = R.style.Base_Theme_Simplestyle
+): ActivityScenario<HiltTestActivity> {
+    val startActivityIntent = Intent.makeMainActivity(
+        ComponentName(
+            ApplicationProvider.getApplicationContext(),
+            HiltTestActivity::class.java
+        )
+    ).putExtra(
+        "androidx.fragment.app.testing.FragmentScenario.EmptyFragmentActivity.THEME_EXTRAS_BUNDLE_KEY",
+        themeResId
+    )
+
+    return ActivityScenario.launch(startActivityIntent)
 }
