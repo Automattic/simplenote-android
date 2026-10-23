@@ -55,8 +55,9 @@ class NoteMarkdownFragment : Fragment(), Bucket.Listener<Note> {
                     cssContent + "</head><body>"
 
             val flavour = SimplenoteMarkdownFlavorDescriptor()
-            val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(sourceContent)
-            var parsedMarkdown = HtmlGenerator(sourceContent, parsedTree, flavour).generateHtml()
+            val normalizedSourceContent = sourceContent.replace(Regex("\r\n?"), "\n")
+            val parsedTree = MarkdownParser(flavour).buildMarkdownTreeFromString(normalizedSourceContent)
+            var parsedMarkdown = HtmlGenerator(normalizedSourceContent, parsedTree, flavour).generateHtml()
 
             // Set auto alignment for lists, tables, and quotes based on language of start.
             parsedMarkdown = parsedMarkdown
