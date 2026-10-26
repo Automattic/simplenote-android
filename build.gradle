@@ -73,31 +73,46 @@ ext {
     screengrabVersion = '2.1.1'
 }
 
+def uploadKeystore = new File(gradle.ext.decryptedSecretsDir, "upload.jks")
+def uploadCredentials = ["uploadStorePassword", "uploadKeyAlias", "uploadKeyPassword"]
+def uploadKeyAvailable = uploadKeystore.exists() &&
+        uploadCredentials.every { gradle.ext.secretProperties.containsKey(it) }
+def debugKeystore = new File(gradle.ext.decryptedSecretsDir, "debug.keystore")
+
 subprojects {
     plugins.withId('com.android.application') {
-        if (["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0) {
-            android {
-                signingConfigs {
+        android {
+            signingConfigs {
+                if (uploadKeyAvailable) {
                     release {
-                        storeFile = rootProject.file(project.storeFile)
-                        storePassword = project.storePassword
-                        keyAlias = project.keyAlias
-                        keyPassword = project.keyPassword
+                        storeFile = uploadKeystore
+                        storePassword = gradle.ext.secretProperties.get("uploadStorePassword")
+                        keyAlias = gradle.ext.secretProperties.get("uploadKeyAlias")
+                        keyPassword = gradle.ext.secretProperties.get("uploadKeyPassword")
+                    }
+                }
+
+                if (debugKeystore.exists()) {
+                    debug {
+                        storeFile debugKeystore
                     }
                 }
             }
-            android.buildTypes.release.signingConfig = android.signingConfigs.release
+
+            if (uploadKeyAvailable) {
+                buildTypes.release.signingConfig = signingConfigs.release
+            }
         }
 
-        if (project.hasProperty("debugStoreFile")) {
-            def sharedDebugStore = file(project.debugStoreFile.replaceFirst("^~", System.getProperty("user.home")))
-            if (sharedDebugStore.exists()) {
-                android {
-                    signingConfigs {
-                        debug {
-                            storeFile sharedDebugStore
-                        }
-                    }
+        // AGP only creates `validateSigning*` for signed variants, so guard packaging instead.
+        // Checked at execution time so contributors without the secrets keep their debug builds.
+        tasks.matching { it.name.startsWith("package") && it.name.contains("Release") }.configureEach {
+            doFirst {
+                if (!uploadKeyAvailable) {
+                    throw new GradleException(
+                        "The upload keystore is missing, so this release build would not be signed. " +
+                            "Please run `bundle exec fastlane run configure_apply` to apply secrets."
+                    )
                 }
             }
         }
