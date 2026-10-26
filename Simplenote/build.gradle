@@ -176,20 +176,6 @@ repositories {
     }
 }
 
-if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){
-    android {
-      signingConfigs {
-          release {
-              storeFile = rootProject.file(project.storeFile)
-              storePassword = project.storePassword
-              keyAlias = project.keyAlias
-              keyPassword = project.keyPassword
-          }
-      }
-    }
-    android.buildTypes.release.signingConfig = android.signingConfigs.release
-}
-
 task copyGradlePropertiesIfMissing(group: "generate", description: "Copy Gradle Properties") {
     if (!file("${rootDir}/Simplenote/gradle.properties").exists()) {
         copy {
@@ -234,17 +220,4 @@ android.applicationVariants.all { variant ->
     }
     buildConfigField "String", "BUILD", "\"${gitDescribe()}\""
     buildConfigField "String", "BUILD_HASH", "\"${gitHash()}\""
-}
-
-if (project.hasProperty("debugStoreFile")) {
-    def sharedDebugStore = file(project.debugStoreFile.replaceFirst("^~", System.getProperty("user.home")))
-    if (sharedDebugStore.exists()) {
-        android {
-            signingConfigs {
-                debug {
-                    storeFile sharedDebugStore
-                }
-            }
-        }
-    }
 }
