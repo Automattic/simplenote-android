@@ -74,7 +74,7 @@ ext {
 }
 
 def uploadKeystore = new File(gradle.ext.decryptedSecretsDir, "upload.jks")
-def uploadCredentials = ["uploadStorePassword", "uploadKeyAlias", "uploadKeyPassword"]
+def uploadCredentials = ["storePassword", "keyAlias", "keyPassword"]
 def uploadKeyAvailable = uploadKeystore.exists() &&
         uploadCredentials.every { gradle.ext.secretProperties.containsKey(it) }
 def debugKeystore = new File(gradle.ext.decryptedSecretsDir, "debug.keystore")
@@ -86,9 +86,9 @@ subprojects {
                 if (uploadKeyAvailable) {
                     release {
                         storeFile = uploadKeystore
-                        storePassword = gradle.ext.secretProperties.get("uploadStorePassword")
-                        keyAlias = gradle.ext.secretProperties.get("uploadKeyAlias")
-                        keyPassword = gradle.ext.secretProperties.get("uploadKeyPassword")
+                        storePassword = gradle.ext.secretProperties.get("storePassword")
+                        keyAlias = gradle.ext.secretProperties.get("keyAlias")
+                        keyPassword = gradle.ext.secretProperties.get("keyPassword")
                     }
                 }
 
