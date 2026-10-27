@@ -5,7 +5,7 @@
   "files_to_copy": [
     {
       "file": "android/simplenote/Simplenote/gradle.properties",
-      "destination": "Simplenote/gradle.properties",
+      "destination": "~/.configure/simplenote-android/secrets/secrets.properties",
       "encrypt": true
     },
     {
