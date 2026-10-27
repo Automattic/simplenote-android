@@ -35,7 +35,6 @@ captures/
 .gradle/
 .kotlin/
 sentry.properties
-Simplenote/gradle.properties
 
 *.keystore
 *.jks
@@ -63,6 +62,11 @@ google-upload-credentials.json
 
 # This repo uses insecure secret storage, so we have some extra just-in-case entries:
 sentry.properties
+
+# Leftover from before secrets moved out of the repo: `configure` decrypted here.
+# Keep ignored until stale copies are unlikely to linger in dev checkouts.
+#
+# See https://linear.app/a8c/issue/AINFRA-3484
 Simplenote/gradle.properties
 
 # This secret is not part of the repository anymore, but we keep it in the
