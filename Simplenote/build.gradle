@@ -176,36 +176,12 @@ repositories {
     }
 }
 
-task copyGradlePropertiesIfMissing(group: "generate", description: "Copy Gradle Properties") {
-    if (!file("${rootDir}/Simplenote/gradle.properties").exists()) {
-        copy {
-            from("${rootDir}/Simplenote")
-            into("${rootDir}/Simplenote")
-            include('gradle.properties-example')
-            rename('gradle.properties-example', 'gradle.properties')
-        }
-    }
-}
-
-static def loadPropertiesFromFile(inputFile) {
-    def properties = new Properties()
-    inputFile.withInputStream { stream ->
-        properties.load(stream)
-    }
-    return properties
-}
-
 static String toSnakeCase( String text ) {
     text.replaceAll( /([A-Z])/, /_$1/ ).replaceAll( /^_/, '' )
 }
 
 android.applicationVariants.all { variant ->
-    variant.generateBuildConfigProvider.configure {
-        dependsOn(copyGradlePropertiesIfMissing)
-    }
-    def inputFile = file("${rootDir}/Simplenote/gradle.properties")
-    def properties = loadPropertiesFromFile(inputFile)
-    properties.any { property ->
+    gradle.ext.secretProperties.any { property ->
         def key = toSnakeCase(property.key).toUpperCase()
         if (key == "SIMPERIUM_APP_ID" ||
             key == "SIMPERIUM_APP_KEY" ||

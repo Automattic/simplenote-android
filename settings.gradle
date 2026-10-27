@@ -3,13 +3,14 @@ include ':PasscodeLock'
 
 gradle.ext {
     decryptedSecretsDir = file("${System.getProperty("user.home")}/.configure/simplenote-android/secrets")
-    secretPath = new File(decryptedSecretsDir, "secrets.properties").path
-    secretProperties = loadPropertiesFromFile(file(secretPath))
+    def secretsFile = new File(decryptedSecretsDir, "secrets.properties")
+    secretProperties = loadPropertiesFromFile(
+            secretsFile.exists() ? secretsFile : file("${rootDir}/Simplenote/secrets.properties-example")
+    )
 }
 
 static def loadPropertiesFromFile(File inputFile) {
     def properties = new Properties()
-    if (!inputFile.exists()) return properties
     inputFile.withInputStream { stream ->
         properties.load(stream)
     }
