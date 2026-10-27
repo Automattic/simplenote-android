@@ -10,12 +10,12 @@
     },
     {
       "file": "android/automattic.jks",
-      "destination": ".configure-files/release.jks",
+      "destination": "~/.configure/simplenote-android/secrets/upload.jks",
       "encrypt": true
     },
     {
       "file": "android/debug.keystore",
-      "destination": ".configure-files/debug_a8c.keystore",
+      "destination": "~/.configure/simplenote-android/secrets/debug.keystore",
       "encrypt": true
     },
     {
