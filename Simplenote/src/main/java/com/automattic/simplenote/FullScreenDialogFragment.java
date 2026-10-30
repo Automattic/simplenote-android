@@ -32,6 +32,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.automattic.simplenote.utils.DrawableUtils;
 
+import java.util.UUID;
+
 /**
  * A {@link DialogFragment} implementing the full-screen dialog pattern defined in the
  * <a href="https://material.io/guidelines/components/dialogs.html#dialogs-full-screen-dialogs">
@@ -41,6 +43,7 @@ public class FullScreenDialogFragment extends DialogFragment {
     public static final String TAG = FullScreenDialogFragment.class.getSimpleName();
 
     private static final String ARG_ACTION = "ARG_ACTION";
+    private static final String ARG_BACK_STACK_NAME = "ARG_BACK_STACK_NAME";
     private static final String ARG_CONTAINER = "ARG_CONTAINER";
     private static final String ARG_ELEVATION = "ARG_ELEVATION";
     private static final String ARG_HIDE_ACTIVITY_BAR = "ARG_HIDE_ACTIVITY_BAR";
@@ -53,6 +56,7 @@ public class FullScreenDialogFragment extends DialogFragment {
     private OnConfirmListener mOnConfirmListener;
     private OnDismissListener mOnDismissListener;
     private String mAction;
+    private String mBackStackName;
     private String mSubtitle;
     private String mTitle;
     private Toolbar mToolbar;
@@ -93,6 +97,9 @@ public class FullScreenDialogFragment extends DialogFragment {
     private static Bundle setArguments(Builder builder) {
         Bundle bundle = new Bundle();
         bundle.putString(ARG_ACTION, builder.mAction);
+        // Unique per dialog, so dismiss() pops only this entry. A back stack id would not work: FragmentManager
+        // gives the entry a new id when a cancelled predictive back gesture commits it again.
+        bundle.putString(ARG_BACK_STACK_NAME, UUID.randomUUID().toString());
         bundle.putInt(ARG_CONTAINER, builder.mContainer);
         bundle.putFloat(ARG_ELEVATION, builder.mElevation);
         bundle.putString(ARG_TITLE, builder.mTitle);
@@ -105,7 +112,8 @@ public class FullScreenDialogFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (savedInstanceState == null) {
+        // The view can be created again while the child fragment manager still holds the content.
+        if (getChildFragmentManager().findFragmentById(R.id.full_screen_dialog_fragment_content) == null) {
             getChildFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(
@@ -122,6 +130,7 @@ public class FullScreenDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initBuilderArguments();
 
         if (savedInstanceState != null) {
             mFragment = getChildFragmentManager().findFragmentById(R.id.full_screen_dialog_fragment_content);
@@ -143,8 +152,6 @@ public class FullScreenDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        initBuilderArguments();
-
         ComponentDialog dialog = new ComponentDialog(requireContext(), getTheme());
         dialog.getOnBackPressedDispatcher().addCallback(
             dialog,
@@ -163,8 +170,6 @@ public class FullScreenDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        initBuilderArguments();
-
         if (mHideActivityBar) {
             hideActivityBar();
         }
@@ -185,6 +190,11 @@ public class FullScreenDialogFragment extends DialogFragment {
 
     @Override
     public void dismiss() {
+        // Already detached, e.g. after an earlier dismiss(). DialogFragment ignores this too.
+        if (getActivity() == null) {
+            return;
+        }
+
         // If isStateSaved() is true, it means that the application is not in the foreground, thus, we cannot
         // dismiss the dialog because it would cause an IllegalStateException
         if (isStateSaved()) {
@@ -199,7 +209,14 @@ public class FullScreenDialogFragment extends DialogFragment {
             showActivityBar();
         }
 
-        super.dismiss();
+        // show() does not call super, so DialogFragment.dismiss() would only remove the fragment and leave its
+        // entry on the back stack. A later back gesture would then bring the fragment back.
+        if (mBackStackName != null) {
+            getParentFragmentManager().popBackStack(mBackStackName, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        } else {
+            // State saved by an older app version has no name, and popping a null name would clear the back stack.
+            super.dismiss();
+        }
     }
 
     @Override
@@ -217,7 +234,7 @@ public class FullScreenDialogFragment extends DialogFragment {
             R.anim.full_screen_dialog_fragment_slide_down
         );
         @IdRes int container = mContainer != 0 ? mContainer : android.R.id.content;
-        return transaction.add(container, this, tag).addToBackStack(null).commit();
+        return transaction.add(container, this, tag).addToBackStack(mBackStackName).commit();
     }
 
     protected void confirm(Bundle result) {
@@ -259,6 +276,7 @@ public class FullScreenDialogFragment extends DialogFragment {
         if (getArguments() != null) {
             Bundle bundle = getArguments();
             mAction = bundle.getString(ARG_ACTION);
+            mBackStackName = bundle.getString(ARG_BACK_STACK_NAME);
             mContainer = bundle.getInt(ARG_CONTAINER);
             mElevation = bundle.getFloat(ARG_ELEVATION);
             mTitle = bundle.getString(ARG_TITLE);
