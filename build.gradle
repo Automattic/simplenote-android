@@ -72,3 +72,49 @@ ext {
 
     screengrabVersion = '2.1.1'
 }
+
+def uploadKeystore = new File(gradle.ext.decryptedSecretsDir, "upload.jks")
+def uploadCredentials = ["storePassword", "keyAlias", "keyPassword"]
+def uploadKeyAvailable = uploadKeystore.exists() &&
+        uploadCredentials.every { gradle.ext.secretProperties.containsKey(it) }
+def debugKeystore = new File(gradle.ext.decryptedSecretsDir, "debug.keystore")
+
+subprojects {
+    plugins.withId('com.android.application') {
+        android {
+            signingConfigs {
+                if (uploadKeyAvailable) {
+                    release {
+                        storeFile = uploadKeystore
+                        storePassword = gradle.ext.secretProperties.get("storePassword")
+                        keyAlias = gradle.ext.secretProperties.get("keyAlias")
+                        keyPassword = gradle.ext.secretProperties.get("keyPassword")
+                    }
+                }
+
+                if (debugKeystore.exists()) {
+                    debug {
+                        storeFile debugKeystore
+                    }
+                }
+            }
+
+            if (uploadKeyAvailable) {
+                buildTypes.release.signingConfig = signingConfigs.release
+            }
+        }
+
+        // AGP only creates `validateSigning*` for signed variants, so guard packaging instead.
+        // Checked at execution time so contributors without the secrets keep their debug builds.
+        tasks.matching { it.name.startsWith("package") && it.name.contains("Release") }.configureEach {
+            doFirst {
+                if (!uploadKeyAvailable) {
+                    throw new GradleException(
+                        "The upload keystore is missing, so this release build would not be signed. " +
+                            "Please run `bundle exec fastlane run configure_apply` to apply secrets."
+                    )
+                }
+            }
+        }
+    }
+}
