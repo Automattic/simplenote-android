@@ -103,18 +103,19 @@ subprojects {
                 buildTypes.release.signingConfig = signingConfigs.release
             }
         }
-
-        // AGP only creates `validateSigning*` for signed variants, so guard packaging instead.
-        // Checked at execution time so contributors without the secrets keep their debug builds.
-        tasks.matching { it.name.startsWith("package") && it.name.contains("Release") }.configureEach {
-            doFirst {
-                if (!uploadKeyAvailable) {
-                    throw new GradleException(
-                        "The upload keystore is missing, so this release build would not be signed. " +
-                            "Please run `bundle exec fastlane run configure_apply` to apply secrets."
-                    )
-                }
-            }
-        }
     }
+}
+
+// Matches requested tasks, not the task graph: `lintRelease` and `testReleaseUnitTest` reach
+// `:Wear:packageRelease` through `wearApp`, and those must keep working without secrets.
+def requestsReleaseArtifact = gradle.startParameter.taskNames.any {
+    it.tokenize(":").last() ==~ /(assemble|bundle).*Release/
+}
+
+if (requestsReleaseArtifact && !uploadKeyAvailable) {
+    throw new GradleException(
+        "Release signing is not configured, so this build would not be signed. " +
+            "It needs ${uploadKeystore} and the ${uploadCredentials.join(", ")} entries in secrets.properties. " +
+            "Please run `bundle exec fastlane run configure_apply` to apply secrets."
+    )
 }
