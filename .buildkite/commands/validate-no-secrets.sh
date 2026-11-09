@@ -2,13 +2,6 @@
 
 set -euo pipefail
 
-decrypted_paths=(
-  Simplenote/gradle.properties
-  .configure-files/release.jks
-  .configure-files/debug_a8c.keystore
-  "$HOME/.configure/simplenote-android/secrets"
-)
-
 assert_no_decrypted_files() {
   local found=0
   for path in "${decrypted_paths[@]}"; do
@@ -23,6 +16,20 @@ assert_no_decrypted_files() {
 
 echo "--- :rubygems: Setting up Gems"
 install_gems
+
+echo "--- :house: Isolate from what this persistent agent keeps in its home"
+echo "Left on the agent by earlier jobs (names only):"
+ls -la "$HOME/.configure/simplenote-android/secrets" || true
+[[ -d "$HOME/.rbenv" ]] && export RBENV_ROOT="${RBENV_ROOT:-$HOME/.rbenv}"
+HOME="$(mktemp -d)"
+export HOME
+
+decrypted_paths=(
+  Simplenote/gradle.properties
+  .configure-files/release.jks
+  .configure-files/debug_a8c.keystore
+  "$HOME/.configure/simplenote-android/secrets"
+)
 
 export GIT_AUTHOR_NAME=validation GIT_AUTHOR_EMAIL=validation@example.com
 export GIT_COMMITTER_NAME=validation GIT_COMMITTER_EMAIL=validation@example.com
