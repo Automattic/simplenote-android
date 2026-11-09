@@ -15,6 +15,12 @@ steps:
 
   - wait
 
+  - label: ":test_tube: Validate release lanes without secrets"
+    command: .buildkite/commands/validate-no-secrets.sh
+    plugins: [$CI_TOOLKIT_PLUGIN]
+    agents:
+      queue: mac-metal
+
   - label: ":hammer_and_pick: Build and Test"
     command: ./gradlew --stacktrace testDebugUnitTest
     plugins: [$CI_TOOLKIT_PLUGIN]
