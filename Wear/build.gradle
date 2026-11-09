@@ -40,23 +40,3 @@ repositories {
         url "https://maven.google.com"
     }
 }
-
-if(["storeFile", "storePassword", "keyAlias", "keyPassword"].count { !project.hasProperty(it) } == 0 ){
-    android {
-        signingConfigs {
-            release {
-                storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
-                storePassword = project.storePassword
-                keyAlias = project.keyAlias
-                keyPassword = project.keyPassword
-            }
-            debug {
-                storeFile = file(project.storeFile.replaceFirst("^~", System.getProperty("user.home")))
-                storePassword = project.storePassword
-                keyAlias = project.keyAlias
-                keyPassword = project.keyPassword
-            }
-        }
-    }
-    android.buildTypes.release.signingConfig = android.signingConfigs.release
-}

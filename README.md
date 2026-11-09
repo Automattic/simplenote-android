@@ -20,7 +20,7 @@ sdk.dir=/Applications/Android Studio.app/sdk
 ./gradlew Simplenote:installDebug
 ```
 
-* Set up credentials before your first build — see [Setup Credentials](#setup-credentials) below. A fresh clone builds against the placeholder Simperium app in `Simplenote/gradle.properties-example`, and logging in with a real Simplenote account against it fails with "Invalid username or password" even though the same credentials work on the web.
+* Set up credentials before your first build — see [Setup Credentials](#setup-credentials) below. A fresh clone builds against the placeholder Simperium app in `Simplenote/secrets.properties-example`, and logging in with a real Simplenote account against it fails with "Invalid username or password" even though the same credentials work on the web.
 
 _Note: Simplenote API features such as sharing and publishing will not work with development builds._
 
@@ -40,9 +40,9 @@ To run the test suite, execute the following `gradle` command:
 
 ## Setup Credentials
 
-Simplenote is powered by the [Simperium Sync'ing protocol](https://www.simperium.com). The app authenticates against a specific Simperium application, identified by the `simperiumAppId` and `simperiumAppKey` fields in `Simplenote/gradle.properties`.
+Simplenote is powered by the [Simperium Sync'ing protocol](https://www.simperium.com). The app authenticates against a specific Simperium application, identified by the `simperiumAppId` and `simperiumAppKey` fields in the secrets file that `configure_apply` decrypts outside of the repo.
 
-That file is gitignored. If it does not exist, the `copyGradlePropertiesIfMissing` task in `Simplenote/build.gradle` creates it automatically from `Simplenote/gradle.properties-example`, which contains a **placeholder Simperium app**. A build using those placeholder values cannot authenticate any real Simplenote account — login fails with "Invalid username or password" even for credentials that work at [app.simplenote.com](https://app.simplenote.com). If login is failing unexpectedly, check `BuildConfig.SIMPERIUM_APP_ID` before investigating anything else.
+Without that file, the build falls back to `Simplenote/secrets.properties-example`, which contains a **placeholder Simperium app**. A build using those placeholder values cannot authenticate any real Simplenote account — login fails with "Invalid username or password" even for credentials that work at [app.simplenote.com](https://app.simplenote.com). If login is failing unexpectedly, check `BuildConfig.SIMPERIUM_APP_ID` before investigating anything else.
 
 ### Automattic contributors
 
@@ -53,16 +53,7 @@ bundle install
 bundle exec fastlane run configure_apply
 ```
 
-This requires access to the internal secrets store. It overwrites `Simplenote/gradle.properties` with the production values, and also populates `wpcomClientId`, which the "Log in with WordPress.com" button needs.
-
-**Run this before your first build.** Once a build has created the placeholder `Simplenote/gradle.properties`, `configure_apply` detects a pre-existing file that differs from the encrypted one and stops to ask whether you want to see a diff — which fails outright in a non-interactive shell such as CI or an agent session. If you have already built, delete the placeholder first:
-
-```shell
-rm Simplenote/gradle.properties
-bundle exec fastlane run configure_apply
-```
-
-Deleting it is safe as long as it is still identical to `Simplenote/gradle.properties-example`; verify with `diff` if unsure.
+This requires access to the internal secrets store. It provides the production values, including `wpcomClientId`, which the "Log in with WordPress.com" button needs.
 
 ### External contributors
 

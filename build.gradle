@@ -72,3 +72,50 @@ ext {
 
     screengrabVersion = '2.1.1'
 }
+
+def uploadKeystore = new File(gradle.ext.decryptedSecretsDir, "upload.jks")
+def uploadCredentials = ["storePassword", "keyAlias", "keyPassword"]
+def uploadKeyAvailable = uploadKeystore.exists() &&
+        uploadCredentials.every { gradle.ext.secretProperties.containsKey(it) }
+def debugKeystore = new File(gradle.ext.decryptedSecretsDir, "debug.keystore")
+
+subprojects {
+    plugins.withId('com.android.application') {
+        android {
+            signingConfigs {
+                if (uploadKeyAvailable) {
+                    release {
+                        storeFile = uploadKeystore
+                        storePassword = gradle.ext.secretProperties.get("storePassword")
+                        keyAlias = gradle.ext.secretProperties.get("keyAlias")
+                        keyPassword = gradle.ext.secretProperties.get("keyPassword")
+                    }
+                }
+
+                if (debugKeystore.exists()) {
+                    debug {
+                        storeFile debugKeystore
+                    }
+                }
+            }
+
+            if (uploadKeyAvailable) {
+                buildTypes.release.signingConfig = signingConfigs.release
+            }
+        }
+    }
+}
+
+// Matches requested tasks, not the task graph: `lintRelease` and `testReleaseUnitTest` reach
+// `:Wear:packageRelease` through `wearApp`, and those must keep working without secrets.
+def requestsReleaseArtifact = gradle.startParameter.taskNames.any {
+    it.tokenize(":").last() ==~ /(assemble|bundle).*Release/
+}
+
+if (requestsReleaseArtifact && !uploadKeyAvailable) {
+    throw new GradleException(
+        "Release signing is not configured, so this build would not be signed. " +
+            "It needs ${uploadKeystore} and the ${uploadCredentials.join(", ")} entries in secrets.properties. " +
+            "Please run `bundle exec fastlane run configure_apply` to apply secrets."
+    )
+}
