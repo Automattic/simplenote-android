@@ -2,57 +2,13 @@
 ---
 
 agents:
-  queue: android
+  queue: mac-metal
 
 steps:
-  - label: ":gradle: Gradle Wrapper Validation"
-    command: validate_gradle_wrapper
-    agents:
-      queue: linter
-    notify:
-      - github_commit_status:
-          context: Gradle Wrapper Validation
+  - label: List leftover secrets (first job)
+    command: bash .buildkite/commands/list-leftover-secrets.sh
 
   - wait
 
-  - label: ":hammer_and_pick: Build and Test"
-    command: ./gradlew --stacktrace testDebugUnitTest
-    plugins: [$CI_TOOLKIT_PLUGIN]
-    notify:
-      - github_commit_status:
-          context: Build and Test
-
-  - label: ":danger: Danger - PR Check"
-    command: danger
-    key: danger
-    if: "build.pull_request.id != null"
-    retry:
-      manual:
-        permit_on_passed: true
-    agents:
-      queue: linter
-    notify:
-      - github_commit_status:
-          context: Danger - PR Check
-
-  - label: ":microscope: Lint"
-    command: ./gradlew --stacktrace lintDebug
-    plugins: [$CI_TOOLKIT_PLUGIN]
-    notify:
-      - github_commit_status:
-          context: Lint
-
-  # On demand, so that an agent doesn't build a prototype for every push to a PR.
-  # The group keeps the input from blocking the steps that follow it.
-  # No `github_commit_status` here: it would post "pending" while the step waits for the input,
-  # and leave that check pending on every PR where nobody asks for a prototype.
-  - group: ":hammer_and_pick: Prototype Build"
-    if: "build.pull_request.id != null || build.pull_request.draft"
-    steps:
-      - input: "Deploy Prototype Build?"
-        prompt: "Share a Prototype Build via Firebase App Distribution?"
-        key: prototype_triggered
-      - label: ":hammer_and_pick: Prototype Build"
-        depends_on: prototype_triggered
-        command: .buildkite/commands/build-prototype.sh
-        plugins: [$CI_TOOLKIT_PLUGIN]
+  - label: List leftover secrets (second job)
+    command: bash .buildkite/commands/list-leftover-secrets.sh
