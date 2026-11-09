@@ -4,6 +4,12 @@ include ':PasscodeLock'
 gradle.ext {
     decryptedSecretsDir = file("${System.getProperty("user.home")}/.configure/simplenote-android/secrets")
     def secretsFile = new File(decryptedSecretsDir, "secrets.properties")
+    if (!secretsFile.exists()) {
+        logger.warn(
+            "${secretsFile} not found, so this build uses placeholder values and logging in will fail. " +
+                "Run `bundle exec fastlane run configure_apply` to apply secrets."
+        )
+    }
     secretProperties = loadPropertiesFromFile(
             secretsFile.exists() ? secretsFile : file("${rootDir}/Simplenote/secrets.properties-example")
     )
