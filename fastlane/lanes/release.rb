@@ -177,8 +177,6 @@ platform :android do
     UI.important("Finalizing release: #{release_version_current}")
     UI.user_error!("Terminating as requested. Don't forget to run the remainder of this automation manually.") unless skip_confirm || UI.confirm('Do you want to continue?')
 
-    configure_apply(force: is_ci)
-
     check_translation_progress_all unless is_ci
     download_translations(
       # skip lint in CI as a workaround to the task running in an agent that fails to download the Gradle version this project needs.

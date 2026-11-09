@@ -8,9 +8,6 @@ buildkite-agent artifact download "$ARTIFACT_PATH" . --step $STEP
 echo "--- :rubygems: Setting up Gems"
 install_gems
 
-echo "--- :closed_lock_with_key: Installing Secrets"
-bundle exec fastlane run configure_apply
-
 echo "--- :android: Upload to Play Store"
 bundle exec fastlane create_release_on_github \
   apk_path:"$ARTIFACT_PATH" \
