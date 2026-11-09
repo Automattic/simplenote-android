@@ -423,6 +423,8 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
             return;
         }
 
+        sortSpans(editable);
+
         try {
             ChecklistUtils.addChecklistSpansForRegexAndColor(
                 getContext(),
@@ -441,6 +443,18 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * After an insertion, SpannableStringBuilder does not sort its spans again until a span is added or removed.
+     * Until then, the replace() calls that convert checklists can miss the TextWatcher of the DynamicLayout, which
+     * then keeps line offsets beyond the end of the text and crashes the next draw (#1914). Adding and removing a
+     * span sorts the spans again.
+     */
+    private static void sortSpans(Editable editable) {
+        Object marker = new Object();
+        editable.setSpan(marker, 0, 0, Spanned.SPAN_POINT_POINT);
+        editable.removeSpan(marker);
     }
 
     public void setOnCheckboxToggledListener(OnCheckboxToggledListener listener) {
