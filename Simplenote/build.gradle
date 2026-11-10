@@ -111,7 +111,7 @@ dependencies {
 
 
     // Support for JsonObjects in unit tests since they are used by BucketObjects
-    testImplementation 'org.json:json:20210307'
+    testImplementation 'org.json:json:20260719'
 
     // Fastlane screengrab for screenshots automation
     androidTestImplementation "tools.fastlane:screengrab:$screengrabVersion"
