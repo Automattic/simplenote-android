@@ -5,6 +5,7 @@
 * Fixed the Markdown preview of notes edited in the desktop apps, where text after a code block or a table did not render correctly [#1877](https://github.com/Automattic/simplenote-android/issues/1877)
 * Fixed a crash when using the back gesture after closing the account verification screen on Android 16 and later [#1897](https://github.com/Automattic/simplenote-android/issues/1897)
 * Fixed a crash when adding a checklist at the start of a note, for example with the checklist button on a note whose first line is empty [#1914](https://github.com/Automattic/simplenote-android/issues/1914)
+* Fixed a crash when opening a login link that has no email address [#1903](https://github.com/Automattic/simplenote-android/issues/1903)
 
 2.39
 -----
