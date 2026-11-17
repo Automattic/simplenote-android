@@ -52,6 +52,9 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
     private LinkTokenizer mTokenizer;
     private final List<OnSelectionChangedListener> listeners;
     private OnCheckboxToggledListener mOnCheckboxToggledListener;
+    private OnChecklistErrorListener mOnChecklistErrorListener;
+    private boolean mHasReportedChecklistException;
+    private boolean mHasReportedLayoutOutOfSync;
 
     @Override
     public boolean enoughToFilter() {
@@ -91,6 +94,10 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
 
     public interface OnCheckboxToggledListener {
         void onCheckboxToggled();
+    }
+
+    public interface OnChecklistErrorListener {
+        void onChecklistError(Throwable error);
     }
 
     public SimplenoteEditText(Context context) {
@@ -441,20 +448,64 @@ public class SimplenoteEditText extends AppCompatMultiAutoCompleteTextView imple
                 false
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            if (!mHasReportedChecklistException) {
+                mHasReportedChecklistException = true;
+                reportChecklistError(e);
+            }
         }
+
+        discardLayoutIfOutOfSync();
     }
 
     /**
      * After an insertion, SpannableStringBuilder does not sort its spans again until a span is added or removed.
      * Until then, the replace() calls that convert checklists can miss the TextWatcher of the DynamicLayout, which
      * then keeps line offsets beyond the end of the text and crashes the next draw (#1914). Adding and removing a
-     * span sorts the spans again.
+     * span sorts the spans again. A span at the end of the text is added at the end of the span array, so only the
+     * spans that are out of order move.
      */
     private static void sortSpans(Editable editable) {
         Object marker = new Object();
-        editable.setSpan(marker, 0, 0, Spanned.SPAN_POINT_POINT);
+        editable.setSpan(marker, editable.length(), editable.length(), Spanned.SPAN_POINT_POINT);
         editable.removeSpan(marker);
+    }
+
+    /**
+     * Fallback for #1914: if a checklist conversion still missed the layout, discard the layout so that the next
+     * draw does not read beyond the end of the text, and report it so that we know that sortSpans() is not enough.
+     */
+    private void discardLayoutIfOutOfSync() {
+        Layout layout = getLayout();
+        if (layout == null) {
+            return;
+        }
+
+        int layoutEnd = layout.getLineEnd(layout.getLineCount() - 1);
+        int textLength = layout.getText().length();
+        if (layoutEnd == textLength) {
+            return;
+        }
+
+        fixLineSpacing();
+
+        if (!mHasReportedLayoutOutOfSync) {
+            mHasReportedLayoutOutOfSync = true;
+            reportChecklistError(new IllegalStateException(
+                "Editor layout ends at " + layoutEnd + " but the text length is " + textLength
+            ));
+        }
+    }
+
+    private void reportChecklistError(Throwable error) {
+        AppLog.add(AppLog.Type.EDITOR, "Checklist conversion error: " + error);
+
+        if (mOnChecklistErrorListener != null) {
+            mOnChecklistErrorListener.onChecklistError(error);
+        }
+    }
+
+    public void setOnChecklistErrorListener(OnChecklistErrorListener listener) {
+        mOnChecklistErrorListener = listener;
     }
 
     public void setOnCheckboxToggledListener(OnCheckboxToggledListener listener) {
