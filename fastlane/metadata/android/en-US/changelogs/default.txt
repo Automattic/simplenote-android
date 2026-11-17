@@ -1,1 +1,6 @@
-All styles, including the pure-black AMOLED style, are now available to everyone. You can now search your collaborators, and typing in very large notes is faster. We also updated the app for Android 16 with support for the predictive back gesture, and fixed autocorrect on Samsung devices and issues with the History and Share sheets.
+* Fixed the note share sheet missing installed apps (e.g. Gmail, WhatsApp) by launching the system share sheet [#1578](https://github.com/Automattic/simplenote-android/issues/1578)
+* Fixed markdown headings showing their "#" marker in the note list title [#1878](https://github.com/Automattic/simplenote-android/issues/1878)
+* Fixed the Markdown preview of notes edited in the desktop apps, where text after a code block or a table did not render correctly [#1877](https://github.com/Automattic/simplenote-android/issues/1877)
+* Fixed a crash when using the back gesture after closing the account verification screen on Android 16 and later [#1897](https://github.com/Automattic/simplenote-android/issues/1897)
+* Fixed a crash when adding a checklist at the start of a note, for example with the checklist button on a note whose first line is empty [#1914](https://github.com/Automattic/simplenote-android/issues/1914)
+* Fixed a crash when opening a login link that has no email address [#1903](https://github.com/Automattic/simplenote-android/issues/1903)
