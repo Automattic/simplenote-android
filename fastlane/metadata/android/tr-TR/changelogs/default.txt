@@ -1,0 +1,2 @@
+2.40:
+Bir notu paylaşmak artık sistem paylaşım sayfasını açıyor, böylece Gmail ve WhatsApp gibi tüm uygulamalarına erişebiliyorsun. Not başlıkları artık Markdown başlıklarının "#" işaretini göstermiyor ve Markdown önizlemesi artık masaüstü uygulamalarından notları doğru bir şekilde gösteriyor. Ayrıca kontrol listeleri, giriş bağlantıları ve geri hareketle ilgili çökme sorunlarını da çözdük.

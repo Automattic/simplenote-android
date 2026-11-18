@@ -1,0 +1,2 @@
+2.40:
+Condividere una nota ora apre il foglio di condivisione del sistema, quindi tutte le tue app, come Gmail e WhatsApp, sono disponibili. I titoli delle note non mostrano più il "#" dei titoli Markdown, e l'anteprima Markdown ora mostra correttamente le note delle app desktop. Abbiamo anche risolto i crash con le liste di controllo, i link di accesso e il gesto di ritorno.

@@ -1,0 +1,2 @@
+2.40:
+Delen van een notitie opent nu het systeemdeelvenster, zodat al je apps, zoals Gmail en WhatsApp, beschikbaar zijn. Notitietitels tonen niet langer de "#" van Markdown-koppen, en de Markdown voorbeeld toont nu notities van de desktop-apps correct. We hebben ook crashes met checklists, inloglinks en de teruggebaarte opgelost.

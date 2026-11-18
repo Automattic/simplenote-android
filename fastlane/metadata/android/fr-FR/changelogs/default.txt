@@ -1,0 +1,2 @@
+2.40 :  
+Partager une note ouvre maintenant la feuille de partage du système, donc toutes tes applications, comme Gmail et WhatsApp, sont disponibles. Les titres des notes ne montrent plus le "#" des titres Markdown, et l'aperçu Markdown montre maintenant correctement les notes des applications de bureau. Nous avons également corrigé des plantages avec les listes de contrôle, les liens de connexion et le geste de retour.

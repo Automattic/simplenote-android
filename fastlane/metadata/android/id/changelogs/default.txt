@@ -1,0 +1,2 @@
+2.40:
+Berbagi catatan sekarang membuka lembar berbagi sistem, jadi semua aplikasi kamu, seperti Gmail dan WhatsApp, tersedia. Judul catatan tidak lagi menampilkan "#" dari judul Markdown, dan pratinjau Markdown sekarang menampilkan catatan dari aplikasi desktop dengan benar. Kami juga memperbaiki crash dengan daftar periksa, tautan login, dan gerakan kembali.
