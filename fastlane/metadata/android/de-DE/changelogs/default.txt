@@ -1,0 +1,2 @@
+2.40:
+Das Teilen einer Notiz öffnet jetzt das Systemfreigabefenster, sodass alle deine Apps, wie Gmail und WhatsApp, verfügbar sind. Notiztitel zeigen nicht mehr das "#" der Markdown-Überschriften, und die Markdown-Vorschau zeigt jetzt Notizen aus den Desktop-Apps korrekt an. Wir haben auch Abstürze bei Checklisten, Anmeldelinks und der Zurück-Geste behoben.

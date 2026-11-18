@@ -1,0 +1,2 @@
+2.40:
+Compartir una nota ahora abre la hoja de compartir del sistema, así que todas tus apps, como Gmail y WhatsApp, están disponibles. Los títulos de las notas ya no muestran el "#" de los encabezados de Markdown, y la vista previa de Markdown ahora muestra las notas de las apps de escritorio correctamente. También solucionamos fallos con las listas de verificación, los enlaces de acceso y el gesto de retroceso.

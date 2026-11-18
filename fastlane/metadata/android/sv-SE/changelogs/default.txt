@@ -1,0 +1,2 @@
+2.40:
+Dela en anteckning öppnar nu systemets delningsblad, så alla dina appar, som Gmail och WhatsApp, är tillgängliga. Anteckningarnas rubriker visar inte längre "#" för Markdown-rubriker, och Markdown-förhandsgranskningen visar nu anteckningar från skrivbordsapparna korrekt. Vi har också fixat krascher med checklistor, inloggningslänkar och bakåtrörelsen.
