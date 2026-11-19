@@ -63,6 +63,7 @@ sentry.properties
 #
 # See https://linear.app/a8c/issue/AINFRA-3484
 Simplenote/gradle.properties
+.configure-files/
 
 # This secret is not part of the repository anymore, but we keep it in the
 # gitignore for retrocompatibility, so that it won't appear as a new file and
