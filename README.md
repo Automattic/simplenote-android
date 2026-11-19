@@ -40,7 +40,7 @@ To run the test suite, execute the following `gradle` command:
 
 ## Setup Credentials
 
-Simplenote is powered by the [Simperium Sync'ing protocol](https://www.simperium.com). The app authenticates against a specific Simperium application, identified by the `simperiumAppId` and `simperiumAppKey` fields in the secrets file that `configure_apply` decrypts outside of the repo.
+Simplenote is powered by the [Simperium Sync'ing protocol](https://www.simperium.com). The app authenticates against a specific Simperium application, identified by the `simperiumAppId` and `simperiumAppKey` fields in the secrets file that `a8c-secrets decrypt` writes outside of the repo.
 
 Without that file, the build falls back to `Simplenote/secrets.properties-example`, which contains a **placeholder Simperium app**. A build using those placeholder values cannot authenticate any real Simplenote account — login fails with "Invalid username or password" even for credentials that work at [app.simplenote.com](https://app.simplenote.com). If login is failing unexpectedly, check `BuildConfig.SIMPERIUM_APP_ID` before investigating anything else.
 
@@ -49,11 +49,10 @@ Without that file, the build falls back to `Simplenote/secrets.properties-exampl
 Install the real credentials with:
 
 ```shell
-bundle install
-bundle exec fastlane run configure_apply
+a8c-secrets decrypt
 ```
 
-This requires access to the internal secrets store. It provides the production values, including `wpcomClientId`, which the "Log in with WordPress.com" button needs.
+This requires the `a8c-secrets` tool and a key with access to this repository's secrets. It provides the production values, including `wpcomClientId`, which the "Log in with WordPress.com" button needs.
 
 ### External contributors
 

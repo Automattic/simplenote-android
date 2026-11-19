@@ -4,13 +4,6 @@ buildscript {
     ext.google_dagger = '2.57'
 
     repositories {
-        maven {
-            url 'https://a8c-libs.s3.amazonaws.com/android'
-            content {
-                includeGroup "com.automattic.android"
-                includeGroup "com.automattic.android.publish-to-s3"
-            }
-        }
         google()
         mavenCentral()
         maven { url 'https://maven.google.com' }
@@ -19,7 +12,6 @@ buildscript {
         classpath 'com.android.tools.build:gradle:8.11.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$google_dagger"
-        classpath 'com.automattic.android:configure:0.6.5'
     }
 }
 
@@ -29,8 +21,6 @@ allprojects {
         mavenCentral()
     }
 }
-
-apply plugin: 'com.automattic.android.configure'
 
 def gitHash() {
     try {
@@ -73,11 +63,11 @@ ext {
     screengrabVersion = '2.1.1'
 }
 
-def uploadKeystore = new File(gradle.ext.decryptedSecretsDir, "upload.jks")
+def uploadKeystore = new File(gradle.ext.a8cSecretsDir, "upload.jks")
 def uploadCredentials = ["storePassword", "keyAlias", "keyPassword"]
 def uploadKeyAvailable = uploadKeystore.exists() &&
         uploadCredentials.every { gradle.ext.secretProperties.containsKey(it) }
-def debugKeystore = new File(gradle.ext.decryptedSecretsDir, "debug.keystore")
+def debugKeystore = new File(gradle.ext.a8cSecretsDir, "debug.keystore")
 
 subprojects {
     plugins.withId('com.android.application') {
@@ -116,6 +106,6 @@ if (requestsReleaseArtifact && !uploadKeyAvailable) {
     throw new GradleException(
         "Release signing is not configured, so this build would not be signed. " +
             "It needs ${uploadKeystore} and the ${uploadCredentials.join(", ")} entries in secrets.properties. " +
-            "Please run `bundle exec fastlane run configure_apply` to apply secrets."
+            "Please run `a8c-secrets decrypt` to apply secrets."
     )
 }
