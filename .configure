@@ -3,11 +3,6 @@
   "branch": "trunk",
   "pinned_hash": "12c7a2c1ffc0b6d593a0dcc32c41383755b2662e",
   "files_to_copy": [
-    {
-      "file": "android/Simplenote/google-upload-credentials.json",
-      "destination": "~/.configure/simplenote-android/secrets/google-upload-credentials.json",
-      "encrypt": true
-    }
   ],
   "file_dependencies": []
 }
