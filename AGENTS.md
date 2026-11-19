@@ -67,6 +67,16 @@ Based on recent merged PRs:
 - When asked to "fix" or "update" something, that does NOT imply permission to commit/push
 - Always wait for explicit "commit", "push", or "create PR" commands
 
+## Bootstrap
+
+```bash
+bundle install
+a8c-secrets decrypt
+```
+
+Secrets decrypt to `~/.a8c-secrets/<repo-id>/`, where `<repo-id>` is the content of `.a8c-secrets/repo-id`.
+Without them, debug builds fall back to `Simplenote/secrets.properties-example` and logging in fails; release builds refuse to run.
+
 ## Build Commands
 
 ```bash
