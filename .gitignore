@@ -55,11 +55,6 @@ google-upload-credentials.json
 # Eclipse
 .settings/
 
-# All secrets should be stored under .configure-files
-# Everything without a .enc extension is ignored
-.configure-files/*
-!.configure-files/*.enc
-
 # This repo uses insecure secret storage, so we have some extra just-in-case entries:
 sentry.properties
 
@@ -68,6 +63,7 @@ sentry.properties
 #
 # See https://linear.app/a8c/issue/AINFRA-3484
 Simplenote/gradle.properties
+.configure-files/
 
 # This secret is not part of the repository anymore, but we keep it in the
 # gitignore for retrocompatibility, so that it won't appear as a new file and

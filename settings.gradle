@@ -2,17 +2,23 @@ include ':Simplenote', ':Wear'
 include ':PasscodeLock'
 
 gradle.ext {
-    decryptedSecretsDir = file("${System.getProperty("user.home")}/.configure/simplenote-android/secrets")
-    def secretsFile = new File(decryptedSecretsDir, "secrets.properties")
+    a8cSecretsDir = resolveA8cSecretsDir(rootDir)
+    def secretsFile = new File(a8cSecretsDir, "secrets.properties")
     if (!secretsFile.exists()) {
         logger.warn(
             "${secretsFile} not found, so this build uses placeholder values and logging in will fail. " +
-                "Run `bundle exec fastlane run configure_apply` to apply secrets."
+                "Run `a8c-secrets decrypt` to apply secrets."
         )
     }
     secretProperties = loadPropertiesFromFile(
             secretsFile.exists() ? secretsFile : file("${rootDir}/Simplenote/secrets.properties-example")
     )
+}
+
+// Mirrors `a8c-secrets which`, without spawning the command
+static def resolveA8cSecretsDir(File rootDir) {
+    def repoId = new File(rootDir, ".a8c-secrets/repo-id").text.trim()
+    new File("${System.getProperty("user.home")}/.a8c-secrets/${repoId}")
 }
 
 static def loadPropertiesFromFile(File inputFile) {
